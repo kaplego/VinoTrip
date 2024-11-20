@@ -1,0 +1,18 @@
+:root {
+    --color-accent: #b6005e;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    border-bottom: 4px solid var(--color-accent);
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+header .logo {
+    height: 50px;
+}
