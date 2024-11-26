@@ -1,0 +1,42 @@
+@import url(colors.css);
+
+:root {
+    --header-height: 100px;
+}
+
+body {
+	display: flex;
+	flex-direction: row;
+}
+
+h2#hsej{
+    text-align: center;
+    font-size: 2vw;
+}
+section {
+	margin: 15px;
+	padding: 30px;
+
+	background-color: var(--c-gray-100);
+    border-radius: 6px;
+    width: 45vw;
+    text-align: center;
+
+}
+
+img#imgsej{
+
+    height: 25vw;
+    width: 40vw;
+
+}
+
+p#txtsej{
+    font-size: 1vw;
+    margin: 10px;
+}
+nav#sejours{
+    display: flex;
+    flex-wrap: wrap;
+}
+

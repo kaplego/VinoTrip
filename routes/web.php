@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\SejourController;
+use App\Http\Controllers\ClientController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/sejours', [SejourController::class, 'list']);
+
+Route::get('/client/{id}', [ClientController::class, 'view']);
+

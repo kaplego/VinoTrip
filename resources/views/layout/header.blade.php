@@ -1,3 +1,36 @@
 <header>
-    <img src="/assets/images/vinotrip.png" alt="" class="logo">
+    <a id="header-logo" href="/">
+        <img src="/assets/images/vinotrip.png" alt="" class="logo">
+        <span class="text">Créateurs de séjours oenotouristiques</span>
+    </a>
+    <menu>
+        <nav>
+            <li>
+                <i data-lucide="send"></i>
+                Contact
+            </li>
+            <li>
+                <i data-lucide="gift"></i>
+                Bénéficiaire Cadeau
+            </li>
+            <li>
+                <i data-lucide="circle-user-round"></i>
+                <span>Mon Compte</span>
+            </li>
+        </nav>
+        <nav id="nav-site">
+            <li class="@if (($active ?? '') == 'sejours-list') active @endif">
+                <a href="/sejours">Tous nos séjours</a>
+            </li>
+            <li class="@if (($active ?? '') == 'destinations') active @endif">
+                <a href="/destinations">Destinations</a>
+            </li>
+            <li class="@if (($active ?? '') == 'thematiques') active @endif">
+                <a href="/destinations">Thématiques</a>
+            </li>
+            <li class="@if (($active ?? '') == 'cadeaux') active @endif">
+                <a href="/destinations">Coffret cadeau</a>
+            </li>
+        </nav>
+    </menu>
 </header>
