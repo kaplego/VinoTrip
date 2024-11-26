@@ -15,7 +15,7 @@
             </li>
             <li>
                 <i data-lucide="circle-user-round"></i>
-                <span>Mon Compte</span>
+                Mon Compte
             </li>
         </nav>
         <nav id="nav-site">
