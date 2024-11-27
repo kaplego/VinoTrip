@@ -46,6 +46,11 @@ formFiltres.addEventListener("submit", (event) => {
         )
             hidden = true;
         if (
+            duree !== "all" &&
+            article.getAttribute("data-duree") !== duree
+        )
+            hidden = true;
+        if (
             participant !== "all" &&
             !article
                 .getAttribute("data-participants")

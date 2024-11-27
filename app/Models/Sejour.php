@@ -37,6 +37,11 @@ class Sejour extends Model
         return $this->hasOne(Categorievignoble::class, 'idcategorievignoble', 'idcategorievignoble');
     }
 
+    public function duree(): HasOne
+    {
+        return $this->hasOne(Duree::class, 'idduree', 'idduree');
+    }
+
     public function categorieparticipant(): HasManyThrough
     {
         return $this->hasManyThrough(

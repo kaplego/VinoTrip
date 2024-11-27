@@ -80,7 +80,7 @@
                 <article class="sejour"
                     data-categorie="{{ $sejour->idcategoriesejour }}" data-theme="{{ $sejour->idtheme }}"
                     data-vignoble="{{ $sejour->idcategorievignoble }}"
-                    data-participants="{{ implode(',', $participants) }}">
+                    data-participants="{{ implode(',', $participants) }}" data-duree="{{ $sejour->idduree }}">
                     <h2 class="titre"><a href="/sejour/{{ $sejour->idsejour }}">{{ $sejour->titresejour }}</a></h2>
                     <img class="image" data-src="/assets/images/sejour/{{ $sejour->photosejour }}" />
                     <div class="contenu">
@@ -143,7 +143,9 @@
                             {{ $sejour->categorievignoble->libellecategorievignoble }}
                         </p>
                         <hr />
+                        <p class="prix">À partir de <span class="euros">{{ $sejour->prixsejour }}€</span> par personne</p>
                         <p class="description">{{ $sejour->descriptionsejour }}</p>
+                        <p class="duree">{{ $sejour->duree->libelleduree }}</p>
                     </div>
                 </article>
                 @php

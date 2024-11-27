@@ -133,12 +133,13 @@
     margin-top: 0;
 }
 
-#sejours .sejour .contenu p .subtitle {
-    font-weight: 300;
-    color: var(--c-gray-500);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    display: block;
+#sejours .sejour .contenu .prix .euros {
+    color: var(--c-accent-500);
+}
+
+#sejours .sejour .contenu .duree {
+    position: absolute;
+    bottom: 0;
 }
 
 @media (max-width: 1400px) {
@@ -155,6 +156,10 @@
     #sejours .sejour .contenu {
         grid-row: 3 / 4;
         grid-column: 1 / 2;
+    }
+
+    #sejours .sejour .contenu .duree {
+        position: static;
     }
 }
 
