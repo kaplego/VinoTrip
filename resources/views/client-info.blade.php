@@ -11,4 +11,5 @@
         <p>{{$client->emailclient}}</p>
 
     </main>
+    @include('layout.footer')
 @endsection

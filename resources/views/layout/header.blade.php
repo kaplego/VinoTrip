@@ -26,10 +26,10 @@
                 <a href="/destinations">Destinations</a>
             </li>
             <li class="@if (($active ?? '') == 'thematiques') active @endif">
-                <a href="/destinations">Thématiques</a>
+                <a href="/thematiques">Thématiques</a>
             </li>
             <li class="@if (($active ?? '') == 'cadeaux') active @endif">
-                <a href="/destinations">Coffret cadeau</a>
+                <a href="/cadeaux">Coffret cadeau</a>
             </li>
         </nav>
     </menu>

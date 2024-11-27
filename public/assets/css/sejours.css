@@ -1,8 +1,11 @@
 @import url(colors.css);
 
 #filtres {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr) auto;
+    display: flex;
+}
+
+#filtres select {
+    flex: 1;
 }
 
 #filtres select,
@@ -18,6 +21,11 @@
     cursor: pointer;
 }
 
+#filtres button {
+    justify-content: center;
+    gap: 1rem;
+}
+
 #filtres select:hover,
 #filtres select:focus {
     color: var(--c-accent-500);
@@ -28,17 +36,23 @@
     background-color: var(--c-accent-500);
 }
 
-#filtres select + select,
-#filtres select + button {
-    border-left: none;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-}
+@media (min-width: 1000px) {
+    #filtres select + select,
+    #filtres select + button {
+        border-left: none;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
 
-#filtres select:has(~ select),
-#filtres select:has(~ button) {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+    #filtres select:has(~ select),
+    #filtres select:has(~ button) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    #filtres button .mobile {
+        display: none;
+    }
 }
 
 #sejours {
@@ -88,10 +102,35 @@
     flex-direction: column;
     grid-row: 2 / 3;
     grid-column: 2 / 3;
+    position: relative;
+}
+
+#sejours .sejour .contenu .icones {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    gap: .5rem;
+}
+
+#sejours .sejour .contenu .icones .lucide {
+    height: 1.5rem;
+}
+
+#sejours .sejour .contenu hr {
+    height: 4px;
+    width: 75px;
+    border: none;
+    background-color: var(--c-accent-500);
+    margin: .5rem 0;
 }
 
 #sejours .sejour .contenu p {
-    margin: .25rem;
+    margin: .25rem 0;
+}
+
+#sejours .sejour .contenu p.vignoble {
+    margin-top: 0;
 }
 
 #sejours .sejour .contenu p .subtitle {
@@ -100,6 +139,36 @@
     text-transform: uppercase;
     letter-spacing: 1px;
     display: block;
+}
+
+@media (max-width: 1400px) {
+    #sejours .sejour {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+    }
+
+    #sejours .sejour .titre {
+        grid-row: 1 / 2;
+        grid-column: 1 / 2;
+    }
+
+    #sejours .sejour .contenu {
+        grid-row: 3 / 4;
+        grid-column: 1 / 2;
+    }
+}
+
+@media (max-width: 999px) {
+    #filtres {
+        flex-direction: column;
+        gap: .5rem;
+    }
+}
+
+@media (max-width: 700px) {
+    #sejours {
+        grid-template-columns: 1fr;
+    }
 }
 
 /*

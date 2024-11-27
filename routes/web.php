@@ -3,6 +3,7 @@
 use App\Http\Controllers\SejourController;
 use App\Http\Controllers\ClientController;
 
+use App\Http\Controllers\SiteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,5 +23,7 @@ Route::get('/', function () {
 
 Route::get('/sejours', [SejourController::class, 'list']);
 
-Route::get('/client/{id}', [ClientController::class, 'view']);
+Route::get('/mentions-legales', [SiteController::class,'mentions']);
+
+
 
