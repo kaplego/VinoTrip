@@ -10,4 +10,17 @@ class SiteController extends Controller
     {
         return view("mentions-legales");
     }
+    public function politique()
+    {
+        return view("politique");
+    }
+    public function contact()
+    {
+        return view("contact");
+    }
+    public function conditions()
+    {
+        return view("conditions-vente");
+    }
+
 }

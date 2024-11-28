@@ -46,6 +46,16 @@ formFiltres.addEventListener("submit", (event) => {
         )
             hidden = true;
         if (
+            duree !== "all" &&
+            article.getAttribute("data-duree") !== duree
+        )
+            hidden = true;
+        if (
+            localite !== "all" &&
+            article.getAttribute("data-localite") !== localite
+        )
+            hidden = true;
+        if (
             participant !== "all" &&
             !article
                 .getAttribute("data-participants")
@@ -66,10 +76,25 @@ formFiltres.addEventListener("submit", (event) => {
 /** @type {HTMLSelectElement} */
 const selectVignoble = document.getElementById("vignoble"),
     /** @type {HTMLSelectElement} */
-    selectLocalite = document.getElementById("localite");
+    selectLocalite = document.getElementById("localite"),
+    /** @type {NodeListOf<HTMLOptionElement>} */
+    optionsLocalites = document.querySelectorAll("#localite option");
 
 selectVignoble.addEventListener("change", (event) => {
-    if ([].includes(selectVignoble.value))
-        selectLocalite.classList.remove("hidden");
-    else selectLocalite.classList.add("hidden");
+
+    let nb = 0;
+    optionsLocalites.forEach((opt, i) => {
+        if (i < 2) return;
+
+        let shown = opt.getAttribute('data-vignoble') === event.currentTarget.value;
+        if (shown)
+            nb++;
+        opt.classList.toggle('hidden', !shown);
+    });
+
+    selectLocalite.classList.toggle('hidden', nb === 0);
+    if (nb === 0)
+    {
+        selectLocalite.value = 'all';
+    }
 });

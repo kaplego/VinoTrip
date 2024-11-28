@@ -2,6 +2,6 @@
 
 @section('body')
     @include('layout.header')
-    <main></main>
+    <main class="container-sm"></main>
     @include('layout.footer')
 @endsection
