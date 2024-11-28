@@ -25,5 +25,11 @@ Route::get('/sejours', [SejourController::class, 'list']);
 
 Route::get('/mentions-legales', [SiteController::class,'mentions']);
 
+Route::get('/politique', [SiteController::class,'politique']);
+
+Route::get('/contact', [SiteController::class,'contact']);
+
+Route::get('/conditions-vente', [SiteController::class,'conditions']);
 
 
+Route::get('/sejour/{id}', [SejourController::class, 'one']);

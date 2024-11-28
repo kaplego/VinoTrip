@@ -2,6 +2,7 @@
 
 #filtres {
     display: flex;
+    gap: 1rem;
 }
 
 #filtres select {
@@ -12,9 +13,9 @@
 #filtres button {
     display: flex;
     padding: .25rem .75rem;
-    border: 2px solid var(--c-accent-500);
+    border: 2px solid transparent;
     font-size: 1.1rem;
-    background-color: white;
+    background-color: var(--c-gray-200);
     align-items: center;
     border-radius: 6px;
     transition: all 100ms;
@@ -28,31 +29,13 @@
 
 #filtres select:hover,
 #filtres select:focus {
+    border-color: var(--c-accent-500);
     color: var(--c-accent-500);
 }
 
 #filtres button:hover {
     color: white;
     background-color: var(--c-accent-500);
-}
-
-@media (min-width: 1000px) {
-    #filtres select + select,
-    #filtres select + button {
-        border-left: none;
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-    }
-
-    #filtres select:has(~ select),
-    #filtres select:has(~ button) {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-    }
-
-    #filtres button .mobile {
-        display: none;
-    }
 }
 
 #sejours {
@@ -68,10 +51,16 @@
     width: 100%;
     padding: 1rem;
     background-color: var(--c-gray-100);
+    border: 2px solid transparent;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto;
     border-radius: 6px;
     gap: 1rem;
+    transition: border 100ms;
+}
+
+#sejours .sejour:hover {
+    border-color: var(--c-gray-400);
 }
 
 #sejours .sejour .titre {
@@ -92,6 +81,8 @@
 
 #sejours .sejour .image {
     width: 100%;
+    height: 200px;
+    object-fit: cover;
     grid-row: 2 / 3;
     grid-column: 1 / 2;
     border-radius: 6px;
@@ -137,9 +128,30 @@
     color: var(--c-accent-500);
 }
 
-#sejours .sejour .contenu .duree {
+#sejours .sejour .contenu .duree,
+#sejours .sejour .contenu .decouvrir {
     position: absolute;
     bottom: 0;
+}
+
+#sejours .sejour .contenu .decouvrir {
+    right: 0;
+    color: inherit;
+    background-color: var(--c-gray-200);
+    border: 2px solid transparent;
+    text-decoration: none;
+    padding: .5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 100ms, color 100ms, border-color 100ms;
+}
+
+#sejours .sejour:hover .contenu .decouvrir {
+    border-color: var(--c-accent-500);
+}
+
+#sejours .sejour .contenu .decouvrir:hover {
+    background-color: var(--c-accent-500);
+    color: white;
 }
 
 @media (max-width: 1400px) {
@@ -158,31 +170,21 @@
         grid-column: 1 / 2;
     }
 
-    #sejours .sejour .contenu .duree {
+    #sejours .sejour .contenu .duree,
+    #sejours .sejour .contenu .decouvrir {
         position: static;
     }
 }
 
-@media (max-width: 999px) {
+@media (max-width: 1024px) {
     #filtres {
         flex-direction: column;
         gap: .5rem;
     }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 768px) {
     #sejours {
         grid-template-columns: 1fr;
     }
 }
-
-/*
-
-NE PAS UTILISER vh et vw : ce sont des unités qui représentent la hauteur et largeur du navigateur
-donc il ne faut pas les utiliser pour la taille des titres etc...
-Si vous ne connaissez pas les unités, utilisez des PIXELS (px) ou des pourcents et c'est tout !
-
-Si vous ne savez pas comment utiliser une règle CSS : allez sur developers.mozilla.org
-C'est la doc la plus complète pour le HTML, CSS et Javascript
-
-*/

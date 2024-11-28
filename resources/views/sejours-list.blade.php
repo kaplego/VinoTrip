@@ -4,6 +4,8 @@
 
 @extends('layout.app')
 
+@section('title', 'Séjours - VinoTrip')
+
 @section('head')
     <link rel="stylesheet" href="/assets/css/sejours.css">
 @endsection
@@ -11,7 +13,7 @@
 @section('body')
     @include('layout.header')
 
-    <main>
+    <main class="container-lg">
         <form id="filtres" method="get">
             <select id="vignoble" name="vignoble" autocomplete="off">
                 <option selected disabled>Quel vignoble ?</option>
@@ -26,23 +28,25 @@
                 <option selected disabled>Localité ?</option>
                 <option value="all">Toutes les localités</option>
 
-                @foreach ($destination as $categorie)
-                    <option value={{ $categorie->iddestination }}>{{ $categorie->libelledestination }}</option>
+                @foreach ($localites as $localite)
+                    <option value={{ $localite->idlocalite }} data-vignoble="{{ $localite->idcategorievignoble }}">{{ $localite->libellelocalite }}</option>
                 @endforeach
             </select>
 
             <select name="duree" autocomplete="off">
                 <option selected disabled>Durée ?</option>
                 <option value="all">Toutes les durées</option>
-
+                @foreach ($durees as $duree)
+                    <option value={{ $duree->idduree }}>{{ $duree->libelleduree }}</option>
+                @endforeach
             </select>
 
             <select name="participant" autocomplete="off">
                 <option selected disabled>Pour qui ?</option>
                 <option value="all">Tout le monde</option>
 
-                @foreach ($categorieparticipant as $categorie)
-                    <option value={{ $categorie->idcategorieparticipant }}>{{ $categorie->libellecategorieparticipant }}
+                @foreach ($categorieparticipant as $participant)
+                    <option value={{ $participant->idcategorieparticipant }}>{{ $participant->libellecategorieparticipant }}
                     </option>
                 @endforeach
             </select>
@@ -57,8 +61,8 @@
             </select>
 
             <button type="submit">
-                <i data-lucide="search"></i>
-                <span class="mobile">Rechercher</span>
+                <i data-lucide="filter"></i>
+                <span class="mobile">Filtrer</span>
             </button>
 
         </form>
@@ -75,12 +79,18 @@
                     foreach ($sejour->categorieparticipant as $participant) {
                         $participants[] = $participant->idcategorieparticipant;
                     }
+
+                    $localites = [];
+                    foreach ($sejour->localite as $localite) {
+                        $localites[] = $localite->idlocalite;
+                    }
                 @endphp
 
                 <article class="sejour"
                     data-categorie="{{ $sejour->idcategoriesejour }}" data-theme="{{ $sejour->idtheme }}"
-                    data-vignoble="{{ $sejour->idcategorievignoble }}"
-                    data-participants="{{ implode(',', $participants) }}" data-duree="{{ $sejour->idduree }}">
+                    data-vignoble="{{ $sejour->idcategorievignoble }}" data-duree="{{$sejour->idduree}}"
+                    data-localite="{{ implode(',', $localites) }}"
+                    data-participants="{{ implode(',', $participants) }}">
                     <h2 class="titre"><a href="/sejour/{{ $sejour->idsejour }}">{{ $sejour->titresejour }}</a></h2>
                     <img class="image" data-src="/assets/images/sejour/{{ $sejour->photosejour }}" />
                     <div class="contenu">
@@ -146,6 +156,7 @@
                         <p class="prix">À partir de <span class="euros">{{ $sejour->prixsejour }}€</span> par personne</p>
                         <p class="description">{{ $sejour->descriptionsejour }}</p>
                         <p class="duree">{{ $sejour->duree->libelleduree }}</p>
+                        <a class="decouvrir" href="/sejour/{{ $sejour->idsejour }}">Découvrir</a>
                     </div>
                 </article>
                 @php

@@ -1,0 +1,49 @@
+@import url(colors.css);
+
+#titre {
+    display: flex;
+    justify-content: center;
+}
+
+h1 {
+    text-align: center;
+    text-transform: uppercase;
+}
+
+h2 {
+    text-transform: capitalize;
+}
+
+h2,
+h3,
+h4 {
+    margin: 1rem 0;
+}
+
+ul {
+    padding-left: 1.5rem;
+}
+hr {
+    height: 4px;
+    width: 75px;
+    border: none;
+    background-color: var(--c-accent-500);
+    margin: 0.5rem auto;
+}
+
+p {
+    text-align: justify;
+    margin: 1rem 0;
+}
+#maildpo {
+    list-style: "- ";
+}
+
+/* .version{
+    color: rgb(165, 1, 132);
+    background-color: rgb(236, 96, 255);
+    font-size: xx-large;
+    font-weight: 900;
+    font-style: oblique;
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+} */

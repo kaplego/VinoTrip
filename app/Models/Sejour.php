@@ -22,11 +22,6 @@ class Sejour extends Model
         return $this->hasOne(Categoriesejour::class, 'idcategoriesejour', 'idcategoriesejour');
     }
 
-    public function destination(): HasOne
-    {
-        return $this->hasOne(Destination::class, 'iddestination', 'iddestination');
-    }
-
     public function theme(): HasOne
     {
         return $this->hasOne(Theme::class, 'idtheme', 'idtheme');
@@ -51,6 +46,27 @@ class Sejour extends Model
             'idcategorieparticipant',
             'idsejour',
             'idcategorieparticipant'
+        );
+    }
+
+    public function localite(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Localite::class,
+            Sesitue::class,
+            'idsejour',
+            'idlocalite',
+            'idsejour',
+            'idlocalite'
+        );
+    }
+
+    public function etape(): HasMany
+    {
+        return $this->hasMany(
+            Etape::class,
+            'idsejour',
+            'idsejour',
         );
     }
 }
