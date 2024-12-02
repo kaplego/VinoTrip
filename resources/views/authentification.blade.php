@@ -8,7 +8,7 @@
             <hr />
         </nav>
 
-        <form method="post" action="/compte">
+        <form method="post" action="/authenticate">
             @csrf
             Email
             <input type="text" name="emailclient"/>

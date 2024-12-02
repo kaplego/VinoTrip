@@ -35,6 +35,6 @@ Route::get('/sejour/{id}', [SejourController::class, 'one']);
 
 Route::get('/authentification', [ClientController::class,'authentification']);
 
-Route::post('/compte', [ 'as' => 'authenticate', 'uses' => 'ClientController@authenticate']);
+Route::post('/authenticate', [ClientController::class,'authenticate']);
 
 Route::get('/panier', [SiteController::class,'panier']);
