@@ -31,5 +31,8 @@ Route::get('/contact', [SiteController::class,'contact']);
 
 Route::get('/conditions-vente', [SiteController::class,'conditions']);
 
-
 Route::get('/sejour/{id}', [SejourController::class, 'one']);
+
+Route::get('/authentification', [ClientController::class,'authentification']);
+
+Route::post('/compte', [ClientController::class,'compte']);

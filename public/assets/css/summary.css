@@ -1,0 +1,32 @@
+.sejour {
+    display: grid;
+    position: relative;
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--c-gray-100);
+    border: 2px solid transparent;
+    grid-template-columns: 1fr 1fr;
+    border-radius: 6px;
+    gap: 1rem;
+    transition: border 100ms;
+}
+
+
+#image{
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    grid-row: 2 / 3;
+    grid-column: 1 / 2;
+    border-radius: 6px;
+}
+
+
+#sejours .titresej {
+    font-size: 2rem;
+    text-align: center;
+    grid-row: 1 / 2;
+    grid-column: 1 / 3;
+}
+
+

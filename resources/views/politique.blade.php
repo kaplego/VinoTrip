@@ -25,7 +25,7 @@
 
         <h2>2. Données personnelles</h2>
 
-        <p>Sur le site web Vinotrip.fr, il y a 2 types de données susceptibles d'être recueillies :</p>
+        <p>Sur le site web Vinotrip.com, il y a 2 types de données susceptibles d'être recueillies :</p>
 
         <ul>
             <li>
@@ -56,7 +56,7 @@
         <p>Les données que vous nous transmettez directement sont utilisées dans le but de vous re-contacter et/ou dans
             le
             cadre de la demande que vous nous faites. Les données « web analytics » sont collectées de forme anonyme (en
-            enregistrant des adresses IP anonymes) par Matomo, et nous permettent de mesurer l'audience de notre site
+            enregistrant des adresses IP anonymes) par <b><i>Matomo</i></b>, et nous permettent de mesurer l'audience de notre site
             web, les
             consultations et les éventuelles erreurs afin d'améliorer constamment l'expérience des utilisateurs. Ces
             données
@@ -71,18 +71,23 @@
 
         <h2>5. Durée de conservation</h2>
 
-        <p>Les données seront sauvegardées pour une durée maximale de 3 ans en cas d'inactivité.</p>
+        <p>Les données seront sauvegardées pour une durée maximale de <b><i>3 ans</i></b> en cas d'inactivité.</p>
 
         <h2>6. Cookies</h2>
 
         <p>Voici la liste des cookies utilisées et leur objectif :</p>
 
-        <p>Cookies Matomo : Web analytics
+        <br/>
 
-            Matomo : Permet de garder en mémoire le fait que vous acceptez les cookies afin de ne plus vous importuner
+        <b><i>
+            <p>Cookies Matomo : Web analytics</p>
+
+            <p>Matomo : Permet de garder en mémoire le fait que vous acceptez les cookies afin de ne plus vous importuner
             lors de
-            votre prochaine visite.
-        </p>
+            votre prochaine visite.</p>
+    </i></b>
+
+    <br/>
 
         <p>Vos droits concernant les données personnelles
             Vous avez le droit de consultation, demande de modification ou d'effacement sur l'ensemble de vos données
@@ -90,11 +95,11 @@
 
         <h2>7. Contact délégué à la protection des données</h2>
 
-        <p>BARRY Titouan</p>
-        <ul id="maildpo">
-            <li>dpo@vinotrip.fr</li>
-            <li>titouan.barry@vinotrip.fr</li>
-        </ul>
+        <b><i>
+            <p>BARRY Titouan : - dpo@vinotrip.fr</p>
+            <p id="maildpo">-  titouan.barry@vinotrip.fr</p>
+        </p></i>
+    </b>
 
 
     </main>

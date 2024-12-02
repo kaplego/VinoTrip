@@ -14,8 +14,10 @@
                 Bénéficiaire Cadeau
             </li>
             <li>
-                <i data-lucide="circle-user-round"></i>
-                Mon Compte
+                <a href="/authentification">
+                    <i data-lucide="circle-user-round"></i>
+                    Mon Compte
+                </a>
             </li>
         </nav>
         <nav id="nav-site">

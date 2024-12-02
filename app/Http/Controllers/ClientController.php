@@ -7,9 +7,15 @@ use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
-    public function view($id)
+
+    public function authentification()
     {
-      return view ("client-info", ['client'=>Client::findOrFail($id) ]);
+      return view ("authentification", ['clients'=>Client::all()]);
+    }
+
+    private function compte($id)
+    {
+      return view ("compte", ['clients'=>Client::findOrFail($id)]);
     }
 
 }

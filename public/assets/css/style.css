@@ -103,6 +103,11 @@ header menu nav#nav-site li a {
     text-decoration: none;
 }
 
+header menu nav li a {
+    color: inherit;
+    text-decoration: none;
+}
+
 main {
     padding: 2rem;
     padding-top: calc(2rem + var(--header-height));
