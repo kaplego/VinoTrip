@@ -70,6 +70,7 @@
         <section id="sejours">
             @php
                 $i = 0;
+                $cpt = 0;
             @endphp
             @foreach ($sejours as $sejour)
                 @php
@@ -154,7 +155,14 @@
                         <p class="prix">À partir de <span class="euros">{{ $sejour->prixsejour }}€</span> par personne</p>
                         <p class="description">{{ $sejour->descriptionsejour }}</p>
                         <p class="duree">{{ $sejour->duree->libelleduree }}</p>
-                        <a class="avis" href="/sejour/{{ $sejour->idsejour }}#avis">Voir les avis</a>
+                        @foreach ($sejour->avis as $avis)
+                            @php
+                                $cpt ++
+                            @endphp
+                        @endforeach
+                        @if ($cpt!=0)
+                            <a class="avis" href="/sejour/{{ $sejour->idsejour }}#avis">Voir les avis</a>
+                        @endif
                         <a class="decouvrir" href="/sejour/{{ $sejour->idsejour }}">Découvrir</a>
                     </div>
                 </article>

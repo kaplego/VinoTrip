@@ -26,13 +26,15 @@ class ClientController extends Controller
     {
 
         $credentials = $request->validate([
-            'emailclient' => ['required'],
+            'emailclient' => ['required','email'],
             'motdepasseclient' => ['required'],
         ]);
 
         unset($credentials["motdepasseclient"]);
-        $credentials["password"] = $request->motdepasseclient;
+        $credentials["password"] = password_hash($request->motdepasseclient,PASSWORD_DEFAULT);
 
+        dd($credentials);
+        dd(Auth::attempt($credentials));
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();

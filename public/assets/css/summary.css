@@ -10,8 +10,10 @@ section{
     grid-column: 1 / 2;
     border-radius: 6px;
 }
-
-.sejour {
+.checked{
+    color: var(--c-accent-500);
+}
+#sejour {
     display: grid;
     position: relative;
     width: 100%;
@@ -40,3 +42,8 @@ hr {
     background-color: var(--c-accent-500);
     margin: 0.5rem auto;
 }
+
+
+
+
+

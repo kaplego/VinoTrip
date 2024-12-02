@@ -14,8 +14,4 @@ class Client extends Model
     public $timestamps = false;
 
 
-    public function getAuthPassword() {
-        return $this->motdepasseclient;
-    }
-
 }

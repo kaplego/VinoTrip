@@ -8,6 +8,7 @@
     <title>@yield('title', 'VinoTrip')</title>
     <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="stylesheet" href="/assets/css/cookies.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="b446234c-b83c-4bb5-ace9-c9241e79f49b" data-blockingmode="auto" type="text/javascript"></script>
 
