@@ -69,4 +69,12 @@ class Sejour extends Model
             'idsejour',
         );
     }
+    public function avis(): HasMany
+    {
+        return $this->hasMany(
+            Avis::class,
+            'idsejour',
+            'idsejour',
+        );
+    }
 }

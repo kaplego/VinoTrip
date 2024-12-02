@@ -7,6 +7,7 @@ use App\Models\Categoriesejour;
 use App\Models\Categorievignoble;
 use App\Models\Duree;
 use App\Models\Etape;
+use App\Models\Hebergement;
 use App\Models\Sejour;
 use App\Models\Localite;
 
@@ -25,13 +26,17 @@ class SejourController extends Controller
             'localites' => Localite::all(),
             'durees' => Duree::all(),
 
+
+
         ]);
     }
 
     public function one($id)
     {
         return view ("sejour-summary", [
-            'sejour'=>Sejour::find($id)
+            'sejour'=>Sejour::find($id),
+            'hebergement' => Hebergement::all(),
+
         ]);
     }
 

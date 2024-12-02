@@ -18,6 +18,11 @@
                     <i data-lucide="circle-user-round"></i>
                     Mon Compte
                 </a>
+            <li>
+                    <a href="/panier">
+                        <i data-lucide="shopping-cart"></i>
+                        Panier
+                    </a>
             </li>
         </nav>
         <nav id="nav-site">

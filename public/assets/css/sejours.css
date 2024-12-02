@@ -148,7 +148,9 @@
 #sejours .sejour:hover .contenu .decouvrir {
     border-color: var(--c-accent-500);
 }
-
+#sejours .avis:hover{
+    color: var(--c-accent-500);
+}
 #sejours .sejour .contenu .decouvrir:hover {
     background-color: var(--c-accent-500);
     color: white;

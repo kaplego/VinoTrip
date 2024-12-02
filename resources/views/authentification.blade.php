@@ -9,12 +9,14 @@
         </nav>
 
         <form method="post" action="/compte">
+            @csrf
             Email
-            <input type="text" id="email" name="email">
+            <input type="text" name="emailclient"/>
             Mot de passe
-            <input type="text" id="password" name="password">
+            <input type="password" name="motdepasseclient"/>
+            <input type="submit" value="connexion"/>
 
-            <button type="submit">Connexion</button>
+            {{ $errors }}
         </form>
     </main>
     @include('layout.footer')

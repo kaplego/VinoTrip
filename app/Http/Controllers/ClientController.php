@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class ClientController extends Controller
 {
@@ -13,9 +15,32 @@ class ClientController extends Controller
       return view ("authentification", ['clients'=>Client::all()]);
     }
 
-    private function compte($id)
-    {
-      return view ("compte", ['clients'=>Client::findOrFail($id)]);
-    }
 
+    /**
+     * Handle an authentication attempt.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function authenticate(Request $request)
+    {
+
+        $credentials = $request->validate([
+            'emailclient' => ['required'],
+            'motdepasseclient' => ['required'],
+        ]);
+
+        unset($credentials["motdepasseclient"]);
+        $credentials["password"] = $request->motdepasseclient;
+
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect()->intended('/');
+        }
+
+        return response(back()->withErrors([
+            'email' => 'Mauvais identifiant ou mot de passe.',
+        ]));
+    }
 }
