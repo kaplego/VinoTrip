@@ -114,6 +114,12 @@ main {
     min-height: calc(100vh - 6rem);
 }
 
+hr.separateur-titre {
+    border: none;
+    height: 2px;
+    background-color: var(--c-accent-500);
+}
+
 *[data-tooltip] {
     position: relative;
 }

@@ -4,9 +4,7 @@
     @include('layout.header')
     <main class="container-sm">
         <h1>Politique de confidentialité</h1>
-        <nav id="titre">
-            <hr />
-        </nav>
+        <hr class="separateur-titre" />
 
         <form method="post" action="/authenticate">
             @csrf

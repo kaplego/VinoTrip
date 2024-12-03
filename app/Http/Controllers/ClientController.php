@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,7 +12,9 @@ class ClientController extends Controller
 
     public function authentification()
     {
-      return view ("authentification", ['clients'=>Client::all()]);
+        if (!Auth::check())
+            return view ("authentification");
+        return view("profile");
     }
 
 
@@ -31,12 +33,10 @@ class ClientController extends Controller
         ]);
 
         unset($credentials["motdepasseclient"]);
-        $credentials["password"] = password_hash($request->motdepasseclient,PASSWORD_DEFAULT);
+        $credentials["password"] = $request->motdepasseclient;
 
-        dd($credentials);
-        dd(Auth::attempt($credentials));
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials,)) {
             $request->session()->regenerate();
             return redirect()->intended('/');
         }
@@ -44,5 +44,11 @@ class ClientController extends Controller
         return response(back()->withErrors([
             'email' => 'Mauvais identifiant ou mot de passe.',
         ]));
+    }
+
+    public function disconnect(Request $request)
+    {
+        Auth::logout();
+        return redirect()->intended('/');
     }
 }

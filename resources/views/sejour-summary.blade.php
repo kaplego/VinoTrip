@@ -1,5 +1,3 @@
-
-
 @extends('layout.app')
 
 @section('title', 'Séjours - VinoTrip')
@@ -12,14 +10,21 @@
     @include('layout.header')
     @php
         $jour = 1;
-        $cpt = 0
+        $cpt = 0;
     @endphp
     <main class="container-lg">
 
         <section id="sejour">
             <img class="image" src="/assets/images/sejour/{{ $sejour->photosejour }}" />
-            <h2 class="titre2"> {{$sejour->titresejour}}
+            <h2 class="titre2"> {{ $sejour->titresejour }}</h2>
+            <h3>{{$sejour->prixsejour}} €</h3>
         </section>
+
+        <form action="/api/panier/add" method="post">
+            @csrf
+            <input type="hidden" name="idsejour" value="{{ $sejour->idsejour }}">
+            <button type="submit">Ajouter au panier</button>
+        </form>
 
         <hr>
 
@@ -27,12 +32,11 @@
 
         <section id="Etape">
             @foreach ($sejour->etape as $etape)
-
-                <h2>Jour {{$jour}} {{$etape->titreetape}}</h2>
-                <p>{{$etape->descriptionetape}}</p>
-
+                <h2>Jour {{ $jour }} {{ $etape->titreetape }}</h2>
+                <p>{{ $etape->descriptionetape }}</p>
+                <img class="image" src="url:'{{ $etape->photoetape }}'" />
                 @php
-                    $jour ++
+                    $jour++;
                 @endphp
             @endforeach
         </section>
@@ -42,63 +46,56 @@
 
         <section id="hebergement">
             @foreach ($sejour->etape as $etape)
-                    @foreach($etape->hebergement as $unhebergement)
-                        <img class="imgheberg" src="/assets/images/hebergement/{{$unhebergement->photohebergement}}"></img>
-                        <p>{{$unhebergement->descriptionhebergement}}</p>
-                    @endforeach
+                @foreach ($etape->hebergement as $unhebergement)
+                    <img class="imgheberg" src="/assets/images/hebergement/{{ $unhebergement->photohebergement }}"></img>
+                    <p>{{ $unhebergement->descriptionhebergement }}</p>
+                    <a href="{{ $unhebergement->lienhebergement }}">lenomdupartenaire</a>
+                @endforeach
             @endforeach
         </section>
+
+        <hr>
+        <h2>Les châteaux et les domaines...</h2>
+
+        <section id="chateaux">
+            @foreach ($sejour->etape as $etape)
+                @foreach ($etape->visite as $unevisite)
+                    <img class="imgheberg" src="/assets/images/visite/{{ $unevisite->photovisite }}"></img>
+                    <p>{{ $unevisite->descriptionvisite }}</p>
+                    <a href="{{ $unevisite->lienvisite }}">lenomdupartenaire</a>
+
+                @endforeach
+            @endforeach
+        </section>
+
+
         @foreach ($sejour->avis as $avis)
-        @php
-            $cpt ++
-        @endphp
+            @php
+                $cpt++;
+            @endphp
         @endforeach
-        @if ($cpt!=0)
+        @if ($cpt != 0)
             <h2 id="avis">Les Avis ...</h2>
             <section class="avis">
                 @foreach ($sejour->avis as $avis)
-                    @switch($avis->noteavis)
-                        @case(1)
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        @break
-
-                        @case(2)
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                        @break
-
-                        @case(3)
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                        @break
-
-                        @case(4)
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        @break
-
-                        @case(5)
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        @break
-                    @endswitch
-                    <p>{{$avis->noteavis}}/5</p>
+                    <p>
+                        <i data-lucide="star" fill="currentColor" class="checked"></i>
+                        <i data-lucide="star" fill="currentColor"
+                            class="@if ($avis->noteavis >= 2) checked @endif"></i>
+                        <i data-lucide="star" fill="currentColor"
+                            class="@if ($avis->noteavis >= 3) checked @endif"></i>
+                        <i data-lucide="star" fill="currentColor"
+                            class="@if ($avis->noteavis >= 4) checked @endif"></i>
+                        <i data-lucide="star" fill="currentColor"
+                            class="@if ($avis->noteavis == 5) checked @endif"></i>
+                        {{ $avis->noteavis }}/5 &nbsp;&nbsp;
+                        @php
+                            $text = $avis->client->prenomclient;
+                            $sub = substr($text,0,1);
+                        @endphp
+                            {{ $avis->client->nomclient }}  {{$sub}}. &nbsp;|&nbsp; {{$avis->titreavis}}
+                    </p>
+                    <p class="descravis">{{ $avis->descriptionavis }}</p>
                 @endforeach
             </section>
         @endif

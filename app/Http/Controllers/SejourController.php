@@ -12,6 +12,7 @@ use App\Models\Sejour;
 use App\Models\Localite;
 
 
+use App\Models\Visite;
 use Illuminate\Http\Request;
 
 class SejourController extends Controller
@@ -36,6 +37,7 @@ class SejourController extends Controller
         return view ("sejour-summary", [
             'sejour'=>Sejour::find($id),
             'hebergement' => Hebergement::all(),
+            'visite' => Visite::all(),
 
         ]);
     }

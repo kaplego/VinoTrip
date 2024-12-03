@@ -22,6 +22,20 @@ class Etape extends Model
     {
         return $this->hasMany(Hebergement::class, 'idhebergement', 'idhebergement');
     }
+
+
+    public function visite(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Visite::class,
+            Appartient_1::class,
+            'idetape',
+            'idvisite',
+            'idetape',
+            'idvisite'
+        );
+    }
+
 }
 
 

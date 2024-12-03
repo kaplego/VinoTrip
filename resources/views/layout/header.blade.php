@@ -16,13 +16,18 @@
             <li>
                 <a href="/authentification">
                     <i data-lucide="circle-user-round"></i>
-                    Mon Compte
+                    @if (!Auth::check())
+                        Mon compte
+                    @else
+                        {{Auth::user()->nomclient}} {{Auth::user()->prenomclient}}
+                    @endif
+
                 </a>
             <li>
-                    <a href="/panier">
-                        <i data-lucide="shopping-cart"></i>
-                        Panier
-                    </a>
+                <a href="/panier">
+                    <i data-lucide="shopping-cart"></i>
+                    Panier
+                </a>
             </li>
         </nav>
         <nav id="nav-site">
