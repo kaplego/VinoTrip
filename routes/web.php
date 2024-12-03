@@ -32,10 +32,11 @@ Route::get('/conditions-vente', [SiteController::class, 'conditions']);
 
 Route::get('/sejour/{id}', [SejourController::class, 'one']);
 
-Route::get('/authentification', [ClientController::class, 'authentification']);
+Route::get('/connexion', [ClientController::class, 'connexion']);
+Route::get('/profil', [ClientController::class, 'profil']);
 
-Route::post('/authenticate', [ClientController::class, 'authenticate']);
-Route::post('/disconnect', [ClientController::class, 'disconnect']);
+Route::post('/api/client/login', [ClientController::class, 'login']);
+Route::post('/api/client/logout', [ClientController::class, 'logout']);
 
 Route::get('/panier', [PanierController::class, 'index']);
 Route::post('/api/panier/add', [PanierController::class, 'ajouter']);

@@ -1,0 +1,25 @@
+.groupe-radio {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: max-content;
+    margin-top: 1rem;
+}
+
+.groupe-radio .radios {
+    display: flex;
+    gap: 1rem;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    margin: 1rem 0;
+    width: max-content;
+    max-width: 100%;
+}
+
+.input-radio {
+    flex-direction: row;
+}

@@ -10,13 +10,19 @@ use Illuminate\Support\Facades\Auth;
 class ClientController extends Controller
 {
 
-    public function authentification()
+    public function connexion()
     {
         if (!Auth::check())
-            return view ("authentification");
-        return view("profile");
+            return view("client.connexion");
+        return redirect('/profil');
     }
 
+    public function profil()
+    {
+        if (!Auth::check())
+            return redirect('/connexion');
+        return view("client.profil");
+    }
 
     /**
      * Handle an authentication attempt.
@@ -24,11 +30,11 @@ class ClientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function authenticate(Request $request)
+    public function login(Request $request)
     {
 
         $credentials = $request->validate([
-            'emailclient' => ['required','email'],
+            'emailclient' => ['required', 'email'],
             'motdepasseclient' => ['required'],
         ]);
 
@@ -36,9 +42,9 @@ class ClientController extends Controller
         $credentials["password"] = $request->motdepasseclient;
 
 
-        if (Auth::attempt($credentials,)) {
+        if (Auth::attempt($credentials, )) {
             $request->session()->regenerate();
-            return redirect()->intended('/');
+            return redirect()->intended('/profil');
         }
 
         return response(back()->withErrors([
@@ -46,7 +52,17 @@ class ClientController extends Controller
         ]));
     }
 
-    public function disconnect(Request $request)
+    public function signin(Request $request)
+    {
+        $credentials = $request->validate([
+            'prenomclient'=> ['required'],
+            'nomclient'=> ['required'],
+            'emailclient' => ['required', 'email'],
+            'motdepasseclient' => ['required'],
+        ]);
+    }
+
+    public function logout(Request $request)
     {
         Auth::logout();
         return redirect()->intended('/');

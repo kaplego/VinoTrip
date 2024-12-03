@@ -12,11 +12,11 @@ class SiteController extends Controller
     }
     public function mentions()
     {
-        return view("mentions-legales");
+        return view("legal.mentions-legales");
     }
     public function politique()
     {
-        return view("politique");
+        return view("legal.politique");
     }
     public function contact()
     {
@@ -24,7 +24,7 @@ class SiteController extends Controller
     }
     public function conditions()
     {
-        return view("conditions-vente");
+        return view("legal.conditions-vente");
     }
 
 }

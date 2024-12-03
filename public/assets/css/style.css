@@ -74,14 +74,16 @@ header menu nav {
     margin-left: auto;
 }
 
-header menu nav li {
+header menu nav li:not(:has(a)),
+header menu nav li a {
     display: flex;
     align-items: center;
     justify-content: flex-end;
     gap: .25rem;
 }
 
-header menu nav#nav-site li {
+header menu nav#nav-site li:not(:has(a)),
+header menu nav#nav-site li a {
     font-size: 1.1rem;
     border: 2px solid transparent;
     padding: 3px 6px;

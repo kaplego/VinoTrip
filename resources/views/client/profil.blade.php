@@ -3,7 +3,7 @@
 @section('body')
     @include('layout.header')
     <main class="container-sm">
-        <form method="post" action="/disconnect">
+        <form method="post" action="/api/client/logout">
             @csrf
             <button type="submit">
                 Deconnexion

@@ -14,12 +14,12 @@
                 Bénéficiaire Cadeau
             </li>
             <li>
-                <a href="/authentification">
+                <a href="/connexion">
                     <i data-lucide="circle-user-round"></i>
                     @if (!Auth::check())
-                        Mon compte
+                        <span>Mon compte</span>
                     @else
-                        {{Auth::user()->nomclient}} {{Auth::user()->prenomclient}}
+                        <span>{{Auth::user()->nomclient}} {{Auth::user()->prenomclient}}</span>
                     @endif
 
                 </a>
