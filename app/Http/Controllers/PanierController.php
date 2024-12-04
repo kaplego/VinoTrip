@@ -24,7 +24,7 @@ class PanierController extends Controller
     public function ajouter(Request $request)
     {
         $idsejour = $request->input('idsejour') ?? null;
-        $sejour = Sejour::find($idsejour)->first();
+        $sejour = Sejour::find($idsejour);
 
         if ($sejour === null)
             return redirect('/panier');
@@ -40,25 +40,84 @@ class PanierController extends Controller
             $request->session()->put('idpanier', $panier->idpanier);
         }
 
-        $descriptionPanier = new Descriptionpanier;
+        $descriptionPanier = Descriptionpanier::
+            where('idsejour', '=', +$idsejour)
+            ->where('idpanier', '=', value: $idpanier)
+            ->get()->first();
 
-        $descriptionPanier->idsejour = $sejour->idsejour;
-        $descriptionPanier->idpanier = $panier->idpanier;
-        $descriptionPanier->prix = $sejour->prixsejour;
-        $descriptionPanier->quantite = 1;
-        $descriptionPanier->datedebut = now();
-        $descriptionPanier->datefin = now()->addDays(2);
-        $descriptionPanier->nbadultes = 1;
-        $descriptionPanier->nbenfants = 0;
-        $descriptionPanier->nbchambressimple = 1;
-        $descriptionPanier->nbchambresdouble = 0;
-        $descriptionPanier->nbchambrestriple = 0;
-        $descriptionPanier->repasmidi = false;
-        $descriptionPanier->repassoir = false;
-        $descriptionPanier->activite = false;
-
-        $descriptionPanier->save();
+        if ($descriptionPanier === null) {
+            Descriptionpanier::
+                create([
+                    'idsejour' => $sejour->idsejour,
+                    'idpanier' => $panier->idpanier,
+                    'prix' => $sejour->prixsejour,
+                    'quantite' => 1,
+                    'datedebut' => now(),
+                    'datefin' => now()->addDays(2),
+                    'nbadultes' => 1,
+                    'nbenfants' => 0,
+                    'nbchambressimple' => 1,
+                    'nbchambresdouble' => 0,
+                    'nbchambrestriple' => 0,
+                    'repasmidi' => false,
+                    'repassoir' => false,
+                    'activite' => false,
+                ]);
+        } else {
+            Descriptionpanier::
+                where('idsejour', '=', +$idsejour)
+                ->where('idpanier', '=', value: $idpanier)
+                ->update([
+                    'quantite' => $descriptionPanier->quantite + 1
+                ]);
+        }
 
         return redirect('/panier');
     }
+
+    public function update(Request $request)
+    {
+        $idsejour = $request->input('idsejour') ?? null;
+        $idpanier = $request->session()->get('idpanier', null);
+
+        $action = $request->input('action');
+
+        switch ($action) {
+            case 'delete':
+                Descriptionpanier::
+                    where('idsejour', '=', +$idsejour)
+                    ->where('idpanier', '=', value: $idpanier)
+                    ->delete();
+
+                if (
+                    Descriptionpanier::where('idpanier', '=', value: $idpanier)->count() === 0
+                ) {
+                    Panier::find($idpanier)->delete();
+                }
+                break;
+            case 'update':
+                $quantite = +$request->input('quantite');
+                if ($quantite > 0)
+                    Descriptionpanier::
+                        where('idsejour', '=', +$idsejour)
+                        ->where('idpanier', '=', value: $idpanier)
+                        ->update([
+                            'quantite' => $quantite
+                        ]);
+                break;
+        }
+
+        return redirect('/panier');
+    }
+
+    public function offrir(Request $request)
+    {
+
+        return view("offrir");
+    }
+
+
 }
+
+
+

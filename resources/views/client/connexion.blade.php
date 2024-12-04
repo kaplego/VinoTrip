@@ -1,3 +1,7 @@
+@php
+    $active = 'compte';
+@endphp
+
 @extends('layout.app')
 
 @section('head')
@@ -33,7 +37,7 @@
 
             <div class="input input-text">
                 <label for="prenomclient">Prénom</label>
-                <input id="prenomclient" type="text" name="prenomclient" />
+                <input id="prenomclient" type="text" name="prenomclient" placeholder="Prenom" />
             </div>
             <div class="input input-text">
                 <label for="nomclient">Nom</label>
@@ -75,6 +79,12 @@
                     @endfor
 
                 </select>
+
+            </div>
+
+            <div class="input input-check">
+                <label for="offrespromotionnellesclient">S'inscrire à la newsletter</label>
+                <input type="checkbox" name="offrespromotionnellesclient" id="offrespromotionnellesclient">
             </div>
 
             <input type="submit" value="Inscription" />

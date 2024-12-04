@@ -136,13 +136,6 @@
 
 #sejours .sejour .contenu .decouvrir {
     right: 0;
-    color: inherit;
-    background-color: var(--c-gray-200);
-    border: 2px solid transparent;
-    text-decoration: none;
-    padding: .5rem 1rem;
-    border-radius: 4px;
-    transition: background-color 100ms, color 100ms, border-color 100ms;
 }
 
 #sejours .sejour:hover .contenu .decouvrir {
@@ -150,10 +143,6 @@
 }
 #sejours .avis:hover{
     color: var(--c-accent-500);
-}
-#sejours .sejour .contenu .decouvrir:hover {
-    background-color: var(--c-accent-500);
-    color: white;
 }
 
 @media (max-width: 1400px) {

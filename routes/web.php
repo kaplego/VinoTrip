@@ -26,6 +26,8 @@ Route::get('/mentions-legales', [SiteController::class, 'mentions']);
 
 Route::get('/politique', [SiteController::class, 'politique']);
 
+Route::get('/destinations', [SiteController::class, 'destinations']);
+
 Route::get('/contact', [SiteController::class, 'contact']);
 
 Route::get('/conditions-vente', [SiteController::class, 'conditions']);
@@ -37,6 +39,9 @@ Route::get('/profil', [ClientController::class, 'profil']);
 
 Route::post('/api/client/login', [ClientController::class, 'login']);
 Route::post('/api/client/logout', [ClientController::class, 'logout']);
+Route::post('/api/client/signin', [ClientController::class, 'signin']);
 
 Route::get('/panier', [PanierController::class, 'index']);
 Route::post('/api/panier/add', [PanierController::class, 'ajouter']);
+Route::post('/api/panier/update', [PanierController::class, 'update']);
+Route::get('/offrir', [PanierController::class, 'offrir']);

@@ -1,3 +1,7 @@
+@php
+    $active = 'panier';
+@endphp
+
 @extends('layout.app')
 
 @section('head')
@@ -7,53 +11,43 @@
 @section('body')
     @include('layout.header')
     <main class="container-sm">
-        <h1>Votre Séjour</h1>
+        <h1>Votre Panier</h1>
         <hr class="separateur-titre" />
 
-        <section id="liste-sejours">
-            @foreach ($panier->descriptionspanier ?? [] as $descriptionpanier)
-                @php
-                    $sejour = $descriptionpanier->sejour;
-                @endphp
-                <article class="sejour">
-                        @csrf
-                        {{-- <section>
-                        <h2>Informations</h2>
-                        <div>
-                            <div class="info">
-                                <label for="adults" class="form-label">Adultes</label>
-                                <input type="number" id="adults" name="adults" class="form-control"
-                                    value="{{ $descriptionpanier->nbadultes }}" min="1" />
+        @if ($panier === null || sizeof($panier->descriptionspanier) === 0)
+            <p id="empty-cart"><i data-lucide="shopping-cart"></i> Votre panier est vide !</p>
+        @else
+            <section id="liste-sejours">
+                @foreach ($panier->descriptionspanier ?? [] as $descriptionpanier)
+                    @php
+                        $sejour = $descriptionpanier->sejour;
+                    @endphp
+                    <article class="descriptionpanier">
+                        <form action="/api/panier/update" method="post">
+                            @csrf
+                            <input type="hidden" name="idsejour" value="{{ $sejour->idsejour }}">
+                            <div class="sejour">
+                                <h2>{{ $sejour->titresejour }}</h2>
+                                <img class="photo" src="/assets/images/sejour/{{ $sejour->photosejour }}"
+                                    alt="{{ $sejour->titresejour }}">
                             </div>
-                            <div class="info">
-                                <label for="children" class="form-label">Enfants</label>
-                                <input type="number" id="children" name="children" class="form-control"
-                                    value="{{ $descriptionpanier->nbenfants }}" min="0" />
+                            <div class="infos">
+                                <input class="input-text" type="number" name="quantite" autocomplete="off" min="1"
+                                    id="quantite-{{ $sejour->idsejour }}" value="{{ $descriptionpanier->quantite }}">
+                                <div class="buttons">
+                                    <button class="button" type="submit" name="action" value="update">
+                                        <i data-lucide="save"></i>
+                                    </button>
+                                    <button class="button" type="submit" name="action" value="delete">
+                                        <i data-lucide="trash-2"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="info">
-                                <label for="chambres-simples" class="form-label">Chambres simple</label>
-                                <input type="number" id="chambres-simples" name="chambres-simples" class="form-control"
-                                    value="{{ $descriptionpanier->nbchambressimple }}" min="0" />
-                            </div>
-                            <div class="info">
-                                <label for="chambres-double" class="form-label">Chambres double</label>
-                                <input type="number" id="chambres-double" name="chambres-double" class="form-control"
-                                    value="{{ $descriptionpanier->nbchambresdouble }}" min="0" />
-                            </div>
-                            <div class="info">
-                                <label for="chambres-triple" class="form-label">Chambres triple</label>
-                                <input type="number" id="chambres-triple" name="chambres-triple" class="form-control"
-                                    value="{{ $descriptionpanier->nbchambrestriple }}" min="0" />
-                            </div>
-                        </div>
-                    </section> --}}
-                    <div class="infos">
-                        <img class="photo" src="/assets/images/sejour/{{ $sejour->photosejour }}" alt="{{ $sejour->titresejour }}">
-                        <h2>{{ $sejour->titresejour }}</h2>
-                    </div>
-                </article>
-            @endforeach
-        </section>
+                        </form>
+                    </article>
+                @endforeach
+            </section>
+        @endif
 
         <aside class="mt-5">
             <h2>Étapes de réservation</h2>

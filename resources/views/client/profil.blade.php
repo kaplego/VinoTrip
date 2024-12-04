@@ -1,3 +1,7 @@
+@php
+    $active = 'compte';
+@endphp
+
 @extends('layout.app')
 
 @section('body')

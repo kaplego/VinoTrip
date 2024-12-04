@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Categorieparticipant;
 use App\Models\Categoriesejour;
 use App\Models\Categorievignoble;
+use App\Models\Cave;
 use App\Models\Duree;
 use App\Models\Etape;
 use App\Models\Hebergement;
+use App\Models\Hotel;
 use App\Models\Sejour;
 use App\Models\Localite;
 
@@ -29,6 +31,7 @@ class SejourController extends Controller
 
 
 
+
         ]);
     }
 
@@ -38,6 +41,8 @@ class SejourController extends Controller
             'sejour'=>Sejour::find($id),
             'hebergement' => Hebergement::all(),
             'visite' => Visite::all(),
+            'hotel' => Hotel::all(),
+            'cave' => Cave::all(),
 
         ]);
     }

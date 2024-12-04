@@ -4,16 +4,20 @@
         <span class="text">Créateurs de séjours oenotouristiques</span>
     </a>
     <menu>
-        <nav>
-            <li>
-                <i data-lucide="send"></i>
-                Contact
+        <nav id="nav-client">
+            <li class="@if (($active ?? '') == 'contact') active @endif">
+                <a href="/contact">
+                    <i data-lucide="send"></i>
+                    Contact
+                </a>
             </li>
-            <li>
-                <i data-lucide="gift"></i>
-                Bénéficiaire Cadeau
+            <li class="@if (($active ?? '') == 'cadeau') active @endif">
+                <a href="/cadeau">
+                    <i data-lucide="gift"></i>
+                    Bénéficiaire Cadeau
+                </a>
             </li>
-            <li>
+            <li class="@if (($active ?? '') == 'compte') active @endif">
                 <a href="/connexion">
                     <i data-lucide="circle-user-round"></i>
                     @if (!Auth::check())
@@ -23,7 +27,7 @@
                     @endif
 
                 </a>
-            <li>
+            <li class="@if (($active ?? '') == 'panier') active @endif">
                 <a href="/panier">
                     <i data-lucide="shopping-cart"></i>
                     Panier

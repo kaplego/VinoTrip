@@ -13,6 +13,7 @@ class Descriptionpanier extends Model
     protected $table = "descriptionpanier";
     protected $primaryKey = "idpanier";
     public $timestamps = false;
+    public $guarded = [];
 
     public function sejour(): BelongsTo
     {

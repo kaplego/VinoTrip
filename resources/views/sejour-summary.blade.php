@@ -16,7 +16,7 @@
 
         <section id="sejour">
             <img class="image" src="/assets/images/sejour/{{ $sejour->photosejour }}" />
-            <h2 class="titre2"> {{ $sejour->titresejour }}</h2>
+            <h2 class="titresej"> {{ $sejour->titresejour }}</h2>
             <h3>{{$sejour->prixsejour}} €</h3>
         </section>
 
@@ -28,7 +28,7 @@
 
         <hr>
 
-        <h2 class="titre2">Le programme détaillé de votre séjour</h2>
+        <h2 class="titreg">Le programme détaillé de votre séjour</h2>
 
         <section id="Etape">
             @foreach ($sejour->etape as $etape)
@@ -42,29 +42,36 @@
         </section>
 
         <hr>
-        <h2>Les hébergements proposés</h2>
+        <h2 class="titreg">Les hébergements proposés</h2>
 
         <section id="hebergement">
             @foreach ($sejour->etape as $etape)
+                <article class="unheberg">
                 @foreach ($etape->hebergement as $unhebergement)
                     <img class="imgheberg" src="/assets/images/hebergement/{{ $unhebergement->photohebergement }}"></img>
-                    <p>{{ $unhebergement->descriptionhebergement }}</p>
-                    <a href="{{ $unhebergement->lienhebergement }}">lenomdupartenaire</a>
+                    <p class="descrheberg">{{$unhebergement->descriptionhebergement }}</p>
+                    @foreach ($unhebergement->hotel as $unhotel)
+                        <a class="lienheberg" href="{{ $unhebergement->lienhebergement }}">{{$unhotel->nompartenaire}}</a>
+                    @endforeach
                 @endforeach
+                </article>
             @endforeach
         </section>
 
         <hr>
-        <h2>Les châteaux et les domaines...</h2>
+        <h2 class="titreg">Les châteaux et les domaines...</h2>
 
         <section id="chateaux">
             @foreach ($sejour->etape as $etape)
+                <article class="unchateaux">
                 @foreach ($etape->visite as $unevisite)
-                    <img class="imgheberg" src="/assets/images/visite/{{ $unevisite->photovisite }}"></img>
-                    <p>{{ $unevisite->descriptionvisite }}</p>
-                    <a href="{{ $unevisite->lienvisite }}">lenomdupartenaire</a>
-
+                    <img class="imgchateaux" src="/assets/images/visite/{{ $unevisite->photovisite }}"></img>
+                    <p class="descrchateaux">{{ $unevisite->descriptionvisite }}</p>
+                    @foreach ($unevisite->cave as $unecave)
+                        <a class="lienchateaux" href="{{ $unevisite->lienvisite }}">{{$unecave->nompartenaire}}</a>
+                    @endforeach
                 @endforeach
+                </article>
             @endforeach
         </section>
 
@@ -75,7 +82,8 @@
             @endphp
         @endforeach
         @if ($cpt != 0)
-            <h2 id="avis">Les Avis ...</h2>
+            <hr>
+            <h2 class="titreg">Les Avis ...</h2>
             <section class="avis">
                 @foreach ($sejour->avis as $avis)
                     <p>

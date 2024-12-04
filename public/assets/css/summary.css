@@ -25,19 +25,15 @@ section{
     gap: 1rem;
     transition: border 100ms;
 }
-.imgheberg {
-    width: 15%;
-    height: auto;
-    border-radius: 10%;
-}
 
-.titre {
-    font-size: 2rem;
-    text-align: center;
-    grid-row: 1 / 2;
+
+
+.titreg{
+    margin-left: 10px;
 }
 
 hr {
+
     height: 4px;
     background-color: var(--c-accent-500);
     margin: 0.5rem auto;
@@ -49,4 +45,74 @@ hr {
 
 
 
+
+#chateaux {
+    display: grid;
+    position: relative;
+    width: 100%;
+
+    border: 2px solid transparent;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    border-radius: 6px;
+    gap: 1rem;
+    transition: border 100ms;
+
+}
+#chateaux .unchateaux{
+    margin: 10px;
+    border-color: black;
+
+}
+#chateaux .unchateaux .imgchateaux {
+    width: 30%;
+    height: auto;
+    border-radius: 8px;
+    grid-row: 1 / 2;
+}
+
+#chateaux .unchateaux .descrchateaux{
+    grid-row: 2 / 2;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+#chateaux .unchateaux .lienchateaux{
+    grid-row: 2 / 2;
+}
+
+
+
+#hebergement {
+    display: grid;
+    position: relative;
+    width: 100%;
+
+    border: 2px solid transparent;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    border-radius: 6px;
+    gap: 1rem;
+    transition: border 100ms;
+
+}
+#hebergement .unheberg{
+    margin: 10px;
+    border-color: black;
+
+}
+#hebergement .unheberg  .imgheberg{
+    width: 30%;
+    height: auto;
+    border-radius: 8px;
+    grid-row: 1 / 2;
+}
+
+#hebergement .unheberg .descrheberg{
+    grid-row: 2 / 2;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+#hebergement .unheberg .lienheberg{
+    grid-row: 2 / 2;
+}
 

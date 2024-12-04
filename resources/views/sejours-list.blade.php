@@ -163,7 +163,7 @@
                         @if ($cpt!=0)
                             <a class="avis" href="/sejour/{{ $sejour->idsejour }}#avis">Voir les avis</a>
                         @endif
-                        <a class="decouvrir" href="/sejour/{{ $sejour->idsejour }}">Découvrir</a>
+                        <a class="decouvrir button" href="/sejour/{{ $sejour->idsejour }}">Découvrir</a>
                     </div>
                 </article>
                 @php

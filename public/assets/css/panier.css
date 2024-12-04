@@ -5,22 +5,54 @@
     padding: 1rem 0;
 }
 
-#liste-sejours .sejour {
+#liste-sejours .descriptionpanier form {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 2fr 2fr 1fr;
     grid-template-rows: repeat(2, 1fr);
     padding: 1rem;
     background-color: var(--c-gray-100);
+    border-radius: 6px;
 }
 
-#liste-sejours .sejour .infos {
+#liste-sejours .descriptionpanier form .sejour {
     display: flex;
+    flex-direction: column;
+    gap: .5rem;
     grid-column: 1 / 2;
     grid-row: 1 / 3;
 }
 
-#liste-sejours .sejour .infos .photo {
+#liste-sejours .descriptionpanier form .sejour .photo {
     width: 100%;
     height: 200px;
     object-fit: cover;
+    border-radius: 6px;
+}
+
+#liste-sejours .descriptionpanier form .infos {
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    gap: .5rem;
+}
+
+#liste-sejours .descriptionpanier form .infos .buttons {
+    display: flex;
+    gap: .5rem;
+}
+
+#liste-sejours .descriptionpanier form .infos .buttons .button {
+    flex: 1;
+}
+
+#empty-cart {
+    margin: 2rem 0;
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--c-orange-200);
+    border-radius: 6px;
 }
