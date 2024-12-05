@@ -21,7 +21,7 @@
                 <a href="/connexion">
                     <i data-lucide="circle-user-round"></i>
                     @if (!Auth::check())
-                        <span>Mon compte</span>
+                        <span>Connexion</span>
                     @else
                         <span>{{Auth::user()->nomclient}} {{Auth::user()->prenomclient}}</span>
                     @endif

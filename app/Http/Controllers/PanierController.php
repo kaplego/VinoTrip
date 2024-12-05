@@ -110,10 +110,11 @@ class PanierController extends Controller
         return redirect('/panier');
     }
 
-    public function offrir(Request $request)
+    public function offrir($id)
     {
+        $sejour = Sejour::find($id);
 
-        return view("offrir");
+        return view('offrir', ['sejour' => $sejour]);
     }
 
 

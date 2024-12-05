@@ -3,6 +3,7 @@
 use App\Http\Controllers\PanierController;
 use App\Http\Controllers\SejourController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\AvisController;
 
 use App\Http\Controllers\SiteController;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [SiteController::class, 'index']);
+
+Route::get('/avis', action: [AvisController::class, 'list']);
 
 Route::get('/sejours', action: [SejourController::class, 'list']);
 
@@ -44,4 +47,5 @@ Route::post('/api/client/signin', [ClientController::class, 'signin']);
 Route::get('/panier', [PanierController::class, 'index']);
 Route::post('/api/panier/add', [PanierController::class, 'ajouter']);
 Route::post('/api/panier/update', [PanierController::class, 'update']);
-Route::get('/offrir', [PanierController::class, 'offrir']);
+Route::post('/api/panier/offrir', [PanierController::class, 'offrir']);
+Route::get('/offrir/{id}', [PanierController::class, 'offrir']);

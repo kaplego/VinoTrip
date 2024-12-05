@@ -17,14 +17,17 @@
         <section id="sejour">
             <img class="image" src="/assets/images/sejour/{{ $sejour->photosejour }}" />
             <h2 class="titresej"> {{ $sejour->titresejour }}</h2>
-            <h3>{{$sejour->prixsejour}} €</h3>
-        </section>
+            <h3>{{ $sejour->prixsejour }} €</h3>
+            <div>
+                <form action="/api/panier/add" method="post">
+                    @csrf
+                    <input type="hidden" name="idsejour" value="{{ $sejour->idsejour }}">
+                    <button class="button" type="submit">Ajouter au panier</button>
+                </form>
 
-        <form action="/api/panier/add" method="post">
-            @csrf
-            <input type="hidden" name="idsejour" value="{{ $sejour->idsejour }}">
-            <button type="submit">Ajouter au panier</button>
-        </form>
+                <a class="button" href="/offrir/{{ $sejour->idsejour }}" type="submit">Offrir séjour</a>
+            </div>
+        </section>
 
         <hr>
 
@@ -34,7 +37,7 @@
             @foreach ($sejour->etape as $etape)
                 <h2>Jour {{ $jour }} {{ $etape->titreetape }}</h2>
                 <p>{{ $etape->descriptionetape }}</p>
-                <img class="image" src="url:'{{ $etape->photoetape }}'" />
+                <img class="image" src="/assets/images/etape/{{ $etape->photoetape }}" />
                 @php
                     $jour++;
                 @endphp
@@ -47,13 +50,15 @@
         <section id="hebergement">
             @foreach ($sejour->etape as $etape)
                 <article class="unheberg">
-                @foreach ($etape->hebergement as $unhebergement)
-                    <img class="imgheberg" src="/assets/images/hebergement/{{ $unhebergement->photohebergement }}"></img>
-                    <p class="descrheberg">{{$unhebergement->descriptionhebergement }}</p>
-                    @foreach ($unhebergement->hotel as $unhotel)
-                        <a class="lienheberg" href="{{ $unhebergement->lienhebergement }}">{{$unhotel->nompartenaire}}</a>
+                    @foreach ($etape->hebergement as $unhebergement)
+                        <img class="imgheberg"
+                            src="/assets/images/hebergement/{{ $unhebergement->photohebergement }}"></img>
+                        <p class="descrheberg">{{ $unhebergement->descriptionhebergement }}</p>
+                        @foreach ($unhebergement->hotel as $unhotel)
+                            <a class="lienheberg"
+                                href="{{ $unhebergement->lienhebergement }}">{{ $unhotel->nompartenaire }}</a>
+                        @endforeach
                     @endforeach
-                @endforeach
                 </article>
             @endforeach
         </section>
@@ -64,13 +69,13 @@
         <section id="chateaux">
             @foreach ($sejour->etape as $etape)
                 <article class="unchateaux">
-                @foreach ($etape->visite as $unevisite)
-                    <img class="imgchateaux" src="/assets/images/visite/{{ $unevisite->photovisite }}"></img>
-                    <p class="descrchateaux">{{ $unevisite->descriptionvisite }}</p>
-                    @foreach ($unevisite->cave as $unecave)
-                        <a class="lienchateaux" href="{{ $unevisite->lienvisite }}">{{$unecave->nompartenaire}}</a>
+                    @foreach ($etape->visite as $unevisite)
+                        <img class="imgchateaux" src="/assets/images/visite/{{ $unevisite->photovisite }}"></img>
+                        <p class="descrchateaux">{{ $unevisite->descriptionvisite }}</p>
+                        @foreach ($unevisite->cave as $unecave)
+                            <a class="lienchateaux" href="{{ $unevisite->lienvisite }}">{{ $unecave->nompartenaire }}</a>
+                        @endforeach
                     @endforeach
-                @endforeach
                 </article>
             @endforeach
         </section>
@@ -99,9 +104,9 @@
                         {{ $avis->noteavis }}/5 &nbsp;&nbsp;
                         @php
                             $text = $avis->client->prenomclient;
-                            $sub = substr($text,0,1);
+                            $sub = substr($text, 0, 1);
                         @endphp
-                            {{ $avis->client->nomclient }}  {{$sub}}. &nbsp;|&nbsp; {{$avis->titreavis}}
+                        {{ $avis->client->nomclient }} {{ $sub }}. &nbsp;|&nbsp; {{ $avis->titreavis }}
                     </p>
                     <p class="descravis">{{ $avis->descriptionavis }}</p>
                 @endforeach

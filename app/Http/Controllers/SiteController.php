@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Avis;
 use App\Models\Etape;
 use App\Models\Sejour;
 use Illuminate\Http\Request;
@@ -10,8 +11,11 @@ class SiteController extends Controller
 {
     public function index()
     {
-        return view("welcome", ['sejours' => Sejour::all(),'etape' => Etape::all(),
-    ]);
+        return view("welcome", [
+            'listeSejour' => Sejour::limit(5)->get(),
+
+
+        ]);
     }
     public function mentions()
     {

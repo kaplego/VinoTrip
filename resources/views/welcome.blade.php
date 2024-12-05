@@ -5,18 +5,31 @@
 @section('body')
     @include('layout.header')
     <main class="container-sm">
-        {{-- <h3>Avis des voyageurs</h3>
-        <hr/>
-        <section id="Etape">
-            @foreach ($sejours->etape as $etape)
-                <h2>Jour {{ $jour }} {{ $etape->titreetape }}</h2>
-                <p>{{ $etape->descriptionetape }}</p>
-                <img class="image" src="url:'{{ $etape->photoetape }}'" />
+        <h3>Quelques avis de voyageurs</h3>
+        <hr id="ligne">
+        <section id="avis">
+        @foreach ($listeSejour as $unsejour)
+            @php
+                $cpt=0
+            @endphp
+            <h4>{{$unsejour->titresejour}}</h4>
+            @foreach($unsejour->avis as $unavis)
                 @php
-                    $jour++;
+                    $cpt++
                 @endphp
+                @if ($cpt==1)
+                    <article class="unavis">
+                        <p>{{ $unavis->titreavis }}</p><br />
+                        <p>{{ $unavis->descriptionavis }}<p><br/>
+                    </article>
+                @endif
             @endforeach
-        </section> --}}
+            <hr class="separateur">
+        @endforeach
+        <div id="divavis">
+            <a class="button" href="/avis">Découvrir tout les avis</a>
+        </div>
+        </section>
     </main>
     @include('layout.footer')
 @endsection

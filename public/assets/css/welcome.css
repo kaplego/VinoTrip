@@ -2,10 +2,33 @@ h3{
     text-align: center;
 }
 
-hr {
+#ligne {
     height: 4px;
     width: 75px;
     border: none;
     background-color: var(--c-accent-500);
     margin: 0.5rem auto;
+}
+
+#divavis{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.unavis .ligne{
+    margin: 8px;
+    color: var(--c-accent-500);
+
+}
+
+article{
+    margin: 10px;
+}
+
+.separateur{
+    height: 2px;
+    margin: 8px;
+    color: var(--c-accent-500);
 }

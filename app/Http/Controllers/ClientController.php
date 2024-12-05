@@ -50,7 +50,7 @@ class ClientController extends Controller
         }
 
         return response(back()->withErrors([
-            'email' => 'Mauvais identifiant ou mot de passe.',
+            'email' => 'L\'email ou le mot de passe est invalide.',
         ]));
     }
 
@@ -69,12 +69,20 @@ class ClientController extends Controller
         else
             $credentials["offrespromotionnellesclient"] = true;
 
-        $credentials["password"] = bcrypt($request->motdepasseclient);
+        $pattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{12,}$/';
+
+        if (preg_match($pattern, $request->motdepasseclient))
+            $credentials["password"] = bcrypt($request->motdepasseclient);
+        else
+            return response(back()->withErrors([
+                'motdepasse' => 'Format non valide',
+            ]));
+
 
         $datenaissance = DateTime::createFromFormat('j/n/Y', $request->request->get('journaissance') . "/" . $request->request->get('moisnaissance') . "/" . $request->request->get('anneenaissance'));
 
 
-        // VERIF AGE dd($datenaissance > date('j/n/Y')->sub(DateInterval::createFromDateString('18 years')));
+
 
         $user = new User();
         $user->prenomclient = $credentials['prenomclient'];
@@ -84,7 +92,7 @@ class ClientController extends Controller
         $user->offrespromotionnellesclient = $credentials['offrespromotionnellesclient'];
         $user->civiliteclient = $request->request->get('civiliteclient');
         //$user->remember_token = $request->request->get('_token');
-        $user->datenaissanceclient = $datenaissance;
+        $user->datenaissanceclient = $datenaissance!=0 ? $datenaissance : null ;
         $user->save();
 
         unset($credentials["motdepasseclient"]);

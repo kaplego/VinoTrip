@@ -71,6 +71,7 @@
             @php
                 $i = 0;
                 $cpt = 0;
+                $note = 0;
             @endphp
             @foreach ($sejours as $sejour)
                 @php
@@ -161,9 +162,28 @@
                             @endphp
                         @endforeach
                         @if ($cpt!=0)
-                            <a class="avis" href="/sejour/{{ $sejour->idsejour }}#avis">Voir les avis</a>
+                            @foreach ($sejour->avis as $avis)
+                            @php
+                                $note += $avis->noteavis
+                            @endphp
+                            @endforeach
                         @endif
-                        <a class="decouvrir button" href="/sejour/{{ $sejour->idsejour }}">Découvrir</a>
+                        <p>
+                        @php
+                            $note/=$cpt
+                        @endphp
+                        <i data-lucide="star" fill="currentColor" class="checked"></i>
+                        <i data-lucide="star" fill="currentColor"
+                            class="@if ($note >= 2) checked @endif"></i>
+                        <i data-lucide="star" fill="currentColor"
+                            class="@if ($note >= 3) checked @endif"></i>
+                        <i data-lucide="star" fill="currentColor"
+                            class="@if ($note >= 4) checked @endif"></i>
+                        <i data-lucide="star" fill="currentColor"
+                            class="@if ($note == 5) checked @endif"></i>
+                        {{ $note }}/5 &nbsp;&nbsp;
+                    </p>
+                    <a class="decouvrir button" href="/sejour/{{ $sejour->idsejour }}">Découvrir</a>
                     </div>
                 </article>
                 @php
