@@ -1,18 +1,11 @@
-section{
+section {
     margin: 20px;
 }
 
-
-#image {
-    width: 50%;
-    height: 300px;
-    object-fit: cover;
-    grid-column: 1 / 2;
-    border-radius: 6px;
-}
-.checked{
+.checked {
     color: var(--c-accent-500);
 }
+
 #sejour {
     display: grid;
     position: relative;
@@ -26,25 +19,80 @@ section{
     transition: border 100ms;
 }
 
+#sejour #description {
+    grid-column: 2/2;
+    grid-row: 1/2;
+    border: 2px solid;
+    border-color: var(--c-accent-500);
+    padding: 10px;
+}
+#sejour #description .descriptionsej{
+    margin: 15px;
+}
+#sejour #description .button{
+    margin: 10px;
+}
+#sejour #description hr {
+    height: 4px;
+    background-color: var(--c-accent-500);
+    margin: 0.5rem auto;
+    width: 20%;
+}
+#sejour #description #categorie{
+    display: flex;
+    flex-wrap: wrap;
+    font-style: italic;
+    font-weight: bold;
 
 
-.titreg{
+}
+#sejour .image {
+    grid-column: 1/2;
+    grid-row: 1/2;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.prix {
+    margin: 15px;
+}
+
+#sejour #description .titre {
+    margin: 10px;
+    text-align: center;
+}
+
+#Etape{
+    padding-left: 15px;
+
+}
+#Etape p{
+    margin: 10px;
+
+}
+#Etape .image{
+    margin: 10px;
+    height: 75%;
+    width: auto;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+
+.titreg {
     margin-left: 10px;
+    grid-column: 2/2;
 }
 
 hr {
-
     height: 4px;
     background-color: var(--c-accent-500);
     margin: 0.5rem auto;
 }
 
-.descravis{
+.descravis {
     margin: 10px;
 }
-
-
-
 
 #chateaux {
     display: grid;
@@ -57,13 +105,13 @@ hr {
     border-radius: 6px;
     gap: 1rem;
     transition: border 100ms;
-
 }
-#chateaux .unchateaux{
+
+#chateaux .unchateaux {
     margin: 10px;
     border-color: black;
-
 }
+
 #chateaux .unchateaux .imgchateaux {
     width: 30%;
     height: auto;
@@ -71,16 +119,15 @@ hr {
     grid-row: 1 / 2;
 }
 
-#chateaux .unchateaux .descrchateaux{
+#chateaux .unchateaux .descrchateaux {
     grid-row: 2 / 2;
     margin-top: 10px;
     margin-bottom: 10px;
 }
-#chateaux .unchateaux .lienchateaux{
+
+#chateaux .unchateaux .lienchateaux {
     grid-row: 2 / 2;
 }
-
-
 
 #hebergement {
     display: grid;
@@ -93,26 +140,26 @@ hr {
     border-radius: 6px;
     gap: 1rem;
     transition: border 100ms;
-
 }
-#hebergement .unheberg{
+
+#hebergement .unheberg {
     margin: 10px;
     border-color: black;
-
 }
-#hebergement .unheberg  .imgheberg{
+
+#hebergement .unheberg .imgheberg {
     width: 30%;
     height: auto;
     border-radius: 8px;
     grid-row: 1 / 2;
 }
 
-#hebergement .unheberg .descrheberg{
+#hebergement .unheberg .descrheberg {
     grid-row: 2 / 2;
     margin-top: 10px;
     margin-bottom: 10px;
 }
-#hebergement .unheberg .lienheberg{
+
+#hebergement .unheberg .lienheberg {
     grid-row: 2 / 2;
 }
-

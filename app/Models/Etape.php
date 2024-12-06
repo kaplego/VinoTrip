@@ -36,6 +36,17 @@ class Etape extends Model
         );
     }
 
+    public function activites(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Activite::class,
+            Appartient_4::class,
+            'idetape',
+            'idactivite',
+            'idetape',
+            'idactivite'
+        );
+    }
 }
 
 

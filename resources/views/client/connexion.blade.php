@@ -60,7 +60,13 @@
                 <label for="motdepasseinscription">Mot de passe</label>
                 <input id="motdepasseinscription" type="password" name="motdepasseclient" placeholder="M0tD€p@ss3" />
                 @error('motdepasseclient')
-                    <p class="error">Le mot de passe n'est pas valide !</p>
+                    <p class="error">
+                        Le format du mot de passe est invalide, il doit contenir : </br>
+                        - Au moins une majuscule et minuscule </br>
+                        - Au moins un chiffre </br>
+                        - Au moins un caractère spécial </br>
+                        - Et faire au moins 12 caractères
+                    </p>
                 @enderror
             </div>
             <div class="input-control input-control-multiselect">
@@ -104,17 +110,27 @@
 
         <form id="connexion" class="formulaire" method="post" action="/api/client/login">
             @csrf
-            <div class="input input-text">
+
+            <div class="input-control input-control-text">
+                @error('login')
+                    <p class="error">Le mot de passe ou l'adresse email n'est pas valide !</p></br>
+                @enderror
+
                 <label for="emailconnexion">Email</label>
-                <input id="emailconnexion" type="text" name="emailclient" />
+                <input id="emailconnexion" type="text" name="emailclientconnexion" placeholder="prenom.nom@email.com" />
+                @error('emailclientconnexion')
+                    <p class="error">L'adresse email n'est pas valide !</p>
+                @enderror
             </div>
-            <div class="input input-text">
+            <div class="input-control input-control-text">
                 <label for="motdepasseconnexion">Mot de passe</label>
-                <input id="motdepasseconnexion" type="password" name="motdepasseclient" />
+                <input id="motdepasseconnexion" type="password" name="motdepasseconnexion" placeholder="M0tD€p@ss3" />
+                @error('motdepasseconnexion')
+                    <p class="error">Le mot de passe n'est pas valide !</p>
+                @enderror
             </div>
 
-            <input type="submit" value="Connexion" />
-            {{ $errors }}
+            <input type="submit" value="Connexion" class="button" />
         </form>
     </main>
     @include('layout.footer')

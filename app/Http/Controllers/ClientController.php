@@ -7,6 +7,7 @@ use \Datetime;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Hashing\BcryptHasher;
 
 
 class ClientController extends Controller
@@ -26,6 +27,13 @@ class ClientController extends Controller
         return view("client.profil");
     }
 
+    public function informations()
+    {
+        if (!Auth::check())
+            return redirect('/connexion');
+        return view("client.informations");
+    }
+
     /**
      * Handle an authentication attempt.
      *
@@ -36,12 +44,15 @@ class ClientController extends Controller
     {
 
         $credentials = $request->validate([
-            'emailclient' => ['required', 'email'],
-            'motdepasseclient' => ['required'],
+            'emailclientconnexion' => ['required', 'email'],
+            'motdepasseconnexion' => ['required'],
         ]);
 
-        unset($credentials["motdepasseclient"]);
-        $credentials["password"] = $request->motdepasseclient;
+        unset($credentials["motdepasseconnexion"]);
+        $credentials["password"] = $request->motdepasseconnexion;
+
+        unset($credentials["emailclientconnexion"]);
+        $credentials["emailclient"] = $request->emailclientconnexion;
 
 
         if (Auth::attempt($credentials, )) {
@@ -50,7 +61,7 @@ class ClientController extends Controller
         }
 
         return response(back()->withErrors([
-            'email' => 'L\'email ou le mot de passe est invalide.',
+            'login' => 'L\'email ou le mot de passe est invalide.',
         ]));
     }
 
@@ -75,24 +86,28 @@ class ClientController extends Controller
             $credentials["password"] = bcrypt($request->motdepasseclient);
         else
             return response(back()->withErrors([
-                'motdepasse' => 'Format non valide',
+                'motdepasseclient' => 'Format non valide',
             ]));
 
 
-        $datenaissance = DateTime::createFromFormat('j/n/Y', $request->request->get('journaissance') . "/" . $request->request->get('moisnaissance') . "/" . $request->request->get('anneenaissance'));
-
-
+        $datenaissance = DateTime::createFromFormat(
+            'j/n/Y',
+            $request->request->get('journaissance') . "/" .
+            $request->request->get('moisnaissance') . "/" .
+            $request->request->get('anneenaissance')
+        );
 
 
         $user = new User();
+
         $user->prenomclient = $credentials['prenomclient'];
         $user->nomclient = $credentials['nomclient'];
         $user->emailclient = $credentials['emailclient'];
         $user->motdepasseclient = $credentials['password'];
         $user->offrespromotionnellesclient = $credentials['offrespromotionnellesclient'];
         $user->civiliteclient = $request->request->get('civiliteclient');
-        //$user->remember_token = $request->request->get('_token');
-        $user->datenaissanceclient = $datenaissance!=0 ? $datenaissance : null ;
+        $user->datenaissanceclient = gettype($datenaissance) == "boolean" ? null : $datenaissance;
+
         $user->save();
 
         unset($credentials["motdepasseclient"]);
@@ -112,5 +127,77 @@ class ClientController extends Controller
     {
         Auth::logout();
         return redirect()->intended('/');
+    }
+
+    public function edit(Request $request)
+    {
+        $credentials = $request->validate([
+            'prenomclient' => ['required'],
+            'nomclient' => ['required'],
+            'emailclient' => ['required', 'email'],
+            'ancienmotdepasse' => ['required'],
+        ]);
+
+        if ($request->request->get('offrespromotionnellesclient') != "on")
+            $credentials["offrespromotionnellesclient"] = false;
+        else
+            $credentials["offrespromotionnellesclient"] = true;
+
+
+
+
+
+
+        $datenaissance = DateTime::createFromFormat(
+            'j/n/Y',
+            $request->request->get('journaissance') . "/" .
+            $request->request->get('moisnaissance') . "/" .
+            $request->request->get('anneenaissance')
+        );
+
+
+
+        $user = User::find(Auth::user()->idclient);
+
+        unset($credentials["password"]);
+        $credentials["password"] = bcrypt($request->ancienmotdepasse);
+
+        $pattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{12,}$/';
+        if ($request->nouveaumotdepasse != null) {
+            if (preg_match($pattern, $request->nouveaumotdepasse))
+                if ($request->nouveaumotdepasse != $request->confirmationmotdepasse)
+                    return response(back()->withErrors([
+                        'confirmationmotdepasse' => 'Les mots de passe ne correspondent pas.',
+                    ]));
+                else {
+                    unset($credentials["password"]);
+                    $credentials["password"] = bcrypt($request->nouveaumotdepasse);
+                } else
+                return response(back()->withErrors([
+                    'nouveaumotdepasse' => 'Format non valide',
+                ]));
+        }
+        $hasher = app('hash');
+
+        if ($hasher->check($request->ancienmotdepasse, $user->motdepasseclient)) {
+
+            $user->prenomclient = $credentials['prenomclient'];
+            $user->nomclient = $credentials['nomclient'];
+            $user->emailclient = $credentials['emailclient'];
+            $user->motdepasseclient = $credentials['password'];
+            $user->offrespromotionnellesclient = $credentials['offrespromotionnellesclient'];
+            $user->civiliteclient = $request->request->get('civiliteclient');
+            $user->datenaissanceclient = gettype($datenaissance) == "boolean" ? null : $datenaissance;
+
+            $user->update();
+
+            $request->session()->regenerate();
+            return redirect()->back()->with('success', 'Les modifications ont bien été prises en compte.');
+        }
+        else
+            return response(back()->withErrors([
+                'ancienmotdepasse' => 'Le mot de passe est incorrect !',
+            ]));
+
     }
 }

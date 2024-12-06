@@ -22,6 +22,10 @@ class AvisController extends Controller
 {
     public function list()
     {
-        return view("avis-list");
+        return view("avis-list" ,[
+            'listeSejour' => Sejour::all(),
+
+
+        ]);
     }
 }

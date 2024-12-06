@@ -4,13 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
-class Activite extends Model
+class Appartient_4 extends Model
 {
     use HasFactory;
-
-    protected $table = "activite";
-    protected $primaryKey = "idactivite";
+    protected $table = "appartient_4";
+    protected $primaryKey = ["idetape", "idactivite"];
     public $timestamps = false;
 }

@@ -211,6 +211,16 @@ footer a {
     margin-top: .5rem;
 }
 
+.alert-success{
+    color: orange;
+    font-size: 150%;
+    font-style: italic;
+    font-weight: bold;
+    position: relative;
+    text-align: center;
+    margin: 5vh;
+}
+
 .input-control.input-control-text label {
     padding-bottom: .5rem;
 }
@@ -253,6 +263,7 @@ input.input-text:focus::placeholder {
     gap: .5rem;
     flex-direction: row;
     margin: 0;
+    width: auto;
 }
 
 .input-control.input-control-radio input,
@@ -296,6 +307,7 @@ input.input-radio {
 .input-control.input-control-checkbox {
     flex-direction: row;
     gap: .5rem;
+    width: auto;
 }
 
 .input-control.input-control-checkbox input {

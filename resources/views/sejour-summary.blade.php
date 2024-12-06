@@ -16,16 +16,20 @@
 
         <section id="sejour">
             <img class="image" src="/assets/images/sejour/{{ $sejour->photosejour }}" />
-            <h2 class="titresej"> {{ $sejour->titresejour }}</h2>
-            <h3>{{ $sejour->prixsejour }} €</h3>
-            <div>
-                <form action="/api/panier/add" method="post">
-                    @csrf
-                    <input type="hidden" name="idsejour" value="{{ $sejour->idsejour }}">
-                    <button class="button" type="submit">Ajouter au panier</button>
-                </form>
-
-                <a class="button" href="/offrir/{{ $sejour->idsejour }}" type="submit">Offrir séjour</a>
+            <div id="description">
+                <h1 class="titre"> {{ $sejour->titresejour }}</h1>
+                <hr>
+                <h4 class="prix">Prix: {{ $sejour->prixsejour }}€/personne</h3>
+                    <p class="descriptionsej">{{ $sejour->descriptionsejour }}</p>
+                    <div id="categorie">
+                        <p class="descriptionsej">{{ $sejour->categoriesejour->libellecategoriesejour }}</p>
+                        <p class="descriptionsej">{{ $sejour->categorievignoble->libellecategorievignoble }}</p>
+                        <p class="descriptionsej">{{ $sejour->duree->libelleduree }}</p>
+                        <p class="descriptionsej">{{ $sejour->theme->libelletheme }}</p>
+                    </div>
+                    <div>
+                        <a class="button" href="/personnaliser/{{ $sejour->idsejour }}">Personnaliser ou offrir</a>
+                    </div>
             </div>
         </section>
 
@@ -50,14 +54,11 @@
         <section id="hebergement">
             @foreach ($sejour->etape as $etape)
                 <article class="unheberg">
-                    @foreach ($etape->hebergement as $unhebergement)
-                        <img class="imgheberg"
-                            src="/assets/images/hebergement/{{ $unhebergement->photohebergement }}"></img>
-                        <p class="descrheberg">{{ $unhebergement->descriptionhebergement }}</p>
-                        @foreach ($unhebergement->hotel as $unhotel)
-                            <a class="lienheberg"
-                                href="{{ $unhebergement->lienhebergement }}">{{ $unhotel->nompartenaire }}</a>
-                        @endforeach
+                    @foreach ($etape->hebergement as $hebergement)
+                        <img class="imgheberg" src="/assets/images/hebergement/{{ $hebergement->photohebergement }}"></img>
+                        <p class="descrheberg">{{ $hebergement->descriptionhebergement }}</p>
+                        <a class="lienheberg" href="{{ $hebergement->lienhebergement }}"
+                            target="_blank">{{ $hebergement->hotel->nompartenaire }}</a>
                     @endforeach
                 </article>
             @endforeach
@@ -73,7 +74,8 @@
                         <img class="imgchateaux" src="/assets/images/visite/{{ $unevisite->photovisite }}"></img>
                         <p class="descrchateaux">{{ $unevisite->descriptionvisite }}</p>
                         @foreach ($unevisite->cave as $unecave)
-                            <a class="lienchateaux" href="{{ $unevisite->lienvisite }}">{{ $unecave->nompartenaire }}</a>
+                            <a class="lienchateaux" href="{{ $unevisite->lienvisite }}"
+                                target="_blank">{{ $unecave->nompartenaire }}</a>
                         @endforeach
                     @endforeach
                 </article>
@@ -89,7 +91,7 @@
         @if ($cpt != 0)
             <hr>
             <h2 class="titreg">Les Avis ...</h2>
-            <section class="avis">
+            <section id="avis">
                 @foreach ($sejour->avis as $avis)
                     <p>
                         <i data-lucide="star" fill="currentColor" class="checked"></i>

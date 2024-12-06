@@ -47,6 +47,7 @@
     margin-top: 2rem;
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
+
 }
 
 #sejours .sejour {
@@ -61,6 +62,7 @@
     border-radius: 6px;
     gap: 1rem;
     transition: border 100ms;
+
 }
 
 #sejours .sejour:hover {
@@ -145,8 +147,28 @@
 #sejours .sejour:hover .contenu .decouvrir {
     border-color: var(--c-accent-500);
 }
-#sejours .avis:hover{
-    color: var(--c-accent-500);
+
+#sejours .avis {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left   ;
+    align-items: center;
+    gap: .5rem;
+
+}
+
+#sejours .avis .note {
+    display: flex;
+    align-items: center;
+}
+
+#sejours .avis .note .lucide {
+    height: .9rem;
+    width: .9rem;
+}
+
+#sejours .avis .note .valeur {
+    margin-left: .5rem;
 }
 
 @media (max-width: 1400px) {
@@ -183,3 +205,5 @@
         grid-template-columns: 1fr;
     }
 }
+
+

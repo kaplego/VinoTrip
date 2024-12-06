@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activite;
 use App\Models\Descriptionpanier;
 use App\Models\Panier;
 use App\Models\Sejour;
@@ -23,11 +24,38 @@ class PanierController extends Controller
 
     public function ajouter(Request $request)
     {
-        $idsejour = $request->input('idsejour') ?? null;
+        $inputSejour = $request->validate([
+            'idsejour' => ['required', 'integer']
+        ]);
+
+        $idsejour = $inputSejour['idsejour'];
         $sejour = Sejour::find($idsejour);
 
         if ($sejour === null)
             return redirect('/panier');
+
+        $idsactivites = Activite::join('appartient_4', 'activite.idactivite', '=', second: 'appartient_4.idactivite')
+            ->join('etape', 'appartient_4.idetape', '=', 'etape.idetape')
+            ->where('etape.idsejour', '=', $idsejour)
+            ->get(['activite.idactivite']);
+
+        $inputs = $request->validate([
+            'nbadultes' => ['required', 'integer', 'min:1'],
+            'nbenfants' => ['required', 'integer', 'min:0'],
+            'chambressimple' => ['required', 'integer', 'min:0'],
+            'chambresdouble' => ['required', 'integer', 'min:0'],
+            'chambrestriple' => ['required', 'integer', 'min:0'],
+            'dejeuner' => ['boolean'],
+            'diner' => ['boolean'],
+            'activites' => [
+                'array:' . implode(
+                    ',',
+                    $idsactivites->pluck('idactivite')->toArray()
+                )
+            ]
+        ]);
+
+        dd(array_keys($inputs['activites']));
 
         $idpanier = $request->session()->get('idpanier', null);
 
@@ -44,6 +72,8 @@ class PanierController extends Controller
             where('idsejour', '=', +$idsejour)
             ->where('idpanier', '=', value: $idpanier)
             ->get()->first();
+
+        dd($request);
 
         if ($descriptionPanier === null) {
             Descriptionpanier::
@@ -110,11 +140,11 @@ class PanierController extends Controller
         return redirect('/panier');
     }
 
-    public function offrir($id)
+    public function personnaliser($id)
     {
         $sejour = Sejour::find($id);
 
-        return view('offrir', ['sejour' => $sejour]);
+        return view('personnaliser', ['sejour' => $sejour]);
     }
 
 

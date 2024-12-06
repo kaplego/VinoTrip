@@ -75,6 +75,7 @@
             @endphp
             @foreach ($sejours as $sejour)
                 @php
+                $note=0;
                     $participants = [];
                     foreach ($sejour->categorieparticipant as $participant) {
                         $participants[] = $participant->idcategorieparticipant;
@@ -156,33 +157,40 @@
                         <p class="prix">À partir de <span class="euros">{{ $sejour->prixsejour }}€</span> par personne</p>
                         <p class="description">{{ $sejour->descriptionsejour }}</p>
                         <p class="duree">{{ $sejour->duree->libelleduree }}</p>
+                        @php
+                            $cpt=0
+                        @endphp
                         @foreach ($sejour->avis as $avis)
                             @php
-                                $cpt ++
+                                $cpt ++;
                             @endphp
                         @endforeach
                         @if ($cpt!=0)
                             @foreach ($sejour->avis as $avis)
-                            @php
-                                $note += $avis->noteavis
-                            @endphp
+                                @php
+                                    $note += $avis->noteavis;
+                                @endphp
                             @endforeach
+                            @php
+                                $note=$note/$cpt;
+                                $note=round($note,1);
+                            @endphp
+                            <div class="avis">
+                                <p class="note">
+                                    <i data-lucide="star" fill="currentColor" class="checked"></i>
+                                    <i data-lucide="star" fill="currentColor"
+                                        class="@if ($note >= 2) checked @endif"></i>
+                                    <i data-lucide="star" fill="currentColor"
+                                        class="@if ($note >= 3) checked @endif"></i>
+                                    <i data-lucide="star" fill="currentColor"
+                                        class="@if ($note >= 4) checked @endif"></i>
+                                    <i data-lucide="star" fill="currentColor"
+                                        class="@if ($note == 5) checked @endif"></i>
+                                </p>
+                                <p class="valeur">{{ $note }}/5</p>
+                                <a href="/sejour/{{ $sejour->idsejour }}#avis">Voir les avis</a>
+                            </div>
                         @endif
-                        <p>
-                        @php
-                            $note/=$cpt
-                        @endphp
-                        <i data-lucide="star" fill="currentColor" class="checked"></i>
-                        <i data-lucide="star" fill="currentColor"
-                            class="@if ($note >= 2) checked @endif"></i>
-                        <i data-lucide="star" fill="currentColor"
-                            class="@if ($note >= 3) checked @endif"></i>
-                        <i data-lucide="star" fill="currentColor"
-                            class="@if ($note >= 4) checked @endif"></i>
-                        <i data-lucide="star" fill="currentColor"
-                            class="@if ($note == 5) checked @endif"></i>
-                        {{ $note }}/5 &nbsp;&nbsp;
-                    </p>
                     <a class="decouvrir button" href="/sejour/{{ $sejour->idsejour }}">Découvrir</a>
                     </div>
                 </article>

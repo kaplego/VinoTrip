@@ -10,6 +10,44 @@ h3{
     margin: 0.5rem auto;
 }
 
+.checked{
+    color: var(--c-accent-500);
+}
+#sejours .avis {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: right;
+    align-items: center;
+    gap: .5rem;
+}
+
+#sejours .avis .note {
+    display: flex;
+    align-items: center;
+}
+
+#sejours .avis .note .lucide {
+    height: .9rem;
+    width: .9rem;
+}
+
+#sejours .avis .note .valeur {
+    margin-left: .5rem;
+}
+.titrenote{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.avis{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+
 #divavis{
     display: flex;
     flex-wrap: wrap;

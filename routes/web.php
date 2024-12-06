@@ -39,13 +39,15 @@ Route::get('/sejour/{id}', [SejourController::class, 'one']);
 
 Route::get('/connexion', [ClientController::class, 'connexion']);
 Route::get('/profil', [ClientController::class, 'profil']);
+Route::get('/profil/informations', [ClientController::class, 'informations']);
 
 Route::post('/api/client/login', [ClientController::class, 'login']);
 Route::post('/api/client/logout', [ClientController::class, 'logout']);
 Route::post('/api/client/signin', [ClientController::class, 'signin']);
+Route::post('/api/client/edit', [ClientController::class, 'edit']);
+
 
 Route::get('/panier', [PanierController::class, 'index']);
 Route::post('/api/panier/add', [PanierController::class, 'ajouter']);
 Route::post('/api/panier/update', [PanierController::class, 'update']);
-Route::post('/api/panier/offrir', [PanierController::class, 'offrir']);
-Route::get('/offrir/{id}', [PanierController::class, 'offrir']);
+Route::get('/personnaliser/{id}', [PanierController::class, 'personnaliser']);
