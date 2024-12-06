@@ -51,7 +51,7 @@
                                     <i data-lucide="star" fill="currentColor"
                                         class="@if ($note == 5) checked @endif"></i>
                                 </p>
-                                <p class="valeur">{{ $note }}/5</p>
+                                <p class="valeur">{{ number_format($note, 1, ",") }}/5</p>
                             </div>
                         </div>
                         <article class="unavis">

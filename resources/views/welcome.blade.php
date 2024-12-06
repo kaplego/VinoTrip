@@ -51,9 +51,8 @@
                                         class="@if ($note >= 3.5) checked @endif"></i>
                                     <i data-lucide="star" fill="currentColor"
                                         class="@if ($note == 5) checked @endif"></i>
-                                    <i data-lucide="star-half" fill="currentColor"></i>
                                 </p>
-                                <p class="valeur">{{ number_format($note, 1, ',') }}/5</p>
+                                <p class="valeur">{{ number_format($note, 1, ",") }}/5</p>
                             </div>
                         </div>
                         </div>
