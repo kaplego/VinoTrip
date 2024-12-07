@@ -6,6 +6,7 @@ use App\Models\Activite;
 use App\Models\Descriptionpanier;
 use App\Models\Panier;
 use App\Models\Sejour;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PanierController extends Controller
@@ -34,12 +35,26 @@ class PanierController extends Controller
         if ($sejour === null)
             return redirect('/panier');
 
-        $idsactivites = Activite::join('appartient_4', 'activite.idactivite', '=', second: 'appartient_4.idactivite')
-            ->join('etape', 'appartient_4.idetape', '=', 'etape.idetape')
-            ->where('etape.idsejour', '=', $idsejour)
-            ->get(['activite.idactivite']);
+        // $idsactivites = Activite::join('appartient_4', 'activite.idactivite', '=', second: 'appartient_4.idactivite')
+        //     ->join('etape', 'appartient_4.idetape', '=', 'etape.idetape')
+        //     ->where('etape.idsejour', '=', $idsejour)
+        //     ->get(['activite.idactivite']);
+
+        $duree = 0;
+        switch ($sejour->duree->idduree) {
+            case 2:
+                $duree = 1;
+            case 3:
+                $duree = 2;
+        }
 
         $inputs = $request->validate([
+            'datedebut' => ['required', 'date', 'after:today'],
+            'datefin' => [
+                'required',
+                'date',
+                'date_equals:' . Carbon::parse($request->datedebut)->addDays($duree)->format('Y-m-d')
+            ],
             'nbadultes' => ['required', 'integer', 'min:1'],
             'nbenfants' => ['required', 'integer', 'min:0'],
             'chambressimple' => ['required', 'integer', 'min:0'],
@@ -47,15 +62,17 @@ class PanierController extends Controller
             'chambrestriple' => ['required', 'integer', 'min:0'],
             'dejeuner' => ['boolean'],
             'diner' => ['boolean'],
-            'activites' => [
-                'array:' . implode(
-                    ',',
-                    $idsactivites->pluck('idactivite')->toArray()
-                )
-            ]
+            // 'activites' => ['array'],
+            // 'activites.*' => [
+            //     'in:' . implode(
+            //         ',',
+            //         $idsactivites->pluck('idactivite')->toArray()
+            //     )
+            // ],
+            'activite' => ['boolean'],
+            'offrir' => ['boolean'],
+            'ecoffret' => ['boolean', 'required_if:offrir,true']
         ]);
-
-        dd(array_keys($inputs['activites']));
 
         $idpanier = $request->session()->get('idpanier', null);
 
@@ -73,32 +90,61 @@ class PanierController extends Controller
             ->where('idpanier', '=', value: $idpanier)
             ->get()->first();
 
-        dd($request);
+        $prix = $sejour->prixsejour;
+        if (isset($inputs['dejeuner']) && $inputs['dejeuner'] == '1')
+            $prix += 20;
+        if (isset($inputs['diner']) && $inputs['diner'] == '1')
+            $prix += 20;
+        if (isset($inputs['activite']) && $inputs['activite'] == '1')
+            $prix += 50;
+        // $prix += sizeof($inputs['activites'] ?? []) * 50;
+        $prix *= +$inputs['nbadultes'] + +$inputs['nbenfants'];
 
-        if ($descriptionPanier === null) {
-            Descriptionpanier::
-                create([
-                    'idsejour' => $sejour->idsejour,
-                    'idpanier' => $panier->idpanier,
-                    'prix' => $sejour->prixsejour,
-                    'quantite' => 1,
-                    'datedebut' => now(),
-                    'datefin' => now()->addDays(2),
-                    'nbadultes' => 1,
-                    'nbenfants' => 0,
-                    'nbchambressimple' => 1,
-                    'nbchambresdouble' => 0,
-                    'nbchambrestriple' => 0,
-                    'repasmidi' => false,
-                    'repassoir' => false,
-                    'activite' => false,
-                ]);
-        } else {
+        if ($inputs['offrir'] == '1' && $inputs['ecoffret'] == '0')
+            $prix += 5;
+        $prix += ($inputs['chambressimple'] ?? 0) * 75;
+        $prix += ($inputs['chambresdouble'] ?? 0) * 100;
+        $prix += ($inputs['chambrestriple'] ?? 0) * 125;
+
+        if ($descriptionPanier !== null) {
             Descriptionpanier::
                 where('idsejour', '=', +$idsejour)
                 ->where('idpanier', '=', value: $idpanier)
                 ->update([
-                    'quantite' => $descriptionPanier->quantite + 1
+                    'prix' => $prix,
+                    'quantite' => 1,
+                    'datedebut' => $inputs['datedebut'],
+                    'datefin' => $inputs['datefin'],
+                    'nbadultes' => $inputs['nbadultes'],
+                    'nbenfants' => $inputs['nbenfants'],
+                    'nbchambressimple' => $inputs['chambressimple'],
+                    'nbchambresdouble' => $inputs['chambresdouble'],
+                    'nbchambrestriple' => $inputs['chambrestriple'],
+                    'repasmidi' => ($inputs['dejeuner'] ?? 0) == '1',
+                    'repassoir' => ($inputs['diner'] ?? 0) == '1',
+                    'activite' => ($inputs['activite'] ?? 0) == '1',
+                    'offrir' => $inputs['offrir'] == '1',
+                    'ecoffret' => $inputs['ecoffret'] == '1'
+                ]);
+        } else {
+            Descriptionpanier::
+                create([
+                    'idsejour' => $sejour->idsejour,
+                    'idpanier' => $panier->idpanier,
+                    'prix' => $prix,
+                    'quantite' => 1,
+                    'datedebut' => $inputs['datedebut'],
+                    'datefin' => $inputs['datefin'],
+                    'nbadultes' => $inputs['nbadultes'],
+                    'nbenfants' => $inputs['nbenfants'],
+                    'nbchambressimple' => $inputs['chambressimple'],
+                    'nbchambresdouble' => $inputs['chambresdouble'],
+                    'nbchambrestriple' => $inputs['chambrestriple'],
+                    'repasmidi' => ($inputs['dejeuner'] ?? 0) == '1',
+                    'repassoir' => ($inputs['diner'] ?? 0) == '1',
+                    'activite' => ($inputs['activite'] ?? 0) == '1',
+                    'offrir' => $inputs['offrir'] == '1',
+                    'ecoffret' => $inputs['ecoffret'] == '1'
                 ]);
         }
 
@@ -143,12 +189,23 @@ class PanierController extends Controller
     public function personnaliser($id)
     {
         $sejour = Sejour::find($id);
-
         return view('personnaliser', ['sejour' => $sejour]);
     }
 
+    public function modifier($idsejour, Request $request)
+    {
+        $idpanier = $request->session()->get('idpanier', null);
+        if ($idpanier === null)
+            return redirect("/personnaliser/$idsejour");
 
+        $descriptionPanier = Descriptionpanier::
+            where('idsejour', '=', +$idsejour)
+            ->where('idpanier', '=', value: $idpanier)
+            ->get()->first();
+
+        if (!$descriptionPanier)
+            return redirect("/personnaliser/$idsejour");
+
+        return view('modifier', ['descriptionPanier' => $descriptionPanier]);
+    }
 }
-
-
-

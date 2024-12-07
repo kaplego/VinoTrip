@@ -51,15 +51,14 @@
         <hr>
         <h2 class="titreg">Les hébergements proposés</h2>
 
-        <section id="hebergement">
+        <section id="hebergements">
             @foreach ($sejour->etape as $etape)
-                <article class="unheberg">
-                    @foreach ($etape->hebergement as $hebergement)
-                        <img class="imgheberg" src="/assets/images/hebergement/{{ $hebergement->photohebergement }}"></img>
-                        <p class="descrheberg">{{ $hebergement->descriptionhebergement }}</p>
-                        <a class="lienheberg" href="{{ $hebergement->lienhebergement }}"
-                            target="_blank">{{ $hebergement->hotel->nompartenaire }}</a>
-                    @endforeach
+                <article class="hebergement">
+                    <img class="imgheberg"
+                        src="/assets/images/hebergement/{{ $etape->hebergement->photohebergement }}"></img>
+                    <p class="descrheberg">{{ $etape->hebergement->descriptionhebergement }}</p>
+                    <a class="lienheberg" href="{{ $etape->hebergement->lienhebergement }}"
+                        target="_blank">{{ $etape->hebergement->hotel->nompartenaire }}</a>
                 </article>
             @endforeach
         </section>

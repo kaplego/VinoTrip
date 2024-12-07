@@ -50,4 +50,6 @@ Route::post('/api/client/edit', [ClientController::class, 'edit']);
 Route::get('/panier', [PanierController::class, 'index']);
 Route::post('/api/panier/add', [PanierController::class, 'ajouter']);
 Route::post('/api/panier/update', [PanierController::class, 'update']);
+
 Route::get('/personnaliser/{id}', [PanierController::class, 'personnaliser']);
+Route::get('/modifier/{idsejour}', [PanierController::class, 'modifier']);

@@ -1,17 +1,50 @@
 let offrir = false,
-    formatCadeau = null,
+    ecoffret = false,
     hebergement = null,
     dejeuner = false,
     diner = false,
     activite = false;
 
 const priceElement = document.getElementById("prix-total"),
+    dateDebut = document.getElementById('datedebut'),
+    dateFin = document.getElementById('datefin'),
+    nbAdultes = document.getElementById('nbadultes'),
+    nbEnfants = document.getElementById('nbenfants'),
+    nbChambresSimple = document.getElementById('chambressimple'),
+    nbChambresDouble = document.getElementById('chambresdouble'),
+    nbChambresTriple = document.getElementById('chambrestriple'),
     hebergementSelect = document.getElementById("hebergement"),
     listeHebergements = document.querySelectorAll(".hebergement"),
     offrirCheckbox = document.getElementById("offrir"),
     dejeunerCheckbox = document.getElementById("dejeuner"),
     dinerCheckbox = document.getElementById("diner"),
     activiteCheckbox = document.getElementById("activite");
+// activitesListe = document.querySelectorAll(".activite");
+
+//======================= DATES
+
+dateDebut.addEventListener('change', () => {
+    const duree = dateDebut.getAttribute('data-duree');
+    let date = new Date(dateDebut.value);
+    switch (duree) {
+        case '2':
+            date.setDate(date.getDate() + 1);
+            break;
+        case '3':
+            date.setDate(date.getDate() + 2);
+            break;
+    }
+    dateFin.value = date.toISOString().split('T')[0];
+});
+
+//======================= PERSONNES & CHAMBRES
+
+nbAdultes.addEventListener('change', updatePrice);
+nbEnfants.addEventListener('change', updatePrice);
+
+nbChambresSimple.addEventListener('change', updatePrice);
+nbChambresDouble.addEventListener('change', updatePrice);
+nbChambresTriple.addEventListener('change', updatePrice);
 
 //======================= HEBERGEMENT
 
@@ -35,7 +68,6 @@ const priceElement = document.getElementById("prix-total"),
 
 function setOffrir(checked) {
     offrir = checked;
-    updatePrice();
     document
         .querySelectorAll("*[data-offrir]")
         .forEach((element) => element.classList.toggle("hidden", !checked));
@@ -44,16 +76,15 @@ function setOffrir(checked) {
 setOffrir(offrirCheckbox.checked);
 offrirCheckbox.addEventListener("change", (event) => {
     setOffrir(offrirCheckbox.checked);
+    updatePrice();
 });
 
 //======================= FORMAT CADEAU
 
-document.querySelectorAll("input[name=formatCadeau]").forEach((radio) => {
-    if (radio.checked) formatCadeau = radio.value;
-    updatePrice();
-
+document.querySelectorAll("input[name=ecoffret]").forEach((radio) => {
+    if (radio.checked) ecoffret = radio.value == '1';
     radio.addEventListener("change", () => {
-        formatCadeau = radio.value;
+        ecoffret = radio.value == '1';
         updatePrice();
     });
 });
@@ -73,14 +104,38 @@ activiteCheckbox.addEventListener("change", () => {
     updatePrice();
 });
 
+//======================= ACTIVITES
+
+// activitesListe.forEach((activiteCheckbox) => {
+//     if (activiteCheckbox.checked) {
+//         activites.push(activiteCheckbox.name);
+//     }
+//     activiteCheckbox.addEventListener('change', () => {
+//         if (activiteCheckbox.checked) {
+//             activites.push(activiteCheckbox.name);
+//         }
+//         else {
+//             activites = activites.filter((a) => a !== activiteCheckbox.name);
+//         }
+//         updatePrice();
+//     });
+// });
+
 //======================= MAJ PRIX
 
 function updatePrice() {
     let price = prixDeBase;
-    if (offrir && formatCadeau === "coffret") price += 5;
-    if (dejeuner) price += 80;
-    if (diner) price += 80;
-    if (activite) price += 100;
+    if (dejeuner) price += 20;
+    if (diner) price += 20;
+    if (activite) price += 50;
+    price *= +nbAdultes.value + +nbEnfants.value;
+
+    if (offrir && !ecoffret) price += 5;
+    price += nbChambresSimple.value * 75;
+    price += nbChambresDouble.value * 100;
+    price += nbChambresTriple.value * 125;
 
     priceElement.innerText = price.toFixed(2) + " €";
 }
+
+updatePrice();

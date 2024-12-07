@@ -16,7 +16,19 @@ section > .error {
     color: crimson;
 }
 
+.price {
+    color: var(--c-accent-500);
+}
 
+.input-group {
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+}
+
+.input-group > .input-control {
+    flex: 1;
+}
 
 #hebergements {
     display: grid;

@@ -17,12 +17,22 @@ class Etape extends Model
     protected $primaryKey = "idetape";
     public $timestamps = false;
 
-
-    public function hebergement(): HasMany
+    public function hebergement(): HasOne
     {
-        return $this->hasMany(Hebergement::class, 'idhebergement', 'idhebergement');
+        return $this->hasOne(Hebergement::class, 'idhebergement', 'idhebergement');
     }
 
+    public function repas(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Repas::class,
+            Appartient_2::class,
+            'idetape',
+            'idrepas',
+            'idetape',
+            'idrepas'
+        );
+    }
 
     public function visite(): HasManyThrough
     {

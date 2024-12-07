@@ -129,7 +129,7 @@ hr {
     grid-row: 2 / 2;
 }
 
-#hebergement {
+#hebergements {
     display: grid;
     position: relative;
     width: 100%;
@@ -142,24 +142,24 @@ hr {
     transition: border 100ms;
 }
 
-#hebergement .unheberg {
+#hebergements .hebergement {
     margin: 10px;
     border-color: black;
 }
 
-#hebergement .unheberg .imgheberg {
+#hebergements .hebergement .imgheberg {
     width: 30%;
     height: auto;
     border-radius: 8px;
     grid-row: 1 / 2;
 }
 
-#hebergement .unheberg .descrheberg {
+#hebergements .hebergement .descrheberg {
     grid-row: 2 / 2;
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
-#hebergement .unheberg .lienheberg {
+#hebergements .hebergement .lienheberg {
     grid-row: 2 / 2;
 }
