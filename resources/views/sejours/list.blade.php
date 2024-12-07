@@ -7,7 +7,7 @@
 @section('title', 'Séjours - VinoTrip')
 
 @section('head')
-    <link rel="stylesheet" href="/assets/css/sejours.css">
+    <link rel="stylesheet" href="/assets/css/sejours/sejours.css">
 @endsection
 
 @section('body')

@@ -4,8 +4,10 @@
 
 @extends('layout.app')
 
+@section('title', 'Connexion - VinoTrip')
+
 @section('head')
-    <link rel="stylesheet" href="/assets/css/connexion.css">
+    <link rel="stylesheet" href="/assets/css/client/connexion.css">
 @endsection
 
 @section('body')

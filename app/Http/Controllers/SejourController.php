@@ -21,32 +21,24 @@ class SejourController extends Controller
 {
     public function list()
     {
-        return view('sejours-list', [
+        return view('sejours.list', [
             'sejours' => Sejour::all(),
             'categoriesejour' => Categoriesejour::all(),
             'categorieparticipant' => Categorieparticipant::all(),
             'categoriesvignoble' => Categorievignoble::all(),
             'localites' => Localite::all(),
             'durees' => Duree::all(),
-
-
-
-
         ]);
     }
 
     public function one($id)
     {
-        return view ("sejour-summary", [
+        return view ('sejours.summary', [
             'sejour'=>Sejour::find($id),
             'hebergement' => Hebergement::all(),
             'visite' => Visite::all(),
             'hotel' => Hotel::all(),
             'cave' => Cave::all(),
-
         ]);
     }
-
-
-
 }

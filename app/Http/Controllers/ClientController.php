@@ -24,7 +24,7 @@ class ClientController extends Controller
     {
         if (!Auth::check())
             return redirect('/connexion');
-        return view("client.profil");
+        return view("client.compte");
     }
 
     public function informations()

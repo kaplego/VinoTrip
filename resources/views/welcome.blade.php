@@ -1,71 +1,54 @@
 @extends('layout.app')
+
+@section('title', 'VinoTrip')
+
 @section('head')
     <link rel="stylesheet" href="/assets/css/welcome.css">
 @endsection
+
 @section('body')
     @include('layout.header')
     <main class="container-sm">
-        <h3>Quelques avis de voyageurs</h3>
+        <h1>Quelques avis de voyageurs</h1>
         <hr id="ligne">
         <section id="avis">
-            @foreach ($listeSejour as $unsejour)
+            @foreach ($listeSejour as $sejour)
                 @php
-                    $cpt = 0;
-                    $total = 0;
+                    $note = 0;
                 @endphp
-                @foreach ($unsejour->avis as $unavis)
+                @foreach ($sejour->avis as $avis)
                     @php
-                        $total++;
+                        $note += $avis->noteavis;
                     @endphp
                 @endforeach
-                @foreach ($unsejour->avis as $unavis)
-                    @php
-                        $cpt++;
-                    @endphp
-                    @if ($cpt == 1)
-                        @php
-                            $note = 0.0;
+                @php
+                    $note = $note / sizeof($sejour->avis);
+                    $note = round($note, 1);
+                @endphp
+                <article class="avis">
+                    <h2 class="titre-avis">{{ $sejour->titresejour }}</h2>
+                    <div class="note">
+                        <p class="etoiles">
+                            <i data-lucide="star" fill="currentColor" class="checked"></i>
+                            <i data-lucide="star" fill="currentColor"
+                                class="@if ($note >= 2) checked @endif"></i>
+                            <i data-lucide="star" fill="currentColor"
+                                class="@if ($note >= 3) checked @endif"></i>
+                            <i data-lucide="star" fill="currentColor"
+                                class="@if ($note >= 4) checked @endif"></i>
+                            <i data-lucide="star" fill="currentColor"
+                                class="@if ($note == 5) checked @endif"></i>
+                        </p>
+                        <p class="valeur">{{ number_format($note, 1, ',') }}/5 ({{ sizeof($sejour->avis) }} avis)</p>
+                    </div>
 
-                        @endphp
-                        <div class="titrenote">
-                            <div>
-                                <h4>{{ $unsejour->titresejour }}</h4>
-                                @foreach ($unsejour->avis as $avis)
-                                    @php
-                                        $note += $avis->noteavis;
-                                    @endphp
-                                @endforeach
-                                @php
-                                    $note = $note / $total;
-                                    $note = round($note, 1);
-                                @endphp
-                            </div>
-                            <div class="avis">
-                                <p class="note">
-                                    <i data-lucide="star" fill="currentColor" class="checked"></i>
-                                    <i data-lucide="star" fill="currentColor"
-                                        class="@if ($note >= 1.5) checked @endif"></i>
-                                    <i data-lucide="star" fill="currentColor"
-                                        class="@if ($note >= 2.5) checked @endif"></i>
-                                    <i data-lucide="star" fill="currentColor"
-                                        class="@if ($note >= 3.5) checked @endif"></i>
-                                    <i data-lucide="star" fill="currentColor"
-                                        class="@if ($note == 5) checked @endif"></i>
-                                </p>
-                                <p class="valeur">{{ number_format($note, 1, ",") }}/5</p>
-                            </div>
-                        </div>
-                        </div>
-                        <article class="unavis">
-                            <p><i>{{ $unavis->titreavis }}</i></p>
-                            <p>{{ $unavis->descriptionavis }}
-                            <p><br />
-                        </article>
-                    @endif
-                @endforeach
-                <hr class="separateur">
+                    <div class="exemple-avis">
+                        <p class="titre-exemple">{{ $sejour->avis[0]->titreavis }}</p>
+                        <p class="description-exemple">{{ $sejour->avis[0]->descriptionavis }}</p>
+                    </div>
+                </article>
             @endforeach
-            <div id="divavis">
+            <div class="buttons">
                 <a class="button" href="/avis">Découvrir tout les avis</a>
             </div>
         </section>

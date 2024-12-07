@@ -16,16 +16,20 @@ use App\Models\Avis;
 
 
 use App\Models\Visite;
+use DB;
 use Illuminate\Http\Request;
 
 class AvisController extends Controller
 {
     public function list()
     {
-        return view("avis-list" ,[
-            'listeSejour' => Sejour::all(),
-
-
+        return view("avis-list", [
+            'listeSejour' => Sejour::select(['sejour.*'])
+                ->join('avis', 'sejour.idsejour', 'avis.idsejour')
+                ->groupBy('sejour.idsejour')
+                ->having(DB::raw('COUNT(avis)'), '>', 0)
+                ->orderByDesc(DB::raw('COUNT(avis)'))
+                ->get(),
         ]);
     }
 }

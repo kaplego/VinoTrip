@@ -1,9 +1,9 @@
 @extends('layout.app')
 
-@section('title', 'Séjours - VinoTrip')
+@section('title', $sejour->titresejour.' - VinoTrip')
 
 @section('head')
-    <link rel="stylesheet" href="/assets/css/summary.css">
+    <link rel="stylesheet" href="/assets/css/sejours/summary.css">
 @endsection
 
 @section('body')
@@ -17,7 +17,7 @@
         <section id="sejour">
             <img class="image" src="/assets/images/sejour/{{ $sejour->photosejour }}" />
             <div id="description">
-                <h1 class="titre"> {{ $sejour->titresejour }}</h1>
+                <h1 class="titre">{{ $sejour->titresejour }}</h1>
                 <hr>
                 <h4 class="prix">Prix: {{ $sejour->prixsejour }}€/personne</h3>
                     <p class="descriptionsej">{{ $sejour->descriptionsejour }}</p>

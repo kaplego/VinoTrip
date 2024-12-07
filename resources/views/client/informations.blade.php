@@ -2,6 +2,8 @@
     $active = 'compte';
 @endphp
 
+@section('title', 'Informations - Mon Compte - VinoTrip')
+
 @extends('layout.app')
 
 @section('body')

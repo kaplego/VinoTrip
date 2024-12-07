@@ -20,7 +20,7 @@ class PanierController extends Controller
             $panier = Panier::find($idpanier);
         }
 
-        return view("panier", ["panier" => $panier]);
+        return view("panier.panier", ["panier" => $panier]);
     }
 
     public function ajouter(Request $request)
@@ -189,7 +189,7 @@ class PanierController extends Controller
     public function personnaliser($id)
     {
         $sejour = Sejour::find($id);
-        return view('personnaliser', ['sejour' => $sejour]);
+        return view('panier.personnaliser', ['sejour' => $sejour]);
     }
 
     public function modifier($idsejour, Request $request)
@@ -206,6 +206,6 @@ class PanierController extends Controller
         if (!$descriptionPanier)
             return redirect("/personnaliser/$idsejour");
 
-        return view('modifier', ['descriptionPanier' => $descriptionPanier]);
+        return view('panier.modifier', ['descriptionPanier' => $descriptionPanier]);
     }
 }

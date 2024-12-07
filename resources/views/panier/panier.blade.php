@@ -4,8 +4,10 @@
 
 @extends('layout.app')
 
+@section('title', 'Panier (' . sizeof($panier->descriptionspanier) . ') - VinoTrip')
+
 @section('head')
-    <link rel="stylesheet" href="/assets/css/panier.css">
+    <link rel="stylesheet" href="/assets/css/panier/panier.css">
 @endsection
 
 @section('body')
@@ -38,7 +40,8 @@
                                         <td>Dates</td>
                                         <td colspan="2">Départ
                                             {{ date_format(new DateTime($descriptionpanier->datedebut), 'd/m/Y') }}<br />
-                                            Retour {{ date_format(new DateTime($descriptionpanier->datefin), 'd/m/Y') }}</td>
+                                            Retour {{ date_format(new DateTime($descriptionpanier->datefin), 'd/m/Y') }}
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Adultes</td>

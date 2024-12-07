@@ -1,4 +1,4 @@
-h3{
+h1 {
     text-align: center;
 }
 
@@ -10,62 +10,69 @@ h3{
     margin: 0.5rem auto;
 }
 
-.checked{
+.avis {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.avis:not(:last-of-type) {
+    border-bottom: 2px solid var(--c-accent-500);
+}
+
+.avis .titre-avis {
+    font-size: 1.25rem;
+}
+
+.avis .note {
+    display: flex;
+    align-items: center;
+}
+
+.avis .note .etoiles .lucide {
+    height: 0.9rem;
+    width: 0.9rem;
+    color: var(--c-gray-300);
+}
+
+.avis .note .etoiles .checked {
     color: var(--c-accent-500);
 }
-#sejours .avis {
+
+.avis .note .valeur {
+    margin-left: 0.5rem;
+}
+
+.avis .exemple-avis {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: right;
-    align-items: center;
-    gap: .5rem;
+    flex-direction: column;
+    gap: 0.25rem;
 }
 
-#sejours .avis .note {
-    display: flex;
-    align-items: center;
+.avis .exemple-avis .titre-exemple {
+    font-style: italic;
 }
 
-#sejours .avis .note .lucide {
-    height: .9rem;
-    width: .9rem;
-}
-
-#sejours .avis .note .valeur {
-    margin-left: .5rem;
-}
-.titrenote{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-.avis{
+.buttons {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
 }
 
-
-#divavis{
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-}
-
-.unavis .ligne{
+.unavis .ligne {
     margin: 8px;
     color: var(--c-accent-500);
-
 }
 
-article{
+article {
     margin: 10px;
 }
 
-.separateur{
+.separateur {
     height: 2px;
     margin: 8px;
     color: var(--c-accent-500);
