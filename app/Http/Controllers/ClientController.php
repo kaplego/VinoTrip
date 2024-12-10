@@ -55,7 +55,7 @@ class ClientController extends Controller
         $credentials["emailclient"] = $request->emailclientconnexion;
 
 
-        if (Auth::attempt($credentials, )) {
+        if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             return redirect()->intended('/profil');
         }
@@ -67,28 +67,13 @@ class ClientController extends Controller
 
     public function signin(Request $request)
     {
-        //dd($request);
         $credentials = $request->validate([
             'prenomclient' => ['required'],
             'nomclient' => ['required'],
             'emailclient' => ['required', 'email'],
-            'motdepasseclient' => ['required'],
+            'motdepasseclient' => ['required', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{12,}$/'],
+            'offrespromotionnellesclient' => ['boolean']
         ]);
-
-        if ($request->request->get('offrespromotionnellesclient') != "on")
-            $credentials["offrespromotionnellesclient"] = false;
-        else
-            $credentials["offrespromotionnellesclient"] = true;
-
-        $pattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{12,}$/';
-
-        if (preg_match($pattern, $request->motdepasseclient))
-            $credentials["password"] = bcrypt($request->motdepasseclient);
-        else
-            return response(back()->withErrors([
-                'motdepasseclient' => 'Format non valide',
-            ]));
-
 
         $datenaissance = DateTime::createFromFormat(
             'j/n/Y',
@@ -96,24 +81,25 @@ class ClientController extends Controller
             $request->request->get('moisnaissance') . "/" .
             $request->request->get('anneenaissance')
         );
-
+        $password = bcrypt($credentials['motdepasseclient']);
 
         $user = new User();
 
         $user->prenomclient = $credentials['prenomclient'];
         $user->nomclient = $credentials['nomclient'];
         $user->emailclient = $credentials['emailclient'];
-        $user->motdepasseclient = $credentials['password'];
-        $user->offrespromotionnellesclient = $credentials['offrespromotionnellesclient'];
+        $user->motdepasseclient = $password;
+        $user->offrespromotionnellesclient = $credentials['offrespromotionnellesclient'] ?? '0' === 'on';
         $user->civiliteclient = $request->request->get('civiliteclient');
         $user->datenaissanceclient = gettype($datenaissance) == "boolean" ? null : $datenaissance;
+        $user->idrole = 1;
 
         $user->save();
 
-        unset($credentials["motdepasseclient"]);
-        $credentials["password"] = $request->motdepasseclient;
-
-        if (Auth::attempt($credentials, )) {
+        if (Auth::attempt([
+            'emailclient' => $credentials['emailclient'],
+            'password' => $credentials['motdepasseclient']
+        ])) {
             $request->session()->regenerate();
             return redirect()->intended('/profil');
         }

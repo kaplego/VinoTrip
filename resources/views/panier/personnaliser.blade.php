@@ -59,7 +59,7 @@
                     <div class="input-control input-control-text">
                         <label for="chambressimple">Nombre de chambres simple<br /><span class="price">75 € /
                                 chambre</span></label>
-                        <input type="number" id="chambressimple" name="chambressimple" min="0" required
+                        <input type="number" id="chambressimple" name="chambressimple" min="0" max="10" required
                             value="{{ old('chambressimple', 0) }}" />
                         @error('chambressimple')
                             <p class="error">{{ $message }}</p>
@@ -68,7 +68,7 @@
                     <div class="input-control input-control-text">
                         <label for="chambresdouble">Nombre de chambres double<br /><span class="price">100 € /
                                 chambre</span></label>
-                        <input type="number" id="chambresdouble" name="chambresdouble" min="0" required
+                        <input type="number" id="chambresdouble" name="chambresdouble" min="0" max="10" required
                             value="{{ old('chambresdouble', 0) }}" />
                         @error('chambresdouble')
                             <p class="error">{{ $message }}</p>
@@ -77,7 +77,7 @@
                     <div class="input-control input-control-text">
                         <label for="chambrestriple">Nombre de chambres triple<br /><span class="price">125 € /
                                 chambre</span></label>
-                        <input type="number" id="chambrestriple" name="chambrestriple" min="0" required
+                        <input type="number" id="chambrestriple" name="chambrestriple" min="0" max="10" required
                             value="{{ old('chambrestriple', 0) }}" />
                         @error('chambrestriple')
                             <p class="error">{{ $message }}</p>
@@ -114,7 +114,7 @@
             </section> --}}
 
             <section>
-                <h2>Repas</h2>
+                <h2>Options supplémentaires</h2>
 
                 <div class="input-control input-control-checkbox">
                     <input type="checkbox" id="dejeuner" name="dejeuner" {{ old('dejeuner') ? 'checked' : '' }}

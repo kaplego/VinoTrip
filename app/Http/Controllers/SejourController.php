@@ -22,7 +22,7 @@ class SejourController extends Controller
     public function list()
     {
         return view('sejours.list', [
-            'sejours' => Sejour::all(),
+            'sejours' => Sejour::orderBy('idsejour')->get(),
             'categoriesejour' => Categoriesejour::all(),
             'categorieparticipant' => Categorieparticipant::all(),
             'categoriesvignoble' => Categorievignoble::all(),

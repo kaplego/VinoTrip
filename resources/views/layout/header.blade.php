@@ -23,9 +23,8 @@
                     @if (!Auth::check())
                         <span>Connexion</span>
                     @else
-                        <span>{{Auth::user()->nomclient}} {{Auth::user()->prenomclient}}</span>
+                        <span>{{ Auth::user()->nomclient }} {{ Auth::user()->prenomclient }}</span>
                     @endif
-
                 </a>
             <li class="@if (($active ?? '') == 'panier') active @endif">
                 <a href="/panier">
@@ -47,6 +46,12 @@
             <li class="@if (($active ?? '') == 'cadeaux') active @endif">
                 <a href="/cadeaux">Coffret cadeau</a>
             </li>
+            @if(Auth::check() && Auth::user()->idrole == 3)
+                <li class="@if (($active ?? '') == 'reservation') active @endif">
+                    <a href="/reservation"> Voir reservation commande</a>
+                </li>
+            @endif
+
         </nav>
     </menu>
 </header>

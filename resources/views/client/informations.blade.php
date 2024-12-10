@@ -6,15 +6,17 @@
 
 @extends('layout.app')
 
+@section('head')
+    <link rel="stylesheet" href="/assets/css/client/connexion.css">
+@endsection
+
 @section('body')
     @include('layout.header')
     <main class="container-sm">
         <h1>Mes informations personnelles</h1>
-        <hr />
+        <hr class="separateur-titre" />
         @if (\Session::has('success'))
-            <div class="alert alert-success">
-                {!! \Session::get('success') !!}
-            </div>
+            <p class="alert alert-success"><i data-lucide="circle-check-big"></i>{!! \Session::get('success') !!}</p>
         @endif
         <div id="informations">
             <form id="modification" class="formulaire" method="post" action="/api/client/edit">
@@ -25,17 +27,17 @@
                     <div class="radios">
                         <div class="input-control input-control-radio">
                             <input id="civilitemonsieur" type="radio" name="civiliteclient" value="M"
-                                @if (Auth::User()->civiliteclient == 'M') checked @endif />
+                                {{ old('civiliteclient', Auth::User()->civiliteclient) == 'M' ? 'checked' : '' }} />
                             <label for="civilitemonsieur">M</label>
                         </div>
                         <div class="input-control input-control-radio">
                             <input id="civilitemadame" type="radio" name="civiliteclient" value="Mme"
-                                @if (Auth::User()->civiliteclient == 'Mme') checked @endif />
+                                {{ old('civiliteclient', Auth::User()->civiliteclient) == 'Mme' ? 'checked' : '' }} />
                             <label for="civilitemadame">Mme</label>
                         </div>
                         <div class="input-control input-control-radio">
                             <input id="civilitemademoiselle" type="radio" name="civiliteclient" value="Mlle"
-                                @if (Auth::User()->civiliteclient == 'Mlle') checked @endif />
+                                {{ old('civiliteclient', Auth::User()->civiliteclient) == 'Mlle' ? 'checked' : '' }} />
                             <label for="civilitemademoiselle">Mlle</label>
                         </div>
                     </div>
@@ -43,21 +45,24 @@
 
                 <div class="input-control input-control-text">
                     <label for="prenomclient">Prénom</label>
-                    <input id="prenomclient" type="text" name="prenomclient" value="{{ Auth::User()->prenomclient }}" />
+                    <input id="prenomclient" type="text" name="prenomclient"
+                        value="{{ old('prenomclient', Auth::User()->prenomclient) }}" />
                     @error('prenomclient')
                         <p class="error">Le prénom n'est pas valide !</p>
                     @enderror
                 </div>
                 <div class="input-control input-control-text">
                     <label for="nomclient">Nom</label>
-                    <input id="nomclient" type="text" name="nomclient" value="{{ Auth::User()->nomclient }}" />
+                    <input id="nomclient" type="text" name="nomclient"
+                        value="{{ old('nomclient', Auth::User()->nomclient) }}" />
                     @error('nomclient')
                         <p class="error">Le nom n'est pas valide !</p>
                     @enderror
                 </div>
                 <div class="input-control input-control-text">
                     <label for="emailclient">Email</label>
-                    <input id="emailclient" type="text" name="emailclient" value="{{ Auth::User()->emailclient }}" />
+                    <input id="emailclient" type="text" name="emailclient"
+                        value="{{ old('emailclient', Auth::User()->emailclient) }}" />
                     @error('emailclient')
                         <p class="error">L'adresse email n'est pas valide !</p>
                     @enderror
@@ -102,7 +107,9 @@
                         <select name="journaissance" id="journaissance">
                             <option selected value="null">-</option>
                             @for ($jour = 1; $jour < 32; $jour++)
-                                <option @if ($jour == substr(Auth::User()->datenaissanceclient, 8, 2)) selected @endif value="{{ $jour }}">
+                                <option
+                                    {{ old('journaissance', substr(Auth::User()->datenaissanceclient, 8, 2)) == $jour ? 'selected' : '' }}
+                                    value="{{ $jour }}">
                                     {{ $jour }}</option>
                             @endfor
                         </select>
@@ -110,14 +117,18 @@
                         <select name="moisnaissance" id="moisnaissance">
                             <option selected value="null">-</option>
                             @foreach (['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'] as $i => $mois)
-                                <option @if ($i + 1 == substr(Auth::User()->datenaissanceclient, 5, 2)) selected @endif value="{{ $i + 1 }}">
+                                <option
+                                    {{ old('moisnaissance', substr(Auth::User()->datenaissanceclient, 5, 2)) == $i + 1 ? 'selected' : '' }}
+                                    value="{{ $i + 1 }}">
                                     {{ $mois }}</option>
                             @endforeach
                         </select>
                         <select name="anneenaissance" id="anneenaissance">
                             <option selected value="null">-</option>
                             @for ($annee = intval(Date('Y')); $annee >= 1900; $annee--)
-                                <option @if ($annee == substr(Auth::User()->datenaissanceclient, 0, 4)) selected @endif value="{{ $annee }}">
+                                <option
+                                    {{ old('anneenaissance', substr(Auth::User()->datenaissanceclient, 0, 4)) == $annee ? 'selected' : '' }}
+                                    value="{{ $annee }}">
                                     {{ $annee }}</option>
                             @endfor
                         </select>
@@ -127,7 +138,7 @@
 
                 <div class="input-control input-control-checkbox">
                     <input type="checkbox" name="offrespromotionnellesclient" id="offrespromotionnellesclient"
-                        @if (Auth::User()->offrespromotionnellesclient) checked @endif>
+                        {{ old('offrespromotionnellesclient', Auth::User()->offrespromotionnellesclient) ? 'checked' : '' }}>
                     <label for="offrespromotionnellesclient">S'inscrire à la newsletter</label>
                 </div>
 

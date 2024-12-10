@@ -53,7 +53,7 @@ class PanierController extends Controller
             'datefin' => [
                 'required',
                 'date',
-                'date_equals:' . Carbon::parse($request->datedebut)->addDays($duree)->format('Y-m-d')
+                // 'date_equals:' . Carbon::parse($request->datedebut)->setTime(12, 0)->addDays($duree)->format('Y-m-d')
             ],
             'nbadultes' => ['required', 'integer', 'min:1'],
             'nbenfants' => ['required', 'integer', 'min:0'],
@@ -100,7 +100,7 @@ class PanierController extends Controller
         // $prix += sizeof($inputs['activites'] ?? []) * 50;
         $prix *= +$inputs['nbadultes'] + +$inputs['nbenfants'];
 
-        if ($inputs['offrir'] == '1' && $inputs['ecoffret'] == '0')
+        if (isset($inputs['offrir']) && $inputs['offrir'] == '1' && $inputs['ecoffret'] == '0')
             $prix += 5;
         $prix += ($inputs['chambressimple'] ?? 0) * 75;
         $prix += ($inputs['chambresdouble'] ?? 0) * 100;
@@ -123,8 +123,9 @@ class PanierController extends Controller
                     'repasmidi' => ($inputs['dejeuner'] ?? 0) == '1',
                     'repassoir' => ($inputs['diner'] ?? 0) == '1',
                     'activite' => ($inputs['activite'] ?? 0) == '1',
-                    'offrir' => $inputs['offrir'] == '1',
-                    'ecoffret' => $inputs['ecoffret'] == '1'
+                    'offrir' => isset($inputs['offrir']) && $inputs['offrir'] == '1',
+                    'ecoffret' => isset($inputs['offrir']) && $inputs['offrir'] &&
+                        isset($inputs['ecoffret']) && $inputs['ecoffret'] == '1'
                 ]);
         } else {
             Descriptionpanier::
@@ -143,8 +144,9 @@ class PanierController extends Controller
                     'repasmidi' => ($inputs['dejeuner'] ?? 0) == '1',
                     'repassoir' => ($inputs['diner'] ?? 0) == '1',
                     'activite' => ($inputs['activite'] ?? 0) == '1',
-                    'offrir' => $inputs['offrir'] == '1',
-                    'ecoffret' => $inputs['ecoffret'] == '1'
+                    'offrir' => isset($inputs['offrir']) && $inputs['offrir'] == '1',
+                    'ecoffret' => isset($inputs['offrir']) && $inputs['offrir'] &&
+                        isset($inputs['ecoffret']) && $inputs['ecoffret'] == '1'
                 ]);
         }
 
@@ -207,5 +209,17 @@ class PanierController extends Controller
             return redirect("/personnaliser/$idsejour");
 
         return view('panier.modifier', ['descriptionPanier' => $descriptionPanier]);
+    }
+
+    public function paiement(Request $request)
+    {
+        $idpanier = $request->session()->get('idpanier', null);
+
+        $panier = null;
+        if ($idpanier !== null) {
+            $panier = Panier::find($idpanier);
+        }
+
+        return view('panier.paiement', ['panier' => $panier]);
     }
 }

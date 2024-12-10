@@ -9,6 +9,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: Arial, Helvetica, 'Noto Sans', sans-serif;
 }
 
 .lucide {
@@ -194,6 +195,7 @@ footer a {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 100ms, color 100ms, border-color 100ms;
+    font-size: 1rem;
 }
 
 .button:hover {
@@ -212,16 +214,6 @@ footer a {
 .input-control .error {
     color: crimson;
     margin-top: 0.5rem;
-}
-
-.alert-success {
-    color: orange;
-    font-size: 150%;
-    font-style: italic;
-    font-weight: bold;
-    position: relative;
-    text-align: center;
-    margin: 5vh;
 }
 
 .input-control.input-control-text label {
@@ -315,4 +307,18 @@ input.input-radio {
 
 .input-control.input-control-checkbox input {
     accent-color: var(--c-accent-500);
+}
+
+.alert {
+    display: flex;
+    margin: 2rem 0;
+    padding: 1rem;
+    background-color: var(--c-blue-200);
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 6px;
+}
+
+.alert.alert-success {
+    background-color: var(--c-green-200);
 }

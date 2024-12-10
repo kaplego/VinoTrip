@@ -30,6 +30,13 @@
                     <div>
                         <a class="button" href="/personnaliser/{{ $sejour->idsejour }}">Personnaliser ou offrir</a>
                     </div>
+                    <div>
+                        @if(Auth::check() && Auth::user()->idrole == 3)
+                            <li class="@if (($active ?? '') == 'editsej') active @endif">
+                                <a href="/editsej"> Voir reservation commande</a>
+                            </li>
+                        @endif
+                    </div>
             </div>
         </section>
 
@@ -59,6 +66,7 @@
                     <p class="descrheberg">{{ $etape->hebergement->descriptionhebergement }}</p>
                     <a class="lienheberg" href="{{ $etape->hebergement->lienhebergement }}"
                         target="_blank">{{ $etape->hebergement->hotel->nompartenaire }}</a>
+                        {{-- {{ $etape->hebergement->lienhebergement }} --}}
                 </article>
             @endforeach
         </section>
@@ -73,7 +81,7 @@
                         <img class="imgchateaux" src="/assets/images/visite/{{ $unevisite->photovisite }}"></img>
                         <p class="descrchateaux">{{ $unevisite->descriptionvisite }}</p>
                         @foreach ($unevisite->cave as $unecave)
-                            <a class="lienchateaux" href="{{ $unevisite->lienvisite }}"
+                            <a class="lienchateaux" href="https://www.vinotrip.com/fr/partenaires/25-domaine-trapet"
                                 target="_blank">{{ $unecave->nompartenaire }}</a>
                         @endforeach
                     @endforeach
@@ -117,8 +125,4 @@
     </main>
     @include('layout.footer')
 
-@endsection
-
-@section('scripts')
-    <script src="/assets/js/sejours.js"></script>
 @endsection

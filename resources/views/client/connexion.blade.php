@@ -23,15 +23,18 @@
                 <label>Civilité</label>
                 <div class="radios">
                     <div class="input-control input-control-radio">
-                        <input id="civilitemonsieur" type="radio" name="civiliteclient" value="M" />
+                        <input id="civilitemonsieur" type="radio" name="civiliteclient" value="M"
+                            {{ old('civiliteclient', 'M') === 'M' ? 'checked' : '' }} />
                         <label for="civilitemonsieur">M</label>
                     </div>
                     <div class="input-control input-control-radio">
-                        <input id="civilitemadame" type="radio" name="civiliteclient" value="Mme" />
+                        <input id="civilitemadame" type="radio" name="civiliteclient" value="Mme"
+                            {{ old('civiliteclient', 'Mme') === 'Mme' ? 'checked' : '' }} />
                         <label for="civilitemadame">Mme</label>
                     </div>
                     <div class="input-control input-control-radio">
-                        <input id="civilitemademoiselle" type="radio" name="civiliteclient" value="Mlle" />
+                        <input id="civilitemademoiselle" type="radio" name="civiliteclient" value="Mlle"
+                            {{ old('civiliteclient', 'Mlle') === 'Mlle' ? 'checked' : '' }} />
                         <label for="civilitemademoiselle">Mlle</label>
                     </div>
                 </div>
@@ -39,21 +42,21 @@
 
             <div class="input-control input-control-text">
                 <label for="prenomclient">Prénom</label>
-                <input id="prenomclient" type="text" name="prenomclient" placeholder="Prenom" />
+                <input id="prenomclient" type="text" name="prenomclient" placeholder="Prenom" value="{{ old('prenomclient') }}" />
                 @error('prenomclient')
                     <p class="error">Le prénom n'est pas valide !</p>
                 @enderror
             </div>
             <div class="input-control input-control-text">
                 <label for="nomclient">Nom</label>
-                <input id="nomclient" type="text" name="nomclient" placeholder="Nom" />
+                <input id="nomclient" type="text" name="nomclient" placeholder="Nom" value="{{ old('nomclient') }}" />
                 @error('nomclient')
                     <p class="error">Le nom n'est pas valide !</p>
                 @enderror
             </div>
             <div class="input-control input-control-text">
                 <label for="emailinscription">Email</label>
-                <input id="emailinscription" type="text" name="emailclient" placeholder="prenom.nom@email.com" />
+                <input id="emailinscription" type="text" name="emailclient" placeholder="prenom.nom@email.com" value="{{ old('emailclient') }}" />
                 @error('emailclient')
                     <p class="error">L'adresse email n'est pas valide !</p>
                 @enderror
@@ -78,21 +81,21 @@
                     <select name="journaissance" id="journaissance">
                         <option selected value="null">-</option>
                         @for ($jour = 1; $jour < 32; $jour++)
-                            <option value="{{ $jour }}">{{ $jour }}</option>
+                            <option value="{{ $jour }}" {{ old('journaissance') == $jour ? 'selected' : '' }}>{{ $jour }}</option>
                         @endfor
                     </select>
 
                     <select name="moisnaissance" id="moisnaissance">
                         <option selected value="null">-</option>
                         @foreach (['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'] as $i => $mois)
-                            <option value="{{ $i + 1 }}">{{ $mois }}</option>
+                            <option value="{{ $i + 1 }}" {{ old('moisnaissance') == $i + 1 ? 'selected' : '' }}>{{ $mois }}</option>
                         @endforeach
                     </select>
 
                     <select name="anneenaissance" id="anneenaissance">
                         <option selected value="null">-</option>
                         @for ($annee = intval(Date('Y')); $annee >= 1900; $annee--)
-                            <option value="{{ $annee }}">{{ $annee }}</option>
+                            <option value="{{ $annee }}" {{ old('anneenaissance') == $annee ? 'selected' : '' }}>{{ $annee }}</option>
                         @endfor
                     </select>
                 </div>
@@ -100,7 +103,7 @@
             </div>
 
             <div class="input-control input-control-checkbox">
-                <input type="checkbox" name="offrespromotionnellesclient" id="offrespromotionnellesclient">
+                <input type="checkbox" name="offrespromotionnellesclient" id="offrespromotionnellesclient" value="1">
                 <label for="offrespromotionnellesclient">S'inscrire à la newsletter</label>
             </div>
 

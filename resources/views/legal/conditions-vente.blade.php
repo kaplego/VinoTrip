@@ -9,11 +9,16 @@
 @section('body')
     @include('layout.header')
 
+
+
+
     <main class="container-sm">
         <h1>Conditions particulières de vente</h1>
         <nav id="titre">
             <hr />
         </nav>
+
+
 
         <h2>1. Inscription - Séjours packagés et séjours personnalisés</h2>
         <h3>1.1. Inscription à nos séjours packagés et séjours personnalisés</h3>

@@ -85,12 +85,16 @@
     flex: 1;
 }
 
-#empty-cart {
+#buttons-navigation {
     display: flex;
-    margin: 2rem 0;
+    justify-content: space-between;
+}
+
+#paiement {
+    display: flex;
+    width: clamp(200px, 600px, 100%);
+    margin: 2rem auto;
+    background-color: var(--c-gray-100);
     padding: 1rem;
-    background-color: var(--c-orange-200);
-    align-items: center;
-    gap: 0.5rem;
     border-radius: 6px;
 }

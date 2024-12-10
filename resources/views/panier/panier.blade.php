@@ -4,7 +4,7 @@
 
 @extends('layout.app')
 
-@section('title', 'Panier (' . sizeof($panier->descriptionspanier) . ') - VinoTrip')
+@section('title', 'Panier (' . sizeof($panier?->descriptionspanier ?? []) . ') - VinoTrip')
 
 @section('head')
     <link rel="stylesheet" href="/assets/css/panier/panier.css">
@@ -17,7 +17,7 @@
         <hr class="separateur-titre" />
 
         @if ($panier === null || sizeof($panier->descriptionspanier) === 0)
-            <p id="empty-cart"><i data-lucide="shopping-cart"></i> Votre panier est vide !</p>
+            <p class="alert"><i data-lucide="shopping-cart"></i> Votre panier est vide !</p>
         @else
             <section id="liste-sejours">
                 @foreach ($panier->descriptionspanier ?? [] as $descriptionpanier)
@@ -115,14 +115,17 @@
                             </table>
                             <div class="prix-total">
                                 <span class="text">Prix total</span>
-                                <span class="prix">{{ number_format($descriptionpanier->prix, 2, ',', ' ') }} €</span>
+                                <span
+                                    class="prix">{{ number_format($descriptionpanier->prix * $descriptionpanier->quantite, 2, ',', ' ') }}
+                                    €</span>
                             </div>
                             <div class="infos">
                                 <a class="button" href="/modifier/{{ $descriptionpanier->idsejour }}">
                                     <i data-lucide="pencil"></i> Modifier les détails
                                 </a>
                                 <input class="input-text" type="number" name="quantite" autocomplete="off" min="1"
-                                    id="quantite-{{ $sejour->idsejour }}" value="{{ $descriptionpanier->quantite }}">
+                                    max="10" id="quantite-{{ $sejour->idsejour }}"
+                                    value="{{ $descriptionpanier->quantite }}">
                                 <div class="buttons">
                                     <button class="button" type="submit" name="action" value="update">
                                         <i data-lucide="save"></i>
@@ -138,16 +141,9 @@
             </section>
         @endif
 
-        <aside class="mt-5">
-            <h2>Étapes de réservation</h2>
-            <ol>
-                <li>Vous confirmez votre demande de réservation. Nous revenons vers vous sous 24h après validation des
-                    disponibilités auprès de nos partenaires.</li>
-                <li>Vous payez en ligne.</li>
-                <li>Vous recevez votre carnet de route contenant toutes les informations pratiques (heures de rendez-vous,
-                    adresses...).</li>
-            </ol>
-            <p><strong>Bon voyage !</strong></p>
-        </aside>
+        <div id="buttons-navigation">
+            <a href="/sejours" class="button">Retourner à la liste des séjours</a>
+            <a href="/panier/paiement" class="button">Passer au paiement</a>
+        </div>
     </main>
     @include('layout.footer')

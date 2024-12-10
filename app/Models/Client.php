@@ -17,5 +17,8 @@ class Client extends Model
     protected $primaryKey = "idclient";
     public $timestamps = false;
 
-
+    public function role(): HasOne
+    {
+        return $this->hasOne(Role::class, 'idrole', 'idrole');
+    }
 }
