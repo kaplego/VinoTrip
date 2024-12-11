@@ -10,6 +10,7 @@
     @include('layout.header')
 
     <main class="container-sm">
+        @include('layout.breadcrumb')
         <h1>Mentions légales</h1>
         <hr />
 

@@ -8,7 +8,13 @@
 
 @section('body')
     @include('layout.header')
-    <main class="container-sm">
+    <main class="container">
+        @php
+            $breadcrumReplaceLink = ['/personnaliser' => '/sejours', "/personnaliser/$sejour->idsejour" => "/sejour/$sejour->idsejour"];
+            $breadcrumReplaceName = ['/personnaliser' => 'Sejours', "/personnaliser/$sejour->idsejour" => $sejour->titresejour];
+            $breadcrumLastLink = true;
+        @endphp
+        @include('layout.breadcrumb')
         <h1>Personnaliser : {{ $sejour->titresejour }}</h1>
         <hr class="separateur-titre" />
         <form action="/api/panier/add" method="POST" novalidate>

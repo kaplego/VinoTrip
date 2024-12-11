@@ -13,6 +13,7 @@
 @section('body')
     @include('layout.header')
     <main class="container-sm">
+        @include('layout.breadcrumb')
         <h1>Votre Panier</h1>
         <hr class="separateur-titre" />
 
@@ -143,7 +144,9 @@
 
         <div id="buttons-navigation">
             <a href="/sejours" class="button">Retourner à la liste des séjours</a>
-            <a href="/panier/paiement" class="button">Passer au paiement</a>
+            @if ($panier !== null && sizeof($panier->descriptionspanier) > 0)
+                <a href="/panier/paiement" class="button">Passer au paiement</a>
+            @endif
         </div>
     </main>
     @include('layout.footer')

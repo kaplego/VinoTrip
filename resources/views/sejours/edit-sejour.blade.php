@@ -35,13 +35,7 @@
                     <div>
                         <a class="button" href="/personnaliser/{{ $sejour->idsejour }}">Personnaliser ou offrir</a>
                     </div>
-                    <div>
-                        @if (Auth::check() && Auth::user()->idrole == 3)
-                            <div>
-                                <a class="button" href="/sejour/{{ $sejour->idsejour }}/edit">Modifier séjour</a>
-                            </div>
-                        @endif
-                    </div>
+
             </div>
         </section>
 
@@ -62,7 +56,6 @@
 
         <hr>
         <h2 class="titreg">Les hébergements proposés</h2>
-
         <section id="hebergements">
             @foreach ($sejour->etape as $etape)
                 <article class="hebergement">
@@ -72,10 +65,21 @@
                     <a class="lienheberg" href="{{ $etape->hebergement->lienhebergement }}"
                         target="_blank">{{ $etape->hebergement->hotel->nompartenaire }}</a>
                     {{-- {{ $etape->hebergement->lienhebergement }} --}}
+                    <form action="/sejour/{{ $sejour->idsejour }}/edit/choix" method="POST">
+                        @csrf
+                        <input type="hidden" name="idhebergement" value="{{ $etape->hebergement->idhebergement }}" />
+                        <input type="hidden" name="idetape" value="{{ $etape->idetape }}" />
+                        <button class="button" type="submit">
+                            @if ($etape->hebergement->disponibilitehebergement == true)
+                                <i data-lucide="trash-2"></i>
+                            @else
+                                <i data-lucide="rotate-cw"></i>
+                            @endif
+                        </button>
+                    </form>
                 </article>
             @endforeach
         </section>
-
         <hr>
         <h2 class="titreg">Les châteaux et les domaines...</h2>
 

@@ -6,6 +6,7 @@ use App\Models\Activite;
 use App\Models\Descriptionpanier;
 use App\Models\Panier;
 use App\Models\Sejour;
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -219,6 +220,12 @@ class PanierController extends Controller
         if ($idpanier !== null) {
             $panier = Panier::find($idpanier);
         }
+
+        if (!$panier)
+            return redirect("/panier");
+
+        if (!Auth::check())
+            return view('client.connexion', ['panier' => $panier, 'redirect' => '/panier/paiement']);
 
         return view('panier.paiement', ['panier' => $panier]);
     }

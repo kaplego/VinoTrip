@@ -13,6 +13,7 @@
 @section('body')
     @include('layout.header')
     <main class="container-sm">
+        @include('layout.breadcrumb')
         <h1>Modifier : {{ $sejour->titresejour }}</h1>
         <hr class="separateur-titre" />
         <form action="/api/panier/add" method="POST" novalidate>

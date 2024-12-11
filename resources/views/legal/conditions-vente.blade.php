@@ -8,18 +8,12 @@
 
 @section('body')
     @include('layout.header')
-
-
-
-
     <main class="container-sm">
+        @include('layout.breadcrumb')
         <h1>Conditions particulières de vente</h1>
         <nav id="titre">
             <hr />
         </nav>
-
-
-
         <h2>1. Inscription - Séjours packagés et séjours personnalisés</h2>
         <h3>1.1. Inscription à nos séjours packagés et séjours personnalisés</h3>
         <p>Vinotrip propose des séjours packagés ou personnalisés exclusivement via ses sites internet. Nous proposons
@@ -203,9 +197,6 @@
             Carnot 75017 Paris<br>Responsabilité Civile et Professionnelle : HISCOX - contrat n°HA RCP0232580 (tous
             dommages confondus à hauteur de 1 500 000 €)</p>
         <p>Conditions particulières mises à jour le 25/07/2024</p>
-
     </main>
-
-
     @include('layout.footer')
 @endsection

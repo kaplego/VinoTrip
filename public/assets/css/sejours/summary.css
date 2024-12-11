@@ -24,6 +24,7 @@ section {
     grid-row: 1/2;
     border: 2px solid;
     border-color: var(--c-accent-500);
+    border-radius: 5px;
     padding: 10px;
 }
 #sejour #description .descriptionsej{
@@ -78,6 +79,13 @@ section {
     margin-bottom: 15px;
 }
 
+.indispo{
+    background-color: rgba(255, 0, 0, .5);
+}
+
+.save{
+    justify-content: right;
+}
 
 .titreg {
     margin-left: 10px;

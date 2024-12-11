@@ -13,7 +13,8 @@
 @section('body')
     @include('layout.header')
 
-    <main class="container-lg">
+    <main class="container">
+        @include('layout.breadcrumb')
         <form id="filtres" method="get">
             <select id="vignoble" name="vignoble" autocomplete="off">
                 <option selected disabled>Quel vignoble ?</option>

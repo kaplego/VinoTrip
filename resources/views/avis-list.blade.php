@@ -9,6 +9,7 @@
 @section('body')
     @include('layout.header')
     <main class="container-sm">
+        @include('layout.breadcrumb')
         <h1>Avis des voyageurs</h1>
         <hr id="ligne">
         <section id="avis">

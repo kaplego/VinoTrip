@@ -46,18 +46,18 @@ class ClientController extends Controller
         $credentials = $request->validate([
             'emailclientconnexion' => ['required', 'email'],
             'motdepasseconnexion' => ['required'],
+            'redirect' => ['string']
         ]);
 
-        unset($credentials["motdepasseconnexion"]);
-        $credentials["password"] = $request->motdepasseconnexion;
 
-        unset($credentials["emailclientconnexion"]);
-        $credentials["emailclient"] = $request->emailclientconnexion;
-
-
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt([
+            'emailclient' => $credentials['emailclientconnexion'],
+            'password' => $credentials["motdepasseconnexion"]
+        ])) {
             $request->session()->regenerate();
-            return redirect()->intended('/profil');
+            return redirect()->intended(isset($credentials['redirect'])
+                ? $credentials['redirect']
+                : '/profil');
         }
 
         return response(back()->withErrors([
@@ -72,7 +72,8 @@ class ClientController extends Controller
             'nomclient' => ['required'],
             'emailclient' => ['required', 'email'],
             'motdepasseclient' => ['required', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{12,}$/'],
-            'offrespromotionnellesclient' => ['boolean']
+            'offrespromotionnellesclient' => ['boolean'],
+            'redirect' => ['string']
         ]);
 
         $datenaissance = DateTime::createFromFormat(
@@ -96,12 +97,16 @@ class ClientController extends Controller
 
         $user->save();
 
-        if (Auth::attempt([
-            'emailclient' => $credentials['emailclient'],
-            'password' => $credentials['motdepasseclient']
-        ])) {
+        if (
+            Auth::attempt([
+                'emailclient' => $credentials['emailclient'],
+                'password' => $credentials['motdepasseclient']
+            ])
+        ) {
             $request->session()->regenerate();
-            return redirect()->intended('/profil');
+            return redirect()->intended(isset($credentials['redirect'])
+                ? $credentials['redirect']
+                : '/profil');
         }
 
         return response(back()->withErrors([
@@ -179,8 +184,7 @@ class ClientController extends Controller
 
             $request->session()->regenerate();
             return redirect()->back()->with('success', 'Les modifications ont bien été prises en compte.');
-        }
-        else
+        } else
             return response(back()->withErrors([
                 'ancienmotdepasse' => 'Le mot de passe est incorrect !',
             ]));

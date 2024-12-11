@@ -35,7 +35,7 @@
         </nav>
         <nav id="nav-site">
             <li class="@if (($active ?? '') == 'sejours-list') active @endif">
-                <a href="/sejours">Tous nos séjours</a>
+                <a href="/sejours">Tous nos Séjours</a>
             </li>
             <li class="@if (($active ?? '') == 'destinations') active @endif">
                 <a href="/destinations">Destinations</a>
@@ -43,12 +43,15 @@
             <li class="@if (($active ?? '') == 'thematiques') active @endif">
                 <a href="/thematiques">Thématiques</a>
             </li>
+            <li class="@if (($active ?? '') == 'route_des_vins') active @endif">
+                <a href="/route_des_vins">Route des Vins</a>
+            </li>
             <li class="@if (($active ?? '') == 'cadeaux') active @endif">
-                <a href="/cadeaux">Coffret cadeau</a>
+                <a href="/cadeaux">Coffret Cadeau</a>
             </li>
             @if(Auth::check() && Auth::user()->idrole == 3)
                 <li class="@if (($active ?? '') == 'reservation') active @endif">
-                    <a href="/reservation"> Voir reservation commande</a>
+                    <a href="/reservation"> Voir Reservation Commande</a>
                 </li>
             @endif
 

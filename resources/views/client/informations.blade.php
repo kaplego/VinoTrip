@@ -13,6 +13,7 @@
 @section('body')
     @include('layout.header')
     <main class="container-sm">
+        @include('layout.breadcrumb')
         <h1>Mes informations personnelles</h1>
         <hr class="separateur-titre" />
         @if (\Session::has('success'))

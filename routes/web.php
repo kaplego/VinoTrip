@@ -4,8 +4,10 @@ use App\Http\Controllers\PanierController;
 use App\Http\Controllers\SejourController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\AvisController;
-
+use App\Http\Controllers\ReservationHotelController;
 use App\Http\Controllers\SiteController;
+use App\Http\Controllers\RoutesVinsController;
+use App\Models\Descriptioncommande;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,6 +38,9 @@ Route::get('/contact', [SiteController::class, 'contact']);
 Route::get('/conditions-vente', [SiteController::class, 'conditions']);
 
 Route::get('/sejour/{id}', [SejourController::class, 'one']);
+Route::get('/sejour/{id}/edit', [SejourController::class, 'edit']);
+Route::post('/sejour/{idsejour}/edit/choix', [SejourController::class, 'choixhebergement']);
+Route::post('/api/sejour/{idsejour}/edit/changes', [SejourController::class, 'apitogglehebergement']);
 
 Route::get('/connexion', [ClientController::class, 'connexion']);
 Route::get('/profil', [ClientController::class, 'profil']);
@@ -54,3 +59,9 @@ Route::post('/api/panier/update', [PanierController::class, 'update']);
 
 Route::get('/personnaliser/{id}', [PanierController::class, 'personnaliser']);
 Route::get('/modifier/{idsejour}', [PanierController::class, 'modifier']);
+
+Route::get('/reservation', [ReservationHotelController::class, 'listReservation']);
+Route::post('/api/reservation', [ReservationHotelController::class, 'envoiemail']);
+
+Route::get('/route_des_vins', [RoutesVinsController::class, 'list']);
+Route::get('/route_des_vins/{id}', [RoutesVinsController::class, 'one']);

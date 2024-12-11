@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Role::class, 'idrole', 'idrole');
     }
+
+    public function adresses(): HasMany
+    {
+        return $this->hasMany(Adresse::class, 'idclient', 'idclient');
+    }
 }

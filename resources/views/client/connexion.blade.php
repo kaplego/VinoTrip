@@ -13,11 +13,16 @@
 @section('body')
     @include('layout.header')
     <main class="container-sm">
+        @include('layout.breadcrumb')
         <h1>Inscription</h1>
         <hr class="separateur-titre" />
 
         <form id="inscription" class="formulaire" method="post" action="/api/client/signin">
             @csrf
+
+            @isset ($redirect)
+                <input type="hidden" name="redirect" value="{{ $redirect }}">
+            @endisset
 
             <div class="groupe-radio">
                 <label>Civilité</label>
@@ -115,6 +120,10 @@
 
         <form id="connexion" class="formulaire" method="post" action="/api/client/login">
             @csrf
+
+            @isset ($redirect)
+                <input type="hidden" name="redirect" value="{{ $redirect }}">
+            @endisset
 
             <div class="input-control input-control-text">
                 @error('login')

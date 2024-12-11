@@ -13,6 +13,7 @@
 @section('body')
     @include('layout.header')
     <main class="container-sm">
+        @include('layout.breadcrumb')
         <h1>Mon Compte</h1>
         <hr class="separateur-titre" />
         <div id="profil">

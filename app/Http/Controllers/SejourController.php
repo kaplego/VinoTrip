@@ -15,6 +15,7 @@ use App\Models\Localite;
 
 
 use App\Models\Visite;
+use Auth;
 use Illuminate\Http\Request;
 
 class SejourController extends Controller
@@ -39,6 +40,50 @@ class SejourController extends Controller
             'visite' => Visite::all(),
             'hotel' => Hotel::all(),
             'cave' => Cave::all(),
+        ]);
+    }
+
+    public function edit($id)
+    {
+        if(!Auth::check() || Auth::user()->idrole != 3)
+        {
+            return redirect("/sejour/$id");
+        }
+        return view ('sejours.edit-sejour', [
+            'sejour'=>Sejour::find($id),
+            'hebergement' => Hebergement::all(),
+            'visite' => Visite::all(),
+            'hotel' => Hotel::all(),
+            'cave' => Cave::all(),
+        ]);
+    }
+
+    public function apitogglehebergement($idsejour, Request $request)
+    {
+        $idetape = $request->input('idetape');
+        $newidhebergement = $request->input('newidhebergement');
+
+        $etape = Etape::find($idetape);
+        $etape->idhebergement = $newidhebergement;
+
+        $etape->update();
+        return redirect("/sejour/$idsejour/edit");
+
+    }
+    public function choixhebergement($idsejour, Request $request)
+    {
+        $idhebergement = $request->input('idhebergement');
+        $idetape = $request->input('idetape');
+
+        $hebergement = Hebergement::find($idhebergement);
+        $hebergement->disponibilitehebergement = !$hebergement->disponibilitehebergement;
+
+        $hebergement->update();
+        return view("sejours.edit-list-hebergement", [
+            'sejour'=>Sejour::find($idsejour),
+            'hebergements' => Hebergement::all(),
+            'idetape' => $request->input('idetape'),
+            'idhebergement' => $request->input('idhebergement'),
         ]);
     }
 }
