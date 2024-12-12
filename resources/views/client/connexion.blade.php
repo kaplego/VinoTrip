@@ -20,7 +20,7 @@
         <form id="inscription" class="formulaire" method="post" action="/api/client/signin">
             @csrf
 
-            @isset ($redirect)
+            @isset($redirect)
                 <input type="hidden" name="redirect" value="{{ $redirect }}">
             @endisset
 
@@ -28,18 +28,18 @@
                 <label>Civilité</label>
                 <div class="radios">
                     <div class="input-control input-control-radio">
-                        <input id="civilitemonsieur" type="radio" name="civiliteclient" value="M"
-                            {{ old('civiliteclient', 'M') === 'M' ? 'checked' : '' }} />
+                        <input id="civilitemonsieur" type="radio" name="civiliteclient" value="M" autocomplete="off"
+                            {{ old('civiliteclient') === 'M' ? 'checked' : '' }} />
                         <label for="civilitemonsieur">M</label>
                     </div>
                     <div class="input-control input-control-radio">
-                        <input id="civilitemadame" type="radio" name="civiliteclient" value="Mme"
-                            {{ old('civiliteclient', 'Mme') === 'Mme' ? 'checked' : '' }} />
+                        <input id="civilitemadame" type="radio" name="civiliteclient" value="Mme" autocomplete="off"
+                            {{ old('civiliteclient') === 'Mme' ? 'checked' : '' }} />
                         <label for="civilitemadame">Mme</label>
                     </div>
                     <div class="input-control input-control-radio">
                         <input id="civilitemademoiselle" type="radio" name="civiliteclient" value="Mlle"
-                            {{ old('civiliteclient', 'Mlle') === 'Mlle' ? 'checked' : '' }} />
+                            autocomplete="off" {{ old('civiliteclient') === 'Mlle' ? 'checked' : '' }} />
                         <label for="civilitemademoiselle">Mlle</label>
                     </div>
                 </div>
@@ -47,28 +47,32 @@
 
             <div class="input-control input-control-text">
                 <label for="prenomclient">Prénom</label>
-                <input id="prenomclient" type="text" name="prenomclient" placeholder="Prenom" value="{{ old('prenomclient') }}" />
+                <input id="prenomclient" type="text" name="prenomclient" placeholder="Prenom" autocomplete="given-name"
+                    value="{{ old('prenomclient') }}" />
                 @error('prenomclient')
                     <p class="error">Le prénom n'est pas valide !</p>
                 @enderror
             </div>
             <div class="input-control input-control-text">
                 <label for="nomclient">Nom</label>
-                <input id="nomclient" type="text" name="nomclient" placeholder="Nom" value="{{ old('nomclient') }}" />
+                <input id="nomclient" type="text" name="nomclient" placeholder="Nom" autocomplete="family-name"
+                    value="{{ old('nomclient') }}" />
                 @error('nomclient')
                     <p class="error">Le nom n'est pas valide !</p>
                 @enderror
             </div>
             <div class="input-control input-control-text">
                 <label for="emailinscription">Email</label>
-                <input id="emailinscription" type="text" name="emailclient" placeholder="prenom.nom@email.com" value="{{ old('emailclient') }}" />
+                <input id="emailinscription" type="text" name="emailclient" autocomplete="email"
+                    placeholder="prenom.nom@email.com" value="{{ old('emailclient') }}" />
                 @error('emailclient')
                     <p class="error">L'adresse email n'est pas valide !</p>
                 @enderror
             </div>
             <div class="input-control input-control-text">
                 <label for="motdepasseinscription">Mot de passe</label>
-                <input id="motdepasseinscription" type="password" name="motdepasseclient" placeholder="M0tD€p@ss3" />
+                <input id="motdepasseinscription" type="password" name="motdepasseclient" autocomplete="new-password"
+                    placeholder="M0tD€p@ss3" />
                 @error('motdepasseclient')
                     <p class="error">
                         Le format du mot de passe est invalide, il doit contenir : </br>
@@ -83,24 +87,27 @@
                 <label>Date de naissance</label>
 
                 <div class="input-selects">
-                    <select name="journaissance" id="journaissance">
+                    <select name="journaissance" id="journaissance" autocomplete="bday-day">
                         <option selected value="null">-</option>
                         @for ($jour = 1; $jour < 32; $jour++)
-                            <option value="{{ $jour }}" {{ old('journaissance') == $jour ? 'selected' : '' }}>{{ $jour }}</option>
+                            <option value="{{ $jour }}" {{ old('journaissance') == $jour ? 'selected' : '' }}>
+                                {{ $jour }}</option>
                         @endfor
                     </select>
 
-                    <select name="moisnaissance" id="moisnaissance">
+                    <select name="moisnaissance" id="moisnaissance" autocomplete="bday-month">
                         <option selected value="null">-</option>
                         @foreach (['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'] as $i => $mois)
-                            <option value="{{ $i + 1 }}" {{ old('moisnaissance') == $i + 1 ? 'selected' : '' }}>{{ $mois }}</option>
+                            <option value="{{ $i + 1 }}" {{ old('moisnaissance') == $i + 1 ? 'selected' : '' }}>
+                                {{ $mois }}</option>
                         @endforeach
                     </select>
 
-                    <select name="anneenaissance" id="anneenaissance">
+                    <select name="anneenaissance" id="anneenaissance" autocomplete="bday-year">
                         <option selected value="null">-</option>
                         @for ($annee = intval(Date('Y')); $annee >= 1900; $annee--)
-                            <option value="{{ $annee }}" {{ old('anneenaissance') == $annee ? 'selected' : '' }}>{{ $annee }}</option>
+                            <option value="{{ $annee }}" {{ old('anneenaissance') == $annee ? 'selected' : '' }}>
+                                {{ $annee }}</option>
                         @endfor
                     </select>
                 </div>
@@ -121,7 +128,7 @@
         <form id="connexion" class="formulaire" method="post" action="/api/client/login">
             @csrf
 
-            @isset ($redirect)
+            @isset($redirect)
                 <input type="hidden" name="redirect" value="{{ $redirect }}">
             @endisset
 
@@ -131,14 +138,16 @@
                 @enderror
 
                 <label for="emailconnexion">Email</label>
-                <input id="emailconnexion" type="text" name="emailclientconnexion" placeholder="prenom.nom@email.com" />
+                <input id="emailconnexion" type="text" name="emailclientconnexion"
+                    placeholder="prenom.nom@email.com" />
                 @error('emailclientconnexion')
                     <p class="error">L'adresse email n'est pas valide !</p>
                 @enderror
             </div>
             <div class="input-control input-control-text">
                 <label for="motdepasseconnexion">Mot de passe</label>
-                <input id="motdepasseconnexion" type="password" name="motdepasseconnexion" placeholder="M0tD€p@ss3" />
+                <input id="motdepasseconnexion" type="password" name="motdepasseconnexion"
+                    autocomplete="current-password" placeholder="M0tD€p@ss3" />
                 @error('motdepasseconnexion')
                     <p class="error">Le mot de passe n'est pas valide !</p>
                 @enderror

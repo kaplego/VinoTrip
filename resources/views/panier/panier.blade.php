@@ -124,9 +124,11 @@
                                 <a class="button" href="/modifier/{{ $descriptionpanier->idsejour }}">
                                     <i data-lucide="pencil"></i> Modifier les détails
                                 </a>
-                                <input class="input-text" type="number" name="quantite" autocomplete="off" min="1"
-                                    max="10" id="quantite-{{ $sejour->idsejour }}"
-                                    value="{{ $descriptionpanier->quantite }}">
+                                <div class="input-control input-control-text" style="margin: 0">
+                                    <input type="number" name="quantite" autocomplete="off"
+                                        min="1" max="10" id="quantite-{{ $sejour->idsejour }}"
+                                        value="{{ $descriptionpanier->quantite }}">
+                                </div>
                                 <div class="buttons">
                                     <button class="button" type="submit" name="action" value="update">
                                         <i data-lucide="save"></i>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Adresse;
 use DateInterval;
 use \Datetime;
 use App\Models\User;
@@ -17,7 +18,7 @@ class ClientController extends Controller
     {
         if (!Auth::check())
             return view("client.connexion");
-        return redirect('/profil');
+        return redirect('/client');
     }
 
     public function profil()
@@ -32,6 +33,13 @@ class ClientController extends Controller
         if (!Auth::check())
             return redirect('/connexion');
         return view("client.informations");
+    }
+
+    public function adresses()
+    {
+        if (!Auth::check())
+            return redirect('/connexion');
+        return view("client.adresses", ["adresses" => Auth::user()->adresses]);
     }
 
     /**
@@ -57,7 +65,7 @@ class ClientController extends Controller
             $request->session()->regenerate();
             return redirect()->intended(isset($credentials['redirect'])
                 ? $credentials['redirect']
-                : '/profil');
+                : '/client');
         }
 
         return response(back()->withErrors([
@@ -106,7 +114,7 @@ class ClientController extends Controller
             $request->session()->regenerate();
             return redirect()->intended(isset($credentials['redirect'])
                 ? $credentials['redirect']
-                : '/profil');
+                : '/client');
         }
 
         return response(back()->withErrors([

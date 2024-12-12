@@ -16,12 +16,13 @@
         @include('layout.breadcrumb')
         <h1>Mon Compte</h1>
         <hr class="separateur-titre" />
-        <div id="profil">
-            <form method="get" action="/profil/informations">
-                <button class="button" type="submit">
-                    Mes informations personnelles
-                </button>
-            </form>
+        <div id="account">
+            <a class="button" href="/client/informations">
+                Mes informations personnelles
+            </a>
+            <a class="button" href="/client/adresses">
+                Mes adresses
+            </a>
             <form method="post" action="/api/client/logout">
                 @csrf
                 <button class="button" type="submit">

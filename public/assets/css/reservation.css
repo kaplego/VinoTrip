@@ -1,0 +1,53 @@
+h2{
+    margin: 10px;
+}
+
+h3{
+    margin:10px;
+}
+
+p{
+    margin: 15px;
+}
+
+section{
+    margin: 10px;
+}
+
+.date{
+    font-weight: bold;
+}
+
+#unereservation{
+    display: grid;
+    position: relative;
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid transparent;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    border-radius: 6px;
+    gap: 1rem;
+    transition: border 100ms;
+    background-color: antiquewhite;
+}
+
+
+#titresej{
+    text-align: center;
+
+}
+.unclient{
+    margin: 10px;
+    padding: 10px;
+    grid-column: 1/2;
+    background-color: rgb(218, 194, 163);
+    border-radius: 5px;
+}
+.unhotel{
+    margin: 10px;
+    padding: 10px;
+    grid-column: 2/2;
+    background-color: rgb(218, 194, 163);
+    border-radius: 5px;
+}

@@ -19,7 +19,22 @@
 }
 
 a {
-    color: var(--c-blue-500);
+    color: currentColor;
+}
+
+a.link {
+    color: var(--c-accent-500);
+    text-decoration: underline dotted;
+}
+
+a.link:hover {
+    text-decoration: underline solid;
+}
+
+a.link.link-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .hidden {
@@ -121,6 +136,7 @@ header menu nav li a {
     align-items: center;
     gap: .5rem;
     margin-bottom: 1rem;
+    width: max-content;
 }
 
 #breadcrumb .slash {
@@ -197,6 +213,7 @@ footer {
     color: white;
     font-weight: bold;
     height: 6rem;
+    gap: 2rem;
     align-items: center;
     justify-content: center;
     display: flex;
@@ -205,8 +222,12 @@ footer {
 
 footer a {
     color: inherit;
-    text-decoration: none;
-    margin: 25px;
+    text-decoration: underline dotted;
+    font-family: 300;
+}
+
+footer a:hover {
+    text-decoration: underline solid;
 }
 
 .button {
@@ -243,12 +264,13 @@ footer a {
     margin-top: 0.5rem;
 }
 
-.input-control.input-control-text label {
+.input-control.input-control-text label,
+.input-control.input-control-select label {
     padding-bottom: 0.5rem;
 }
 
 .input-control.input-control-text input,
-input.input-text {
+.input-control.input-control-select select {
     background-color: transparent;
     padding: 0.5rem 0.75rem;
     border: 2px solid var(--c-gray-300);
@@ -259,25 +281,25 @@ input.input-text {
 
 .input-control.input-control-text input:hover:not(:disabled):not(:read-only),
 .input-control.input-control-text input:focus:not(:disabled):not(:read-only),
-input.input-text:hover:not(:disabled):not(:read-only),
-input.input-text:focus:not(:disabled):not(:read-only) {
+.input-control.input-control-select select:hover:not(:disabled),
+.input-control.input-control-select select:focus:not(:disabled) {
     border-color: var(--c-accent-500);
 }
 
 .input-control.input-control-text input:focus,
-input.input-text:focus {
+.input-control.input-control-select select:focus {
     background-color: white;
 }
 
 .input-control.input-control-text input::placeholder,
-input.input-text::placeholder {
+.input-control.input-control-select select::placeholder {
     opacity: 1;
     color: var(--c-gray-500);
     transition: opacity 100ms;
 }
 
 .input-control.input-control-text input:focus::placeholder,
-input.input-text:focus::placeholder {
+.input-control.input-control-select select:focus::placeholder {
     opacity: 0;
 }
 
@@ -288,8 +310,7 @@ input.input-text:focus::placeholder {
     width: auto;
 }
 
-.input-control.input-control-radio input,
-input.input-radio {
+.input-control.input-control-radio input {
     accent-color: var(--c-accent-500);
 }
 

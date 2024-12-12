@@ -24,7 +24,7 @@ class PanierController extends Controller
         return view("panier.panier", ["panier" => $panier]);
     }
 
-    public function ajouter(Request $request)
+    public function add(Request $request)
     {
         $inputSejour = $request->validate([
             'idsejour' => ['required', 'integer']
@@ -228,5 +228,43 @@ class PanierController extends Controller
             return view('client.connexion', ['panier' => $panier, 'redirect' => '/panier/paiement']);
 
         return view('panier.paiement', ['panier' => $panier]);
+    }
+
+    public function payment(Request $request)
+    {
+        $idpanier = $request->session()->get('idpanier', null);
+
+        $panier = null;
+        if ($idpanier !== null) {
+            $panier = Panier::find($idpanier);
+        }
+
+        if (!$panier)
+            return redirect("/panier");
+
+        $inputs = $request->validate([
+            'adresse-facturation' => ['required', 'integer'],
+            'numero-cb' => ['required', 'regex:/^\d{16}|\d{4} \d{4} \d{4} \d{4}$/'],
+            'ccv-cb' => ['required', 'digits:3'],
+            'cb-exp-mois' => ['required', 'integer', 'between:1,12'],
+            'cb-exp-annee' => ['required', 'integer', 'between:' . Date('Y') . ',' . (intval(Date('Y')) + 20)],
+            'save-infos-cb' => ['boolean']
+        ], [
+            'adresse-facturation' => "L'adresse de facturation est incorrecte.",
+            'adresse-facturation.required' => "L'adresse de facturation est requise.",
+            'numero-cb' => 'Le numéro de carte bacaire est incorrect.',
+            'numero-cb.required' => "Le numéro de carte bancaire est requis.",
+            'ccv-cb' => "Le code de sécurité est incorrect.",
+            'ccv-cb.required' => "Le code de sécurité est requis.",
+            'cb-exp-mois' => "Le mois d'expiration est incorrect.",
+            'cb-exp-mois.required' => "Le mois d'expiration est requis.",
+            'cb-exp-annee' => "L'année d'expiration est incorrecte.",
+            'cb-exp-annee.required' => "L'année d'expiration est requise.",
+            'cb-exp-annee.between' => "L'année d'expiration doit être entre " . Date('Y') . " et " . (intval(Date('Y')) + 20) . ".",
+        ]);
+
+        $inputs['numero-cb'] = str_replace(' ', '', $inputs['numero-cb']);
+
+        dd($inputs);
     }
 }

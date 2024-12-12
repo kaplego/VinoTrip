@@ -7,8 +7,10 @@ use App\Http\Controllers\AvisController;
 use App\Http\Controllers\ReservationHotelController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\RoutesVinsController;
+use App\Http\Controllers\MailController;
 use App\Models\Descriptioncommande;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -43,25 +45,28 @@ Route::post('/sejour/{idsejour}/edit/choix', [SejourController::class, 'choixheb
 Route::post('/api/sejour/{idsejour}/edit/changes', [SejourController::class, 'apitogglehebergement']);
 
 Route::get('/connexion', [ClientController::class, 'connexion']);
-Route::get('/profil', [ClientController::class, 'profil']);
-Route::get('/profil/informations', [ClientController::class, 'informations']);
+Route::get('/client', [ClientController::class, 'profil']);
+Route::get('/client/informations', [ClientController::class, 'informations']);
+Route::get('/client/adresses', [ClientController::class, 'adresses']);
 
 Route::post('/api/client/login', [ClientController::class, 'login']);
 Route::post('/api/client/logout', [ClientController::class, 'logout']);
 Route::post('/api/client/signin', [ClientController::class, 'signin']);
 Route::post('/api/client/edit', [ClientController::class, 'edit']);
 
-
 Route::get('/panier', [PanierController::class, 'index']);
 Route::get('/panier/paiement', [PanierController::class, 'paiement']);
-Route::post('/api/panier/add', [PanierController::class, 'ajouter']);
+Route::post('/api/panier/add', [PanierController::class, 'add']);
 Route::post('/api/panier/update', [PanierController::class, 'update']);
+Route::post('/api/panier/payment', [PanierController::class, 'payment']);
 
 Route::get('/personnaliser/{id}', [PanierController::class, 'personnaliser']);
 Route::get('/modifier/{idsejour}', [PanierController::class, 'modifier']);
 
 Route::get('/reservation', [ReservationHotelController::class, 'listReservation']);
-Route::post('/api/reservation', [ReservationHotelController::class, 'envoiemail']);
+Route::post('/api/reservationhotel', [ReservationHotelController::class, 'envoiemailhotel']);
+Route::post('/api/reservationclient', [ReservationHotelController::class, 'envoiemailclient']);
+
 
 Route::get('/route_des_vins', [RoutesVinsController::class, 'list']);
 Route::get('/route_des_vins/{id}', [RoutesVinsController::class, 'one']);

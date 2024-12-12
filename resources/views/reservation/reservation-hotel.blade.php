@@ -7,7 +7,7 @@
     @section('title', 'Séjours - VinoTrip')
 
     @section('head')
-        {{-- <link rel="stylesheet" href="/assets/css/sejours/sejours.css"> --}}
+        <link rel="stylesheet" href="/assets/css/reservation.css">
     @endsection
 
     @section('body')
@@ -16,30 +16,51 @@
         <main class="container-lg">
 
             <h1>Réservation clients</h1>
+            @php
+                $dateauj = date('Y-n-j');
+            @endphp
+            <section>
+                @foreach ($commandes as $commande)
+                    @if($commande->descriptioncommande!=null)
+                        @if($commande->descriptioncommande->datedebut>=$dateauj)
+                            <h2 class="titresej">{{$commande->descriptioncommande->sejour->titresejour}}</h2>
+                            <section id="unereservation">
+                                <p class="date">Date séjour : {{$commande->descriptioncommande->datedebut}}</p>
+                                <article class ="unclient">
+                                    <h3>Commande effective du client : {{$commande->beneficiaire->prenomclient}} {{$commande->beneficiaire->nomclient}}</h3>
+                                    <form method="POST" action="/api/reservationclient">
+                                        @csrf
+                                        <input type="hidden" value="{{$commande->beneficiaire->emailclient}}" name="emailpartenaire">
+                                        <p>Envoyer un mail de validation pour la réservation de l'hotel : <button type="submit">{{$commande->beneficiaire->emailclient}}</button> </p>
+                                        @if (\Session::has('success'))
+                                            <p class="alert alert-success"><i data-lucide="circle-check-big"></i>{!! \Session::get('success') !!}</p>
+                                        @endif
+                                    </form>
+                                </article>
+                                {{-- <p>{{$commande->descriptioncommande!=null ? $commande->descriptioncommande->datedebut : "" }}</p> --}}
+                                @foreach ( $commande->descriptioncommande->sejour->etape as $unetape)
+                                    <article class="unhotel">
+                                        <form method="POST" action="/api/reservationhotel">
+                                            @csrf
+                                            <input type="hidden" value="{{$unetape->hebergement->hotel->mailpartenaire}}" name="emailpartenaire">
+                                            <h3>Partenaire hotel : {{$unetape->hebergement->hotel->nompartenaire}}</h3>
+                                            <p>Envoyer un mail de validation pour la réservation de l'hotel : <button type="submit">{{$unetape->hebergement->hotel->mailpartenaire}}</button> </p>
+                                            @if (\Session::has('success'))
+                                                <p class="alert alert-success"><i data-lucide="circle-check-big"></i>{!! \Session::get('success') !!}</p>
+                                            @endif
+                                        </form>
+                                    </article>
+                                @endforeach
+                        </section>
+                        <br>
+                        @endif
+                    @endif
 
-            @foreach ($commandes as $commande)
-                <p>{{$commande->beneficiaire->prenomclient}}</p>
-                <p>{{$commande->beneficiaire->nomclient}}</p>
-                <p>{{$commande->beneficiaire->emailclient}}</p>
-                {{-- <p>{{$commande->descriptioncommande!=null ? $commande->descriptioncommande->datedebut : "" }}</p> --}}
-                @if($commande->descriptioncommande!=null)
-                    @foreach ( $commande->descriptioncommande->sejour->etape as $unetape)
-                    <form method="POST" action="/api/reservation">
-                        @csrf
-                        <input type="hidden" value="{{$unetape->hebergement->hotel->mailpartenaire}}" name="mailpartenaire">
-                        <p>Envoyer un mail de validation  : <button type="submit">{{$unetape->hebergement->hotel->mailpartenaire}}</button> </p>
-
-                    </form>
-
-                    @endforeach
-
-                @endif
-                <br>
-
-            @endforeach
+                @endforeach
+            </section>
 
 
-            <h1>Réservation hotel partenaire</h1>
+
 
 
         </main>
@@ -52,6 +73,6 @@
     @endsection
 
     @section('scripts')
-        {{-- <script src="/assets/js/sejours.js"></script> --}}
+
     @endsection
 
