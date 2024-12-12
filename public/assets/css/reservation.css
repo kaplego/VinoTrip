@@ -51,3 +51,9 @@ section{
     background-color: rgb(218, 194, 163);
     border-radius: 5px;
 }
+
+
+input{
+    width: 35px;
+    margin-left: 10px;
+}

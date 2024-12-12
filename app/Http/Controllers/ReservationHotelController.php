@@ -49,7 +49,7 @@ class ReservationHotelController extends Controller
 
         Mail::to("ppartenairehotel@gmail.com")->send(new SendEmail($message,"Confirmation de votre reservation"));
 
-        return redirect()->back()->with("success","le mail a été envoyé");
+        return redirect()->back()->with("successhotel","le mail a été envoyé");
 
 
     }
@@ -67,7 +67,7 @@ class ReservationHotelController extends Controller
 
         Mail::to("ppartenairehotel@gmail.com")->send(new SendEmail($message,"Confirmation de votre reservation"));
 
-        return redirect()->back()->with("success","le mail a été envoyé");
+        return redirect()->back()->with("successclient","le mail a été envoyé");
 
 
     }

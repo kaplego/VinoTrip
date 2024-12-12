@@ -31,10 +31,15 @@
                                     <form method="POST" action="/api/reservationclient">
                                         @csrf
                                         <input type="hidden" value="{{$commande->beneficiaire->emailclient}}" name="emailpartenaire">
-                                        <p>Envoyer un mail de validation pour la réservation de l'hotel : <button type="submit">{{$commande->beneficiaire->emailclient}}</button> </p>
-                                        @if (\Session::has('success'))
+                                        <p>Envoyer un mail de paiement au client: <button type="submit" >{{$commande->beneficiaire->emailclient}}</button> </p>
+                                        <div>
+                                            <p>Validation client :<input type="checkbox" name="validClient"></p>
+
+                                        </div>
+                                        @if (\Session::has('successclient'))
                                             <p class="alert alert-success"><i data-lucide="circle-check-big"></i>{!! \Session::get('success') !!}</p>
                                         @endif
+
                                     </form>
                                 </article>
                                 {{-- <p>{{$commande->descriptioncommande!=null ? $commande->descriptioncommande->datedebut : "" }}</p> --}}
@@ -45,7 +50,11 @@
                                             <input type="hidden" value="{{$unetape->hebergement->hotel->mailpartenaire}}" name="emailpartenaire">
                                             <h3>Partenaire hotel : {{$unetape->hebergement->hotel->nompartenaire}}</h3>
                                             <p>Envoyer un mail de validation pour la réservation de l'hotel : <button type="submit">{{$unetape->hebergement->hotel->mailpartenaire}}</button> </p>
-                                            @if (\Session::has('success'))
+                                            <div>
+                                                <p>Validation hebergement : <input type="checkbox" name="validHeberg"></p>
+
+                                            </div>
+                                            @if (\Session::has('successhotel'))
                                                 <p class="alert alert-success"><i data-lucide="circle-check-big"></i>{!! \Session::get('success') !!}</p>
                                             @endif
                                         </form>
