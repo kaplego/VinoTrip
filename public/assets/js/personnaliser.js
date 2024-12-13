@@ -1,10 +1,6 @@
 let offrir = false,
     ecoffret = false,
-    prixHebergement = null,
-    repas = [],
-    dejeuner = false,
-    diner = false,
-    activite = false;
+    prixHebergement = null;
 
 const form = document.getElementById("formulaire"),
     priceElement = document.getElementById("prix-total"),
@@ -18,10 +14,8 @@ const form = document.getElementById("formulaire"),
     listeHebergements = document.querySelectorAll(".selection-hebergement"),
     listeRepas = document.querySelectorAll(".selection-repas"),
     offrirCheckbox = document.getElementById("offrir"),
-    dejeunerCheckbox = document.getElementById("dejeuner"),
-    dinerCheckbox = document.getElementById("diner"),
-    activiteCheckbox = document.getElementById("activite");
-// activitesListe = document.querySelectorAll(".activite");
+    radiosOffrirContainer = document.getElementById("radios-offrir"),
+    listeActivites = document.querySelectorAll(".activite");
 
 //======================= DATES
 
@@ -79,11 +73,29 @@ function prixFromRepas(repas) {
 listeRepas.forEach((repasElement) => {
     const id = repasElement.getAttribute("data-value");
 
+    if (new FormData(form).getAll("repas[]").includes(id)) {
+        repasElement.classList.add("active");
+    }
+
     repasElement.addEventListener("click", () => {
-        const checked = !(new FormData(form).getAll("repas[]").includes(id));
+        const checked = !new FormData(form).getAll("repas[]").includes(id);
 
         document.querySelector(`#repas-${id} > input`).checked = checked;
         repasElement.classList.toggle("active", checked);
+        updatePrice();
+    });
+});
+
+//======================= ACTIVITES
+
+function prixFromActivite(activite) {
+    return +document
+        .getElementById(`activite-${activite}`)
+        .getAttribute("data-price");
+}
+
+listeActivites.forEach((activiteCheckbox) => {
+    activiteCheckbox.addEventListener("change", () => {
         updatePrice();
     });
 });
@@ -92,9 +104,8 @@ listeRepas.forEach((repasElement) => {
 
 function setOffrir(checked) {
     offrir = checked;
-    document
-        .querySelectorAll("*[data-offrir]")
-        .forEach((element) => element.classList.toggle("hidden", !checked));
+    radiosOffrirContainer.classList.toggle("hidden", !checked)
+    radiosOffrirContainer.querySelectorAll('input').forEach((element) => element.disabled = !checked);
 }
 
 setOffrir(offrirCheckbox.checked);
@@ -113,32 +124,20 @@ document.querySelectorAll("input[name=ecoffret]").forEach((radio) => {
     });
 });
 
-//======================= DEJEUNER, DINER & ACTIVITE
-
-dejeunerCheckbox.addEventListener("change", () => {
-    dejeuner = dejeunerCheckbox.checked;
-    updatePrice();
-});
-dinerCheckbox.addEventListener("change", () => {
-    diner = dinerCheckbox.checked;
-    updatePrice();
-});
-activiteCheckbox.addEventListener("change", () => {
-    activite = activiteCheckbox.checked;
-    updatePrice();
-});
-
 //======================= MAJ PRIX
 
 function updatePrice() {
     let price = prixDeBase;
 
+    const data = new FormData(form);
+
     price += prixHebergement;
-    price += new FormData(form)
+    price += data
         .getAll("repas[]")
         .reduce((prev, r) => prixFromRepas(r) + prev, 0);
-
-    if (activite) price += 50;
+    price += data
+        .getAll("activites[]")
+        .reduce((prev, a) => prixFromActivite(a) + prev, 0);
 
     price *= +nbAdultes.value + +nbEnfants.value;
 

@@ -64,23 +64,12 @@
                                             <br />{{ $descriptionpanier->nbchambrestriple * 125 }} €
                                         </td>
                                     </tr>
-                                    <tr>
+                                    {{-- <tr>
                                         <td>Repas</td>
                                         <td>
-                                            @if (!$descriptionpanier->repasmidi && !$descriptionpanier->repassoir)
-                                                aucun
-                                            @else
-                                                @php
-                                                    $repas = [];
-                                                    if ($descriptionpanier->repasmidi) {
-                                                        $repas[] = 'midi';
-                                                    }
-                                                    if ($descriptionpanier->repassoir) {
-                                                        $repas[] = 'soir';
-                                                    }
-                                                @endphp
-                                                {{ implode(',', $repas) }}
-                                            @endif
+                                            @foreach ($descriptionpanier->repas as $repas)
+
+                                            @endforeach
                                         </td>
                                         <td class="prix">
                                             {{ $nbPersonnes }} ×
@@ -97,7 +86,7 @@
                                             {{ $nbPersonnes }} ×
                                             {{ $descriptionpanier->activite ? 50 : 0 }} €
                                         </td>
-                                    </tr>
+                                    </tr> --}}
                                     <tr>
                                         <td>Cadeau</td>
                                         <td>
@@ -129,6 +118,9 @@
                                         min="1" max="10" id="quantite-{{ $sejour->idsejour }}"
                                         value="{{ $descriptionpanier->quantite }}">
                                 </div>
+                                @error('quantite')
+                                    {{$message}}
+                                @enderror
                                 <div class="buttons">
                                     <button class="button" type="submit" name="action" value="update">
                                         <i data-lucide="save"></i>
@@ -137,6 +129,9 @@
                                         <i data-lucide="trash-2"></i>
                                     </button>
                                 </div>
+                                @error('action')
+                                    {{$message}}
+                                @enderror
                             </div>
                         </form>
                     </article>

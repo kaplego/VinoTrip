@@ -38,7 +38,7 @@
                     <input id="nomadresse" type="text" name="nomadresse"
                         value="{{ old('nomadresse', $adresse->nomadresse) }}" />
                     @error('nomadresse')
-                        <p class="error">Le nom n'est pas valide !</p>
+                        <p class="alert alert-error"><i data-lucide="circle-x"></i>Le nom n'est pas valide !</p>
                     @enderror
                 </div>
 
@@ -47,7 +47,7 @@
                     <input id="nomdestinataireadresse" type="text" name="nomdestinataireadresse"
                         value="{{ old('nomdestinataireadresse', $adresse->nomdestinataireadresse) }}" />
                     @error('nomdestinataireadresse')
-                        <p class="error">Le nom n'est pas valide !</p>
+                        <p class="alert alert-error"><i data-lucide="circle-x"></i>Le nom n'est pas valide !</p>
                     @enderror
                 </div>
 
@@ -56,7 +56,7 @@
                     <input id="prenomdestinataireadresse" type="text" name="prenomdestinataireadresse"
                         value="{{ old('prenomdestinataireadresse', $adresse->prenomdestinataireadresse) }}" />
                     @error('prenomdestinataireadresse')
-                        <p class="error">Le prénom n'est pas valide !</p>
+                        <p class="alert alert-error"><i data-lucide="circle-x"></i>Le prénom n'est pas valide !</p>
                     @enderror
                 </div>
 
@@ -65,7 +65,7 @@
                     <input id="rueadresse" type="text" name="rueadresse"
                         value="{{ old('rueadresse', $adresse->rueadresse) }}" />
                     @error('rueadresse')
-                        <p class="error">La rue n'est pas valide !</p>
+                        <p class="alert alert-error"><i data-lucide="circle-x"></i>La rue n'est pas valide !</p>
                     @enderror
                 </div>
 
@@ -74,7 +74,7 @@
                     <input id="cpadresse" type="text" name="cpadresse"
                         value="{{ old('cpadresse', $adresse->cpadresse) }}" />
                     @error('cpadresse')
-                        <p class="error">Le code postal n'est pas valide !</p>
+                        <p class="alert alert-error"><i data-lucide="circle-x"></i>Le code postal n'est pas valide !</p>
                     @enderror
                 </div>
 
@@ -83,7 +83,7 @@
                     <input id="villeadresse" type="text" name="villeadresse"
                         value="{{ old('villeadresse', $adresse->villeadresse) }}" />
                     @error('villeadresse')
-                        <p class="error">La ville n'est pas valide !</p>
+                        <p class="alert alert-error"><i data-lucide="circle-x"></i>La ville n'est pas valide !</p>
                     @enderror
                 </div>
 
@@ -92,7 +92,7 @@
                     <input id="paysadresse" type="text" name="paysadresse"
                         value="{{ old('paysadresse', $adresse->paysadresse) }}" />
                     @error('paysadresse')
-                        <p class="error">Le pays n'est pas valide !</p>
+                        <p class="alert alert-error"><i data-lucide="circle-x"></i>Le pays n'est pas valide !</p>
                     @enderror
                 </div>
 

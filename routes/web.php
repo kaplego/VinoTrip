@@ -42,8 +42,8 @@ Route::get('/conditions-vente', [SiteController::class, 'conditions']);
 
 Route::get('/sejour/{id}', [SejourController::class, 'one']);
 Route::get('/sejour/{id}/edit', [SejourController::class, 'edit']);
-Route::post('/sejour/{idsejour}/edit/choix', [SejourController::class, 'choixhebergement']);
-Route::post('/api/sejour/{idsejour}/edit/changes', [SejourController::class, 'apitogglehebergement']);
+Route::post('/edit/choix', [SejourController::class, 'choixhebergement']);
+Route::post('/api/edit/changes', [SejourController::class, 'apitogglehebergement']);
 
 Route::get('/connexion', [ClientController::class, 'connexion']);
 Route::get('/client', [ClientController::class, 'profil']);

@@ -29,7 +29,7 @@
                             value="{{ old('datedebut', $descriptionPanier->datedebut) }}" min="1" required
                             autocomplete="off" data-duree="{{ $sejour->duree->idduree }}" />
                         @error('datedebut')
-                            <p class="error">{{ $message }}</p>
+                            <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                         @enderror
                     </div>
                     <div class="input-control input-control-text">
@@ -38,7 +38,7 @@
                             value="{{ old('datefin', $descriptionPanier->datefin) }}" min="0" readonly
                             autocomplete="off" />
                         @error('datefin')
-                            <p class="error">{{ $message }}</p>
+                            <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                         <input type="number" id="nbadultes" name="nbadultes"
                             value="{{ old('nbadultes', $descriptionPanier->nbadultes) }}" min="1" required />
                         @error('nbadultes')
-                            <p class="error">{{ $message }}</p>
+                            <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                         @enderror
                     </div>
                     <div class="input-control input-control-text">
@@ -57,7 +57,7 @@
                         <input type="number" id="nbenfants" name="nbenfants"
                             value="{{ old('nbenfants', $descriptionPanier->nbenfants) }}" min="0" required />
                         @error('nbenfants')
-                            <p class="error">{{ $message }}</p>
+                            <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
@@ -69,7 +69,7 @@
                         <input type="number" id="chambressimple" name="chambressimple" min="0" max="10" required
                             value="{{ old('chambressimple', $descriptionPanier->nbchambressimple) }}" />
                         @error('chambressimple')
-                            <p class="error">{{ $message }}</p>
+                            <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                         @enderror
                     </div>
                     <div class="input-control input-control-text">
@@ -78,7 +78,7 @@
                         <input type="number" id="chambresdouble" name="chambresdouble" min="0" max="10" required
                             value="{{ old('chambresdouble', $descriptionPanier->nbchambresdouble) }}" />
                         @error('chambresdouble')
-                            <p class="error">{{ $message }}</p>
+                            <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                         @enderror
                     </div>
                     <div class="input-control input-control-text">
@@ -87,7 +87,7 @@
                         <input type="number" id="chambrestriple" name="chambrestriple" min="0" max="10" required
                             value="{{ old('chambrestriple', $descriptionPanier->nbchambrestriple) }}" />
                         @error('chambrestriple')
-                            <p class="error">{{ $message }}</p>
+                            <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
@@ -101,7 +101,7 @@
                         {{ old('dejeuner', $descriptionPanier->repasmidi) ? 'checked' : '' }} value="1">
                     <label for="dejeuner">Déjeuner <span class="price">20 € / pers.</span></label>
                     @error('dejeuner')
-                        <p class="error">{{ $message }}</p>
+                        <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -110,7 +110,7 @@
                         {{ old('diner', $descriptionPanier->repassoir) ? 'checked' : '' }} value="1">
                     <label for="diner">Diner <span class="price">20 € / pers.</span></label>
                     @error('diner')
-                        <p class="error">{{ $message }}</p>
+                        <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -119,7 +119,7 @@
                         {{ old('activite', $descriptionPanier->activite) ? 'checked' : '' }} value="1">
                     <label for="activite">Activité <span class="price">50 € / pers.</span></label>
                     @error('activite')
-                        <p class="error">{{ $message }}</p>
+                        <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                     @enderror
                 </div>
             </section>

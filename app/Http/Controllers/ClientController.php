@@ -135,19 +135,12 @@ class ClientController extends Controller
         else
             $credentials["offrespromotionnellesclient"] = true;
 
-
-
-
-
-
         $datenaissance = DateTime::createFromFormat(
             'j/n/Y',
             $request->request->get('journaissance') . "/" .
             $request->request->get('moisnaissance') . "/" .
             $request->request->get('anneenaissance')
         );
-
-
 
         $user = User::find(Auth::user()->idclient);
 

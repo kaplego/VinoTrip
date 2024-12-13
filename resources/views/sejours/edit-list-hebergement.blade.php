@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', $sejour->titresejour . ' - VinoTrip')
+{{-- @section('title', $sejour->titresejour . ' - VinoTrip') --}}
 
 @section('head')
     <link rel="stylesheet" href="/assets/css/sejours/summary.css">
@@ -20,9 +20,9 @@
         @include('layout.breadcrumb')
         <section id="hebergements">
             @foreach ($hebergements as $hebergement)
-                <form action="/api/sejour/{{ $sejour->idsejour }}/edit/changes" method="POST">
+                <form action="/api/edit/changes" method="POST">
                     @csrf
-                    @if($hebergement->disponibilitehebergement==true)
+                    @if($hebergement->idhebergement!=$idhebergement)
                         <article class="hebergement">
                             <img class="imgheberg" src="/assets/images/hebergement/{{ $hebergement->photohebergement }}"></img>
                             <p class="descrheberg">{{ $hebergement->descriptionhebergement }}</p>
@@ -30,7 +30,8 @@
                                 target="_blank">{{ $hebergement->hotel->nompartenaire }}</a>
                             {{-- {{ $etape->hebergement->lienhebergement }} --}}
                         </article>
-                        <input type="hidden" name="idetape" value="{{ $idetape }}" />
+                        {{dd( $iddescriptioncommande)}}
+                        <input type="hidden" name="iddescriptioncommande" value="{{ $iddescriptioncommande }}" />
                         <input type="hidden" name="newidhebergement" value="{{ $hebergement->idhebergement }}" />
                         <button class="button" type="submit">
                             Choisir cet hébergement

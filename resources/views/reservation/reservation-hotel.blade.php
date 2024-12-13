@@ -56,14 +56,17 @@
                                             <input type="hidden" value="{{$unetape->hebergement->hotel->nompartenaire}}" name="nom">
                                             <h3>Partenaire hotel : {{$unetape->hebergement->hotel->nompartenaire}}</h3>
                                             <p>Envoyer un mail de validation pour la réservation de l'hotel: <button type="submit">{{$unetape->hebergement->hotel->mailpartenaire}}</button> </p>
-                                            <div>
-                                                <p>Validation hebergement : <input type="checkbox" name="validHeberg" id="validationH" @if ($commande->validationhebergement==true) checked  @endif ></p>
-                                            </div>
-
+                                                <p>Validation hebergement : <button class="button" type="submit">OUI</button>
+                                                    {{-- <input type="checkbox" name="validHeberg" id="validationH" @if ($commande->validationhebergement==true) checked  @endif > --}}
+                                                </p>
                                             @if (\Session::has('successhotel'))
                                                 <p class="alert alert-success"><i data-lucide="circle-check-big"></i>{!! \Session::get('success') !!}</p>
                                             @endif
-
+                                        </form>
+                                        <form action="/edit/choix" method="POST">
+                                            @csrf
+                                            <input type="hidden" value="{{$commande->descriptioncommande}}" name="iddescriptioncommande">
+                                            <button class="button" type="submit">NON</button>
                                         </form>
                                     </article>
                                 @endforeach

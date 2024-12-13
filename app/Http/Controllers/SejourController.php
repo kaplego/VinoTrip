@@ -6,6 +6,7 @@ use App\Models\Categorieparticipant;
 use App\Models\Categoriesejour;
 use App\Models\Categorievignoble;
 use App\Models\Cave;
+use App\Models\Descriptioncommande;
 use App\Models\Duree;
 use App\Models\Etape;
 use App\Models\Hebergement;
@@ -58,31 +59,32 @@ class SejourController extends Controller
         ]);
     }
 
-    public function apitogglehebergement($idsejour, Request $request)
+    public function apitogglehebergement( Request $request)
     {
-        $idetape = $request->input('idetape');
+        $iddescriptioncommande = $request->input('iddescriptioncommande');
         $newidhebergement = $request->input('newidhebergement');
 
-        $etape = Etape::find($idetape);
-        $etape->idhebergement = $newidhebergement;
+        $descriptioncommande = Descriptioncommande::find(id: $iddescriptioncommande);
+        dd(        $iddescriptioncommande);
 
-        $etape->update();
-        return redirect("/sejour/$idsejour/edit");
+        $descriptioncommande->idhebergement = $newidhebergement;
+
+        $descriptioncommande->update();
+        return redirect("/reservation");
 
     }
-    public function choixhebergement($idsejour, Request $request)
+    public function choixhebergement(Request $request)
     {
-        $idhebergement = $request->input('idhebergement');
-        $idetape = $request->input('idetape');
+        // $idhebergement = $request->input('idhebergement');
+        // $idetape = $request->input('idetape');
 
-        $hebergement = Hebergement::find($idhebergement);
-        $hebergement->disponibilitehebergement = !$hebergement->disponibilitehebergement;
+        // $hebergement = Hebergement::find($idhebergement);
+        // $hebergement->disponibilitehebergement = !$hebergement->disponibilitehebergement;
 
-        $hebergement->update();
+        // $hebergement->update();
         return view("sejours.edit-list-hebergement", [
-            'sejour'=>Sejour::find($idsejour),
             'hebergements' => Hebergement::all(),
-            'idetape' => $request->input('idetape'),
+            'iddescriptioncommande' => $request->input('iddescriptioncommande'),
             'idhebergement' => $request->input('idhebergement'),
         ]);
     }

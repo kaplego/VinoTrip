@@ -50,7 +50,7 @@
                 <input id="prenomclient" type="text" name="prenomclient" placeholder="Prenom" autocomplete="given-name"
                     value="{{ old('prenomclient') }}" />
                 @error('prenomclient')
-                    <p class="error">Le prénom n'est pas valide !</p>
+                    <p class="alert alert-error"><i data-lucide="circle-x"></i>Le prénom n'est pas valide !</p>
                 @enderror
             </div>
             <div class="input-control input-control-text">
@@ -58,7 +58,7 @@
                 <input id="nomclient" type="text" name="nomclient" placeholder="Nom" autocomplete="family-name"
                     value="{{ old('nomclient') }}" />
                 @error('nomclient')
-                    <p class="error">Le nom n'est pas valide !</p>
+                    <p class="alert alert-error"><i data-lucide="circle-x"></i>Le nom n'est pas valide !</p>
                 @enderror
             </div>
             <div class="input-control input-control-text">
@@ -66,7 +66,7 @@
                 <input id="emailinscription" type="text" name="emailclient" autocomplete="email"
                     placeholder="prenom.nom@email.com" value="{{ old('emailclient') }}" />
                 @error('emailclient')
-                    <p class="error">L'adresse email n'est pas valide !</p>
+                    <p class="alert alert-error"><i data-lucide="circle-x"></i>L'adresse email n'est pas valide !</p>
                 @enderror
             </div>
             <div class="input-control input-control-text">
@@ -74,7 +74,7 @@
                 <input id="motdepasseinscription" type="password" name="motdepasseclient" autocomplete="new-password"
                     placeholder="M0tD€p@ss3" />
                 @error('motdepasseclient')
-                    <p class="error">
+                    <p class="alert alert-error"><i data-lucide="circle-x"></i>
                         Le format du mot de passe est invalide, il doit contenir : </br>
                         - Au moins une majuscule et minuscule </br>
                         - Au moins un chiffre </br>
@@ -134,14 +134,14 @@
 
             <div class="input-control input-control-text">
                 @error('login')
-                    <p class="error">Le mot de passe ou l'adresse email n'est pas valide !</p></br>
+                    <p class="alert alert-error"><i data-lucide="circle-x"></i>Le mot de passe ou l'adresse email n'est pas valide !</p></br>
                 @enderror
 
                 <label for="emailconnexion">Email</label>
                 <input id="emailconnexion" type="text" name="emailclientconnexion"
                     placeholder="prenom.nom@email.com" />
                 @error('emailclientconnexion')
-                    <p class="error">L'adresse email n'est pas valide !</p>
+                    <p class="alert alert-error"><i data-lucide="circle-x"></i>L'adresse email n'est pas valide !</p>
                 @enderror
             </div>
             <div class="input-control input-control-text">
@@ -149,7 +149,7 @@
                 <input id="motdepasseconnexion" type="password" name="motdepasseconnexion"
                     autocomplete="current-password" placeholder="M0tD€p@ss3" />
                 @error('motdepasseconnexion')
-                    <p class="error">Le mot de passe n'est pas valide !</p>
+                    <p class="alert alert-error"><i data-lucide="circle-x"></i>Le mot de passe n'est pas valide !</p>
                 @enderror
             </div>
 

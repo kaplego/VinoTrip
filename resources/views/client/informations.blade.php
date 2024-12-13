@@ -49,7 +49,7 @@
                     <input id="prenomclient" type="text" name="prenomclient"
                         value="{{ old('prenomclient', Auth::User()->prenomclient) }}" />
                     @error('prenomclient')
-                        <p class="error">Le prénom n'est pas valide !</p>
+                        <p class="alert alert-error"><i data-lucide="circle-x"></i>Le prénom n'est pas valide !</p>
                     @enderror
                 </div>
                 <div class="input-control input-control-text">
@@ -57,7 +57,7 @@
                     <input id="nomclient" type="text" name="nomclient"
                         value="{{ old('nomclient', Auth::User()->nomclient) }}" />
                     @error('nomclient')
-                        <p class="error">Le nom n'est pas valide !</p>
+                        <p class="alert alert-error"><i data-lucide="circle-x"></i>Le nom n'est pas valide !</p>
                     @enderror
                 </div>
                 <div class="input-control input-control-text">
@@ -65,7 +65,7 @@
                     <input id="emailclient" type="text" name="emailclient"
                         value="{{ old('emailclient', Auth::User()->emailclient) }}" />
                     @error('emailclient')
-                        <p class="error">L'adresse email n'est pas valide !</p>
+                        <p class="alert alert-error"><i data-lucide="circle-x"></i>L'adresse email n'est pas valide !</p>
                     @enderror
                 </div>
 
@@ -73,7 +73,7 @@
                     <label for="ancienmotdepasse">Mot de passe actuel</label>
                     <input id="ancienmotdepasse" type="password" name="ancienmotdepasse" placeholder="" />
                     @error('ancienmotdepasse')
-                        <p class="error">
+                        <p class="alert alert-error"><i data-lucide="circle-x"></i>
                             Le mot de passe est invalide !
                         </p>
                     @enderror
@@ -82,7 +82,7 @@
                     <label for="nouveaumotdepasse">Nouveau mot de passe</label>
                     <input id="nouveaumotdepasse" type="password" name="nouveaumotdepasse" placeholder="" />
                     @error('nouveaumotdepasse')
-                        <p class="error">
+                        <p class="alert alert-error"><i data-lucide="circle-x"></i>
                             Le format du mot de passe est invalide, il doit contenir : </br>
                             - Au moins une majuscule et minuscule </br>
                             - Au moins un chiffre </br>
@@ -95,7 +95,7 @@
                     <label for="confirmationmotdepasse">Confirmez le mot de passe</label>
                     <input id="confirmationmotdepasse" type="password" name="confirmationmotdepasse" placeholder="" />
                     @error('confirmationmotdepasse')
-                        <p class="error">
+                        <p class="alert alert-error"><i data-lucide="circle-x"></i>
                             Les mots de passe ne correspondent pas !
                         </p>
                     @enderror

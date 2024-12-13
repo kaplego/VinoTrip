@@ -46,7 +46,7 @@
                             @endforeach
                         </select>
                         @error('adresse-facturation')
-                            <p class="error">{{ $message }}</p>
+                            <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                         @enderror
                     </div>
                     <p class="name"><a href="/client/adresses" class="link link-icon"><i
@@ -59,17 +59,17 @@
                             <option value="new">Utiliser une autre carte bancaire</option>
                         </select>
                         @error('carte-bancaire')
-                            <p class="error">{{ $message }}</p>
+                            <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                         @enderror
                     </div>
                     <div class="input-group">
                         <div class="input-control input-control-text">
-                            <label for="cb-nom">Titulaire de la carte bancaire</label>
-                            <input type="text" id="cb-nom" name="cb-nom" autocomplete="cc-name" required
+                            <label for="cb-titulaire">Titulaire de la carte bancaire</label>
+                            <input type="text" id="cb-titulaire" name="cb-titulaire" autocomplete="cc-name" required
                                 placeholder="{{ Auth::user()->nomclient }} {{ Auth::user()->prenomclient }}"
-                                value="{{ old('cb-nom') }}" />
-                            @error('cb-nom')
-                                <p class="error">{{ $message }}</p>
+                                value="{{ old('cb-titulaire') }}" />
+                            @error('cb-titulaire')
+                                <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                             @enderror
                         </div>
                         <div class="input-control input-control-text">
@@ -77,7 +77,7 @@
                             <input type="text" id="numero-cb" name="numero-cb" autocomplete="cc-number" required
                                 placeholder="xxxx xxxx xxxx xxxx" value="{{ old('numero-cb') }}" />
                             @error('numero-cb')
-                                <p class="error">{{ $message }}</p>
+                                <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
@@ -87,7 +87,7 @@
                             <input type="text" id="ccv-cb" name="ccv-cb" autocomplete="cc-number" required
                                 placeholder="xxx" value="{{ old('ccv-cb') }}" />
                             @error('ccv-cb')
-                                <p class="error">{{ $message }}</p>
+                                <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                             @enderror
                         </div>
                         <div class="input-control input-control-select">
@@ -100,7 +100,7 @@
                                 @endforeach
                             </select>
                             @error('cb-exp-mois')
-                                <p class="error">{{ $message }}</p>
+                                <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                             @enderror
                         </div>
                         <div class="input-control input-control-select">
@@ -113,7 +113,7 @@
                                 @endfor
                             </select>
                             @error('cb-exp-annee')
-                                <p class="error">{{ $message }}</p>
+                                <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                             @enderror
                         </div>
                     </div>

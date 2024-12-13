@@ -35,7 +35,7 @@
                         <input type="date" id="datedebut" name="datedebut" value="{{ old('datedebut') }}" min="1"
                             required autocomplete="off" data-duree="{{ $sejour->duree->idduree }}" />
                         @error('datedebut')
-                            <p class="error">{{ $message }}</p>
+                            <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                         @enderror
                     </div>
                     <div class="input-control input-control-text">
@@ -43,18 +43,18 @@
                         <input type="date" id="datefin" name="datefin" value="{{ old('datefin') }}" min="0"
                             readonly autocomplete="off" />
                         @error('datefin')
-                            <p class="error">{{ $message }}</p>
+                            <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
 
                 <div class="input-group">
                     <div class="input-control input-control-text">
-                        <label for="nbadultes">Adulte</label>
+                        <label for="nbadultes">Adultes</label>
                         <input type="number" id="nbadultes" name="nbadultes" value="{{ old('nbadultes', 1) }}"
                             min="1" required />
                         @error('nbadultes')
-                            <p class="error">{{ $message }}</p>
+                            <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                         @enderror
                     </div>
                     <div class="input-control input-control-text">
@@ -62,7 +62,7 @@
                         <input type="number" id="nbenfants" name="nbenfants" value="{{ old('nbenfants', 0) }}"
                             min="0" required />
                         @error('nbenfants')
-                            <p class="error">{{ $message }}</p>
+                            <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                         <input type="number" id="chambressimple" name="chambressimple" min="0" max="10"
                             required value="{{ old('chambressimple', 0) }}" />
                         @error('chambressimple')
-                            <p class="error">{{ $message }}</p>
+                            <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                         @enderror
                     </div>
                     <div class="input-control input-control-text">
@@ -83,7 +83,7 @@
                         <input type="number" id="chambresdouble" name="chambresdouble" min="0" max="10"
                             required value="{{ old('chambresdouble', 0) }}" />
                         @error('chambresdouble')
-                            <p class="error">{{ $message }}</p>
+                            <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                         @enderror
                     </div>
                     <div class="input-control input-control-text">
@@ -92,7 +92,7 @@
                         <input type="number" id="chambrestriple" name="chambrestriple" min="0" max="10"
                             required value="{{ old('chambrestriple', 0) }}" />
                         @error('chambrestriple')
-                            <p class="error">{{ $message }}</p>
+                            <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
@@ -107,7 +107,8 @@
                             data-value="{{ $etape->hebergement->idhebergement }}"
                             data-price="{{ $etape->hebergement->prixhebergement }}">
                             <input type="radio" name="hebergement" value="{{ $etape->hebergement->idhebergement }}"
-                                id="hebergement-{{ $etape->hebergement->idhebergement }}" hidden>
+                                id="hebergement-{{ $etape->hebergement->idhebergement }}" hidden
+                                @if (old('hebergement') == $etape->hebergement->idhebergement) checked @endif>
                             <img class="image"
                                 src="/assets/images/hebergement/{{ $etape->hebergement->photohebergement }}"></img>
                             <div class="infos">
@@ -120,7 +121,7 @@
                 </div>
 
                 @error('hebergement')
-                    <p class="error">{{ $message }}</p>
+                    <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                 @enderror
             </section>
 
@@ -132,7 +133,8 @@
                         @foreach ($etape->repas as $repas)
                             <article class="selection selection-repas" data-value="{{ $repas->idrepas }}"
                                 data-price="{{ $repas->prixrepas }}" id="repas-{{ $repas->idrepas }}">
-                                <input type="checkbox" name="repas[]" value="{{ $repas->idrepas }}" hidden>
+                                <input type="checkbox" name="repas[]" value="{{ $repas->idrepas }}" hidden
+                                    @if (in_array($repas->idrepas, old('repas', []))) checked @endif>
                                 <div class="infos">
                                     <p class="titre">{{ $repas->restaurant->nompartenaire }}</p>
                                     <div class="etoiles">
@@ -147,6 +149,10 @@
                         @endforeach
                     @endforeach
                 </div>
+
+                @error('repas')
+                    <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
+                @enderror
             </section>
 
             <section>
@@ -157,19 +163,20 @@
                         <div class="input-control input-control-checkbox">
                             <input type="checkbox" name="activites[]" value="{{ $activite->idactivite }}"
                                 id="activite-{{ $activite->idactivite }}" class="activite"
-                                {{ in_array($activite->idactivite, old('activites', [])) ? 'checked' : '' }}>
+                                data-price="{{ $activite->prixactivite }}"
+                                @if (in_array($activite->idactivite, old('activites', []))) checked @endif>
                             <label for="activite-{{ $activite->idactivite }}">{{ $activite->libelleactivite }} <span
                                     class="price">{{ number_format($activite->prixactivite, 2, ',') }} € /
                                     personne</span></label>
                             @error("activites.{{ $activite->idactivite }}")
-                                <p class="error">{{ $message }}</p>
+                                <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                             @enderror
                         </div>
                     @endforeach
                 @endforeach
 
                 @error('activites')
-                    <p class="error">{{ $message }}</p>
+                    <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                 @enderror
             </section>
 
@@ -183,17 +190,19 @@
                 @error('offrir')
                     <p class="error" style="margin-bottom: 1rem">{{ $message }}</p>
                 @enderror
-                <div class="input-control input-control-radio" data-offrir>
-                    <input type="radio" id="e-coffret" name="ecoffret" value="1"
-                        {{ old('ecoffret') === '1' ? 'checked' : '' }}>
-                    <label for="e-coffret">E-Coffret : envoi immédiat par email
-                        <span class="price">Gratuit</span></label>
-                </div>
-                <div class="input-control input-control-radio" data-offrir>
-                    <input type="radio" id="coffret-postal" name="ecoffret" value="0"
-                        {{ old('ecoffret') !== '1' ? 'checked' : '' }}>
-                    <label for="coffret-postal">Coffret : Livraison sous 4 à 6 jours ouvrés
-                        <span class="price">5 €</span></label>
+                <div id="radios-offrir">
+                    <div class="input-control input-control-radio">
+                        <input type="radio" id="e-coffret" name="ecoffret" value="1"
+                            {{ old('ecoffret') === '1' ? 'checked' : '' }}>
+                        <label for="e-coffret">E-Coffret : envoi immédiat par email
+                            <span class="price">Gratuit</span></label>
+                    </div>
+                    <div class="input-control input-control-radio">
+                        <input type="radio" id="coffret-postal" name="ecoffret" value="0"
+                            {{ old('ecoffret') !== '1' ? 'checked' : '' }}>
+                        <label for="coffret-postal">Coffret : Livraison sous 4 à 6 jours ouvrés
+                            <span class="price">5 €</span></label>
+                    </div>
                 </div>
                 @error('ecoffret')
                     <p class="error" data-offrir>{{ $message }}</p>
