@@ -22,13 +22,13 @@
                 <div id="prix">
                     <p class="text">Prix TTC</p>
                     <p class="value">
-                        {{ array_reduce(
-                            [$panier->descriptionspanier[0]],
-                            function ($prev, $dp) {
-                                return $prev + $dp->prix * $dp->quantite;
-                            },
-                            0,
-                        ) }}
+                        @php
+                            $prixTotal = 0;
+                            foreach ($panier->descriptionspanier as $dp) {
+                                $prixTotal += $dp->prix * $dp->quantite;
+                            }
+                        @endphp
+                        {{ $prixTotal }}
                         €
                     </p>
                 </div>

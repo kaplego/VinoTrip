@@ -34,10 +34,10 @@
             </p>
         </div>
 
-        <sections id="adresses">
+        <section id="adresses">
             @foreach ($adresses as $adresse)
                 <article class="adresse">
-                    <h2 class="titre"><a href="/adresse/{{ $adresse->idadresse }}">{{ $adresse->nomadresse }}</a></h2>
+                    <h2 class="titre"><a href="/client/adresse/{{ $adresse->idadresse }}">{{ $adresse->nomadresse }}</a></h2>
                     <div class="contenu">
                         <hr/>
                         <p>
@@ -54,13 +54,13 @@
                         <p>
                             {{ $adresse->paysadresse }}
                         </p>
-                        <a class="modifier button" href="/adresse/{{ $adresse->idadresse }}/modifier">Modifier</a>
-                        <a class="supprimer button" href="/adresse/{{ $adresse->idadresse }}/supprimer">Supprimer</a>
+                        <a class="modifier button" href="/client/adresse/{{ $adresse->idadresse }}/modifier">Modifier</a>
+                        <a class="supprimer button" href="/client/adresse/{{ $adresse->idadresse }}/supprimer">Supprimer</a>
                     </div>
                 </article>
             @endforeach
-            <a class="ajouter button" href="/adresse/ajouter">Ajouter une adresse</a>
-        </sections>
+        </section>
+        <a class="ajouter button" href="/client/adresse/ajouter">Ajouter une adresse</a>
     </main>
     @include('layout.footer')
 @endsection

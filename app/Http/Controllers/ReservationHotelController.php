@@ -43,11 +43,15 @@ class ReservationHotelController extends Controller
         //     Email : ". $_POST["email"]."
         //     Message : ". $_POST["message"];
 
-        $mail = $request->input("emailpartenaire");
+        $date = $request->input("datedebut");
+        $nom= $request->input("nom");
         // }
-        $message = $mail;
 
-        Mail::to("ppartenairehotel@gmail.com")->send(new SendEmail($message,"Confirmation de votre reservation"));
+        Mail::to("ppartenairehotel@gmail.com")->send(new SendEmail([
+            'type' => 'hotel',
+            'date' => $date,
+            'nom' => $nom
+        ],"Confirmation de votre reservation"));
 
         return redirect()->back()->with("successhotel","le mail a été envoyé");
 
@@ -65,12 +69,13 @@ class ReservationHotelController extends Controller
         // }
         $message = "bonjour !";
 
-        Mail::to("ppartenairehotel@gmail.com")->send(new SendEmail($message,"Confirmation de votre reservation"));
+        Mail::to("ppartenairehotel@gmail.com")->send(new SendEmail($message, "test"));
 
         return redirect()->back()->with("successclient","le mail a été envoyé");
 
 
     }
+
 
 
 

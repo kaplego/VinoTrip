@@ -16,17 +16,19 @@
     @endif
 
     @foreach ($arr as $lien)
-    @php
-        $url .= '/' . $lien;
-        $i++;
-    @endphp
+        @php
+            $url .= '/' . $lien;
+            $i++;
+        @endphp
+        @if (isset($breadcrumRemoveLink) && in_array($url, $breadcrumRemoveLink))
+            @continue
+        @endif
         <div class="slash">/</div>
         @if ($i < sizeof($arr) - 1 || (isset($breadcrumLastLink) && $breadcrumLastLink))
-            <a href="@if (isset($breadcrumReplaceLink) && isset($breadcrumReplaceLink[$url]))
-                {{ $breadcrumReplaceLink[$url] }}
+            <a
+                href="@if (isset($breadcrumReplaceLink) && isset($breadcrumReplaceLink[$url])) {{ $breadcrumReplaceLink[$url] }}
             @else
-                {{ $url }}
-            @endif">
+                {{ $url }} @endif">
                 @if (isset($breadcrumReplaceName) && isset($breadcrumReplaceName[$url]))
                     {{ $breadcrumReplaceName[$url] }}
                 @else

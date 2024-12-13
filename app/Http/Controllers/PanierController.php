@@ -264,7 +264,8 @@ class PanierController extends Controller
         ]);
 
         $inputs['numero-cb'] = str_replace(' ', '', $inputs['numero-cb']);
+        $inputs['save-infos-cb'] = isset($inputs['save-infos-cb']) && $inputs['save-infos-cb'] == 1;
 
-        dd($inputs);
+        dd(vars: $inputs);
     }
 }

@@ -27,7 +27,7 @@ p {
     margin-top: 2rem;
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
-
+    margin-bottom: 2rem;
 }
 
 #adresses .adresse {
@@ -123,8 +123,9 @@ p {
 .ajouter{
     background-color: var(--c-accent-500);
     color: white;
-    width: 85%;
-    margin-left: 1rem ;
+    align-self: flex-end;
+    justify-self: center;
+    margin-bottom: 1rem;
 }
 
 .ajouter:hover{

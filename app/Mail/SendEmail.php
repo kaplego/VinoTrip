@@ -9,6 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
+
 class SendEmail extends Mailable
 {
     use Queueable, SerializesModels;
@@ -16,10 +17,13 @@ class SendEmail extends Mailable
     /**
      * Create a new message instance.
      */
-    public $message;
-    public function __construct($message, $subject)
+
+
+    public $mailData;
+    public $subject;
+    public function __construct($mailData,$subject)
     {
-        $this->mailMessage= $message;
+        $this->mailData = $mailData;
         $this->subject = $subject;
     }
 
@@ -39,7 +43,8 @@ class SendEmail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail',
+            html: 'mail',
+            with: $this->mailData,
         );
     }
 

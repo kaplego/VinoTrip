@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdresseController;
 use App\Http\Controllers\PanierController;
 use App\Http\Controllers\SejourController;
 use App\Http\Controllers\ClientController;
@@ -47,7 +48,15 @@ Route::post('/api/sejour/{idsejour}/edit/changes', [SejourController::class, 'ap
 Route::get('/connexion', [ClientController::class, 'connexion']);
 Route::get('/client', [ClientController::class, 'profil']);
 Route::get('/client/informations', [ClientController::class, 'informations']);
-Route::get('/client/adresses', [ClientController::class, 'adresses']);
+
+Route::get('/client/adresses', [AdresseController::class, 'adresses']);
+Route::get('/client/adresse/{id}/modifier', [AdresseController::class, 'modifier']);
+Route::get('/client/adresse/ajouter', [AdresseController::class, 'ajouter']);
+
+Route::post('/api/client/adresse/modifier', [AdresseController::class, 'edit']);
+Route::post('/api/client/adresse/add', [AdresseController::class, 'add']);
+Route::post('/api/client/adresse/delete', [AdresseController::class, 'edit']);
+
 
 Route::post('/api/client/login', [ClientController::class, 'login']);
 Route::post('/api/client/logout', [ClientController::class, 'logout']);

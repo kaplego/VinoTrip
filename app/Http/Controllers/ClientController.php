@@ -35,13 +35,6 @@ class ClientController extends Controller
         return view("client.informations");
     }
 
-    public function adresses()
-    {
-        if (!Auth::check())
-            return redirect('/connexion');
-        return view("client.adresses", ["adresses" => Auth::user()->adresses]);
-    }
-
     /**
      * Handle an authentication attempt.
      *
@@ -76,8 +69,8 @@ class ClientController extends Controller
     public function signin(Request $request)
     {
         $credentials = $request->validate([
-            'prenomclient' => ['required'],
-            'nomclient' => ['required'],
+            'prenomclient' => ['required', "regex:/^[a-z \-']+$/i"],
+            'nomclient' => ['required', "regex:/^[a-z \-']+$/i"],
             'emailclient' => ['required', 'email'],
             'motdepasseclient' => ['required', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{12,}$/'],
             'offrespromotionnellesclient' => ['boolean'],
@@ -94,8 +87,8 @@ class ClientController extends Controller
 
         $user = new User();
 
-        $user->prenomclient = $credentials['prenomclient'];
-        $user->nomclient = $credentials['nomclient'];
+        $user->prenomclient = ucfirst($credentials['prenomclient']);
+        $user->nomclient = ucfirst($credentials['nomclient']);
         $user->emailclient = $credentials['emailclient'];
         $user->motdepasseclient = $password;
         $user->offrespromotionnellesclient = $credentials['offrespromotionnellesclient'] ?? '0' === 'on';
@@ -131,8 +124,8 @@ class ClientController extends Controller
     public function edit(Request $request)
     {
         $credentials = $request->validate([
-            'prenomclient' => ['required'],
-            'nomclient' => ['required'],
+            'prenomclient' => ['required', "regex:/^[a-z \-']+$/i"],
+            'nomclient' => ['required', "regex:/^[a-z \-']+$/i"],
             'emailclient' => ['required', 'email'],
             'ancienmotdepasse' => ['required'],
         ]);
@@ -180,8 +173,8 @@ class ClientController extends Controller
 
         if ($hasher->check($request->ancienmotdepasse, $user->motdepasseclient)) {
 
-            $user->prenomclient = $credentials['prenomclient'];
-            $user->nomclient = $credentials['nomclient'];
+            $user->prenomclient = ucfirst($credentials['prenomclient']);
+            $user->nomclient = ucfirst($credentials['nomclient']);
             $user->emailclient = $credentials['emailclient'];
             $user->motdepasseclient = $credentials['password'];
             $user->offrespromotionnellesclient = $credentials['offrespromotionnellesclient'];
