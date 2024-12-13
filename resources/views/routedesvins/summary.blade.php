@@ -32,10 +32,6 @@
             @foreach ($route->categorievignoble[0]->Sejour as $sejour)
                 @php
                     $note = 0;
-                    $participants = [];
-                    foreach ($sejour->categorieparticipant as $participant) {
-                        $participants[] = $participant->idcategorieparticipant;
-                    }
 
                     $localites = [];
                     foreach ($sejour->localite as $localite) {
@@ -84,23 +80,21 @@
                                     @endswitch
                                 </div>
                             @endif
-                            @foreach ($sejour->categorieparticipant as $participant)
-                                <div data-tooltip="{{ $participant->libellecategorieparticipant }}">
-                                    @switch($participant->idcategorieparticipant)
-                                        @case(1)
-                                            <i data-lucide="heart"></i>
-                                        @break
+                            <div data-tooltip="{{ $sejour->categorieparticipant->libellecategorieparticipant }}">
+                                @switch($sejour->categorieparticipant->idcategorieparticipant)
+                                    @case(1)
+                                        <i data-lucide="heart"></i>
+                                    @break
 
-                                        @case(2)
-                                            <i data-lucide="users-round"></i>
-                                        @break
+                                    @case(2)
+                                        <i data-lucide="users-round"></i>
+                                    @break
 
-                                        @case(3)
-                                            <i data-lucide="baby"></i>
-                                        @break
-                                    @endswitch
-                                </div>
-                            @endforeach
+                                    @case(3)
+                                        <i data-lucide="baby"></i>
+                                    @break
+                                @endswitch
+                            </div>
                         </div>
                         <p class="vignoble">
                             {{ $sejour->categorievignoble->libellecategorievignoble }}

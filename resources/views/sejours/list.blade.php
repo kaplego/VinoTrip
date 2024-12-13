@@ -30,7 +30,8 @@
                 <option value="all">Toutes les localités</option>
 
                 @foreach ($localites as $localite)
-                    <option value={{ $localite->idlocalite }} data-vignoble="{{ $localite->idcategorievignoble }}">{{ $localite->libellelocalite }}</option>
+                    <option value={{ $localite->idlocalite }} data-vignoble="{{ $localite->idcategorievignoble }}">
+                        {{ $localite->libellelocalite }}</option>
                 @endforeach
             </select>
 
@@ -76,23 +77,17 @@
             @endphp
             @foreach ($sejours as $sejour)
                 @php
-                $note=0;
-                    $participants = [];
-                    foreach ($sejour->categorieparticipant as $participant) {
-                        $participants[] = $participant->idcategorieparticipant;
-                    }
-
+                    $note = 0;
                     $localites = [];
                     foreach ($sejour->localite as $localite) {
                         $localites[] = $localite->idlocalite;
                     }
                 @endphp
 
-                <article class="sejour"
-                    data-categorie="{{ $sejour->idcategoriesejour }}" data-theme="{{ $sejour->idtheme }}"
-                    data-vignoble="{{ $sejour->idcategorievignoble }}" data-duree="{{$sejour->idduree}}"
-                    data-localite="{{ implode(',', $localites) }}"
-                    data-participants="{{ implode(',', $participants) }}">
+                <article class="sejour" data-categorie="{{ $sejour->idcategoriesejour }}"
+                    data-theme="{{ $sejour->idtheme }}" data-vignoble="{{ $sejour->idcategorievignoble }}"
+                    data-duree="{{ $sejour->idduree }}" data-localite="{{ implode(',', $localites) }}"
+                    data-participant="{{ $sejour->categorieparticipant->idcategorieparticipant }}">
                     <h2 class="titre"><a href="/sejour/{{ $sejour->idsejour }}">{{ $sejour->titresejour }}</a></h2>
                     <img class="image" data-src="/assets/images/sejour/{{ $sejour->photosejour }}" />
                     <div class="contenu">
@@ -133,48 +128,47 @@
                                     @endswitch
                                 </div>
                             @endif
-                            @foreach ($sejour->categorieparticipant as $participant)
-                                <div data-tooltip="{{ $participant->libellecategorieparticipant }}">
-                                    @switch($participant->idcategorieparticipant)
-                                        @case(1)
-                                            <i data-lucide="heart"></i>
-                                        @break
+                            <div data-tooltip="{{ $sejour->categorieparticipant->libellecategorieparticipant }}">
+                                @switch($sejour->categorieparticipant->idcategorieparticipant)
+                                    @case(1)
+                                        <i data-lucide="heart"></i>
+                                    @break
 
-                                        @case(2)
-                                            <i data-lucide="users-round"></i>
-                                        @break
+                                    @case(2)
+                                        <i data-lucide="users-round"></i>
+                                    @break
 
-                                        @case(3)
-                                            <i data-lucide="baby"></i>
-                                        @break
-                                    @endswitch
-                                </div>
-                            @endforeach
+                                    @case(3)
+                                        <i data-lucide="baby"></i>
+                                    @break
+                                @endswitch
+                            </div>
                         </div>
                         <p class="vignoble">
                             {{ $sejour->categorievignoble->libellecategorievignoble }}
                         </p>
                         <hr />
-                        <p class="prix">À partir de <span class="euros">{{ $sejour->prixsejour }}€</span> par personne</p>
+                        <p class="prix">À partir de <span class="euros">{{ $sejour->prixsejour }}€</span> par personne
+                        </p>
                         <p class="description">{{ $sejour->descriptionsejour }}</p>
                         <p class="duree">{{ $sejour->duree->libelleduree }}</p>
                         @php
-                            $cpt=0
+                            $cpt = 0;
                         @endphp
                         @foreach ($sejour->avis as $avis)
                             @php
-                                $cpt ++;
+                                $cpt++;
                             @endphp
                         @endforeach
-                        @if ($cpt!=0)
+                        @if ($cpt != 0)
                             @foreach ($sejour->avis as $avis)
                                 @php
                                     $note += $avis->noteavis;
                                 @endphp
                             @endforeach
                             @php
-                                $note=$note/$cpt;
-                                $note=round($note,1);
+                                $note = $note / $cpt;
+                                $note = round($note, 1);
                             @endphp
                             <div class="avis">
                                 <p class="note">
@@ -192,7 +186,7 @@
                                 <a href="/sejour/{{ $sejour->idsejour }}#avis">Voir les avis</a>
                             </div>
                         @endif
-                    <a class="decouvrir button" href="/sejour/{{ $sejour->idsejour }}">Découvrir</a>
+                        <a class="decouvrir button" href="/sejour/{{ $sejour->idsejour }}">Découvrir</a>
                     </div>
                 </article>
                 @php

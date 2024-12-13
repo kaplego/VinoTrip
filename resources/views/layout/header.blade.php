@@ -43,8 +43,8 @@
             <li class="@if (($active ?? '') == 'thematiques') active @endif">
                 <a href="/thematiques">Thématiques</a>
             </li>
-            <li class="@if (($active ?? '') == 'route_des_vins') active @endif">
-                <a href="/route_des_vins">Route des Vins</a>
+            <li class="@if (($active ?? '') == 'route-des-vins') active @endif">
+                <a href="/route-des-vins">Route des Vins</a>
             </li>
             <li class="@if (($active ?? '') == 'cadeaux') active @endif">
                 <a href="/cadeaux">Coffret Cadeau</a>

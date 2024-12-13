@@ -77,5 +77,5 @@ Route::post('/api/reservationhotel', [ReservationHotelController::class, 'envoie
 Route::post('/api/reservationclient', [ReservationHotelController::class, 'envoiemailclient']);
 
 
-Route::get('/route_des_vins', [RoutesVinsController::class, 'list']);
-Route::get('/route_des_vins/{id}', [RoutesVinsController::class, 'one']);
+Route::get('/route-des-vins', [RoutesVinsController::class, 'list']);
+Route::get('/route-des-vins/{id}', [RoutesVinsController::class, 'one']);

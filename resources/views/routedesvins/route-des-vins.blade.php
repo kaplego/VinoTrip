@@ -47,7 +47,7 @@
         <sections id="routes">
             @foreach ($routes as $route)
                 <article class="route">
-                    <h2 class="titre"><a href="/route/{{ $route->idroute }}">{{ $route->titreroute }}</a></h2>
+                    <h2 class="titre"><a href="/route-des-vins/{{ $route->idroute }}">{{ $route->titreroute }}</a></h2>
                     <img class="image" src="/assets/images/routedesvins/{{ $route->photoroute }}" />
                     <div class="contenu">
                         <p class="vignoble">
@@ -55,7 +55,7 @@
                         </p>
                         <hr/>
                         <p class="description">{{$route->descriptionroute }}</p>
-                        <a class="decouvrir button" href="/route_des_vins/{{ $route->idroute }}">Découvrir</a>
+                        <a class="decouvrir button" href="/route-des-vins/{{ $route->idroute }}">Découvrir</a>
                     </div>
                 </article>
             @endforeach

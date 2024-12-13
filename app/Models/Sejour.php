@@ -37,14 +37,11 @@ class Sejour extends Model
         return $this->hasOne(Duree::class, 'idduree', 'idduree');
     }
 
-    public function categorieparticipant(): HasManyThrough
+    public function categorieparticipant(): HasOne
     {
-        return $this->hasManyThrough(
+        return $this->hasOne(
             Categorieparticipant::class,
-            Destinea::class,
-            'idsejour',
             'idcategorieparticipant',
-            'idsejour',
             'idcategorieparticipant'
         );
     }
