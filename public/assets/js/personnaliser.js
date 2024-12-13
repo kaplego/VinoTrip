@@ -1,20 +1,22 @@
 let offrir = false,
     ecoffret = false,
-    hebergement = null,
+    prixHebergement = null,
+    repas = [],
     dejeuner = false,
     diner = false,
     activite = false;
 
-const priceElement = document.getElementById("prix-total"),
-    dateDebut = document.getElementById('datedebut'),
-    dateFin = document.getElementById('datefin'),
-    nbAdultes = document.getElementById('nbadultes'),
-    nbEnfants = document.getElementById('nbenfants'),
-    nbChambresSimple = document.getElementById('chambressimple'),
-    nbChambresDouble = document.getElementById('chambresdouble'),
-    nbChambresTriple = document.getElementById('chambrestriple'),
-    hebergementSelect = document.getElementById("hebergement"),
-    listeHebergements = document.querySelectorAll(".hebergement"),
+const form = document.getElementById("formulaire"),
+    priceElement = document.getElementById("prix-total"),
+    dateDebut = document.getElementById("datedebut"),
+    dateFin = document.getElementById("datefin"),
+    nbAdultes = document.getElementById("nbadultes"),
+    nbEnfants = document.getElementById("nbenfants"),
+    nbChambresSimple = document.getElementById("chambressimple"),
+    nbChambresDouble = document.getElementById("chambresdouble"),
+    nbChambresTriple = document.getElementById("chambrestriple"),
+    listeHebergements = document.querySelectorAll(".selection-hebergement"),
+    listeRepas = document.querySelectorAll(".selection-repas"),
     offrirCheckbox = document.getElementById("offrir"),
     dejeunerCheckbox = document.getElementById("dejeuner"),
     dinerCheckbox = document.getElementById("diner"),
@@ -23,46 +25,68 @@ const priceElement = document.getElementById("prix-total"),
 
 //======================= DATES
 
-dateDebut.addEventListener('change', () => {
-    const duree = dateDebut.getAttribute('data-duree');
+dateDebut.addEventListener("change", () => {
+    const duree = dateDebut.getAttribute("data-duree");
     let date = new Date(dateDebut.value);
     switch (duree) {
-        case '2':
+        case "2":
             date.setDate(date.getDate() + 1);
             break;
-        case '3':
+        case "3":
             date.setDate(date.getDate() + 2);
             break;
     }
-    dateFin.value = date.toISOString().split('T')[0];
+    dateFin.value = date.toISOString().split("T")[0];
 });
 
 //======================= PERSONNES & CHAMBRES
 
-nbAdultes.addEventListener('change', updatePrice);
-nbEnfants.addEventListener('change', updatePrice);
+nbAdultes.addEventListener("change", updatePrice);
+nbEnfants.addEventListener("change", updatePrice);
 
-nbChambresSimple.addEventListener('change', updatePrice);
-nbChambresDouble.addEventListener('change', updatePrice);
-nbChambresTriple.addEventListener('change', updatePrice);
+nbChambresSimple.addEventListener("change", updatePrice);
+nbChambresDouble.addEventListener("change", updatePrice);
+nbChambresTriple.addEventListener("change", updatePrice);
 
 //======================= HEBERGEMENT
 
-// listeHebergements.forEach((hebergementElement) => {
-//     if (
-//         hebergementSelect.value ===
-//         hebergementElement.getAttribute("data-value")
-//     )
-//         hebergementElement.classList.add("active");
+listeHebergements.forEach((hebergementElement) => {
+    const id = hebergementElement.getAttribute("data-value");
+    const prix = +hebergementElement.getAttribute("data-price");
 
-//     hebergementElement.addEventListener("click", () => {
-//         hebergementSelect.value = hebergement =
-//             hebergementElement.getAttribute("data-value");
-//         listeHebergements.forEach((h) => h.classList.remove("active"));
-//         hebergementElement.classList.add("active");
-//         updatePrice();
-//     });
-// });
+    if (new FormData(form).get("hebergement") === id) {
+        prixHebergement = prix;
+        hebergementElement.classList.add("active");
+    }
+
+    hebergementElement.addEventListener("click", () => {
+        prixHebergement = prix;
+        document.getElementById(`hebergement-${id}`).checked = true;
+        listeHebergements.forEach((h) => h.classList.remove("active"));
+        hebergementElement.classList.add("active");
+        updatePrice();
+    });
+});
+
+//======================= REPAS
+
+function prixFromRepas(repas) {
+    return +document
+        .getElementById(`repas-${repas}`)
+        .getAttribute("data-price");
+}
+
+listeRepas.forEach((repasElement) => {
+    const id = repasElement.getAttribute("data-value");
+
+    repasElement.addEventListener("click", () => {
+        const checked = !(new FormData(form).getAll("repas[]").includes(id));
+
+        document.querySelector(`#repas-${id} > input`).checked = checked;
+        repasElement.classList.toggle("active", checked);
+        updatePrice();
+    });
+});
 
 //======================= OFFRIR
 
@@ -82,9 +106,9 @@ offrirCheckbox.addEventListener("change", (event) => {
 //======================= FORMAT CADEAU
 
 document.querySelectorAll("input[name=ecoffret]").forEach((radio) => {
-    if (radio.checked) ecoffret = radio.value == '1';
+    if (radio.checked) ecoffret = radio.value == "1";
     radio.addEventListener("change", () => {
-        ecoffret = radio.value == '1';
+        ecoffret = radio.value == "1";
         updatePrice();
     });
 });
@@ -104,30 +128,18 @@ activiteCheckbox.addEventListener("change", () => {
     updatePrice();
 });
 
-//======================= ACTIVITES
-
-// activitesListe.forEach((activiteCheckbox) => {
-//     if (activiteCheckbox.checked) {
-//         activites.push(activiteCheckbox.name);
-//     }
-//     activiteCheckbox.addEventListener('change', () => {
-//         if (activiteCheckbox.checked) {
-//             activites.push(activiteCheckbox.name);
-//         }
-//         else {
-//             activites = activites.filter((a) => a !== activiteCheckbox.name);
-//         }
-//         updatePrice();
-//     });
-// });
-
 //======================= MAJ PRIX
 
 function updatePrice() {
     let price = prixDeBase;
-    if (dejeuner) price += 20;
-    if (diner) price += 20;
+
+    price += prixHebergement;
+    price += new FormData(form)
+        .getAll("repas[]")
+        .reduce((prev, r) => prixFromRepas(r) + prev, 0);
+
     if (activite) price += 50;
+
     price *= +nbAdultes.value + +nbEnfants.value;
 
     if (offrir && !ecoffret) price += 5;
@@ -135,7 +147,7 @@ function updatePrice() {
     price += nbChambresDouble.value * 100;
     price += nbChambresTriple.value * 125;
 
-    priceElement.innerText = price.toFixed(2) + " €";
+    priceElement.innerText = price.toFixed(2).replace(/\./g, ",") + " €";
 }
 
 updatePrice();

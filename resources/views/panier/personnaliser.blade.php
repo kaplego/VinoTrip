@@ -10,14 +10,20 @@
     @include('layout.header')
     <main class="container">
         @php
-            $breadcrumReplaceLink = ['/personnaliser' => '/sejours', "/personnaliser/$sejour->idsejour" => "/sejour/$sejour->idsejour"];
-            $breadcrumReplaceName = ['/personnaliser' => 'Sejours', "/personnaliser/$sejour->idsejour" => $sejour->titresejour];
+            $breadcrumReplaceLink = [
+                '/personnaliser' => '/sejours',
+                "/personnaliser/$sejour->idsejour" => "/sejour/$sejour->idsejour",
+            ];
+            $breadcrumReplaceName = [
+                '/personnaliser' => 'Sejours',
+                "/personnaliser/$sejour->idsejour" => $sejour->titresejour,
+            ];
             $breadcrumLastLink = true;
         @endphp
         @include('layout.breadcrumb')
         <h1>Personnaliser : {{ $sejour->titresejour }}</h1>
         <hr class="separateur-titre" />
-        <form action="/api/panier/add" method="POST" novalidate>
+        <form action="/api/panier/add" method="POST" novalidate id="formulaire">
             @csrf
             <input type="hidden" name="idsejour" value="{{ $sejour->idsejour }}">
             <section>
@@ -65,8 +71,8 @@
                     <div class="input-control input-control-text">
                         <label for="chambressimple">Nombre de chambres simple<br /><span class="price">75 € /
                                 chambre</span></label>
-                        <input type="number" id="chambressimple" name="chambressimple" min="0" max="10" required
-                            value="{{ old('chambressimple', 0) }}" />
+                        <input type="number" id="chambressimple" name="chambressimple" min="0" max="10"
+                            required value="{{ old('chambressimple', 0) }}" />
                         @error('chambressimple')
                             <p class="error">{{ $message }}</p>
                         @enderror
@@ -74,8 +80,8 @@
                     <div class="input-control input-control-text">
                         <label for="chambresdouble">Nombre de chambres double<br /><span class="price">100 € /
                                 chambre</span></label>
-                        <input type="number" id="chambresdouble" name="chambresdouble" min="0" max="10" required
-                            value="{{ old('chambresdouble', 0) }}" />
+                        <input type="number" id="chambresdouble" name="chambresdouble" min="0" max="10"
+                            required value="{{ old('chambresdouble', 0) }}" />
                         @error('chambresdouble')
                             <p class="error">{{ $message }}</p>
                         @enderror
@@ -83,8 +89,8 @@
                     <div class="input-control input-control-text">
                         <label for="chambrestriple">Nombre de chambres triple<br /><span class="price">125 € /
                                 chambre</span></label>
-                        <input type="number" id="chambrestriple" name="chambrestriple" min="0" max="10" required
-                            value="{{ old('chambrestriple', 0) }}" />
+                        <input type="number" id="chambrestriple" name="chambrestriple" min="0" max="10"
+                            required value="{{ old('chambrestriple', 0) }}" />
                         @error('chambrestriple')
                             <p class="error">{{ $message }}</p>
                         @enderror
@@ -92,67 +98,59 @@
                 </div>
             </section>
 
-            {{-- <section>
+            <section>
                 <h2>Hébergement</h2>
 
-                <div id="hebergements">
+                <div class="selections">
                     @foreach ($sejour->etape as $etape)
-                        @foreach ($etape->hebergement as $hebergement)
-                            <article class="hebergement" data-value="{{ $hebergement->idhebergement }}">
-                                <img class="image"
-                                    src="/assets/images/hebergement/{{ $hebergement->photohebergement }}"></img>
+                        <article class="selection selection-image selection-hebergement"
+                            data-value="{{ $etape->hebergement->idhebergement }}"
+                            data-price="{{ $etape->hebergement->prixhebergement }}">
+                            <input type="radio" name="hebergement" value="{{ $etape->hebergement->idhebergement }}"
+                                id="hebergement-{{ $etape->hebergement->idhebergement }}" hidden>
+                            <img class="image"
+                                src="/assets/images/hebergement/{{ $etape->hebergement->photohebergement }}"></img>
+                            <div class="infos">
+                                <p class="titre">{{ $etape->hebergement->hotel->nompartenaire }}</p>
+                                <p class="description">{{ $etape->hebergement->descriptionhebergement }}</p>
+                                <p class="prix">{{ number_format($etape->hebergement->prixhebergement, 2, ',') }} €</p>
+                            </div>
+                        </article>
+                    @endforeach
+                </div>
+
+                @error('hebergement')
+                    <p class="error">{{ $message }}</p>
+                @enderror
+            </section>
+
+            <section>
+                <h2>Repas</h2>
+
+                <div class="selections">
+                    @foreach ($sejour->etape as $etape)
+                        @foreach ($etape->repas as $repas)
+                            <article class="selection selection-repas" data-value="{{ $repas->idrepas }}"
+                                data-price="{{ $repas->prixrepas }}" id="repas-{{ $repas->idrepas }}">
+                                <input type="checkbox" name="repas[]" value="{{ $repas->idrepas }}" hidden>
                                 <div class="infos">
-                                    <p class="titre">{{ $hebergement->hotel->nompartenaire }}</p>
-                                    <p class="description">{{ $hebergement->descriptionhebergement }}</p>
+                                    <p class="titre">{{ $repas->restaurant->nompartenaire }}</p>
+                                    <div class="etoiles">
+                                        @for ($i = 0; $i < $repas->restaurant->nombreetoilesrestaurant; $i++)
+                                            <i data-lucide="star"></i>
+                                        @endfor
+                                    </div>
+                                    <p class="description">{{ $repas->descriptionrepas }}</p>
+                                    <p class="prix">{{ number_format($repas->prixrepas, 2, ',') }} €</p>
                                 </div>
                             </article>
                         @endforeach
                     @endforeach
                 </div>
-
-                <select name="hebergement" id="hebergement" hidden>
-                    @foreach ($sejour->etape as $etape)
-                        @foreach ($etape->hebergement as $hebergement)
-                            <option value="{{ $hebergement->idhebergement }}"></option>
-                        @endforeach
-                    @endforeach
-                </select>
-            </section> --}}
-
-            <section>
-                <h2>Options supplémentaires</h2>
-
-                <div class="input-control input-control-checkbox">
-                    <input type="checkbox" id="dejeuner" name="dejeuner" {{ old('dejeuner') ? 'checked' : '' }}
-                        value="1">
-                    <label for="dejeuner">Déjeuner <span class="price">20 € / pers.</span></label>
-                    @error('dejeuner')
-                        <p class="error">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div class="input-control input-control-checkbox">
-                    <input type="checkbox" id="diner" name="diner" {{ old('diner') ? 'checked' : '' }}
-                        value="1">
-                    <label for="diner">Diner <span class="price">20 € / pers.</span></label>
-                    @error('diner')
-                        <p class="error">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div class="input-control input-control-checkbox">
-                    <input type="checkbox" id="activite" name="activite" {{ old('activite') ? 'checked' : '' }}
-                        value="1">
-                    <label for="activite">Activité <span class="price">50 € / pers.</span></label>
-                    @error('activite')
-                        <p class="error">{{ $message }}</p>
-                    @enderror
-                </div>
             </section>
 
-            {{-- <section>
+            <section>
                 <h2>Activités</h2>
-                <span class="price">50 € / pers. / activité</span>
 
                 @foreach ($sejour->etape as $etape)
                     @foreach ($etape->activites as $activite)
@@ -160,7 +158,9 @@
                             <input type="checkbox" name="activites[]" value="{{ $activite->idactivite }}"
                                 id="activite-{{ $activite->idactivite }}" class="activite"
                                 {{ in_array($activite->idactivite, old('activites', [])) ? 'checked' : '' }}>
-                            <label for="activite-{{ $activite->idactivite }}">{{ $activite->libelleactivite }}</label>
+                            <label for="activite-{{ $activite->idactivite }}">{{ $activite->libelleactivite }} <span
+                                    class="price">{{ number_format($activite->prixactivite, 2, ',') }} € /
+                                    personne</span></label>
                             @error("activites.{{ $activite->idactivite }}")
                                 <p class="error">{{ $message }}</p>
                             @enderror
@@ -171,7 +171,7 @@
                 @error('activites')
                     <p class="error">{{ $message }}</p>
                 @enderror
-            </section> --}}
+            </section>
 
             <section>
                 <h2>Cadeau</h2>
@@ -199,7 +199,9 @@
                     <p class="error" data-offrir>{{ $message }}</p>
                 @enderror
             </section>
-            <p id="prix-total-text">Prix total : <span id="prix-total">{{ $sejour->prixsejour }} €</span></p>
+            <p id="prix-total-text">Prix total : <span
+                    id="prix-total">{{ number_format($sejour->prixsejour, 2, ',', ' ') }}
+                    €</span></p>
             <button class="button" type="submit">Ajouter au Panier</button>
         </form>
     </main>

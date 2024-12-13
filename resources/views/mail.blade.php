@@ -15,15 +15,16 @@
             <p>Merci de nous confirmer la disponibilité de votre hébergement{{ $nom }}.</p>
             <p>Cordialement,<br /><br />
                 Service vente vinotrip</p>
+        @break
         @case('client')
 
 
-            <p>Bonjour , suite à la la réservation de votre séjour nous vous informons la validation de votre séjour {{$titresejour}} prévus le {{$datedebutsejour}}.</p>
-              <p>Afin de terminer la validation de votre sejour merci regler le prix de votre séjour qui est de : {{$prix}} €.
+            <p>Bonjour , suite à la la réservation de votre séjour nous vous informons la validation de votre séjour {{$titre}} prévus le {{$date}}.</p>
+              <p>Afin de terminer la validation de votre sejour merci regler le prix de votre séjour qui est de : {{$prix}} €.</p>
 
-             Cordialemnt,
+             <p>Cordialemnt,<br /><br />
 
-             Service vente vinotrip</p
+             Service vente vinotrip</p>
 
 
 

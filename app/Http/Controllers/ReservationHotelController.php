@@ -67,9 +67,17 @@ class ReservationHotelController extends Controller
 
         //$mail = $request->input("emailpartenaire");
         // }
-        $message = "bonjour !";
+        $date = $request->input("datedebut");
+        $titresejour= $request->input("titre");
+        $prixsej= $request->input("prix");
 
-        Mail::to("ppartenairehotel@gmail.com")->send(new SendEmail($message, "test"));
+        Mail::to("ppartenairehotel@gmail.com")->send(new SendEmail([
+            'type' => 'client',
+            'date' => $date,
+            'titre' => $titresejour,
+            'prix'=> $prixsej
+
+        ], "Validation séjours client"));
 
         return redirect()->back()->with("successclient","le mail a été envoyé");
 
