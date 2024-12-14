@@ -64,8 +64,7 @@ class SejourController extends Controller
         $iddescriptioncommande = $request->input('iddescriptioncommande');
         $newidhebergement = $request->input('newidhebergement');
 
-        $descriptioncommande = Descriptioncommande::find(id: $iddescriptioncommande);
-        dd(        $iddescriptioncommande);
+        $descriptioncommande = Descriptioncommande::find( $iddescriptioncommande);
 
         $descriptioncommande->idhebergement = $newidhebergement;
 
@@ -75,11 +74,11 @@ class SejourController extends Controller
     }
     public function choixhebergement(Request $request)
     {
-        // $idhebergement = $request->input('idhebergement');
+        $iddescription = $request->input('iddescriptioncomande');
         // $idetape = $request->input('idetape');
 
         // $hebergement = Hebergement::find($idhebergement);
-        // $hebergement->disponibilitehebergement = !$hebergement->disponibilitehebergement;
+        // $iddescription->disponibilitehebergement = !$iddescription->disponibilitehebergement;
 
         // $hebergement->update();
         return view("sejours.edit-list-hebergement", [

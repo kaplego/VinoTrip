@@ -22,64 +22,89 @@
             @endphp
             <section>
                 @foreach ($commandes as $commande)
-                    @if($commande->descriptioncommande!=null)
-                        @if($commande->descriptioncommande->datedebut>=$dateauj)
-                            <h2 class="titresej">{{$commande->descriptioncommande->sejour->titresejour}}</h2>
+                    @if ($commande->descriptioncommande != null)
+                        @if ($commande->descriptioncommande->datedebut >= $dateauj)
+                            <h2 class="titresej">{{ $commande->descriptioncommande->sejour->titresejour }}</h2>
                             <section id="unereservation">
 
-                                <p class="date">Date séjour : {{$commande->descriptioncommande->datedebut}}</p>
+                                <p class="date">Date séjour : {{ $commande->descriptioncommande->datedebut }}</p>
                                 <article class ="unclient">
-                                    <h3>Commande effective du client : {{$commande->beneficiaire->prenomclient}} {{$commande->beneficiaire->nomclient}}</h3>
+                                    <h3>Commande effective du client : {{ $commande->beneficiaire->prenomclient }}
+                                        {{ $commande->beneficiaire->nomclient }}</h3>
                                     <form method="POST" action="/api/reservationclient">
                                         @csrf
-                                        <input type="hidden" value="{{$commande->descriptioncommande->datedebut}}" name="datedebut">
-                                        <input type="hidden" value="{{$commande->descriptioncommande->sejour->titresejour}}" name="titre">
-                                        <input type="hidden" value="{{$commande->descriptioncommande->prix}}" name="prix">
+                                        <input type="hidden" value="{{ $commande->descriptioncommande->datedebut }}"
+                                            name="datedebut">
+                                        <input type="hidden"
+                                            value="{{ $commande->descriptioncommande->sejour->titresejour }}"
+                                            name="titre">
+                                        <input type="hidden" value="{{ $commande->descriptioncommande->prix }}"
+                                            name="prix">
 
-                                        <p>Envoyer un mail de paiement au client: <button type="submit" @if ($commande->validationclient == false) disabled= @endif >{{$commande->beneficiaire->emailclient}}</button> </p>
+                                        <p>Envoyer un mail de paiement au client: <button type="submit"
+                                                @if (!\Session::has('successhotel')) disabled= @endif>{{ $commande->beneficiaire->emailclient }}</button>
+                                        </p>
                                         <div>
-                                            <p>Validation client :<input type="checkbox" name="validClient" id="validationC" @if ($commande->validationclient==true) checked  @endif ></p>
+                                            <p>Validation client :<input type="checkbox" name="validClient" id="validationC"
+                                                    @if ($commande->validationclient == true) checked @endif></p>
                                         </div>
 
-                                        @if (\Session::has('successclient') )
-                                            <p class="alert alert-success"><i data-lucide="circle-check-big"></i>{!! \Session::get('success') !!}</p>
+                                        @if (\Session::has('successclient'))
+                                            <p class="alert alert-success"><i
+                                                    data-lucide="circle-check-big"></i>{!! \Session::get('success') !!}</p>
                                         @endif
 
                                     </form>
                                 </article>
-                                {{-- <p>{{$commande->descriptioncommande!=null ? $commande->descriptioncommande->datedebut : "" }}</p> --}}
-                                @foreach ( $commande->descriptioncommande->sejour->etape as $unetape)
+
+
                                     <article class="unhotel">
-                                        <form method="POST" action="/api/reservationhotel">
-                                            @csrf
-                                            <input type="hidden" value="{{$commande->descriptioncommande->datedebut}}" name="datedebut">
-                                            <input type="hidden" value="{{$unetape->hebergement->hotel->nompartenaire}}" name="nom">
-                                            <h3>Partenaire hotel : {{$unetape->hebergement->hotel->nompartenaire}}</h3>
-                                            <p>Envoyer un mail de validation pour la réservation de l'hotel: <button type="submit">{{$unetape->hebergement->hotel->mailpartenaire}}</button> </p>
-                                                <p>Validation hebergement : <button class="button" type="submit">OUI</button>
-                                                    {{-- <input type="checkbox" name="validHeberg" id="validationH" @if ($commande->validationhebergement==true) checked  @endif > --}}
+                                        <div class="réponseheberg">
+                                            <form method="POST" action="/api/reservationhotel">
+                                                @csrf
+                                                <input type="hidden" value="{{ $commande->descriptioncommande->datedebut }}"
+                                                    name="datedebut">
+                                                <input type="hidden" value="{{$commande->descriptioncommande->hebergement->hotel->nompartenaire}}"
+                                                    name="nom">
+                                                <h3>Partenaire hotel : {{ $commande->descriptioncommande->hebergement->hotel->nompartenaire }}</h3>
+                                                <p>Envoyer un mail de validation pour la réservation de l'hotel: <button
+                                                        type="submit">{{ $commande->descriptioncommande->hebergement->hotel->mailpartenaire }}</button>
                                                 </p>
-                                            @if (\Session::has('successhotel'))
-                                                <p class="alert alert-success"><i data-lucide="circle-check-big"></i>{!! \Session::get('success') !!}</p>
-                                            @endif
-                                        </form>
-                                        <form action="/edit/choix" method="POST">
-                                            @csrf
-                                            <input type="hidden" value="{{$commande->descriptioncommande}}" name="iddescriptioncommande">
-                                            <button class="button" type="submit">NON</button>
-                                        </form>
+                                                <p>Validation hebergement : <button class="button" type="submit">OUI</button>
+                                                    @php
+                                                        $commande->descriptioncommande->disponibilitehebergement = true;
+                                                        $commande->descriptioncommande->update();
+                                                    @endphp</p>
+                                                    {{-- <input type="checkbox" name="validHeberg" id="validationH" @if ($commande->validationhebergement == true) checked  @endif > --}}
+
+                                            </form>
+                                            <form action="/edit/choix" method="POST">
+                                                @csrf
+                                                <input type="hidden"
+                                                    value="{{ $commande->descriptioncommande->iddescriptioncommande }}"
+                                                    name="iddescriptioncommande">
+                                                <button class="button" type="submit">NON</button>
+                                            </form>
+                                        </div>
+                                        @if (\Session::has('successhotel'))
+                                        @php
+                                            $commande->descriptioncommande->disponibilitehebergement = true;
+                                            $commande->descriptioncommande->update();
+                                        @endphp
+                                        <p class="alert alert-success"><i
+                                                data-lucide="circle-check-big"></i>{!! \Session::get('success') !!}</p>
+                                    @endif
                                     </article>
-                                @endforeach
 
-                        </section>
-                        @if($commande->validationclient ==true && $commande->validationhebergement == true)
-                            <form method="POST" action="/api/reservationhotel" class="validationsejour">
-                                @csrf
+                            </section>
+                            @if (\Session::has('successclient'))
+                                <form method="POST" action="/api/reservationhotel" class="validationsejour">
+                                    @csrf
                                     <button class="button" type="submit">Valider séjour</button>
-                            </form>
-                        @endif
+                                </form>
+                            @endif
 
-                        <br>
+                            <br>
                         @endif
                     @endif
 
@@ -103,4 +128,3 @@
     @section('scripts')
 
     @endsection
-

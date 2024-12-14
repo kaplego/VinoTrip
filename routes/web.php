@@ -40,7 +40,7 @@ Route::get('/contact', [SiteController::class, 'contact']);
 
 Route::get('/conditions-vente', [SiteController::class, 'conditions']);
 
-Route::get('/sejour/{id}', [SejourController::class, 'one']);
+Route::get('/sejour/{id}', action: [SejourController::class, 'one']);
 Route::get('/sejour/{id}/edit', [SejourController::class, 'edit']);
 Route::post('/edit/choix', [SejourController::class, 'choixhebergement']);
 Route::post('/api/edit/changes', [SejourController::class, 'apitogglehebergement']);

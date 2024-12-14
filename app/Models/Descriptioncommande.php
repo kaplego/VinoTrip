@@ -6,14 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Descriptioncommande extends Model
 {
     use HasFactory;
 
     protected $table = "descriptioncommande";
-    protected $primaryKey = "idcommande";
+    protected $primaryKey = "iddescriptioncommande";
     public $timestamps = false;
     public $guarded = [];
 
@@ -27,7 +29,10 @@ class Descriptioncommande extends Model
         return $this->belongsTo(Panier::class, 'idcommande', 'idcommande');
     }
 
-
+    public function hebergement(): HasOne
+    {
+        return $this->hasOne(Hebergement::class, 'idhebergement', 'idhebergement');
+    }
 
 
 

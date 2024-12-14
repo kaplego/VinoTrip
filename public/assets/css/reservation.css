@@ -17,7 +17,9 @@ section{
 .date{
     font-weight: bold;
 }
-
+.réponseheberg button{
+    display:inline;
+}
 #unereservation{
     display: grid;
     position: relative;

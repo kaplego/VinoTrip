@@ -30,7 +30,6 @@
                                 target="_blank">{{ $hebergement->hotel->nompartenaire }}</a>
                             {{-- {{ $etape->hebergement->lienhebergement }} --}}
                         </article>
-                        {{dd( $iddescriptioncommande)}}
                         <input type="hidden" name="iddescriptioncommande" value="{{ $iddescriptioncommande }}" />
                         <input type="hidden" name="newidhebergement" value="{{ $hebergement->idhebergement }}" />
                         <button class="button" type="submit">

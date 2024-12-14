@@ -51,7 +51,7 @@ class ReservationHotelController extends Controller
             'type' => 'hotel',
             'date' => $date,
             'nom' => $nom
-        ],"Confirmation de votre reservation"));
+        ],"Vinotrip validation de votre disponibilité "));
 
         return redirect()->back()->with("successhotel","le mail a été envoyé");
 
@@ -77,17 +77,77 @@ class ReservationHotelController extends Controller
             'titre' => $titresejour,
             'prix'=> $prixsej
 
-        ], "Validation séjours client"));
+        ], "confirmation validation du séjours vinotrip"));
 
         return redirect()->back()->with("successclient","le mail a été envoyé");
 
 
     }
 
+    public function envoiemailValidationHebergement(Request $request){
 
+        $date = $request->input("datedebut");
+        $titresejour= $request->input("titre");
+        $prixsej= $request->input("prix");
 
+        Mail::to("ppartenairehotel@gmail.com")->send(new SendEmail([
+            'type' => 'ValidationHebegement',
+            'date' => $date,
+            'titre' => $titresejour,
+            'prix'=> $prixsej
 
+        ], "Vinotrip validation séjour"));
 
+        return redirect()->back()->with("successclient","le mail a été envoyé");
+    }
+
+    public function envoieFinalClient(Request $request){
+        $date = $request->input("datedebut");
+        $titresejour= $request->input("titre");
+        $prixsej= $request->input("prix");
+
+        Mail::to("ppartenairehotel@gmail.com")->send(new SendEmail([
+            'type' => 'ValidationClient',
+            'date' => $date,
+            'titre' => $titresejour,
+            'prix'=> $prixsej
+
+        ], "Vinotrip validation de votre séjours ! "));
+
+        return redirect()->back()->with("successclient","le mail a été envoyé");
+    }
+
+    public function Restaurant(Request $request){
+        $date = $request->input("datedebut");
+        $titresejour= $request->input("titre");
+        $prixsej= $request->input("prix");
+
+        Mail::to("ppartenairehotel@gmail.com")->send(new SendEmail([
+            'type' => 'ValidationClient',
+            'date' => $date,
+            'titre' => $titresejour,
+            'prix'=> $prixsej
+
+        ], "Réservation restaurant "));
+
+        return redirect()->back()->with("successclient","le mail a été envoyé");
+    }
+
+    public function envoiemailIndisponiliteHebergement(Request $request){
+        $date = $request->input("datedebut");
+        $titresejour= $request->input("titre");
+        $prixsej= $request->input("prix");
+
+        Mail::to("ppartenairehotel@gmail.com")->send(new SendEmail([
+            'type' => 'PbHeberg',
+            'date' => $date,
+            'titre' => $titresejour,
+            'prix'=> $prixsej
+
+        ], "Équipe vinotrip changement d'hebergement "));
+
+        return redirect()->back()->with("successclient","le mail a été envoyé");
+    }
 
 
 

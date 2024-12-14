@@ -14,7 +14,7 @@ class Descriptionpanier extends Model
     use HasFactory;
 
     protected $table = "descriptionpanier";
-    protected $primaryKey = "idpanier";
+    protected $primaryKey = "iddescriptionpanier";
     public $timestamps = false;
     public $guarded = [];
 
