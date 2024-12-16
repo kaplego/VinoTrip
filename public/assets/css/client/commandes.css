@@ -1,0 +1,20 @@
+table {
+    margin-top: 2rem;
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+th {
+    padding: 1rem;
+}
+
+tr,
+td {
+    border-bottom: 2px solid var(--c-accent-500);
+}
+
+td {
+    padding: 0.75rem 0;
+    vertical-align: middle;
+}

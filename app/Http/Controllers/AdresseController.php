@@ -17,16 +17,16 @@ class AdresseController extends Controller
 
     public function modifier($id)
     {
-        if (!Auth::check())
+        $ok = false;
+        foreach (Auth::user()->adresses as $value) {
+            if ($value->idadresse == $id) {
+                $ok = true;
+                break;
+            }
+        }
+        if (!Auth::check() || !$ok)
             return redirect('/connexion');
         return view("client.adresse.modifier", ["adresse" => Adresse::find($id)]);
-    }
-
-    public function supprimer($id)
-    {
-        if (!Auth::check())
-            return redirect('/connexion');
-        return view("client.adresse.supprimer", ["adresse" => Adresse::find($id)]);
     }
 
     public function ajouter()
@@ -41,8 +41,8 @@ class AdresseController extends Controller
         $credentials = $request->validate([
             'idadresse' => ['required'],
             'nomadresse' => ['required'],
-            'nomdestinataireadresse' => ['required', "regex:/^[a-z \-']+$/i"],
-            'prenomdestinataireadresse' => ['required', "regex:/^[a-z \-']+$/i"],
+            'nomadressedestinataire' => ['required', "regex:/^[a-z \-']+$/i"],
+            'prenomadressedestinataire' => ['required', "regex:/^[a-z \-']+$/i"],
             'rueadresse' => ['required'],
             'villeadresse' => ['required', "regex:/^[a-z \-']+$/i"],
             'cpadresse' => ['required', "regex:/^\d{5}$/"],
@@ -54,8 +54,8 @@ class AdresseController extends Controller
         $adresse = Adresse::find($credentials['idadresse']);
 
         $adresse->nomadresse = ucfirst($credentials['nomadresse']);
-        $adresse->nomdestinataireadresse = ucfirst($credentials['nomdestinataireadresse']);
-        $adresse->prenomdestinataireadresse = ucfirst($credentials['prenomdestinataireadresse']);
+        $adresse->nomadressedestinataire = ucfirst($credentials['nomadressedestinataire']);
+        $adresse->prenomadressedestinataire = ucfirst($credentials['prenomadressedestinataire']);
         $adresse->rueadresse = ucfirst($credentials['rueadresse']);
         $adresse->cpadresse = $credentials['cpadresse'];
         $adresse->villeadresse = $credentials['villeadresse'];
@@ -72,8 +72,8 @@ class AdresseController extends Controller
     {
         $credentials = $request->validate([
             'nomadresse' => ['required'],
-            'nomdestinataireadresse' => ['required', "regex:/^[a-z \-']+$/i"],
-            'prenomdestinataireadresse' => ['required', "regex:/^[a-z \-']+$/i"],
+            'nomadressedestinataire' => ['required', "regex:/^[a-z \-']+$/i"],
+            'prenomadressedestinataire' => ['required', "regex:/^[a-z \-']+$/i"],
             'rueadresse' => ['required'],
             'villeadresse' => ['required', "regex:/^[a-z \-']+$/i"],
             'cpadresse' => ['required', "regex:/^\d{5}$/"],
@@ -86,15 +86,21 @@ class AdresseController extends Controller
 
         $adresse->idclient = Auth::user()->idclient;
         $adresse->nomadresse = ucfirst($credentials['nomadresse']);
-        $adresse->nomdestinataireadresse = ucfirst($credentials['nomdestinataireadresse']);
-        $adresse->prenomdestinataireadresse = ucfirst($credentials['prenomdestinataireadresse']);
+        $adresse->nomadressedestinataire = ucfirst($credentials['nomadressedestinataire']);
+        $adresse->prenomadressedestinataire = ucfirst($credentials['prenomadressedestinataire']);
         $adresse->rueadresse = ucfirst($credentials['rueadresse']);
         $adresse->cpadresse = $credentials['cpadresse'];
         $adresse->villeadresse = $credentials['villeadresse'];
         $adresse->paysadresse = ucfirst($credentials['paysadresse']);
         $adresse->save();
-
         return redirect('/client/adresses');
 
+    }
+
+    public function delete(Request $request)
+    {
+        $adresse = Adresse::find($request->request->get('idadresse'));
+        $adresse->delete();
+        return redirect('/client/adresses');
     }
 }

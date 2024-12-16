@@ -4,9 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 class Commande extends Model
 {
@@ -26,9 +24,9 @@ class Commande extends Model
         return $this->hasOne(Client::class, 'idclient', 'idclientacheteur');
     }
 
-    public function descriptioncommande(): HasOne
+    public function descriptionscommande(): HasMany
     {
-        return $this->hasOne(Descriptioncommande::class, 'idcommande', 'idcommande');
+        return $this->hasMany(Descriptioncommande::class,  'idcommande', 'idcommande');
     }
 
 }

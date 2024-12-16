@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -33,8 +32,27 @@ class Descriptionpanier extends Model
         return $this->hasOne(Hebergement::class, 'idhebergement', 'idhebergement');
     }
 
+    public function activites(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Activite::class,
+            Association_38::class,
+            'iddescriptionpanier',
+            'idactivite',
+            'iddescriptionpanier',
+            'idactivite',
+        );
+    }
+
     public function repas(): HasManyThrough
     {
-        return $this->hasManyThrough(Association_38::class, 'idhebergement', 'idhebergement');
+        return $this->hasManyThrough(
+            Repas::class,
+            Association_39::class,
+            'iddescriptionpanier',
+            'idrepas',
+            'iddescriptionpanier',
+            'idrepas',
+        );
     }
 }

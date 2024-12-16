@@ -39,7 +39,7 @@
                         <select name="adresse-facturation" id="adresse-facturation">
                             @foreach (Auth::user()->adresses as $adresse)
                                 <option value="{{ $adresse->idadresse }}" @if (old('adresse-facturation') == $adresse->idadresse) selected @endif>
-                                    {{ $adresse->nomdestinataireadresse }} {{ $adresse->prenomdestinataireadresse }} :
+                                    {{ $adresse->nomadresse }} :
                                     {{ $adresse->rueadresse }}
                                     ({{ $adresse->villeadresse }})
                                 </option>
@@ -54,9 +54,15 @@
                 </div>
                 <div id="infos-bancaires">
                     <div class="input-control input-control-select" id="choix-cb">
-                        <label for="carte-bancaire">Choix de la carte bancaire</label>
-                        <select name="carte-bancaire" id="carte-bancaire">
-                            <option value="new">Utiliser une autre carte bancaire</option>
+                        <label for="carte-bancaire">Choix du mode de paiement</label>
+                        <select name="carte-bancaire" id="carte-bancaire" autocomplete="off">
+                            @if (sizeof(Auth::user()->cartesbancaire) === 0)
+                                <option value="cb-new">Carte bancaire</option>
+                            @else
+                                <option value="cb-new">Carte bancaire</option>
+                            @endif
+                            <option value="paypal">PayPal</option>
+                            <option value="stripe">Stripe</option>
                         </select>
                         @error('carte-bancaire')
                             <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>

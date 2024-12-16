@@ -37,9 +37,11 @@
         <section id="adresses">
             @foreach ($adresses as $adresse)
                 <article class="adresse">
-                    <h2 class="titre"><a href="/client/adresse/{{ $adresse->idadresse }}">{{ $adresse->nomadresse }}</a></h2>
+                    <h2 class="titre"><a
+                            href="/client/adresse/{{ $adresse->idadresse }}/modifier">{{ $adresse->nomadresse }}</a>
+                    </h2>
                     <div class="contenu">
-                        <hr/>
+                        <hr />
                         <p>
                             {{ $adresse->nomdestinataireadresse }}
                             {{ $adresse->prenomdestinataireadresse }}
@@ -54,13 +56,28 @@
                         <p>
                             {{ $adresse->paysadresse }}
                         </p>
-                        <a class="modifier button" href="/client/adresse/{{ $adresse->idadresse }}/modifier">Modifier</a>
-                        <a class="supprimer button" href="/client/adresse/{{ $adresse->idadresse }}/supprimer">Supprimer</a>
+                        <a class="button" href="/client/adresse/{{ $adresse->idadresse }}/modifier">Modifier</a>
+                        <button class="supprimer button" data-idadresse="{{ $adresse->idadresse }}">Supprimer</button>
                     </div>
                 </article>
             @endforeach
         </section>
+        <form class="overlay hidden" id="suppr" method="post" action="/api/client/adresse/delete">
+            @csrf
+            <div class="overlay-content">
+                <h2>Confirmer la suppression</h2>
+                <input type="hidden" name="idadresse" id="suppr-idadresse">
+                <div class="buttons">
+                    <button type="button" class="button" id="suppr-annuler">Annuler</button>
+                    <button type="submit" class="button">Supprimer</button>
+                </div>
+            </div>
+        </form>
         <a class="ajouter button" href="/client/adresse/ajouter">Ajouter une adresse</a>
     </main>
     @include('layout.footer')
+@endsection
+
+@section('scripts')
+    <script src="/assets/js/adresses.js" defer></script>
 @endsection

@@ -16,7 +16,7 @@
         @include('layout.breadcrumb')
         <h1>Modifier : {{ $sejour->titresejour }}</h1>
         <hr class="separateur-titre" />
-        <form action="/api/panier/add" method="POST" novalidate>
+        <form action="/api/panier/add" method="POST" novalidate id="formulaire">
             @csrf
             <input type="hidden" name="idsejour" value="{{ $sejour->idsejour }}">
             <section>
@@ -66,8 +66,8 @@
                     <div class="input-control input-control-text">
                         <label for="chambressimple">Nombre de chambres simple<br /><span class="price">75 € /
                                 chambre</span></label>
-                        <input type="number" id="chambressimple" name="chambressimple" min="0" max="10" required
-                            value="{{ old('chambressimple', $descriptionPanier->nbchambressimple) }}" />
+                        <input type="number" id="chambressimple" name="chambressimple" min="0" max="10"
+                            required value="{{ old('chambressimple', $descriptionPanier->nbchambressimple) }}" />
                         @error('chambressimple')
                             <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                         @enderror
@@ -75,8 +75,8 @@
                     <div class="input-control input-control-text">
                         <label for="chambresdouble">Nombre de chambres double<br /><span class="price">100 € /
                                 chambre</span></label>
-                        <input type="number" id="chambresdouble" name="chambresdouble" min="0" max="10" required
-                            value="{{ old('chambresdouble', $descriptionPanier->nbchambresdouble) }}" />
+                        <input type="number" id="chambresdouble" name="chambresdouble" min="0" max="10"
+                            required value="{{ old('chambresdouble', $descriptionPanier->nbchambresdouble) }}" />
                         @error('chambresdouble')
                             <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                         @enderror
@@ -84,8 +84,8 @@
                     <div class="input-control input-control-text">
                         <label for="chambrestriple">Nombre de chambres triple<br /><span class="price">125 € /
                                 chambre</span></label>
-                        <input type="number" id="chambrestriple" name="chambrestriple" min="0" max="10" required
-                            value="{{ old('chambrestriple', $descriptionPanier->nbchambrestriple) }}" />
+                        <input type="number" id="chambrestriple" name="chambrestriple" min="0" max="10"
+                            required value="{{ old('chambrestriple', $descriptionPanier->nbchambrestriple) }}" />
                         @error('chambrestriple')
                             <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                         @enderror
@@ -94,34 +94,87 @@
             </section>
 
             <section>
-                <h2>Options supplémentaires</h2>
+                <h2>Hébergement</h2>
 
-                <div class="input-control input-control-checkbox">
-                    <input type="checkbox" id="dejeuner" name="dejeuner"
-                        {{ old('dejeuner', $descriptionPanier->repasmidi) ? 'checked' : '' }} value="1">
-                    <label for="dejeuner">Déjeuner <span class="price">20 € / pers.</span></label>
-                    @error('dejeuner')
-                        <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
-                    @enderror
+                <div class="selections">
+                    @foreach ($sejour->etape as $etape)
+                        <article class="selection selection-image selection-hebergement"
+                            data-value="{{ $etape->hebergement->idhebergement }}"
+                            data-price="{{ $etape->hebergement->prixhebergement }}">
+                            <input type="radio" name="hebergement" value="{{ $etape->hebergement->idhebergement }}"
+                                id="hebergement-{{ $etape->hebergement->idhebergement }}" hidden
+                                @if (old('hebergement', $descriptionPanier->hebergement->idhebergement) == $etape->hebergement->idhebergement) checked @endif>
+                            <img class="image"
+                                src="/assets/images/hebergement/{{ $etape->hebergement->photohebergement }}"></img>
+                            <div class="infos">
+                                <p class="titre">{{ $etape->hebergement->hotel->nompartenaire }}</p>
+                                <p class="description">{{ $etape->hebergement->descriptionhebergement }}</p>
+                                <p class="prix">{{ number_format($etape->hebergement->prixhebergement, 2, ',') }} €</p>
+                            </div>
+                        </article>
+                    @endforeach
                 </div>
 
-                <div class="input-control input-control-checkbox">
-                    <input type="checkbox" id="diner" name="diner"
-                        {{ old('diner', $descriptionPanier->repassoir) ? 'checked' : '' }} value="1">
-                    <label for="diner">Diner <span class="price">20 € / pers.</span></label>
-                    @error('diner')
-                        <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
-                    @enderror
+                @error('hebergement')
+                    <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
+                @enderror
+            </section>
+
+            <section>
+                <h2>Repas</h2>
+
+                <div class="selections">
+                    @foreach ($sejour->etape as $etape)
+                        @foreach ($etape->repas as $repas)
+                            <article class="selection selection-repas" data-value="{{ $repas->idrepas }}"
+                                data-price="{{ $repas->prixrepas }}" id="repas-{{ $repas->idrepas }}">
+                                <input type="checkbox" name="repas[]" value="{{ $repas->idrepas }}" hidden
+                                    @if (in_array($repas->idrepas, old('repas', $descriptionPanier->repas?->pluck('idrepas')->toArray() ?? []))) checked @endif>
+                                <div class="infos">
+                                    <p class="titre">{{ $repas->restaurant->nompartenaire }}</p>
+                                    <div class="etoiles">
+                                        @for ($i = 0; $i < $repas->restaurant->nombreetoilesrestaurant; $i++)
+                                            <i data-lucide="star"></i>
+                                        @endfor
+                                    </div>
+                                    <p class="description">{{ $repas->descriptionrepas }}</p>
+                                    <p class="prix">{{ number_format($repas->prixrepas, 2, ',') }} €</p>
+                                </div>
+                            </article>
+                        @endforeach
+                    @endforeach
                 </div>
 
-                <div class="input-control input-control-checkbox">
-                    <input type="checkbox" id="activite" name="activite"
-                        {{ old('activite', $descriptionPanier->activite) ? 'checked' : '' }} value="1">
-                    <label for="activite">Activité <span class="price">50 € / pers.</span></label>
-                    @error('activite')
-                        <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
-                    @enderror
-                </div>
+                @error('repas')
+                    <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
+                @enderror
+            </section>
+
+            <section>
+                <h2>Activités</h2>
+
+                @foreach ($sejour->etape as $etape)
+                    @foreach ($etape->activites as $activite)
+                        <div class="input-control input-control-checkbox">
+                            <input type="checkbox" name="activites[]" value="{{ $activite->idactivite }}"
+                                id="activite-{{ $activite->idactivite }}" class="activite"
+                                data-price="{{ $activite->prixactivite }}"
+                                @if (in_array(
+                                        $activite->idactivite,
+                                        old('activites', $descriptionPanier->activites?->pluck('idactivite')->toArray() ?? []))) checked @endif>
+                            <label for="activite-{{ $activite->idactivite }}">{{ $activite->libelleactivite }} <span
+                                    class="price">{{ number_format($activite->prixactivite, 2, ',') }} € /
+                                    personne</span></label>
+                            @error("activites.{{ $activite->idactivite }}")
+                                <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
+                            @enderror
+                        </div>
+                    @endforeach
+                @endforeach
+
+                @error('activites')
+                    <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
+                @enderror
             </section>
 
             <section>
@@ -134,17 +187,19 @@
                 @error('offrir')
                     <p class="error" style="margin-bottom: 1rem">{{ $message }}</p>
                 @enderror
-                <div class="input-control input-control-radio" data-offrir>
-                    <input type="radio" id="e-coffret" name="ecoffret" value="1"
-                        {{ old('ecoffret', $descriptionPanier->ecoffret) === '1' ? 'checked' : '' }}>
-                    <label for="e-coffret">E-Coffret : envoi immédiat par email
-                        <span class="price">Gratuit</span></label>
-                </div>
-                <div class="input-control input-control-radio" data-offrir>
-                    <input type="radio" id="coffret-postal" name="ecoffret" value="0"
-                        {{ old('ecoffret', $descriptionPanier->ecoffret) !== '1' ? 'checked' : '' }}>
-                    <label for="coffret-postal">Coffret : Livraison sous 4 à 6 jours ouvrés
-                        <span class="price">5 €</span></label>
+                <div id="radios-offrir">
+                    <div class="input-control input-control-radio">
+                        <input type="radio" id="e-coffret" name="ecoffret" value="1"
+                            {{ old('ecoffret', $descriptionPanier->ecoffret) == '1' ? 'checked' : '' }}>
+                        <label for="e-coffret">E-Coffret : envoi immédiat par email
+                            <span class="price">Gratuit</span></label>
+                    </div>
+                    <div class="input-control input-control-radio">
+                        <input type="radio" id="coffret-postal" name="ecoffret" value="0"
+                            {{ old('ecoffret', $descriptionPanier->ecoffret) != '1' ? 'checked' : '' }}>
+                        <label for="coffret-postal">Coffret : Livraison sous 4 à 6 jours ouvrés
+                            <span class="price">5 €</span></label>
+                    </div>
                 </div>
                 @error('ecoffret')
                     <p class="error" data-offrir>{{ $message }}</p>

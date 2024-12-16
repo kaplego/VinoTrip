@@ -10,7 +10,7 @@ class Association_38 extends Model
     use HasFactory;
 
     protected $table = "association_38";
-    protected $primaryKey = "idpanier";
+    protected $primaryKey = "iddescriptionpanier";
     public $timestamps = false;
     public $guarded = [];
 }

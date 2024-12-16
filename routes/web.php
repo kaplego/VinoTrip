@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdresseController;
+use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\PanierController;
 use App\Http\Controllers\SejourController;
 use App\Http\Controllers\ClientController;
@@ -48,6 +49,7 @@ Route::post('/api/edit/changes', [SejourController::class, 'apitogglehebergement
 Route::get('/connexion', [ClientController::class, 'connexion']);
 Route::get('/client', [ClientController::class, 'profil']);
 Route::get('/client/informations', [ClientController::class, 'informations']);
+Route::get('/client/commandes', [CommandeController::class, 'liste']);
 
 Route::get('/client/adresses', [AdresseController::class, 'adresses']);
 Route::get('/client/adresse/{id}/modifier', [AdresseController::class, 'modifier']);
@@ -55,7 +57,7 @@ Route::get('/client/adresse/ajouter', [AdresseController::class, 'ajouter']);
 
 Route::post('/api/client/adresse/modifier', [AdresseController::class, 'edit']);
 Route::post('/api/client/adresse/add', [AdresseController::class, 'add']);
-Route::post('/api/client/adresse/delete', [AdresseController::class, 'edit']);
+Route::post('/api/client/adresse/delete', [AdresseController::class, 'delete']);
 
 
 Route::post('/api/client/login', [ClientController::class, 'login']);
@@ -75,7 +77,9 @@ Route::get('/modifier/{idsejour}', [PanierController::class, 'modifier']);
 Route::get('/reservation', [ReservationHotelController::class, 'listReservation']);
 Route::post('/api/reservationhotel', [ReservationHotelController::class, 'envoiemailhotel']);
 Route::post('/api/reservationclient', [ReservationHotelController::class, 'envoiemailclient']);
-
+Route::post('/api/validationcommande', [ReservationHotelController::class, 'confirmationCommande']);
+Route::post('/api/reservationok', [ReservationHotelController::class, 'hebergementok']);
+Route::post('/api/clientok', [ReservationHotelController::class, 'clientok']);
 
 Route::get('/route-des-vins', [RoutesVinsController::class, 'list']);
 Route::get('/route-des-vins/{id}', [RoutesVinsController::class, 'one']);

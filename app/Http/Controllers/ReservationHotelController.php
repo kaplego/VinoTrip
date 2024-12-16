@@ -7,6 +7,7 @@ use App\Models\Commande;
 use App\Models\Descriptioncommande;
 use App\Models\Etape;
 use App\Models\Hebergement;
+use App\Models\Restaurant;
 use App\Models\Sejour;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +22,7 @@ class ReservationHotelController extends Controller
         {
             return view('reservation/reservation-hotel', [
 
-                'commandes' => Commande::all(),
+                'commandes' => Commande::orderBy('idcommande')->get(),
                 'descriptioncommande' => Descriptioncommande::all(),
                 'client'=>Client::all(),
                 'sejour'=>Sejour::all(),
@@ -47,6 +48,10 @@ class ReservationHotelController extends Controller
         $nom= $request->input("nom");
         // }
 
+        // $iddescrcommande= $request->input("unedescription");
+        // $descrcommande = Descriptioncommande::find( $iddescrcommande);
+        // $descrcommande->disponibilitehebergement = true;
+        // $descrcommande->update();
         Mail::to("ppartenairehotel@gmail.com")->send(new SendEmail([
             'type' => 'hotel',
             'date' => $date,
@@ -55,6 +60,33 @@ class ReservationHotelController extends Controller
 
         return redirect()->back()->with("successhotel","le mail a été envoyé");
 
+
+    }
+
+    public function hebergementok(Request $request){
+
+
+        $iddescrcommande= $request->input("unedescription");
+        $descrcommande = Descriptioncommande::find( $iddescrcommande);
+        $descrcommande->disponibilitehebergement = true;
+        $descrcommande->update();
+
+
+        return redirect()->back()->with("successhotel","le mail a été envoyé");
+
+
+    }
+
+    public function clientok(Request $request){
+
+
+        $iddescrcommande= $request->input("unedescription");
+        $descrcommande = Descriptioncommande::find( $iddescrcommande);
+        $descrcommande->validationclient = true;
+        $descrcommande->update();
+
+
+        return redirect()->back()->with("successhotel","le mail a été envoyé");
 
     }
 
@@ -70,6 +102,7 @@ class ReservationHotelController extends Controller
         $date = $request->input("datedebut");
         $titresejour= $request->input("titre");
         $prixsej= $request->input("prix");
+        $idcommande= $request->input("unecommande");
 
         Mail::to("ppartenairehotel@gmail.com")->send(new SendEmail([
             'type' => 'client',
@@ -84,33 +117,59 @@ class ReservationHotelController extends Controller
 
     }
 
+
+
+
     public function envoiemailValidationHebergement(Request $request){
 
-        $date = $request->input("datedebut");
-        $titresejour= $request->input("titre");
-        $prixsej= $request->input("prix");
+
+        $iddescrcommande= $request->input("unedescription");
+        $descrcommande = Descriptioncommande::find( $iddescrcommande);
+        $idclient= $request->input("unclient");
+
+        $unclient = Client::find( $idclient);
 
         Mail::to("ppartenairehotel@gmail.com")->send(new SendEmail([
             'type' => 'ValidationHebegement',
-            'date' => $date,
-            'titre' => $titresejour,
-            'prix'=> $prixsej
+            'nom' =>$unclient->nomclient,
+            'prenom' =>$unclient->prenomclient,
+            'datedebut'=>$descrcommande->datedebut,
+            'datefin'=>$descrcommande->datefin,
+            'nbadultes'=>$descrcommande->nbadultes,
+            'nbenfants'=>$descrcommande->nbadultes,
+            'nbenfant'=>$descrcommande->nbenfants,
+            'nbchambressimple'=>$descrcommande->nbchambressimple,
+            'nbchambresdouble'=>$descrcommande->nbchambresdouble,
+            'nbchambrestriple'=>$descrcommande->nbchambrestriple,
 
-        ], "Vinotrip validation séjour"));
+        ], "Vinotrip validation hébergement"));
 
         return redirect()->back()->with("successclient","le mail a été envoyé");
     }
 
     public function envoieFinalClient(Request $request){
-        $date = $request->input("datedebut");
-        $titresejour= $request->input("titre");
-        $prixsej= $request->input("prix");
+        $iddescrcommande= $request->input("unedescription");
+        $descrcommande = Descriptioncommande::find( $iddescrcommande);
+
+        $idclient= $request->input("unclient");
+        $unclient = Client::find( $idclient);
+        // dd($descrcommande->repas);
+
 
         Mail::to("ppartenairehotel@gmail.com")->send(new SendEmail([
             'type' => 'ValidationClient',
-            'date' => $date,
-            'titre' => $titresejour,
-            'prix'=> $prixsej
+            'nom' =>$unclient->nomclient,
+            'prenom' =>$descrcommande->prenomclient,
+            'datedebut'=>$descrcommande->datedebut,
+            'datefin'=>$descrcommande->datefin,
+            'nbadultes'=>$descrcommande->nbadultes,
+            'nbenfants'=>$descrcommande->nbadultes,
+            'nbenfant'=>$descrcommande->nbenfants,
+            'jours'=>$descrcommande->sejour->duree->libelleduree,
+            'titre'=>$descrcommande->sejour->titresejour,
+            'titreheberg'=>$descrcommande->hebergement->hotel->nompartenaire,
+            'repas'=>$descrcommande->repas
+
 
         ], "Vinotrip validation de votre séjours ! "));
 
@@ -118,36 +177,35 @@ class ReservationHotelController extends Controller
     }
 
     public function Restaurant(Request $request){
-        $date = $request->input("datedebut");
-        $titresejour= $request->input("titre");
-        $prixsej= $request->input("prix");
+        $iddescrcommande= $request->input("unedescription");
+        $descrcommande = Descriptioncommande::find( $iddescrcommande);
+        $idclient= $request->input("unclient");
+        $unclient = Client::find( $idclient);
+
 
         Mail::to("ppartenairehotel@gmail.com")->send(new SendEmail([
-            'type' => 'ValidationClient',
-            'date' => $date,
-            'titre' => $titresejour,
-            'prix'=> $prixsej
+            'type' => 'ReservationRestaurant',
+            'nom' =>$unclient->nomclient,
+            'prenom' =>$unclient->prenomclient,
+            'datedebut'=>$descrcommande->datedebut,
+            'datefin'=>$descrcommande->datefin,
+            'nbadultes'=>$descrcommande->nbadultes,
+            'nbenfants'=>$descrcommande->nbadultes,
+            'nbenfant'=>$descrcommande->nbenfants,
 
         ], "Réservation restaurant "));
 
         return redirect()->back()->with("successclient","le mail a été envoyé");
     }
-
-    public function envoiemailIndisponiliteHebergement(Request $request){
-        $date = $request->input("datedebut");
-        $titresejour= $request->input("titre");
-        $prixsej= $request->input("prix");
-
-        Mail::to("ppartenairehotel@gmail.com")->send(new SendEmail([
-            'type' => 'PbHeberg',
-            'date' => $date,
-            'titre' => $titresejour,
-            'prix'=> $prixsej
-
-        ], "Équipe vinotrip changement d'hebergement "));
-
+    public  function confirmationCommande(Request $request){
+        $this->envoiemailValidationHebergement($request);
+        $this->envoieFinalClient($request);
+        $this->Restaurant($request);
         return redirect()->back()->with("successclient","le mail a été envoyé");
-    }
+     }
+
+
+
 
 
 

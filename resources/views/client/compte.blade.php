@@ -23,6 +23,9 @@
             <a class="button" href="/client/adresses">
                 Mes adresses
             </a>
+            <a class="button" href="/client/commandes">
+                Mes commandes
+            </a>
             <form method="post" action="/api/client/logout">
                 @csrf
                 <button class="button" type="submit">

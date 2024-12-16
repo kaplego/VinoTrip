@@ -35,6 +35,16 @@ class Descriptioncommande extends Model
     }
 
 
-
+    public function repas(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Repas::class,
+            Mange1::class,
+            'iddescriptioncommande',
+            'idrepas',
+            'iddescriptioncommande',
+            'idrepas',
+        );
+    }
 }
 

@@ -22,92 +22,116 @@
             @endphp
             <section>
                 @foreach ($commandes as $commande)
-                    @if ($commande->descriptioncommande != null)
-                        @if ($commande->descriptioncommande->datedebut >= $dateauj)
-                            <h2 class="titresej">{{ $commande->descriptioncommande->sejour->titresejour }}</h2>
-                            <section id="unereservation">
-
-                                <p class="date">Date séjour : {{ $commande->descriptioncommande->datedebut }}</p>
-                                <article class ="unclient">
-                                    <h3>Commande effective du client : {{ $commande->beneficiaire->prenomclient }}
-                                        {{ $commande->beneficiaire->nomclient }}</h3>
-                                    <form method="POST" action="/api/reservationclient">
-                                        @csrf
-                                        <input type="hidden" value="{{ $commande->descriptioncommande->datedebut }}"
-                                            name="datedebut">
-                                        <input type="hidden"
-                                            value="{{ $commande->descriptioncommande->sejour->titresejour }}"
-                                            name="titre">
-                                        <input type="hidden" value="{{ $commande->descriptioncommande->prix }}"
-                                            name="prix">
-
-                                        <p>Envoyer un mail de paiement au client: <button type="submit"
-                                                @if (!\Session::has('successhotel')) disabled= @endif>{{ $commande->beneficiaire->emailclient }}</button>
-                                        </p>
-                                        <div>
-                                            <p>Validation client :<input type="checkbox" name="validClient" id="validationC"
-                                                    @if ($commande->validationclient == true) checked @endif></p>
-                                        </div>
-
-                                        @if (\Session::has('successclient'))
-                                            <p class="alert alert-success"><i
-                                                    data-lucide="circle-check-big"></i>{!! \Session::get('success') !!}</p>
-                                        @endif
-
-                                    </form>
-                                </article>
+                    @foreach ($commande->descriptionscommande as $descriptioncommande)
 
 
-                                    <article class="unhotel">
-                                        <div class="réponseheberg">
-                                            <form method="POST" action="/api/reservationhotel">
-                                                @csrf
-                                                <input type="hidden" value="{{ $commande->descriptioncommande->datedebut }}"
-                                                    name="datedebut">
-                                                <input type="hidden" value="{{$commande->descriptioncommande->hebergement->hotel->nompartenaire}}"
-                                                    name="nom">
-                                                <h3>Partenaire hotel : {{ $commande->descriptioncommande->hebergement->hotel->nompartenaire }}</h3>
-                                                <p>Envoyer un mail de validation pour la réservation de l'hotel: <button
-                                                        type="submit">{{ $commande->descriptioncommande->hebergement->hotel->mailpartenaire }}</button>
-                                                </p>
-                                                <p>Validation hebergement : <button class="button" type="submit">OUI</button>
-                                                    @php
-                                                        $commande->descriptioncommande->disponibilitehebergement = true;
-                                                        $commande->descriptioncommande->update();
-                                                    @endphp</p>
-                                                    {{-- <input type="checkbox" name="validHeberg" id="validationH" @if ($commande->validationhebergement == true) checked  @endif > --}}
+                        @if ($descriptioncommande != null)
+                            @if ($descriptioncommande->datedebut >= $dateauj)
+                                <h2 class="titresej">{{ $descriptioncommande->sejour->titresejour }}</h2>
+                                <section id="unereservation">
+                                    <p class="date">Date séjour : {{ $descriptioncommande->datedebut }}</p>
+                                    <article class ="unclient">
+                                        <h3>Commande effective du client : {{ $commande->beneficiaire->prenomclient }}
+                                            {{ $commande->beneficiaire->nomclient }}</h3>
 
-                                            </form>
-                                            <form action="/edit/choix" method="POST">
-                                                @csrf
-                                                <input type="hidden"
-                                                    value="{{ $commande->descriptioncommande->iddescriptioncommande }}"
-                                                    name="iddescriptioncommande">
-                                                <button class="button" type="submit">NON</button>
-                                            </form>
-                                        </div>
-                                        @if (\Session::has('successhotel'))
-                                        @php
-                                            $commande->descriptioncommande->disponibilitehebergement = true;
-                                            $commande->descriptioncommande->update();
-                                        @endphp
-                                        <p class="alert alert-success"><i
-                                                data-lucide="circle-check-big"></i>{!! \Session::get('success') !!}</p>
-                                    @endif
+                                            {{-- envoie  mail conf client --}}
+                                        <form method="POST" action="/api/reservationclient">
+                                            @csrf
+                                            <input type="hidden" value="{{ $descriptioncommande->datedebut }}"
+                                                name="datedebut">
+                                            <input type="hidden"
+                                                value="{{ $descriptioncommande->sejour->titresejour }}"
+                                                name="titre">
+                                            <input type="hidden" value="{{ $descriptioncommande->prix }}"
+                                                name="prix">
+
+                                            <p>Envoyer un mail de paiement au client: <button type="submit"
+                                                    @if ($descriptioncommande->disponibilitehebergement == false) disabled @endif>{{ $commande->beneficiaire->emailclient }}</button>
+                                            </p>
+
+                                            {{-- @if (\Session::has('successclient'))
+                                                <p class="alert alert-success"><i
+                                                        data-lucide="circle-check-big"></i>{!! \Session::get('success') !!}</p>
+                                            @endif --}}
+
+
+                                        </form>
+                                        {{-- met la variable validation client à true --}}
+
+                                        <form method="POST" action="/api/clientok">
+                                            @csrf
+                                            <p>Validation Client : <button class="button" type="submit">OUI</button>
+                                                <input type="hidden" value="{{ $descriptioncommande->iddescriptioncommande }}"
+                                                name="unedescription"></p>
+
+                                        </form>
                                     </article>
 
-                            </section>
-                            @if (\Session::has('successclient'))
-                                <form method="POST" action="/api/reservationhotel" class="validationsejour">
-                                    @csrf
-                                    <button class="button" type="submit">Valider séjour</button>
-                                </form>
+                                        {{-- envoie mail heberg --}}
+                                        <article class="unhotel">
+                                            <div class="réponseheberg">
+                                                <form method="POST" action="/api/reservationhotel">
+                                                    @csrf
+                                                    <input type="hidden" value="{{ $descriptioncommande->datedebut }}"
+                                                        name="datedebut">
+                                                    <input type="hidden" value="{{$descriptioncommande->hebergement->hotel->nompartenaire}}"
+                                                        name="nom">
+                                                    <h3>Partenaire hotel : {{ $descriptioncommande->hebergement->hotel->nompartenaire }}</h3>
+                                                    <p>Envoyer un mail de validation pour la réservation de l'hotel: <button
+                                                            type="submit">{{ $descriptioncommande->hebergement->hotel->mailpartenaire }}</button>
+                                                    </p>
+
+
+                                                </form>
+
+                                                {{-- met la variable validatiobhebergement à true --}}
+                                                <form method="POST" action="/api/reservationok">
+                                                    @csrf
+                                                    <p>Validation hebergement : <button class="button" type="submit">OUI</button>
+                                                        <input type="hidden" value="{{ $descriptioncommande->iddescriptioncommande }}"
+                                                        name="unedescription"></p>
+
+                                                </form>
+
+                                                {{-- envoie mail nouvelle heberg --}}
+                                                <form action="/edit/choix" method="POST">
+                                                    @csrf
+                                                    <input type="hidden"
+                                                        value="{{ $descriptioncommande->iddescriptioncommande }}"
+                                                        name="iddescriptioncommande">
+                                                        <input type="hidden"
+                                                        value="{{ $descriptioncommande->hebergement->hotel->idpartenaire }}"
+                                                        name="idpart">
+                                                    <button class="button" type="submit">NON</button>
+                                                    <input type="hidden" value="{{ $descriptioncommande->iddescriptioncommande }}"
+                                                    name="unedescription"></p>
+                                                </form>
+                                            </div>
+                                            {{-- @if (\Session::has('successhotel'))
+
+                                            <p class="alert alert-success"><i
+                                                    data-lucide="circle-check-big"></i>{!! \Session::get('success') !!}</p>
+                                            @endif --}}
+                                        </article>
+
+                                </section>
+                                @if ($descriptioncommande->disponibilitehebergement = true && $descriptioncommande->validationclient==true)
+                                    <form method="POST" action="/api/validationcommande" class="validationsejour">
+                                        @csrf
+                                        <button class="button" type="submit">Valider séjour</button>
+                                        <input type="hidden" value="{{ $descriptioncommande->iddescriptioncommande }}"
+                                                        name="unedescription"></p>
+                                        <input type="hidden" value="{{ $commande->idclientbeneficiaire }}"
+                                        name="unclient"></p>
+                                        {{-- <p>{{ $descriptioncommande->repas->restaurant->idpartenaire }}</p> --}}
+
+                                    </form>
+                                @endif
+
+                                <br>
                             @endif
-
-                            <br>
                         @endif
-                    @endif
-
+                    @endforeach
 
                 @endforeach
             </section>

@@ -5,12 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Association_39 extends Model
+class Mange1 extends Model
 {
     use HasFactory;
-
-    protected $table = "association_39";
-    protected $primaryKey = "iddescriptionpanier";
+    protected $table = "mange1";
+    protected $primaryKey = ["iddescriptioncommande", "idrepas"];
     public $timestamps = false;
     public $guarded = [];
 }

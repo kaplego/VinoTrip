@@ -7,8 +7,13 @@ use Illuminate\Http\Request;
 
 class CommandeController extends Controller
 {
-    public function list()
+    public function liste()
     {
-        return view('commandes-list', ['commandes' => Commande::all() ]);
+        return view('client.commande.liste', ['commandes' => Commande::all()]);
+    }
+
+    public function recapitulatif()
+    {
+        return view('client.commande.recapitulatif', ['commande' => Commande::all()]);
     }
 }

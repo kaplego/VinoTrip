@@ -13,7 +13,6 @@ use App\Models\Panier;
 use App\Models\Repas;
 use App\Models\Sejour;
 use Auth;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PanierController extends Controller
@@ -42,22 +41,19 @@ class PanierController extends Controller
         if ($sejour === null)
             return redirect('/panier');
 
-        $idshebergements = Hebergement::join('etape', 'hebergement.idhebergement', '=', 'etape.idhebergement')
+        $hebergements = Hebergement::join('etape', 'hebergement.idhebergement', '=', 'etape.idhebergement')
             ->where('etape.idsejour', '=', $idsejour)
-            ->get(['hebergement.idhebergement'])
-            ->pluck('idhebergement')->toArray();
+            ->get();
 
-        $idsrepas = Repas::join('appartient_2', 'repas.idrepas', '=', second: 'appartient_2.idrepas')
+        $repas = Repas::join('appartient_2', 'repas.idrepas', '=', second: 'appartient_2.idrepas')
             ->join('etape', 'appartient_2.idetape', '=', 'etape.idetape')
             ->where('etape.idsejour', '=', $idsejour)
-            ->get(['repas.idrepas'])
-            ->pluck('idrepas')->toArray();
+            ->get();
 
-        $idsactivites = Activite::join('appartient_4', 'activite.idactivite', '=', second: 'appartient_4.idactivite')
+        $activites = Activite::join('appartient_4', 'activite.idactivite', '=', second: 'appartient_4.idactivite')
             ->join('etape', 'appartient_4.idetape', '=', 'etape.idetape')
             ->where('etape.idsejour', '=', $idsejour)
-            ->get(['activite.idactivite'])
-            ->pluck('idactivite')->toArray();
+            ->get();
 
         $inputs = $request->validate([
             'datedebut' => ['required', 'date', 'after:today'],
@@ -71,11 +67,11 @@ class PanierController extends Controller
             'chambressimple' => ['required', 'integer', 'min:0'],
             'chambresdouble' => ['required', 'integer', 'min:0'],
             'chambrestriple' => ['required', 'integer', 'min:0'],
-            'hebergement' => ['required', 'in:' . implode(',', $idshebergements)],
+            'hebergement' => ['required', 'in:' . implode(',', $hebergements->pluck('idhebergement')->toArray())],
             'repas' => ['array'],
-            'repas.*' => ['in:' . implode(',', $idsrepas)],
+            'repas.*' => ['in:' . implode(',', $repas->pluck('idrepas')->toArray())],
             'activites' => ['array'],
-            'activites.*' => ['in:' . implode(',', $idsactivites)],
+            'activites.*' => ['in:' . implode(',', $activites->pluck('idactivite')->toArray())],
             'offrir' => ['boolean'],
             'ecoffret' => ['boolean', 'required_if:offrir,true']
         ], [
@@ -110,15 +106,27 @@ class PanierController extends Controller
             ->get()->first();
 
         $prix = $sejour->prixsejour;
-        if (isset($inputs['dejeuner']) && $inputs['dejeuner'] == '1')
-            $prix += 20;
-        if (isset($inputs['diner']) && $inputs['diner'] == '1')
-            $prix += 20;
-        // $prix += sizeof($inputs['activites'] ?? []) * 50;
+
+        $prix += +$hebergements->pluck('prixhebergement', 'idhebergement')[$inputs['hebergement']];
+
+        if (isset($inputs['repas'])) {
+            $reps = $repas->pluck('prixrepas', 'idrepas');
+            $prix += array_reduce($inputs['repas'], function ($prev, $rep) use ($reps) {
+                return $prev + +$reps[$rep];
+            }, 0);
+        }
+        if (isset($inputs['activites'])) {
+            $acts = $activites->pluck('prixactivite', 'idactivite');
+            $prix += array_reduce($inputs['activites'], function ($prev, $act) use ($acts) {
+                return $prev + +$acts[$act];
+            }, 0);
+        }
+
         $prix *= +$inputs['nbadultes'] + +$inputs['nbenfants'];
 
-        if (isset($inputs['offrir']) && $inputs['offrir'] == '1' && $inputs['ecoffret'] == '0')
+        if (isset($inputs['offrir']) && $inputs['offrir'] == '1' && isset($inputs['ecoffret']) && $inputs['ecoffret'] == '0')
             $prix += 5;
+
         $prix += ($inputs['chambressimple'] ?? 0) * 75;
         $prix += ($inputs['chambresdouble'] ?? 0) * 100;
         $prix += ($inputs['chambrestriple'] ?? 0) * 125;
@@ -145,8 +153,14 @@ class PanierController extends Controller
                     'ecoffret' => isset($inputs['offrir']) && $inputs['offrir'] &&
                         isset($inputs['ecoffret']) && $inputs['ecoffret'] == '1'
                 ]);
+            Association_38::
+                where('iddescriptionpanier', '=', $descriptionPanier->iddescriptionpanier)
+                ->delete();
+            Association_39::
+                where('iddescriptionpanier', '=', $descriptionPanier->iddescriptionpanier)
+                ->delete();
         } else {
-            Descriptionpanier::
+            $descriptionPanier = Descriptionpanier::
                 create([
                     'idsejour' => $sejour->idsejour,
                     'idpanier' => $panier->idpanier,
@@ -167,21 +181,21 @@ class PanierController extends Controller
                     'ecoffret' => isset($inputs['offrir']) && $inputs['offrir'] &&
                         isset($inputs['ecoffret']) && $inputs['ecoffret'] == '1'
                 ]);
+        }
+        if (isset($inputs['activites']))
             foreach ($inputs['activites'] as $activite) {
                 Association_38::create([
-                    'idsejour' => $sejour->idsejour,
-                    'idpanier' => $panier->idpanier,
+                    'iddescriptionpanier' => $descriptionPanier->iddescriptionpanier,
                     'idactivite' => $activite
                 ]);
             }
+        if (isset($inputs['repas']))
             foreach ($inputs['repas'] as $repas) {
                 Association_39::create([
-                    'idsejour' => $sejour->idsejour,
-                    'idpanier' => $panier->idpanier,
+                    'iddescriptionpanier' => $descriptionPanier->iddescriptionpanier,
                     'idrepas' => $repas
                 ]);
             }
-        }
 
         return redirect('/panier');
     }

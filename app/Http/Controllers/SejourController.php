@@ -13,6 +13,8 @@ use App\Models\Hebergement;
 use App\Models\Hotel;
 use App\Models\Sejour;
 use App\Models\Localite;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendEmail;
 
 
 use App\Models\Visite;
@@ -65,10 +67,25 @@ class SejourController extends Controller
         $newidhebergement = $request->input('newidhebergement');
 
         $descriptioncommande = Descriptioncommande::find( $iddescriptioncommande);
-
+        $titrehotelancien=$descriptioncommande->hebergement->hotel->nompartenaire;
         $descriptioncommande->idhebergement = $newidhebergement;
-
+        $descriptioncommande->disponibilitehebergement = false;
         $descriptioncommande->update();
+
+
+        // $iddescrcommande= $request->input("unedescription");
+        // $descrcommande = Descriptioncommande::find( $iddescrcommande);
+        // $descrcommande->disponibilitehebergement = false;
+        // $descrcommande->update();
+
+        $titrehotelnouveau=$descriptioncommande->hebergement->hotel->nompartenaire;
+        Mail::to("ppartenairehotel@gmail.com")->send(new SendEmail([
+            'type' => 'PbHeberg',
+            'titrehotelancien' => $titrehotelancien,
+            'titrehotelnouveau' => $titrehotelnouveau,
+
+        ], "Équipe vinotrip changement d'hebergement "));
+
         return redirect("/reservation");
 
     }

@@ -44,7 +44,8 @@ class User extends Authenticatable
     public $timestamps = false;
 
 
-    public function getAuthPassword() {
+    public function getAuthPassword()
+    {
         return $this->motdepasseclient;
     }
 
@@ -56,5 +57,15 @@ class User extends Authenticatable
     public function adresses(): HasMany
     {
         return $this->hasMany(Adresse::class, 'idclient', 'idclient');
+    }
+
+    public function cartesbancaire(): HasMany
+    {
+        return $this->hasMany(Cartebancaire::class, 'idclient', 'idclient');
+    }
+
+    public function commandes(): HasMany
+    {
+        return $this->HasMany(Commande::class, 'idclientacheteur', 'idclient');
     }
 }

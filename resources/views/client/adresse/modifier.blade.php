@@ -43,19 +43,19 @@
                 </div>
 
                 <div class="input-control input-control-text">
-                    <label for="nomdestinataireadresse">Nom</label>
-                    <input id="nomdestinataireadresse" type="text" name="nomdestinataireadresse"
-                        value="{{ old('nomdestinataireadresse', $adresse->nomdestinataireadresse) }}" />
-                    @error('nomdestinataireadresse')
+                    <label for="nomadressedestinataire">Nom</label>
+                    <input id="nomadressedestinataire" type="text" name="nomadressedestinataire"
+                        value="{{ old('nomadressedestinataire', $adresse->nomadressedestinataire) }}" />
+                    @error('nomadressedestinataire')
                         <p class="alert alert-error"><i data-lucide="circle-x"></i>Le nom n'est pas valide !</p>
                     @enderror
                 </div>
 
                 <div class="input-control input-control-text">
-                    <label for="prenomdestinataireadresse">Prénom</label>
-                    <input id="prenomdestinataireadresse" type="text" name="prenomdestinataireadresse"
-                        value="{{ old('prenomdestinataireadresse', $adresse->prenomdestinataireadresse) }}" />
-                    @error('prenomdestinataireadresse')
+                    <label for="prenomadressedestinataire">Prénom</label>
+                    <input id="prenomadressedestinataire" type="text" name="prenomadressedestinataire"
+                        value="{{ old('prenomadressedestinataire', $adresse->prenomadressedestinataire) }}" />
+                    @error('prenomadressedestinataire')
                         <p class="alert alert-error"><i data-lucide="circle-x"></i>Le prénom n'est pas valide !</p>
                     @enderror
                 </div>

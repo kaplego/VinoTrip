@@ -12,7 +12,7 @@
 
 @section('body')
     @include('layout.header')
-    <main class="container-sm">
+    <main class="container">
         @include('layout.breadcrumb')
         <h1>Votre Panier</h1>
         <hr class="separateur-titre" />
@@ -64,29 +64,44 @@
                                             <br />{{ $descriptionpanier->nbchambrestriple * 125 }} €
                                         </td>
                                     </tr>
-                                    {{-- <tr>
+                                    <tr>
                                         <td>Repas</td>
                                         <td>
+                                            @if(sizeof($descriptionpanier->repas) === 0)
+                                                Aucun repas
+                                            @endif
                                             @foreach ($descriptionpanier->repas as $repas)
-
+                                                <div>{{ $repas->restaurant->nompartenaire }}</div>
                                             @endforeach
                                         </td>
                                         <td class="prix">
-                                            {{ $nbPersonnes }} ×
-                                            {{ ($descriptionpanier->repasmidi ? 20 : 0) + ($descriptionpanier->repassoir ? 20 : 0) }}
-                                            €
+                                            @if(sizeof($descriptionpanier->repas) === 0)
+                                                0 €
+                                            @endif
+                                            @foreach ($descriptionpanier->repas as $repas)
+                                                <div>{{ $nbPersonnes }} × {{ $repas->prixrepas }} €</div>
+                                            @endforeach
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Activités</td>
                                         <td>
-                                            {{ $descriptionpanier->activite ? 'oui' : 'non' }}
+                                            @if(sizeof($descriptionpanier->activites) === 0)
+                                                Aucune activité
+                                            @endif
+                                            @foreach ($descriptionpanier->activites as $activite)
+                                                <div>{{ $activite->libelleactivite }}</div>
+                                            @endforeach
                                         </td>
                                         <td class="prix">
-                                            {{ $nbPersonnes }} ×
-                                            {{ $descriptionpanier->activite ? 50 : 0 }} €
+                                            @if(sizeof($descriptionpanier->activites) === 0)
+                                                0 €
+                                            @endif
+                                            @foreach ($descriptionpanier->activites as $activite)
+                                                <div>{{ $nbPersonnes }} × {{ $activite->prixactivite }} €</div>
+                                            @endforeach
                                         </td>
-                                    </tr> --}}
+                                    </tr>
                                     <tr>
                                         <td>Cadeau</td>
                                         <td>
@@ -98,7 +113,7 @@
                                             @endif
                                         </td>
                                         <td class="prix">
-                                            {{ $descriptionpanier->ecoffret ? 0 : 5 }} €
+                                            {{ ($descriptionpanier->offrir && !$descriptionpanier->ecoffret) ? 5 : 0 }} €
                                         </td>
                                     </tr>
                                 </tbody>
@@ -114,12 +129,11 @@
                                     <i data-lucide="pencil"></i> Modifier les détails
                                 </a>
                                 <div class="input-control input-control-text" style="margin: 0">
-                                    <input type="number" name="quantite" autocomplete="off"
-                                        min="1" max="10" id="quantite-{{ $sejour->idsejour }}"
-                                        value="{{ $descriptionpanier->quantite }}">
+                                    <input type="number" name="quantite" autocomplete="off" min="1" max="10"
+                                        id="quantite-{{ $sejour->idsejour }}" value="{{ $descriptionpanier->quantite }}">
                                 </div>
                                 @error('quantite')
-                                    {{$message}}
+                                    {{ $message }}
                                 @enderror
                                 <div class="buttons">
                                     <button class="button" type="submit" name="action" value="update">
@@ -130,7 +144,7 @@
                                     </button>
                                 </div>
                                 @error('action')
-                                    {{$message}}
+                                    {{ $message }}
                                 @enderror
                             </div>
                         </form>

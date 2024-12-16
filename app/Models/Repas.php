@@ -14,6 +14,7 @@ class Repas extends Model
     protected $primaryKey = "idrepas";
     public $timestamps = false;
 
+
     public function restaurant(): BelongsTo
     {
         return $this->belongsTo(Restaurant::class, 'idpartenaire', 'idpartenaire');
