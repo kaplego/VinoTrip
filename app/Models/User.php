@@ -59,9 +59,9 @@ class User extends Authenticatable
         return $this->hasMany(Adresse::class, 'idclient', 'idclient');
     }
 
-    public function cartesbancaire(): HasMany
+    public function cartebancaire(): HasOne
     {
-        return $this->hasMany(Cartebancaire::class, 'idclient', 'idclient');
+        return $this->hasOne(Cartebancaire::class, 'idclient', 'idclient');
     }
 
     public function commandes(): HasMany

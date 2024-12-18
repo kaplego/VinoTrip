@@ -134,6 +134,11 @@
                             @endfor
                         </select>
                     </div>
+                    @error('datenaissanceclient')
+                    <p class="alert alert-error"><i data-lucide="circle-x"></i>
+                        L'utilisateur doit être majeur !
+                    </p>
+                    @enderror
 
                 </div>
 

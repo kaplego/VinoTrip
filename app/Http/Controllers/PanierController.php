@@ -7,13 +7,18 @@ use App\Models\Association_38;
 use App\Models\Association_39;
 use App\Models\Cartebancaire;
 use App\Models\Client;
+use App\Models\Commande;
+use App\Models\Descriptioncommande;
 use App\Models\Descriptionpanier;
 use App\Models\Hebergement;
 use App\Models\Panier;
 use App\Models\Repas;
 use App\Models\Sejour;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use League\CommonMark\Node\Block\Document;
+use Str;
 
 class PanierController extends Controller
 {
@@ -202,7 +207,7 @@ class PanierController extends Controller
 
     public function update(Request $request)
     {
-        $idsejour = $request->input('idsejour') ?? null;
+        $iddescriptionpanier = $request->input('iddescriptionpanier') ?? null;
         $idpanier = $request->session()->get('idpanier', null);
 
         $inputs = $request->validate([
@@ -211,15 +216,20 @@ class PanierController extends Controller
 
         switch ($inputs['action']) {
             case 'delete':
+                Association_38::
+                    where('iddescriptionpanier', '=', $iddescriptionpanier)
+                    ?->delete();
+                Association_39::
+                    where('iddescriptionpanier', '=', $iddescriptionpanier)
+                    ?->delete();
                 Descriptionpanier::
-                    where('idsejour', '=', +$idsejour)
-                    ->where('idpanier', '=', value: $idpanier)
-                    ->delete();
+                    find($iddescriptionpanier)
+                    ?->delete();
 
                 if (
                     Descriptionpanier::where('idpanier', '=', value: $idpanier)->count() === 0
                 ) {
-                    Panier::find($idpanier)->delete();
+                    Panier::find($idpanier)?->delete();
                 }
                 break;
             case 'update':
@@ -228,8 +238,7 @@ class PanierController extends Controller
                 ]);
                 if (+$updateInputs['quantite'] > 0)
                     Descriptionpanier::
-                        where('idsejour', '=', +$idsejour)
-                        ->where('idpanier', '=', +$idpanier)
+                        find($iddescriptionpanier)
                         ->update([
                             'quantite' => +$updateInputs['quantite']
                         ]);
@@ -277,7 +286,15 @@ class PanierController extends Controller
         if (!Auth::check())
             return view('client.connexion', ['panier' => $panier, 'redirect' => '/panier/paiement']);
 
-        return view('panier.paiement', ['panier' => $panier]);
+        $livraison = false;
+        foreach ($panier->descriptionspanier as $dp) {
+            if ($dp->offrir && !$dp->ecoffret) {
+                $livraison = true;
+                break;
+            }
+        }
+
+        return view('panier.paiement', ['panier' => $panier, 'livraison' => $livraison]);
     }
 
     public function payment(Request $request)
@@ -292,55 +309,159 @@ class PanierController extends Controller
         if (!$panier)
             return redirect("/panier");
 
-        $cbs = Cartebancaire::where('idclient', '=', Auth::user()->idclient)
-            ->get(['idcb'])
-            ->pluck('idcb')->toArray();
-
         $inputs = $request->validate([
             'adresse-facturation' => ['required', 'integer'],
-            'carte-bancaire' => ['required', 'in:' . implode(',', ['new', ...$cbs])],
-            'cb-titulaire' => ['required_if:carte-bancaire,new'],
-            'numero-cb' => ['required_if:carte-bancaire,new', 'regex:/^\d{16}|\d{4} \d{4} \d{4} \d{4}$/'],
-            'ccv-cb' => ['required_if:carte-bancaire,new', 'digits:3'],
-            'cb-exp-mois' => ['required_if:carte-bancaire,new', 'integer', 'between:1,12'],
-            'cb-exp-annee' => ['required_if:carte-bancaire,new', 'integer', 'between:' . Date('Y') . ',' . (intval(Date('Y')) + 20)],
+            'adresse-livraison' => ['integer'],
+            'type-paiement' => ['required', 'in:cb-old,cb-new,paypal,stripe'],
+            'cb-titulaire' => ['present_if:type-paiement,cb-new'],
+            'numero-cb' => ['present_if:type-paiement,cb-new', 'regex:/^\d{16}|\d{4} \d{4} \d{4} \d{4}$/'],
+            'ccv-cb' => ['present_if:type-paiement,cb-new', 'digits:3'],
+            'cb-exp-mois' => ['present_if:type-paiement,cb-new', 'integer', 'between:1,12'],
+            'cb-exp-annee' => ['present_if:type-paiement,cb-new', 'integer', 'between:' . Date('Y') . ',' . (intval(Date('Y')) + 20)],
             'save-infos-cb' => ['boolean']
         ], [
             'adresse-facturation' => "L'adresse de facturation est incorrecte.",
             'adresse-facturation.required' => "L'adresse de facturation est requise.",
-            'carte-bancaire' => 'La carte bancaire choisie est incorrecte.',
-            'carte-bancaire.required' => 'Vous devez choisir une carte bancaire.',
+            'type-paiement' => 'La carte bancaire choisie est incorrecte.',
+            'type-paiement.required' => 'Vous devez choisir une carte bancaire.',
             'cb-titulaire' => 'Le titulaire est incorrect.',
             'numero-cb' => 'Le numéro de carte bacaire est incorrect.',
-            'numero-cb.required_if' => "Le numéro de carte bancaire est requis.",
+            'numero-cb.present_if' => "Le numéro de carte bancaire est requis.",
             'ccv-cb' => "Le code de sécurité est incorrect.",
-            'ccv-cb.required_if' => "Le code de sécurité est requis.",
+            'ccv-cb.present_if' => "Le code de sécurité est requis.",
             'cb-exp-mois' => "Le mois d'expiration est incorrect.",
-            'cb-exp-mois.required_if' => "Le mois d'expiration est requis.",
+            'cb-exp-mois.present_if' => "Le mois d'expiration est requis.",
             'cb-exp-annee' => "L'année d'expiration est incorrecte.",
-            'cb-exp-annee.required_if' => "L'année d'expiration est requise.",
+            'cb-exp-annee.present_if' => "L'année d'expiration est requise.",
             'cb-exp-annee.between' => "L'année d'expiration doit être entre " . Date('Y') . " et " . (intval(Date('Y')) + 20) . ".",
         ]);
 
-        $inputs['numero-cb'] = str_replace(' ', '', $inputs['numero-cb']);
-        $inputs['save-infos-cb'] = isset($inputs['save-infos-cb']) && $inputs['save-infos-cb'] == 1;
+        if ($inputs['type-paiement'] === 'cb-new') {
+            $inputs['numero-cb'] = str_replace(' ', '', $inputs['numero-cb']);
+            $inputs['save-infos-cb'] = isset($inputs['save-infos-cb']) && $inputs['save-infos-cb'] == 1;
+        }
 
-        dd(vars: $inputs);
-
-        if ($inputs['carte-bancaire'] === 'new') {
+        $cb = null;
+        if ($inputs['type-paiement'] === 'cb-new') {
             if ($inputs['save-infos-cb']) {
-                Cartebancaire::create([
-                    'idclient' => Auth::user()->idclient,
-                    'titulairecb' => $inputs['cb-titulaire'],
-                    'numerocbclient' => $inputs['numero-cb'],
-                    'dateexpirationcbclient' => DateTime::createFromFormat(
-                        'j/n/Y',
-                        1,
-                        $inputs['cb-exp-mois'],
-                        $inputs['cb-exp-annee'],
-                    )
-                ]);
+                if (Cartebancaire::where('idclient', '=', Auth::user()->idclient)->exists())
+                    $cb = Cartebancaire::where('idclient', '=', Auth::user()->idclient)
+                        ->update([
+                            'titulairecb' => $inputs['cb-titulaire'],
+                            'numerocbclient' => $inputs['numero-cb'],
+                            'dateexpirationcbclient' => Carbon::createFromFormat(
+                                'n/Y',
+                                (string) $inputs['cb-exp-mois'] + '-' + $inputs['cb-exp-annee'],
+                            )
+                        ]);
+                else
+                    $cb = Cartebancaire::create([
+                        'idclient' => Auth::user()->idclient,
+                        'titulairecb' => $inputs['cb-titulaire'],
+                        'numerocbclient' => $inputs['numero-cb'],
+                        'dateexpirationcbclient' => Carbon::createFromFormat(
+                            'n/Y',
+                            (string) $inputs['cb-exp-mois'] + '-' + $inputs['cb-exp-annee'],
+                        )
+                    ]);
+                $cb = $cb->idcb;
             }
         }
+
+        $commande = Commande::create([
+            'idclientacheteur' => Auth::user()->idclient,
+            'idpanier' => $idpanier,
+            'idadressefacturation' => $inputs['adresse-facturation'],
+            'idadresselivraison' => $inputs['adresse-livraison'] ?? null,
+            'idcb' => $cb,
+            'etatcommande' => 'En attente de validation',
+            'typepaiementcommande' => str_starts_with($inputs['type-paiement'], 'cb') ? 'CB' : $inputs['type-paiement'],
+            'datecommande' => date('Y-m-d'),
+            'codereduction' => ''
+        ]);
+
+        $offrir = false;
+
+        foreach ($panier->descriptionspanier as $dp) {
+            if ($dp->offrir)
+                $offrir = true;
+            Descriptioncommande::create([
+                'idsejour' => $dp->idsejour,
+                'idcommande' => $commande->idcommande,
+                'prix' => $dp->prix,
+                'quantite' => $dp->quantite,
+                'datedebut' => $dp->datedebut,
+                'datefin' => $dp->datefin,
+                'nbadultes' => $dp->nbadultes,
+                'nbenfants' => $dp->nbenfants,
+                'nbchambressimple' => $dp->nbchambressimple,
+                'nbchambresdouble' => $dp->nbchambresdouble,
+                'nbchambrestriple' => $dp->nbchambrestriple,
+                'idhebergement' => $dp->idhebergement,
+                'disponibilitehebergement' => false,
+                'validationclient' => false,
+                'repasmidi' => false,
+                'repassoir' => false,
+                'activite' => false,
+                'offrir' => $dp->offrir,
+                'ecoffret' => $dp->ecoffret
+            ]);
+        }
+
+        if ($offrir) {
+            $code = Str::random(11);
+            $commande->update([
+                'codereduction' => $code
+            ]);
+        }
+
+        return redirect("/client/commande/$commande->idcommande");
+    }
+    public function codepromo(Request $request){
+        $code=$request->input("codePromo");
+
+        $commande = Commande::where('codereduction', '=', $code)->first();
+
+        // dd($commande);
+        $idpanier = $request->session()->get('idpanier', null);
+
+        $panier = null;
+        if ($idpanier !== null) {
+            $panier = Panier::find($idpanier);
+        }
+
+        if ($panier === null)
+        {
+            $panier = new Panier;
+            $panier->dateheurepanier = now();
+            $panier->save();
+
+            $request->session()->put('idpanier', $panier->idpanier);
+        }
+
+        foreach (Descriptioncommande::where('idcommande', '=', $commande->idcommande)->where('offrir', '=', true)->get() as $descriptioncommande) {
+            $descriptionpanier = Descriptionpanier::create([
+                'idpanier' => $panier->idpanier,
+                'idsejour' => $descriptioncommande->idsejour,
+                'idhebergement' => $descriptioncommande->idhebergement,
+                'prix' => 0,
+                'quantite' => $descriptioncommande->quantite,
+                'datedebut' => $descriptioncommande->datedebut,
+                'datefin' => $descriptioncommande->datefin,
+                'nbadultes' => $descriptioncommande->nbadultes,
+                'nbenfants' => $descriptioncommande->nbenfants,
+                'nbchambressimple' => $descriptioncommande->nbchambressimple,
+                'nbchambresdouble' => $descriptioncommande->nbchambresdouble,
+                'nbchambrestriple' => $descriptioncommande->nbchambrestriple,
+                'repasmidi' => $descriptioncommande->repasmidi,
+                'repassoir' => $descriptioncommande->repassoir,
+                'activite' => $descriptioncommande->activite,
+                'offrir' => false,
+                'ecoffret' => false,
+                'disponibilitehebergement' => false,
+            ]);
+        }
+
+        return redirect('/panier');
     }
 }

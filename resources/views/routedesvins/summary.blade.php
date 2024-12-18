@@ -1,3 +1,7 @@
+@php
+    $active = 'route-des-vins';
+@endphp
+
 @extends('layout.app')
 
 @section('title', $route->titreroute . ' - VinoTrip')

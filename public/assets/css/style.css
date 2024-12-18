@@ -5,6 +5,14 @@
     --header-height: 100px;
 }
 
+df-messenger {
+    --df-messenger-button-titlebar-color: var(--c-accent-500);
+    --df-messenger-send-icon: var(--c-accent-500);
+    --df-messenger-bot-message: var(--c-gray-500);
+    --df-messenger-user-message: var(--c-accent-500);
+    --df-messenger-font-color: white;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;

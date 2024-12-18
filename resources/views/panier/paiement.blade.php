@@ -49,26 +49,46 @@
                             <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                         @enderror
                     </div>
+                    @if ($livraison)
+                        <div class="input-control input-control-select">
+                            <label for="adresse-livraison">Adresse de livraison</label>
+                            <select name="adresse-livraison" id="adresse-livraison">
+                                @foreach (Auth::user()->adresses as $adresse)
+                                    <option value="{{ $adresse->idadresse }}"
+                                        @if (old('adresse-livraison') == $adresse->idadresse) selected @endif>
+                                        {{ $adresse->nomadresse }} :
+                                        {{ $adresse->rueadresse }}
+                                        ({{ $adresse->villeadresse }})
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('adresse-livraison')
+                                <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
+                            @enderror
+                        </div>
+                    @endif
                     <p class="name"><a href="/client/adresses" class="link link-icon"><i
                                 data-lucide="map-pin-plus"></i>Modifier mes adresses</a></p>
                 </div>
                 <div id="infos-bancaires">
                     <div class="input-control input-control-select" id="choix-cb">
-                        <label for="carte-bancaire">Choix du mode de paiement</label>
-                        <select name="carte-bancaire" id="carte-bancaire" autocomplete="off">
-                            @if (sizeof(Auth::user()->cartesbancaire) === 0)
-                                <option value="cb-new">Carte bancaire</option>
+                        <label for="type-paiement">Choix du mode de paiement</label>
+                        <select name="type-paiement" id="type-paiement" autocomplete="off">
+                            @if (Auth::user()->cartebancaire == null)
+                                <option value="cb-new" selected>Carte bancaire</option>
                             @else
-                                <option value="cb-new">Carte bancaire</option>
+                                <option value="cb-old">Carte bancaire
+                                    •••• •••• •••• {{ substr(Auth::user()->cartebancaire->numerocbclient, -4) }}</option>
+                                <option value="cb-new" selected>Utiliser une autre carte bancaire</option>
                             @endif
                             <option value="paypal">PayPal</option>
                             <option value="stripe">Stripe</option>
                         </select>
-                        @error('carte-bancaire')
+                        @error('type-paiement')
                             <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                         @enderror
                     </div>
-                    <div class="input-group">
+                    <div class="input-group nouvelle-cb">
                         <div class="input-control input-control-text">
                             <label for="cb-titulaire">Titulaire de la carte bancaire</label>
                             <input type="text" id="cb-titulaire" name="cb-titulaire" autocomplete="cc-name" required
@@ -87,7 +107,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="input-group">
+                    <div class="input-group nouvelle-cb">
                         <div class="input-control input-control-text">
                             <label for="ccv-cb">Code de sécurité</label>
                             <input type="text" id="ccv-cb" name="ccv-cb" autocomplete="cc-number" required
@@ -123,9 +143,12 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="input-control input-control-checkbox">
+                    <div class="input-control input-control-checkbox nouvelle-cb">
                         <input type="checkbox" name="save-infos-cb" id="save-infos-cb" value="1">
-                        <label for="save-infos-cb">Enregistrer les informations de la carte bancaire</label>
+                        <label for="save-infos-cb">Enregistrer les informations de la carte bancaire @if (Auth::user()->cartebancaire !== null)
+                                (remplacer la carte actuelle)
+                            @endif
+                        </label>
                     </div>
                 </div>
             </div>
@@ -136,4 +159,8 @@
         </form>
     </main>
     @include('layout.footer')
+@endsection
+
+@section('scripts')
+    <script src="/assets/js/paiement.js"></script>
 @endsection

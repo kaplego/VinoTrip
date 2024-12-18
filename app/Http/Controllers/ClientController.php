@@ -3,13 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Adresse;
+use Carbon\Carbon;
 use DateInterval;
 use \Datetime;
 use App\Models\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Hashing\BcryptHasher;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendEmail;
+use App\Models\Client;
+use Illuminate\Support\Str;
 
 class ClientController extends Controller
 {
@@ -51,10 +56,12 @@ class ClientController extends Controller
         ]);
 
 
-        if (Auth::attempt([
-            'emailclient' => $credentials['emailclientconnexion'],
-            'password' => $credentials["motdepasseconnexion"]
-        ])) {
+        if (
+            Auth::attempt([
+                'emailclient' => $credentials['emailclientconnexion'],
+                'password' => $credentials["motdepasseconnexion"]
+            ])
+        ) {
             $request->session()->regenerate();
             return redirect()->intended(isset($credentials['redirect'])
                 ? $credentials['redirect']
@@ -74,17 +81,15 @@ class ClientController extends Controller
             'emailclient' => ['required', 'email'],
             'motdepasseclient' => ['required', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{12,}$/'],
             'offrespromotionnellesclient' => ['boolean'],
-            'redirect' => ['string']
         ]);
-
         $datenaissance = DateTime::createFromFormat(
             'j/n/Y',
             $request->request->get('journaissance') . "/" .
             $request->request->get('moisnaissance') . "/" .
             $request->request->get('anneenaissance')
         );
-        $password = bcrypt($credentials['motdepasseclient']);
-
+        /*
+        $ = bcrypt($credentials['motdepasseclient']);
         $user = new User();
 
         $user->prenomclient = ucfirst($credentials['prenomclient']);
@@ -95,24 +100,18 @@ class ClientController extends Controller
         $user->civiliteclient = $request->request->get('civiliteclient');
         $user->datenaissanceclient = gettype($datenaissance) == "boolean" ? null : $datenaissance;
         $user->idrole = 1;
+*/
 
-        $user->save();
-
-        if (
-            Auth::attempt([
-                'emailclient' => $credentials['emailclient'],
-                'password' => $credentials['motdepasseclient']
-            ])
-        ) {
-            $request->session()->regenerate();
-            return redirect()->intended(isset($credentials['redirect'])
-                ? $credentials['redirect']
-                : '/client');
-        }
-
-        return response(back()->withErrors([
-            'email' => 'Mauvais identifiant ou mot de passe.',
-        ]));
+        return redirect('client/adresse/ajouter')->with([
+            'prenomclient' => $credentials['prenomclient'],
+            'nomclient' => $credentials['nomclient'],
+            'emailclient' => $credentials['emailclient'],
+            'motdepasseclient' => $credentials['motdepasseclient'],
+            'civiliteclient' => $request->request->get('civiliteclient'),
+            'datenaissance' => gettype($datenaissance) == "boolean" ? null : $datenaissance->format('j/n/Y'),
+            'offrespromotionnellesclient' => $credentials['offrespromotionnellesclient'] ?? '0' === 'on',
+            'redirect' => $credentials['redirect'] ?? null,
+        ]);
     }
 
     public function logout(Request $request)
@@ -174,7 +173,11 @@ class ClientController extends Controller
             $user->civiliteclient = $request->request->get('civiliteclient');
             $user->datenaissanceclient = gettype($datenaissance) == "boolean" ? null : $datenaissance;
 
-            $user->update();
+            try {
+                $user->update();
+            } catch (QueryException $e) {
+                return response(back()->withErrors(['datenaissanceclient' => "L'utilisateur doit etre majeur."]));
+            }
 
             $request->session()->regenerate();
             return redirect()->back()->with('success', 'Les modifications ont bien été prises en compte.');
@@ -184,4 +187,76 @@ class ClientController extends Controller
             ]));
 
     }
+
+    public function envoiemailmdp(Request $request)
+    {
+        $email = $request->input("email");
+        $client = Client::firstWhere('emailclient', "=", $email);
+
+        $token = Str::random(60);
+
+        if ($client != null) {
+            Client::where('idclient', $client['idclient'])
+                ->update([
+                    'tokenresetmdp' => $token,
+                    'datecreationtoken' => Carbon::now()
+                ]);
+
+            Mail::to("ppartenairehotel@gmail.com")->send(new SendEmail([
+                'type' => 'mdp',
+                'prenom' => $client['prenomclient'],
+                'nom' => $client['nomclient'],
+                'civilite' => $client['civiliteclient'],
+                'token' => $token
+            ], "Vinotrip Renitialsiation mots de passe "));
+
+            return redirect()->back()->with("successhotel", "le mail a été envoyé");
+        } else {
+            return redirect("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+        }
+    }
+
+    public function envoiSMS()
+    {
+
+    }
+    public function resetPassword(Request $request, $token)
+    {
+        $client = Client::firstWhere('tokenresetmdp', "=", $token);
+        if ($client != null) {
+            if (Auth::check()) {
+                Auth::logout();
+            }
+            return view("client.mdpreset",['token' => $token]);
+        }
+
+        return redirect("http://51.83.36.122:8074/");
+
+
+    }
+    public function updatePassword(Request $request, $token)
+{
+    $request->validate([
+        'motdepasseclient' => ['required', 'string', 'min:12', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{12,}$/'],
+        'confirmationmotdepasse' => ['required', 'same:motdepasseclient'],
+    ]);
+
+
+    $client = Client::firstWhere('tokenresetmdp', $token);
+
+    if ($client) {
+        $client->motdepasseclient = bcrypt($request->motdepasseclient);
+
+        Client::where('idclient', $client['idclient'])
+        ->update([
+            'tokenresetmdp' =>null,
+            'datecreationtoken' => null,
+            'motdepasseclient' =>   $client->motdepasseclient
+        ]);
+
+        return redirect("http://51.83.36.122:8074/connexion");
+    }
+
+    return redirect("http://51.83.36.122:8074/");
+}
 }

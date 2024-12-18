@@ -39,8 +39,11 @@
 
 #liste-sejours .descriptionpanier form .details td {
     padding: 0.5rem;
-    text-transform: capitalize;
     vertical-align: top;
+}
+
+#liste-sejours .descriptionpanier form .details td:not(.code-cadeau) {
+    text-transform: capitalize;
 }
 
 #liste-sejours .descriptionpanier form .details td.flex {
@@ -149,4 +152,8 @@ form:has(#paiement) {
     flex: 1;
     width: auto;
     margin-bottom: 0;
+}
+
+.nouvelle-cb.hidden {
+    display: none;
 }

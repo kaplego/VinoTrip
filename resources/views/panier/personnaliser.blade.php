@@ -193,13 +193,13 @@
                 <div id="radios-offrir">
                     <div class="input-control input-control-radio">
                         <input type="radio" id="e-coffret" name="ecoffret" value="1"
-                            {{ old('ecoffret') === '1' ? 'checked' : '' }}>
+                            {{ old('ecoffret', '1') === '1' ? 'checked' : '' }}>
                         <label for="e-coffret">E-Coffret : envoi immédiat par email
                             <span class="price">Gratuit</span></label>
                     </div>
                     <div class="input-control input-control-radio">
                         <input type="radio" id="coffret-postal" name="ecoffret" value="0"
-                            {{ old('ecoffret') !== '1' ? 'checked' : '' }}>
+                            {{ old('ecoffret', '1') !== '1' ? 'checked' : '' }}>
                         <label for="coffret-postal">Coffret : Livraison sous 4 à 6 jours ouvrés
                             <span class="price">5 €</span></label>
                     </div>

@@ -29,7 +29,8 @@
                     <article class="descriptionpanier">
                         <form action="/api/panier/update" method="post">
                             @csrf
-                            <input type="hidden" name="idsejour" value="{{ $sejour->idsejour }}">
+                            <input type="hidden" name="iddescriptionpanier"
+                                value="{{ $descriptionpanier->iddescriptionpanier }}">
                             <div class="sejour">
                                 <h2>{{ $sejour->titresejour }}</h2>
                                 <img class="photo" src="/assets/images/sejour/{{ $sejour->photosejour }}"
@@ -67,7 +68,7 @@
                                     <tr>
                                         <td>Repas</td>
                                         <td>
-                                            @if(sizeof($descriptionpanier->repas) === 0)
+                                            @if (sizeof($descriptionpanier->repas) === 0)
                                                 Aucun repas
                                             @endif
                                             @foreach ($descriptionpanier->repas as $repas)
@@ -75,7 +76,7 @@
                                             @endforeach
                                         </td>
                                         <td class="prix">
-                                            @if(sizeof($descriptionpanier->repas) === 0)
+                                            @if (sizeof($descriptionpanier->repas) === 0)
                                                 0 €
                                             @endif
                                             @foreach ($descriptionpanier->repas as $repas)
@@ -86,7 +87,7 @@
                                     <tr>
                                         <td>Activités</td>
                                         <td>
-                                            @if(sizeof($descriptionpanier->activites) === 0)
+                                            @if (sizeof($descriptionpanier->activites) === 0)
                                                 Aucune activité
                                             @endif
                                             @foreach ($descriptionpanier->activites as $activite)
@@ -94,7 +95,7 @@
                                             @endforeach
                                         </td>
                                         <td class="prix">
-                                            @if(sizeof($descriptionpanier->activites) === 0)
+                                            @if (sizeof($descriptionpanier->activites) === 0)
                                                 0 €
                                             @endif
                                             @foreach ($descriptionpanier->activites as $activite)
@@ -113,7 +114,7 @@
                                             @endif
                                         </td>
                                         <td class="prix">
-                                            {{ ($descriptionpanier->offrir && !$descriptionpanier->ecoffret) ? 5 : 0 }} €
+                                            {{ $descriptionpanier->offrir && !$descriptionpanier->ecoffret ? 5 : 0 }} €
                                         </td>
                                     </tr>
                                 </tbody>
@@ -155,9 +156,17 @@
 
         <div id="buttons-navigation">
             <a href="/sejours" class="button">Retourner à la liste des séjours</a>
+
+            <form action="api/panier/codepromo" method="POST">
+                @csrf
+                <input type="text" name="codePromo" placeholder=" Chèque cadeau" />
+                <button id="codepr" class="button" type="submit">Valider code promo</button>
+
+            </form>
             @if ($panier !== null && sizeof($panier->descriptionspanier) > 0)
                 <a href="/panier/paiement" class="button">Passer au paiement</a>
             @endif
+
         </div>
     </main>
     @include('layout.footer')

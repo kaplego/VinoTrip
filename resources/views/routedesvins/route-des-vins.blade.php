@@ -1,5 +1,5 @@
 @php
-    $active = 'route_des_vins';
+    $active = 'route-des-vins';
 @endphp
 
 @extends('layout.app')

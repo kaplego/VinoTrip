@@ -12,8 +12,8 @@ class CommandeController extends Controller
         return view('client.commande.liste', ['commandes' => Commande::all()]);
     }
 
-    public function recapitulatif()
+    public function recapitulatif($id)
     {
-        return view('client.commande.recapitulatif', ['commande' => Commande::all()]);
+        return view('client.commande.recapitulatif', ['commande' => Commande::find($id)]);
     }
 }

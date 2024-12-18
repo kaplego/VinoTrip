@@ -90,6 +90,19 @@ class ReservationHotelController extends Controller
 
     }
 
+    public function clientnon(Request $request){
+
+
+        $idcommande= $request->input("unecommande");
+        $commande = Commande::find( $idcommande);
+        $commande->etatcommande = "Annulé";
+        $commande->update();
+
+
+        return redirect()->back()->with("successhotel","le mail a été envoyé");
+
+    }
+
     public function envoiemailclient(Request $request){
         // if(isset($_POST["message"])){
         //     $message = "Ce message via la page contact du portfolio

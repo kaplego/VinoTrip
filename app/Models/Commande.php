@@ -13,6 +13,7 @@ class Commande extends Model
     protected $table = "commande";
     protected $primaryKey = "idcommande";
     public $timestamps = false;
+    public $guarded = [];
 
     public function beneficiaire(): HasOne
     {

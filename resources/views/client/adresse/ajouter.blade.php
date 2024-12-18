@@ -27,8 +27,37 @@
             <p class="alert alert-success"><i data-lucide="circle-check-big"></i>{!! \Session::get('success') !!}</p>
         @endif
         <div id="informations">
+            @if(Auth::user())
             <form id="modification" class="formulaire" method="post" action="/api/client/adresse/add">
+            @else
+            <form id="modification" class="formulaire" method="post" action="/api/client/adresse/firstaddress">
+            @endif
                 @csrf
+
+                @isset($prenomclient)
+                    <input type="hidden" name="prenomclient" value="{{ old('prenomclient', $prenomclient) }}">
+                @endisset
+                @isset($nomclient)
+                    <input type="hidden" name="nomclient" value="{{ $nomclient }}">
+                @endisset
+                @isset($emailclient)
+                    <input type="hidden" name="emailclient" value="{{ $emailclient }}">
+                @endisset
+                @isset($motdepasseclient)
+                    <input type="hidden" name="motdepasseclient" value="{{ $motdepasseclient }}">
+                @endisset
+                @isset($datenaissance)
+                    <input type="hidden" name="datenaissance" value="{{ $datenaissance }}">
+                @endisset
+                @isset($offrespromotionnellesclient)
+                    <input type="hidden" name="offrespromotionnellesclient" value="{{ $offrespromotionnellesclient }}">
+                @endisset
+                @isset($civiliteclient)
+                    <input type="hidden" name="civiliteclient" value="{{ $civiliteclient }}">
+                @endisset
+                @isset($redirect)
+                    <input type="hidden" name="redirect" value="{{ $redirect }}">
+                @endisset
 
                 <div class="input-control input-control-text">
                     <label for="nomadresse">Libellé de l'adresse</label>

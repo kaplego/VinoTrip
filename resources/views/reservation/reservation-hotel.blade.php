@@ -25,14 +25,15 @@
                     @foreach ($commande->descriptionscommande as $descriptioncommande)
 
 
-                        @if ($descriptioncommande != null)
+                        @if ($descriptioncommande != null && $commande->etatcommande == "En attente de validation")
+
                             @if ($descriptioncommande->datedebut >= $dateauj)
                                 <h2 class="titresej">{{ $descriptioncommande->sejour->titresejour }}</h2>
                                 <section id="unereservation">
                                     <p class="date">Date séjour : {{ $descriptioncommande->datedebut }}</p>
                                     <article class ="unclient">
-                                        <h3>Commande effective du client : {{ $commande->beneficiaire->prenomclient }}
-                                            {{ $commande->beneficiaire->nomclient }}</h3>
+                                        <h3>Commande effective du client : {{ ($commande->beneficiaire ?? $commande->acheteur)->prenomclient }}
+                                            {{ ($commande->beneficiaire ?? $commande->acheteur)->nomclient }}</h3>
 
                                             {{-- envoie  mail conf client --}}
                                         <form method="POST" action="/api/reservationclient">
@@ -46,7 +47,7 @@
                                                 name="prix">
 
                                             <p>Envoyer un mail de paiement au client: <button type="submit"
-                                                    @if ($descriptioncommande->disponibilitehebergement == false) disabled @endif>{{ $commande->beneficiaire->emailclient }}</button>
+                                                    @if ($descriptioncommande->disponibilitehebergement == false) disabled @endif>{{ ($commande->beneficiaire ?? $commande->acheteur)->emailclient }}</button>
                                             </p>
 
                                             {{-- @if (\Session::has('successclient'))
@@ -63,7 +64,13 @@
                                             <p>Validation Client : <button class="button" type="submit">OUI</button>
                                                 <input type="hidden" value="{{ $descriptioncommande->iddescriptioncommande }}"
                                                 name="unedescription"></p>
+                                        </form>
 
+                                        <form method="POST" action="/api/clientnon">
+                                            @csrf
+                                            <p><button class="button" type="submit">NON</button>
+                                                <input type="hidden" value="{{ $commande->idcommande }}"
+                                                name="unecommande"></p>
                                         </form>
                                     </article>
 
@@ -102,7 +109,7 @@
                                                         <input type="hidden"
                                                         value="{{ $descriptioncommande->hebergement->hotel->idpartenaire }}"
                                                         name="idpart">
-                                                    <button class="button" type="submit">NON</button>
+                                                    <p><button class="button" type="submit">NON</button></p>
                                                     <input type="hidden" value="{{ $descriptioncommande->iddescriptioncommande }}"
                                                     name="unedescription"></p>
                                                 </form>

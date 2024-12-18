@@ -111,6 +111,11 @@
                         @endfor
                     </select>
                 </div>
+                @error('datenaissanceclient')
+                    <p class="alert alert-error"><i data-lucide="circle-x"></i>
+                        L'utilisateur doit être majeur !
+                    </p>
+                @enderror
 
             </div>
 
@@ -134,7 +139,8 @@
 
             <div class="input-control input-control-text">
                 @error('login')
-                    <p class="alert alert-error"><i data-lucide="circle-x"></i>Le mot de passe ou l'adresse email n'est pas valide !</p></br>
+                    <p class="alert alert-error"><i data-lucide="circle-x"></i>Le mot de passe ou l'adresse email n'est pas
+                        valide !</p></br>
                 @enderror
 
                 <label for="emailconnexion">Email</label>
@@ -151,10 +157,41 @@
                 @error('motdepasseconnexion')
                     <p class="alert alert-error"><i data-lucide="circle-x"></i>Le mot de passe n'est pas valide !</p>
                 @enderror
+                <a href="">Mot de passe oublié ?</a>
+            </div>
+            <input type="submit" value="Connexion" class="button" />
+
+            <div class="modal fade" id="m-popup-identifiants">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="emailModalLabel">Réinitialiser votre mot de passe</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
             </div>
 
-            <input type="submit" value="Connexion" class="button" />
+
+        </form>
+        <form method="post" action="/api/client/resetmdp">
+            @csrf
+            <div class="form-group">
+                <label for="reset_email">Adresse E-mail</label>
+                <input type="email" name="email" id="reset_email" class="form-control"  required>
+            </div>
+            <button type="submit" class="boutton">Envoyer le lien de réinitialisation</button>
         </form>
     </main>
+
     @include('layout.footer')
+@endsection
+
+@section('scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 @endsection

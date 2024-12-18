@@ -13,6 +13,7 @@
 @section('body')
     @include('layout.header')
     <main class="container-sm">
+
         @include('layout.breadcrumb')
         <h1>Mes commandes</h1>
         <hr class="separateur-titre" />
@@ -24,6 +25,7 @@
                     <th scope="col">Date</th>
                     <th scope="col">Prix Total</th>
                     <th scope="col">Paiement</th>
+                    <th scope="col">Code Cadeau</th>
                     <th scope="col">État</th>
                 </tr>
             </thead>
@@ -36,10 +38,11 @@
                         }
                     @endphp
                     <tr>
-                        <td>{{ $commande->idcommande }}</td>
+                        <td><a href="/client/commande/{{ $commande->idcommande }}">{{ $commande->idcommande }}</a></td>
                         <td>{{ $commande->datecommande }}</td>
                         <td>{{ $prixTotal }} €</td>
                         <td>{{ $commande->typepaiementcommande }}</td>
+                        <td>{{ $commande->codereduction }}</td>
                         <td>{{ $commande->etatcommande }}</td>
                     </tr>
                 @endforeach

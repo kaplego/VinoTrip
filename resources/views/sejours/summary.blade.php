@@ -1,3 +1,7 @@
+@php
+    $active = 'sejours-list';
+@endphp
+
 @extends('layout.app')
 
 @section('title', $sejour->titresejour . ' - VinoTrip')

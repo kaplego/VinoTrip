@@ -17,9 +17,7 @@ section{
 .date{
     font-weight: bold;
 }
-.réponseheberg button{
-    display:inline;
-}
+
 #unereservation{
     display: grid;
     position: relative;
@@ -62,4 +60,12 @@ input{
 
 .validationsejour{
 text-align: center;
+}
+
+section #valide{
+    background-color: rgb(10, 85, 10);
+}
+article #validea{
+    background-color: rgb(10, 85, 10);
+
 }

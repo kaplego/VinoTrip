@@ -9,8 +9,6 @@ use App\Http\Controllers\AvisController;
 use App\Http\Controllers\ReservationHotelController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\RoutesVinsController;
-use App\Http\Controllers\MailController;
-use App\Models\Descriptioncommande;
 use Illuminate\Support\Facades\Route;
 
 
@@ -50,26 +48,30 @@ Route::get('/connexion', [ClientController::class, 'connexion']);
 Route::get('/client', [ClientController::class, 'profil']);
 Route::get('/client/informations', [ClientController::class, 'informations']);
 Route::get('/client/commandes', [CommandeController::class, 'liste']);
-
+Route::get('/client/commande/{id}', [CommandeController::class, 'recapitulatif']);
 Route::get('/client/adresses', [AdresseController::class, 'adresses']);
 Route::get('/client/adresse/{id}/modifier', [AdresseController::class, 'modifier']);
 Route::get('/client/adresse/ajouter', [AdresseController::class, 'ajouter']);
 
+
 Route::post('/api/client/adresse/modifier', [AdresseController::class, 'edit']);
 Route::post('/api/client/adresse/add', [AdresseController::class, 'add']);
-Route::post('/api/client/adresse/delete', [AdresseController::class, 'delete']);
+Route::post('/api/client/adresse/firstaddress', [AdresseController::class, 'firstaddress']);
 
+Route::post('/api/client/adresse/delete', [AdresseController::class, 'delete']);
 
 Route::post('/api/client/login', [ClientController::class, 'login']);
 Route::post('/api/client/logout', [ClientController::class, 'logout']);
 Route::post('/api/client/signin', [ClientController::class, 'signin']);
 Route::post('/api/client/edit', [ClientController::class, 'edit']);
+Route::post('/api/client/resetmdp', [ClientController::class,'envoiemailmdp']);
 
 Route::get('/panier', [PanierController::class, 'index']);
 Route::get('/panier/paiement', [PanierController::class, 'paiement']);
 Route::post('/api/panier/add', [PanierController::class, 'add']);
 Route::post('/api/panier/update', [PanierController::class, 'update']);
 Route::post('/api/panier/payment', [PanierController::class, 'payment']);
+Route::post('/api/panier/codepromo', [PanierController::class, 'codepromo']);
 
 Route::get('/personnaliser/{id}', [PanierController::class, 'personnaliser']);
 Route::get('/modifier/{idsejour}', [PanierController::class, 'modifier']);
@@ -80,6 +82,17 @@ Route::post('/api/reservationclient', [ReservationHotelController::class, 'envoi
 Route::post('/api/validationcommande', [ReservationHotelController::class, 'confirmationCommande']);
 Route::post('/api/reservationok', [ReservationHotelController::class, 'hebergementok']);
 Route::post('/api/clientok', [ReservationHotelController::class, 'clientok']);
+Route::post('/api/clientnon', [ReservationHotelController::class, 'clientnon']);
 
 Route::get('/route-des-vins', [RoutesVinsController::class, 'list']);
 Route::get('/route-des-vins/{id}', [RoutesVinsController::class, 'one']);
+
+Route::get('/mdpreset/{token}', [ClientController::class,'resetPassword']);
+
+Route::post('/api/client/mdpreset', [ClientController::class,'updatePassword']);
+
+Route::post('/api/dialogflow', [SiteController::class, 'dialogflow']);
+
+
+# Route de test
+Route::get('/test', [SiteController::class, 'test']);
