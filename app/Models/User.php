@@ -66,6 +66,6 @@ class User extends Authenticatable
 
     public function commandes(): HasMany
     {
-        return $this->HasMany(Commande::class, 'idclientacheteur', 'idclient');
+        return $this->HasMany(Commande::class, 'idclientacheteur', 'idclient')->orderBy('datecommande', 'desc');
     }
 }

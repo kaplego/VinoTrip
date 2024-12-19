@@ -33,6 +33,7 @@ class AdresseController extends Controller
 
     public function ajouter()
     {
+        dd(Session::All());
         if (!Auth::check() && Session::get("prenomclient") == null)
             return redirect('/connexion');
 
@@ -116,11 +117,13 @@ class AdresseController extends Controller
         }
         catch(\Exception $e){
 
+            //recupère toutes les données du nouveau client
             $values = [];
             foreach ($request->request->all() as $key => $value) {
                 $values = array_merge($values, [$key => $value]);
             }
 
+            //renvoie les valeurs et les erreurs correspondantes
             return response(redirect()->back()->withErrors(
                 $e->validator->messages()->messages())->with($values));
         }

@@ -10,7 +10,7 @@ class Commande extends Model
 {
     use HasFactory;
 
-    protected $table = "commande";
+    protected $table = "v_commande";
     protected $primaryKey = "idcommande";
     public $timestamps = false;
     public $guarded = [];

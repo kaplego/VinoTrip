@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Activite;
 use App\Models\Association_38;
 use App\Models\Association_39;
+use App\Models\Association_40;
 use App\Models\Cartebancaire;
 use App\Models\Client;
 use App\Models\Commande;
 use App\Models\Descriptioncommande;
 use App\Models\Descriptionpanier;
 use App\Models\Hebergement;
+use App\Models\Mange1;
 use App\Models\Panier;
 use App\Models\Repas;
 use App\Models\Sejour;
@@ -110,38 +112,11 @@ class PanierController extends Controller
             ->where('idpanier', '=', value: $idpanier)
             ->get()->first();
 
-        $prix = $sejour->prixsejour;
-
-        $prix += +$hebergements->pluck('prixhebergement', 'idhebergement')[$inputs['hebergement']];
-
-        if (isset($inputs['repas'])) {
-            $reps = $repas->pluck('prixrepas', 'idrepas');
-            $prix += array_reduce($inputs['repas'], function ($prev, $rep) use ($reps) {
-                return $prev + +$reps[$rep];
-            }, 0);
-        }
-        if (isset($inputs['activites'])) {
-            $acts = $activites->pluck('prixactivite', 'idactivite');
-            $prix += array_reduce($inputs['activites'], function ($prev, $act) use ($acts) {
-                return $prev + +$acts[$act];
-            }, 0);
-        }
-
-        $prix *= +$inputs['nbadultes'] + +$inputs['nbenfants'];
-
-        if (isset($inputs['offrir']) && $inputs['offrir'] == '1' && isset($inputs['ecoffret']) && $inputs['ecoffret'] == '0')
-            $prix += 5;
-
-        $prix += ($inputs['chambressimple'] ?? 0) * 75;
-        $prix += ($inputs['chambresdouble'] ?? 0) * 100;
-        $prix += ($inputs['chambrestriple'] ?? 0) * 125;
-
         if ($descriptionPanier !== null) {
             Descriptionpanier::
                 where('idsejour', '=', +$idsejour)
                 ->where('idpanier', '=', value: $idpanier)
                 ->update([
-                    'prix' => $prix,
                     'quantite' => 1,
                     'datedebut' => $inputs['datedebut'],
                     'datefin' => $inputs['datefin'],
@@ -169,7 +144,6 @@ class PanierController extends Controller
                 create([
                     'idsejour' => $sejour->idsejour,
                     'idpanier' => $panier->idpanier,
-                    'prix' => $prix,
                     'quantite' => 1,
                     'datedebut' => $inputs['datedebut'],
                     'datefin' => $inputs['datefin'],
@@ -402,10 +376,9 @@ class PanierController extends Controller
         foreach ($panier->descriptionspanier as $dp) {
             if ($dp->offrir)
                 $offrir = true;
-            Descriptioncommande::create([
+            $dc = Descriptioncommande::create([
                 'idsejour' => $dp->idsejour,
                 'idcommande' => $commande->idcommande,
-                'prix' => $dp->prix,
                 'quantite' => $dp->quantite,
                 'datedebut' => $dp->datedebut,
                 'datefin' => $dp->datefin,
@@ -423,6 +396,18 @@ class PanierController extends Controller
                 'offrir' => $dp->offrir,
                 'ecoffret' => $dp->ecoffret
             ]);
+            foreach (Association_38::where('iddescriptionpanier', '=', $panier->idpanier) as $activite) {
+                Association_40::create([
+                    'iddescriptioncommande' => $dc->iddescriptioncommande,
+                    'idactivite' => $activite
+                ]);
+            }
+            foreach (Association_39::where('iddescriptionpanier', '=', $panier->idpanier) as $repas) {
+                Mange1::create([
+                    'iddescriptioncommande' => $dc->iddescriptioncommande,
+                    'idrepas' => $repas
+                ]);
+            }
         }
 
         if ($offrir) {
@@ -463,7 +448,6 @@ class PanierController extends Controller
                 'idpanier' => $panier->idpanier,
                 'idsejour' => $descriptioncommande->idsejour,
                 'idhebergement' => $descriptioncommande->idhebergement,
-                'prix' => 0,
                 'quantite' => $descriptioncommande->quantite,
                 'datedebut' => $descriptioncommande->datedebut,
                 'datefin' => $descriptioncommande->datefin,

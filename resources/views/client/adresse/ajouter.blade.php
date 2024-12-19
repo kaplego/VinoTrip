@@ -30,6 +30,7 @@
         @if (\Session::has('success'))
             <p class="alert alert-success"><i data-lucide="circle-check-big"></i>{!! \Session::get('success') !!}</p>
         @endif
+
         <div id="informations">
             @if(Auth::user())
             <form id="modification" class="formulaire" method="post" action="/api/client/adresse/add">

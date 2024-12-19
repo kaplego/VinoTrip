@@ -7,3 +7,14 @@ tp.addEventListener("change", () => {
         e.classList.toggle("hidden", tp.value !== "cb-new");
     });
 });
+
+const cbnum = document.getElementById('numero-cb'),
+    cbtype = document.getElementById('type-cb'),
+    cbtypelucide = document.getElementById('type-cb-icon');
+cbnum.addEventListener('change', () => {
+    if (tp.value !== 'cb-new') return;
+    switch (creditCardType(cbnum.value)) {
+        default:
+            break;
+    }
+});

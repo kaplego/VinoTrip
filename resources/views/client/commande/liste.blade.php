@@ -15,7 +15,7 @@
     <main class="container-sm">
         @include('layout.breadcrumb')
 
-        <h1>Mes commandes</h1>
+        <h1>Mes commandes ({{ sizeof($commandes) }})</h1>
         <hr class="separateur-titre" />
 
         <table class="liste">
@@ -30,17 +30,11 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (Auth::user()->commandes as $commande)
-                    @php
-                        $prixTotal = 0;
-                        foreach ($commande->descriptionscommande as $dc) {
-                            $prixTotal += $dc->prix * $dc->quantite;
-                        }
-                    @endphp
+                @foreach ($commandes as $commande)
                     <tr>
                         <td><a href="/client/commande/{{ $commande->idcommande }}">{{ $commande->idcommande }}</a></td>
                         <td>{{ date_format(date_create($commande->datecommande), 'd/m/Y') }}</td>
-                        <td>{{ $prixTotal }} €</td>
+                        <td>{{ $commande->prix }} €</td>
                         <td>
                             @switch($commande->typepaiementcommande)
                                 @case('cb')

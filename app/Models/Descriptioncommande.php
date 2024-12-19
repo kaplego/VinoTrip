@@ -14,7 +14,7 @@ class Descriptioncommande extends Model
 {
     use HasFactory;
 
-    protected $table = "descriptioncommande";
+    protected $table = "v_descriptioncommande";
     protected $primaryKey = "iddescriptioncommande";
     public $timestamps = false;
     public $guarded = [];

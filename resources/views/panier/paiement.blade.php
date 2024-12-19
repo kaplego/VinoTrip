@@ -99,7 +99,9 @@
                             @enderror
                         </div>
                         <div class="input-control input-control-text">
-                            <label for="numero-cb">Numéro de carte bancaire</label>
+                            <label for="numero-cb">Numéro de carte bancaire <div id="type-cb">
+                                <i data-lucide="credit-card" id="type-cb-icon"></i>
+                            </div></label>
                             <input type="text" id="numero-cb" name="numero-cb" autocomplete="cc-number" required
                                 placeholder="xxxx xxxx xxxx xxxx" value="{{ old('numero-cb') }}" />
                             @error('numero-cb')

@@ -30,6 +30,7 @@
                     <tr>
                         <th>Date de la commande</th>
                         <th>État de la commande</th>
+                        <th>Prix total</th>
                         <th>Mode de paiement</th>
                         @if ($commande->codereduction)
                             <th>Code cadeau</th>
@@ -42,6 +43,7 @@
                         <td>
                             {{ $commande->etatcommande }}
                         </td>
+                        <td>{{ $commande->prix }} €</td>
                         <td>
                             @switch($commande->typepaiementcommande)
                                 @case('cb')
