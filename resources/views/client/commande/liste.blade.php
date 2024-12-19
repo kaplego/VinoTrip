@@ -13,12 +13,12 @@
 @section('body')
     @include('layout.header')
     <main class="container-sm">
-
         @include('layout.breadcrumb')
+
         <h1>Mes commandes</h1>
         <hr class="separateur-titre" />
 
-        <table>
+        <table class="liste">
             <thead>
                 <tr>
                     <th scope="col">Référence Commande</th>
@@ -39,10 +39,34 @@
                     @endphp
                     <tr>
                         <td><a href="/client/commande/{{ $commande->idcommande }}">{{ $commande->idcommande }}</a></td>
-                        <td>{{ $commande->datecommande }}</td>
+                        <td>{{ date_format(date_create($commande->datecommande), 'd/m/Y') }}</td>
                         <td>{{ $prixTotal }} €</td>
-                        <td>{{ $commande->typepaiementcommande }}</td>
-                        <td>{{ $commande->codereduction }}</td>
+                        <td>
+                            @switch($commande->typepaiementcommande)
+                                @case('cb')
+                                    Carte bancaire
+                                @break
+
+                                @case('paypal')
+                                    PayPal
+                                @break
+
+                                @case('stripe')
+                                    Stripe
+                                @break
+
+                                @default
+                                    Inconnu
+                            @endswitch
+                        </td>
+                        <td>
+                            @if ($commande->codereduction)
+                                <div class="clipboard-copy" data-text="{{ $commande->codereduction }}">
+                                    {{ $commande->codereduction }}</div>
+                            @else
+                                Aucun code cadeau
+                            @endif
+                        </td>
                         <td>{{ $commande->etatcommande }}</td>
                     </tr>
                 @endforeach

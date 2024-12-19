@@ -36,16 +36,7 @@ class AdresseController extends Controller
         if (!Auth::check() && Session::get("prenomclient") == null)
             return redirect('/connexion');
 
-        return view("client.adresse.ajouter", [
-            'prenomclient' => Session::get("prenomclient"),
-            'nomclient' => Session::get("nomclient"),
-            'emailclient' => Session::get("emailclient"),
-            'motdepasseclient' => Session::get("motdepasseclient"),
-            'civiliteclient' => Session::get("civiliteclient"),
-            'datenaissance' => Session::get("datenaissance"),
-            'offrespromotionnellesclient' => Session::get("offrespromotionnellesclient"),
-            'redirect' => Session::get("redirect"),
-            ]);
+        return view("client.adresse.ajouter", Session::all());
 
     }
 
@@ -113,54 +104,45 @@ class AdresseController extends Controller
     public function firstaddress(Request $request)
     {
         try{
-        $credentials = $request->validate([
-            'nomadresse' => ['required'],
-            'nomadressedestinataire' => ['required', "regex:/^[a-z \-']+$/i"],
-            'prenomadressedestinataire' => ['required', "regex:/^[a-z \-']+$/i"],
-            'rueadresse' => ['required'],
-            'villeadresse' => ['required', "regex:/^[a-z \-']+$/i"],
-            'cpadresse' => ['required', "regex:/^\d{5}$/"],
-            'paysadresse' => ['required', "regex:/^[a-z \-']+$/i"],
-            //rajouter les valeurs des cases du formulaire
-        ]);
+            $credentials = $request->validate([
+                'nomadresse' => ['required'],
+                'nomadressedestinataire' => ['required', "regex:/^[a-z \-']+$/i"],
+                'prenomadressedestinataire' => ['required', "regex:/^[a-z \-']+$/i"],
+                'rueadresse' => ['required'],
+                'villeadresse' => ['required', "regex:/^[a-z \-']+$/i"],
+                'cpadresse' => ['required', "regex:/^\d{5}$/"],
+                'paysadresse' => ['required', "regex:/^[a-z \-']+$/i"],
+            ]);
         }
         catch(\Exception $e){
 
-        $errors = [];
+            $values = [];
+            foreach ($request->request->all() as $key => $value) {
+                $values = array_merge($values, [$key => $value]);
+            }
 
-
-        return response(back()->withErrors($e->validator->messages()->messages())->with(
-            [
-                'prenomclient' => $request->request->get('prenomclient'),
-                'nomclient' => $request->request->get('nomclient'),
-                'emailclient' => $request->request->get('emailclient'),
-                'motdepasseclient' => $request->request->get('motdepasseclient'),
-                'civiliteclient' => $request->request->get('civiliteclient'),
-                'datenaissance' => $request->request->get('datenaissance'),
-                'offrespromotionnellesclient' => $request->request->get('offrespromotionnellesclient'),
-                'redirect' => $request->request->get('redirect'),
-            ]
-        ));
+            return response(redirect()->back()->withErrors(
+                $e->validator->messages()->messages())->with($values));
         }
 
-
-        $password = bcrypt($credentials['motdepasseclient']);
+        $password = bcrypt($request->request->get('motdepasseclient'));
 
         $user = new User();
 
-        $user->prenomclient = ucfirst($credentials['prenomclient']);
-        $user->nomclient = ucfirst($credentials['nomclient']);
-        $user->emailclient = $credentials['emailclient'];
+        $user->prenomclient = ucfirst($request->request->get('prenomclient'));
+        $user->nomclient = ucfirst($request->request->get('nomclient'));
+        $user->emailclient = $request->request->get('emailclient');
         $user->motdepasseclient = $password;
-        $user->offrespromotionnellesclient = $credentials['offrespromotionnellesclient'] ?? '0' === 'on';
+        $user->offrespromotionnellesclient =$request->request->get('offrespromotionnellesclient')?? '0';
         $user->civiliteclient = $request->request->get('civiliteclient');
-        $user->datenaissanceclient = $credentials['datenaissance'];
+        $user->datenaissanceclient = $request->request->get('datenaissanceclient');
+        $user->telephoneclient = $request->request->get('telephoneclient') ?? '0102030405';
         $user->idrole = 1;
         $user->save();
 
         $adresse = new Adresse();
 
-        $adresse->idclient =  $credentials['client']['idclient'] ;
+        $adresse->idclient =  $user->idclient ;
         $adresse->nomadresse = ucfirst($credentials['nomadresse']);
         $adresse->nomadressedestinataire = ucfirst($credentials['nomadressedestinataire']);
         $adresse->prenomadressedestinataire = ucfirst($credentials['prenomadressedestinataire']);
@@ -172,8 +154,8 @@ class AdresseController extends Controller
 
         if (
             Auth::attempt([
-                'emailclient' => $credentials['client']['emailclient'],
-                'password' => $credentials['client']['motdepasseclient']
+                'emailclient' => $user->emailclient,
+                'password' => $request->request->get('motdepasseclient')
             ])
         ) {
             $request->session()->regenerate();

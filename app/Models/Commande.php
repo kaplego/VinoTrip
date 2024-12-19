@@ -30,4 +30,8 @@ class Commande extends Model
         return $this->hasMany(Descriptioncommande::class,  'idcommande', 'idcommande');
     }
 
+    public function cartebancaire(): HasOne
+    {
+        return $this->hasOne(Cartebancaire::class, 'idcb', 'idcb');
+    }
 }

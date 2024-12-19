@@ -8,14 +8,67 @@
 
 @section('head')
     <link rel="stylesheet" href="/assets/css/panier/panier.css">
+    <link rel="stylesheet" href="/assets/css/client/commandes.css">
 @endsection
 
 @section('body')
     @include('layout.header')
     <main class="container-sm">
+        @php
+            $breadcrumReplaceLink = ['/client/commande' => '/client/commandes'];
+            $breadcrumReplaceName = [
+                '/client/commande' => 'Commandes',
+            ];
+        @endphp
+        @include('layout.breadcrumb')
 
-        <h1>Récapitulatif de commande</h1>
+        <h1>Détail de la commande #{{ $commande->idcommande }}</h1>
         <hr class="separateur-titre" />
+        <section id="details-commande">
+            <table class="liste">
+                <thead>
+                    <tr>
+                        <th>Date de la commande</th>
+                        <th>État de la commande</th>
+                        <th>Mode de paiement</th>
+                        @if ($commande->codereduction)
+                            <th>Code cadeau</th>
+                        @endif
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ date_format(date_create($commande->datecommande), 'd/m/Y') }}</td>
+                        <td>
+                            {{ $commande->etatcommande }}
+                        </td>
+                        <td>
+                            @switch($commande->typepaiementcommande)
+                                @case('cb')
+                                    Carte bancaire @if ($commande->cartebancaire)
+                                        •••• •••• •••• {{ substr($commande->cartebancaire->numerocbclient, -4) }}
+                                    @endif
+                                    @break
+                                @case('paypal')
+                                    PayPal
+                                    @break
+                                @case('stripe')
+                                    Stripe
+                                    @break
+                                @default
+                                    Inconnu
+                            @endswitch
+                        </td>
+                        @if ($commande->codereduction)
+                            <td class="code-cadeau">
+                                <div class="clipboard-copy" data-text="{{ $commande->codereduction }}">
+                                    {{ $commande->codereduction }}</div>
+                            </td>
+                        @endif
+                    </tr>
+                </tbody>
+            </table>
+        </section>
         <section id="liste-sejours">
             @foreach ($commande->descriptionscommande ?? [] as $descriptioncommande)
                 @php
@@ -63,7 +116,7 @@
                                 <tr>
                                     <td>Repas</td>
                                     <td>
-                                        @if(sizeof($descriptioncommande->repas) === 0)
+                                        @if (sizeof($descriptioncommande->repas) === 0)
                                             Aucun repas
                                         @endif
                                         @foreach ($descriptioncommande->repas as $repas)
@@ -71,7 +124,7 @@
                                         @endforeach
                                     </td>
                                     <td class="prix">
-                                        @if(sizeof($descriptioncommande->repas) === 0)
+                                        @if (sizeof($descriptioncommande->repas) === 0)
                                             0 €
                                         @endif
                                         @foreach ($descriptioncommande->repas as $repas)
@@ -90,13 +143,7 @@
                                         @endif
                                     </td>
                                     <td class="prix">
-                                        {{ ($descriptioncommande->offrir && !$descriptioncommande->ecoffret) ? 5 : 0 }} €
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Code cadeau</td>
-                                    <td class="code-cadeau">
-                                        {{$commande->codereduction}}
+                                        {{ $descriptioncommande->offrir && !$descriptioncommande->ecoffret ? 5 : 0 }} €
                                     </td>
                                 </tr>
                             </tbody>

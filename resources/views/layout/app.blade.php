@@ -17,6 +17,7 @@
 <body>
     @yield('body')
 
+    <script src="/assets/js/preload.js"></script>
     <!-- Lucide -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Dialogflow -->
@@ -25,8 +26,6 @@
         chat-icon="/assets/images/logo2_carre_blanc.png" intent="WELCOME" wait-open
         session-id="{{ Cookie::get('dialogflow_session') }}"
         @if (Auth::check()) user-id="{{ Auth::user()->idclient }}" @endif></df-messenger>
-    <!-- Axios -->
-    <script src="/assets/js/axios.min.js"></script>
     <script src="/assets/js/dialogflow.js"></script>
     <script src="/assets/js/main.js" defer></script>
     @yield('scripts')

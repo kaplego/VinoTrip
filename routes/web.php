@@ -89,10 +89,11 @@ Route::get('/route-des-vins/{id}', [RoutesVinsController::class, 'one']);
 
 Route::get('/mdpreset/{token}', [ClientController::class,'resetPassword']);
 
-Route::post('/api/client/mdpreset', [ClientController::class,'updatePassword']);
+Route::post('/api/client/mdpreset/{token}', [ClientController::class,'updatePassword']);
 
 Route::post('/api/dialogflow', [SiteController::class, 'dialogflow']);
 
+Route::post('/api/client/clientdata/{id}', [ClientController::class,'sendclientdata']);
 
 # Route de test
 Route::get('/test', [SiteController::class, 'test']);

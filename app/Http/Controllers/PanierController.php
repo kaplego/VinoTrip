@@ -218,13 +218,13 @@ class PanierController extends Controller
             case 'delete':
                 Association_38::
                     where('iddescriptionpanier', '=', $iddescriptionpanier)
-                    ?->delete();
+                        ?->delete();
                 Association_39::
                     where('iddescriptionpanier', '=', $iddescriptionpanier)
-                    ?->delete();
+                        ?->delete();
                 Descriptionpanier::
                     find($iddescriptionpanier)
-                    ?->delete();
+                        ?->delete();
 
                 if (
                     Descriptionpanier::where('idpanier', '=', value: $idpanier)->count() === 0
@@ -344,28 +344,45 @@ class PanierController extends Controller
         $cb = null;
         if ($inputs['type-paiement'] === 'cb-new') {
             if ($inputs['save-infos-cb']) {
-                if (Cartebancaire::where('idclient', '=', Auth::user()->idclient)->exists())
+                if (Cartebancaire::where('idclient', '=', Auth::user()->idclient)->exists()) {
                     $cb = Cartebancaire::where('idclient', '=', Auth::user()->idclient)
                         ->update([
-                            'titulairecb' => $inputs['cb-titulaire'],
-                            'numerocbclient' => $inputs['numero-cb'],
-                            'dateexpirationcbclient' => Carbon::createFromFormat(
-                                'n/Y',
-                                (string) $inputs['cb-exp-mois'] + '-' + $inputs['cb-exp-annee'],
-                            )
+                            'actif' => true,
                         ]);
-                else
                     $cb = Cartebancaire::create([
                         'idclient' => Auth::user()->idclient,
                         'titulairecb' => $inputs['cb-titulaire'],
                         'numerocbclient' => $inputs['numero-cb'],
                         'dateexpirationcbclient' => Carbon::createFromFormat(
-                            'n/Y',
-                            (string) $inputs['cb-exp-mois'] + '-' + $inputs['cb-exp-annee'],
+                            'n-Y',
+                            $inputs['cb-exp-mois'] . '-' . $inputs['cb-exp-annee'],
                         )
                     ]);
-                $cb = $cb->idcb;
+                } else
+                    $cb = Cartebancaire::create([
+                        'idclient' => Auth::user()->idclient,
+                        'titulairecb' => $inputs['cb-titulaire'],
+                        'numerocbclient' => $inputs['numero-cb'],
+                        'dateexpirationcbclient' => Carbon::createFromFormat(
+                            'n-Y',
+                            $inputs['cb-exp-mois'] . '-' . $inputs['cb-exp-annee'],
+                        )
+                    ]);
+            } else {
+                $cb = Cartebancaire::create([
+                    'idclient' => Auth::user()->idclient,
+                    'titulairecb' => $inputs['cb-titulaire'],
+                    'numerocbclient' => $inputs['numero-cb'],
+                    'dateexpirationcbclient' => Carbon::createFromFormat(
+                        'n-Y',
+                        $inputs['cb-exp-mois'] . '-' . $inputs['cb-exp-annee'],
+                    ),
+                    'actif' => false
+                ]);
             }
+            $cb = $cb->idcb;
+        } else if ($inputs['type-paiement'] === 'cb-old') {
+            $cb = Auth::user()->cartebancaire->idcb;
         }
 
         $commande = Commande::create([
@@ -375,7 +392,7 @@ class PanierController extends Controller
             'idadresselivraison' => $inputs['adresse-livraison'] ?? null,
             'idcb' => $cb,
             'etatcommande' => 'En attente de validation',
-            'typepaiementcommande' => str_starts_with($inputs['type-paiement'], 'cb') ? 'CB' : $inputs['type-paiement'],
+            'typepaiementcommande' => str_starts_with($inputs['type-paiement'], 'cb') ? 'cb' : $inputs['type-paiement'],
             'datecommande' => date('Y-m-d'),
             'codereduction' => ''
         ]);
@@ -415,10 +432,13 @@ class PanierController extends Controller
             ]);
         }
 
+        $request->session()->remove('idpanier');
+
         return redirect("/client/commande/$commande->idcommande");
     }
-    public function codepromo(Request $request){
-        $code=$request->input("codePromo");
+    public function codepromo(Request $request)
+    {
+        $code = $request->input("codePromo");
 
         $commande = Commande::where('codereduction', '=', $code)->first();
 
@@ -430,8 +450,7 @@ class PanierController extends Controller
             $panier = Panier::find($idpanier);
         }
 
-        if ($panier === null)
-        {
+        if ($panier === null) {
             $panier = new Panier;
             $panier->dateheurepanier = now();
             $panier->save();

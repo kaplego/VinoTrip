@@ -13,6 +13,7 @@ class Cartebancaire extends Model
     protected $table = "carte_bancaire";
     protected $primaryKey = "idcb";
     public $timestamps = false;
+    public $guarded = [];
 
     public function client(): HasOne
     {

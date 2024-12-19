@@ -150,6 +150,10 @@
 
                 <input type="submit" value="Enregistrer" class="button" />
             </form>
+            <form method="post" action="/api/client/clientdata/{{Auth::User()->idclient }}">
+                @csrf
+                <button type="submit" class="button">Envoyer information personel</button>
+            </form>
         </div>
     </main>
     @include('layout.footer')

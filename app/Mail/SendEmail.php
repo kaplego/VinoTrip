@@ -7,39 +7,29 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Queue\SerializesModels;
-
 
 class SendEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     */
-
-
     public $mailData;
     public $subject;
-    public function __construct($mailData,$subject)
+
+    public function __construct($mailData, $subject)
     {
         $this->mailData = $mailData;
         $this->subject = $subject;
     }
 
-    /**
-     * Get the message envelope.
-     */
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject:  $this->subject,
+            subject: $this->subject,
         );
     }
 
-    /**
-     * Get the message content definition.
-     */
     public function content(): Content
     {
         return new Content(
@@ -48,13 +38,16 @@ class SendEmail extends Mailable
         );
     }
 
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
     public function attachments(): array
     {
+        if (isset($this->mailData['attachment'])) {
+            return [
+                Attachment::fromPath($this->mailData['attachment']['path'])
+                    ->as($this->mailData['attachment']['name'])
+                    ->withMime('application/json')
+            ];
+        }
+
         return [];
     }
 }

@@ -61,7 +61,7 @@ class User extends Authenticatable
 
     public function cartebancaire(): HasOne
     {
-        return $this->hasOne(Cartebancaire::class, 'idclient', 'idclient');
+        return $this->hasOne(Cartebancaire::class, 'idclient', 'idclient')->where('actif', '=', true);
     }
 
     public function commandes(): HasMany

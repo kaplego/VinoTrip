@@ -84,6 +84,17 @@
 
         @break
 
+        @case('data')
+        <p>Bonjour {{$civilite}} {{$nom}} {{$prenom}},</p>
+
+        <p>Nous vous transmettons ci-joint vos informations personnelles. Si vous souhaitez les supprimer, n'hésitez pas à nous contacter en répondant à ce message.</p>
+
+        <p>Nous restons à votre disposition pour toute question ou demande complémentaire.</p>
+
+        <p>Bien cordialement,Vinotrip</p>
+
+        @break
+
         @default
     @endswitch
 

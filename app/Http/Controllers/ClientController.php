@@ -212,7 +212,7 @@ class ClientController extends Controller
 
             return redirect()->back()->with("successhotel", "le mail a été envoyé");
         } else {
-            return redirect("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+            return redirect()->back()->with("successhotel", "le mail a été envoyé");
         }
     }
 
@@ -227,7 +227,7 @@ class ClientController extends Controller
             if (Auth::check()) {
                 Auth::logout();
             }
-            return view("client.mdpreset",['token' => $token]);
+            return view("client.mdpreset", ['token' => $token]);
         }
 
         return redirect("http://51.83.36.122:8074/");
@@ -235,28 +235,81 @@ class ClientController extends Controller
 
     }
     public function updatePassword(Request $request, $token)
-{
-    $request->validate([
-        'motdepasseclient' => ['required', 'string', 'min:12', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{12,}$/'],
-        'confirmationmotdepasse' => ['required', 'same:motdepasseclient'],
-    ]);
-
-
-    $client = Client::firstWhere('tokenresetmdp', $token);
-
-    if ($client) {
-        $client->motdepasseclient = bcrypt($request->motdepasseclient);
-
-        Client::where('idclient', $client['idclient'])
-        ->update([
-            'tokenresetmdp' =>null,
-            'datecreationtoken' => null,
-            'motdepasseclient' =>   $client->motdepasseclient
+    {
+        $request->validate([
+            'motdepasseclient' => ['required', 'string', 'min:12', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{12,}$/'],
+            'confirmationmotdepasse' => ['required', 'same:motdepasseclient'],
         ]);
 
-        return redirect("http://51.83.36.122:8074/connexion");
+
+        $client = Client::firstWhere('tokenresetmdp', $token);
+
+        if ($client) {
+            $client->motdepasseclient = bcrypt($request->motdepasseclient);
+
+            Client::where('idclient', $client['idclient'])
+                ->update([
+                    'tokenresetmdp' => null,
+                    'datecreationtoken' => null,
+                    'motdepasseclient' => $client->motdepasseclient
+                ]);
+
+            return redirect("http://51.83.36.122:8074/connexion");
+        }
+
+        return redirect("http://51.83.36.122:8074/");
     }
 
-    return redirect("http://51.83.36.122:8074/");
-}
+    public function createJsonFile($client)
+    {
+        $clientData = $client->toArray();
+        $jsonData = json_encode($clientData, JSON_PRETTY_PRINT);
+        $filename = 'client_' . $client->idclient . '_' . date('Y-m-d_H-i-s') . '.json';
+        $path = storage_path('app/clients/');
+
+        if (!file_exists($path)) {
+            mkdir($path, 0755, true);
+        }
+
+        $filePath = $path . $filename;
+
+        file_put_contents($filePath, $jsonData);
+
+        return [
+            'path' => $filePath,
+            'name' => $filename
+        ];
+    }
+
+    public function sendclientdata(Request $request, $idclient)
+    {
+        try {
+            $client = Client::firstWhere("idclient", $idclient);
+            $fileInfo = $this->createJsonFile($client);
+
+            Mail::to("ppartenairehotel@gmail.com")
+                ->send(new SendEmail([
+                    'type' => 'data',
+                    'prenom' => $client['prenomclient'],
+                    'nom' => $client['nomclient'],
+                    'civilite' => $client['civiliteclient'],
+                    'attachment' => [
+                        'path' => $fileInfo['path'],
+                        'name' => $fileInfo['name']
+                    ]
+                ], "Vinotrip informations personnelles"));
+
+            if (file_exists($fileInfo['path'])) {
+                unlink($fileInfo['path']);
+            }
+
+            return redirect()->back()->with("successhotel", "le mail a été envoyé");
+        } catch (\Exception $e) {
+            if (isset($fileInfo) && file_exists($fileInfo['path'])) {
+                unlink($fileInfo['path']);
+            }
+
+            throw $e;
+        }
+    }
 }
