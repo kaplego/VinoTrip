@@ -1147,6 +1147,7 @@ create table SEJOUR
    PHOTOSEJOUR          varchar(512)                   null,
    DESCRIPTIONSEJOUR    varchar(4096)                  null,
    PRIXSEJOUR           numeric(8,2)                   null,
+   NOUVEAUPRIXSEJOUR	numeric(8,2)			null,
    PUBLIE               boolean                        not null default false,
    constraint PK_SEJOUR primary key (IDSEJOUR)
 );
