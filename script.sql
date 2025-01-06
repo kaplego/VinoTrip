@@ -621,6 +621,7 @@ create table CLIENT
    TELEPHONECLIENT		char(10)						not null,
    TOKENRESETMDP		char(60)	default null		null,
    DATECREATIONTOKEN	timestamp	default null		null,
+   A2F                  bool            default false  not null,
    constraint PK_CLIENT primary key (IDCLIENT)
 );
 
