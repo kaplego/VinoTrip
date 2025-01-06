@@ -16,6 +16,7 @@ class Sejour extends Model
     protected $table = "sejour";
     protected $primaryKey = "idsejour";
     public $timestamps = false;
+    public $guarded = [];
 
     public function categoriesejour(): HasOne
     {
@@ -46,14 +47,11 @@ class Sejour extends Model
         );
     }
 
-    public function localite(): HasManyThrough
+    public function localite(): HasOne
     {
-        return $this->hasManyThrough(
+        return $this->hasOne(
             Localite::class,
-            Sesitue::class,
-            'idsejour',
             'idlocalite',
-            'idsejour',
             'idlocalite'
         );
     }

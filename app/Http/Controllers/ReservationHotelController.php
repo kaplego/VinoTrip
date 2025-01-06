@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SendEmailType;
 use App\Models\Client;
 use App\Models\Commande;
 use App\Models\Descriptioncommande;
+use App\Models\VCommande;
+use App\Models\VDescriptioncommande;
 use App\Models\Etape;
 use App\Models\Hebergement;
 use App\Models\Restaurant;
@@ -22,8 +25,8 @@ class ReservationHotelController extends Controller
         {
             return view('reservation/reservation-hotel', [
 
-                'commandes' => Commande::orderBy('idcommande')->get(),
-                'descriptioncommande' => Descriptioncommande::all(),
+                'commandes' => VCommande::orderBy('idcommande')->get(),
+                'descriptioncommande' => VDescriptioncommande::all(),
                 'client'=>Client::all(),
                 'sejour'=>Sejour::all(),
                 'etape'=>Etape::all(),
@@ -59,48 +62,37 @@ class ReservationHotelController extends Controller
         ],"Vinotrip validation de votre disponibilité "));
 
         return redirect()->back()->with("successhotel","le mail a été envoyé");
-
-
     }
 
     public function hebergementok(Request $request){
-
-
         $iddescrcommande= $request->input("unedescription");
         $descrcommande = Descriptioncommande::find( $iddescrcommande);
-        $descrcommande->disponibilitehebergement = true;
-        $descrcommande->update();
-
+        $descrcommande->update([
+            'disponibilitehebergement' => true
+        ]);
 
         return redirect()->back()->with("successhotel","le mail a été envoyé");
-
-
     }
 
     public function clientok(Request $request){
-
-
         $iddescrcommande= $request->input("unedescription");
         $descrcommande = Descriptioncommande::find( $iddescrcommande);
-        $descrcommande->validationclient = true;
-        $descrcommande->update();
-
+        $descrcommande->update([
+            'validationclient' => true
+        ]);
 
         return redirect()->back()->with("successhotel","le mail a été envoyé");
 
     }
 
     public function clientnon(Request $request){
-
-
         $idcommande= $request->input("unecommande");
         $commande = Commande::find( $idcommande);
-        $commande->etatcommande = "Annulé";
-        $commande->update();
-
+        $commande->update([
+            'etatcommande' => "Annulé"
+        ]);
 
         return redirect()->back()->with("successhotel","le mail a été envoyé");
-
     }
 
     public function envoiemailclient(Request $request){
@@ -122,22 +114,14 @@ class ReservationHotelController extends Controller
             'date' => $date,
             'titre' => $titresejour,
             'prix'=> $prixsej
-
         ], "confirmation validation du séjours vinotrip"));
 
         return redirect()->back()->with("successclient","le mail a été envoyé");
-
-
     }
 
-
-
-
     public function envoiemailValidationHebergement(Request $request){
-
-
         $iddescrcommande= $request->input("unedescription");
-        $descrcommande = Descriptioncommande::find( $iddescrcommande);
+        $descrcommande = VDescriptioncommande::find( $iddescrcommande);
         $idclient= $request->input("unclient");
 
         $unclient = Client::find( $idclient);
@@ -162,7 +146,7 @@ class ReservationHotelController extends Controller
 
     public function envoieFinalClient(Request $request){
         $iddescrcommande= $request->input("unedescription");
-        $descrcommande = Descriptioncommande::find( $iddescrcommande);
+        $descrcommande = VDescriptioncommande::find( $iddescrcommande);
 
         $idclient= $request->input("unclient");
         $unclient = Client::find( $idclient);
@@ -191,7 +175,7 @@ class ReservationHotelController extends Controller
 
     public function Restaurant(Request $request){
         $iddescrcommande= $request->input("unedescription");
-        $descrcommande = Descriptioncommande::find( $iddescrcommande);
+        $descrcommande = VDescriptioncommande::find( $iddescrcommande);
         $idclient= $request->input("unclient");
         $unclient = Client::find( $idclient);
 
@@ -216,10 +200,5 @@ class ReservationHotelController extends Controller
         $this->Restaurant($request);
         return redirect()->back()->with("successclient","le mail a été envoyé");
      }
-
-
-
-
-
 
 }

@@ -16,7 +16,7 @@
         @include('layout.breadcrumb')
         <h1>Mon Compte</h1>
         <hr class="separateur-titre" />
-        <div id="account">
+        <div class="buttons">
             <a class="button" href="/client/informations">
                 Mes informations personnelles
             </a>
@@ -26,6 +26,9 @@
             <a class="button" href="/client/commandes">
                 Mes commandes
             </a>
+            <a class="button" href="/client/favoris">
+                Mes favoris
+            </a>
             <form method="post" action="/api/client/logout">
                 @csrf
                 <button class="button" type="submit">
@@ -33,6 +36,17 @@
                 </button>
             </form>
         </div>
+        @if (Helpers::AuthIsRole(Role::Dirigeant))
+            <hr class="separateur-titre" />
+            <div class="buttons">
+                <a class="button" href="/sejours/create">
+                    Créer un séjour
+                </a>
+                <a class="button" href="/sejours/validate">
+                    Voir les séjours non publiés
+                </a>
+            </div>
+        @endif
     </main>
     @include('layout.footer')
 @endsection

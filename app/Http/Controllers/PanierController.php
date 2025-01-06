@@ -7,10 +7,12 @@ use App\Models\Association_38;
 use App\Models\Association_39;
 use App\Models\Association_40;
 use App\Models\Cartebancaire;
-use App\Models\Client;
 use App\Models\Commande;
+use App\Models\VCommande;
 use App\Models\Descriptioncommande;
+use App\Models\VDescriptioncommande;
 use App\Models\Descriptionpanier;
+use App\Models\VDescriptionpanier;
 use App\Models\Hebergement;
 use App\Models\Mange1;
 use App\Models\Panier;
@@ -19,7 +21,6 @@ use App\Models\Sejour;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use League\CommonMark\Node\Block\Document;
 use Str;
 
 class PanierController extends Controller
@@ -107,7 +108,7 @@ class PanierController extends Controller
             $request->session()->put('idpanier', $panier->idpanier);
         }
 
-        $descriptionPanier = Descriptionpanier::
+        $descriptionPanier = VDescriptionpanier::
             where('idsejour', '=', +$idsejour)
             ->where('idpanier', '=', value: $idpanier)
             ->get()->first();
@@ -126,9 +127,6 @@ class PanierController extends Controller
                     'nbchambresdouble' => $inputs['chambresdouble'],
                     'nbchambrestriple' => $inputs['chambrestriple'],
                     'idhebergement' => $inputs['hebergement'],
-                    'repasmidi' => false,
-                    'repassoir' => false,
-                    'activite' => false,
                     'offrir' => isset($inputs['offrir']) && $inputs['offrir'] == '1',
                     'ecoffret' => isset($inputs['offrir']) && $inputs['offrir'] &&
                         isset($inputs['ecoffret']) && $inputs['ecoffret'] == '1'
@@ -153,9 +151,6 @@ class PanierController extends Controller
                     'nbchambresdouble' => $inputs['chambresdouble'],
                     'nbchambrestriple' => $inputs['chambrestriple'],
                     'idhebergement' => $inputs['hebergement'],
-                    'repasmidi' => false,
-                    'repassoir' => false,
-                    'activite' => false,
                     'offrir' => isset($inputs['offrir']) && $inputs['offrir'] == '1',
                     'ecoffret' => isset($inputs['offrir']) && $inputs['offrir'] &&
                         isset($inputs['ecoffret']) && $inputs['ecoffret'] == '1'
@@ -201,7 +196,7 @@ class PanierController extends Controller
                         ?->delete();
 
                 if (
-                    Descriptionpanier::where('idpanier', '=', value: $idpanier)->count() === 0
+                    VDescriptionpanier::where('idpanier', '=', value: $idpanier)->count() === 0
                 ) {
                     Panier::find($idpanier)?->delete();
                 }
@@ -234,13 +229,16 @@ class PanierController extends Controller
         if ($idpanier === null)
             return redirect("/personnaliser/$idsejour");
 
-        $descriptionPanier = Descriptionpanier::
+        $descriptionPanier = VDescriptionpanier::
             where('idsejour', '=', +$idsejour)
             ->where('idpanier', '=', value: $idpanier)
             ->get()->first();
 
         if (!$descriptionPanier)
             return redirect("/personnaliser/$idsejour");
+
+        if ($descriptionPanier->codepromoutilise !== null)
+            return redirect('/panier');
 
         return view('panier.modifier', ['descriptionPanier' => $descriptionPanier]);
     }
@@ -390,22 +388,20 @@ class PanierController extends Controller
                 'idhebergement' => $dp->idhebergement,
                 'disponibilitehebergement' => false,
                 'validationclient' => false,
-                'repasmidi' => false,
-                'repassoir' => false,
-                'activite' => false,
                 'offrir' => $dp->offrir,
-                'ecoffret' => $dp->ecoffret
+                'ecoffret' => $dp->ecoffret,
+                'codepromoutilise' => $dp->codepromoutilise
             ]);
-            foreach (Association_38::where('iddescriptionpanier', '=', $panier->idpanier) as $activite) {
+            foreach ($dp->activites as $activite) {
                 Association_40::create([
                     'iddescriptioncommande' => $dc->iddescriptioncommande,
-                    'idactivite' => $activite
+                    'idactivite' => $activite->idactivite
                 ]);
             }
-            foreach (Association_39::where('iddescriptionpanier', '=', $panier->idpanier) as $repas) {
+            foreach ($dp->repas as $repas) {
                 Mange1::create([
                     'iddescriptioncommande' => $dc->iddescriptioncommande,
-                    'idrepas' => $repas
+                    'idrepas' => $repas->idrepas
                 ]);
             }
         }
@@ -425,7 +421,11 @@ class PanierController extends Controller
     {
         $code = $request->input("codePromo");
 
-        $commande = Commande::where('codereduction', '=', $code)->first();
+        if (!$code) return back();
+
+        $commande = VCommande::where('codereduction', '=', $code)?->first();
+
+        if (!$commande) return back();
 
         // dd($commande);
         $idpanier = $request->session()->get('idpanier', null);
@@ -443,7 +443,7 @@ class PanierController extends Controller
             $request->session()->put('idpanier', $panier->idpanier);
         }
 
-        foreach (Descriptioncommande::where('idcommande', '=', $commande->idcommande)->where('offrir', '=', true)->get() as $descriptioncommande) {
+        foreach (VDescriptioncommande::where('idcommande', '=', $commande->idcommande)->where('offrir', '=', true)->get() as $descriptioncommande) {
             $descriptionpanier = Descriptionpanier::create([
                 'idpanier' => $panier->idpanier,
                 'idsejour' => $descriptioncommande->idsejour,
@@ -456,12 +456,10 @@ class PanierController extends Controller
                 'nbchambressimple' => $descriptioncommande->nbchambressimple,
                 'nbchambresdouble' => $descriptioncommande->nbchambresdouble,
                 'nbchambrestriple' => $descriptioncommande->nbchambrestriple,
-                'repasmidi' => $descriptioncommande->repasmidi,
-                'repassoir' => $descriptioncommande->repassoir,
-                'activite' => $descriptioncommande->activite,
                 'offrir' => false,
                 'ecoffret' => false,
                 'disponibilitehebergement' => false,
+                'codepromoutilise' => $code
             ]);
         }
 

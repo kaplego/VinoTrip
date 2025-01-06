@@ -9,7 +9,7 @@ class Mange1 extends Model
 {
     use HasFactory;
     protected $table = "mange1";
-    protected $primaryKey = ["iddescriptioncommande", "idrepas"];
+    protected $primaryKey = "iddescriptioncommande";
     public $timestamps = false;
     public $guarded = [];
 }

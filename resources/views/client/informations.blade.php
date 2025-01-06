@@ -68,6 +68,14 @@
                         <p class="alert alert-error"><i data-lucide="circle-x"></i>L'adresse email n'est pas valide !</p>
                     @enderror
                 </div>
+                <div class="input-control input-control-text">
+                    <label for="telephoneclient">Numéro de téléphone</label>
+                    <input id="telephoneclient" type="text" name="telephoneclient"
+                        value="{{ old('telephoneclient', Auth::User()->telephoneclient) }}" />
+                    @error('telephoneclient')
+                        <p class="alert alert-error"><i data-lucide="circle-x"></i>Le numéro de téléphone n'est pas valide !</p>
+                    @enderror
+                </div>
 
                 <div class="input-control input-control-text">
                     <label for="ancienmotdepasse">Mot de passe actuel</label>

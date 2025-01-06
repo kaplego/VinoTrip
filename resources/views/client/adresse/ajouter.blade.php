@@ -14,17 +14,17 @@
     @include('layout.header')
     <main class="container-sm">
         @php
-            $breadcrumRemoveLink = ["/client/adresse/"];
+            $breadcrumRemoveLink = ['/client/adresse/'];
             $breadcrumReplaceLink = ['/client/adresse' => '/client/adresses'];
             $breadcrumReplaceName = [
                 '/client/adresse' => 'Adresses',
             ];
         @endphp
         @include('layout.breadcrumb')
-        @if(Auth::user())
-        <h1>Ajouter Adresse</h1>
+        @if (Auth::user())
+            <h1>Ajouter Adresse</h1>
         @else
-        <h1>Ajouter votre première adresse</h1>
+            <h1>Ajouter votre première adresse</h1>
         @endif
         <hr class="separateur-titre" />
         @if (\Session::has('success'))
@@ -32,37 +32,30 @@
         @endif
 
         <div id="informations">
-            @if(Auth::user())
-            <form id="modification" class="formulaire" method="post" action="/api/client/adresse/add">
-            @else
-            <form id="modification" class="formulaire" method="post" action="/api/client/adresse/firstaddress">
-            @endif
+
+            <form id="modification" class="formulaire" method="post"
+                action="@if (Auth::user()) /api/client/adresse/add @else /api/client/adresse/firstaddress @endif">
                 @csrf
 
-                @isset($prenomclient)
+                @if (!Auth::user())
                     <input type="hidden" name="prenomclient" value="{{ $prenomclient }}">
-                @endisset
-                @isset($nomclient)
                     <input type="hidden" name="nomclient" value="{{ $nomclient }}">
-                @endisset
-                @isset($emailclient)
                     <input type="hidden" name="emailclient" value="{{ $emailclient }}">
-                @endisset
-                @isset($motdepasseclient)
+                    <input type="hidden" name="telephoneclient" value="{{ $telephoneclient }}">
                     <input type="hidden" name="motdepasseclient" value="{{ $motdepasseclient }}">
-                @endisset
-                @isset($datenaissance)
-                    <input type="hidden" name="datenaissance" value="{{ $datenaissance }}">
-                @endisset
-                @isset($offrespromotionnellesclient)
-                    <input type="hidden" name="offrespromotionnellesclient" value="{{ $offrespromotionnellesclient }}">
-                @endisset
-                @isset($civiliteclient)
-                    <input type="hidden" name="civiliteclient" value="{{ $civiliteclient }}">
-                @endisset
-                @isset($redirect)
-                    <input type="hidden" name="redirect" value="{{ $redirect }}">
-                @endisset
+                    @isset($datenaissanceclient)
+                        <input type="hidden" name="datenaissanceclient" value="{{ $datenaissanceclient }}">
+                    @endisset
+                    @isset($offrespromotionnellesclient)
+                        <input type="hidden" name="offrespromotionnellesclient" value="{{ $offrespromotionnellesclient }}">
+                    @endisset
+                    @isset($civiliteclient)
+                        <input type="hidden" name="civiliteclient" value="{{ $civiliteclient }}">
+                    @endisset
+                    @isset($redirect)
+                        <input type="hidden" name="redirect" value="{{ $redirect }}">
+                    @endisset
+                @endif
 
                 <div class="input-control input-control-text">
                     <label for="nomadresse">Libellé de l'adresse</label>

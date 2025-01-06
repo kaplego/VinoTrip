@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Commande;
+use App\Models\VCommande;
 use Auth;
 
 class CommandeController extends Controller
@@ -20,11 +20,11 @@ class CommandeController extends Controller
         if (!Auth::check())
             return redirect('/connexion');
 
-        $commande = Commande::find($id)->where('idclientacheteur', '=', Auth::user()->idclient);
+        $commande = VCommande::find($id)?->where('idclientacheteur', '=', Auth::user()->idclient);
 
         if (!$commande)
             return redirect('/client');
 
-        return view('client.commande.recapitulatif', ['commande' => Commande::find($id)]);
+        return view('client.commande.recapitulatif', ['commande' => VCommande::find($id)]);
     }
 }

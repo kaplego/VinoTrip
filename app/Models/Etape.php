@@ -16,6 +16,7 @@ class Etape extends Model
     protected $table = "etape";
     protected $primaryKey = "idetape";
     public $timestamps = false;
+    public $guarded = [];
 
     public function hebergement(): HasOne
     {

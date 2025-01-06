@@ -27,19 +27,40 @@ section {
     border-radius: 5px;
     padding: 10px;
 }
-#sejour #description .descriptionsej{
+
+#sejour #description .descriptionsej {
     margin: 15px;
 }
-#sejour #description .button{
+
+#sejour #description .button,
+#sejour #description .icon-button {
     margin: 10px;
 }
+
+#favoris .icon-button {
+    color: var(--c-accent-500);
+    cursor: pointer;
+}
+
+#favoris .icon-button .lucide {
+    height: 1.5rem;
+    width: 1.5rem;
+    stroke: currentColor;
+}
+
+#favoris:not(.favoris) .icon-button:hover .lucide,
+#favoris.favoris .icon-button .lucide {
+    fill: currentColor;
+}
+
 #sejour #description hr {
     height: 4px;
     background-color: var(--c-accent-500);
     margin: 0.5rem auto;
     width: 20%;
 }
-#sejour #description #categorie{
+
+#sejour #description #categorie {
     display: flex;
     flex-wrap: wrap;
     font-style: italic;
@@ -47,6 +68,7 @@ section {
 
 
 }
+
 #sejour .image {
     grid-column: 1/2;
     grid-row: 1/2;
@@ -63,27 +85,32 @@ section {
     text-align: center;
 }
 
-#Etape{
-    padding-left: 15px;
-
-}
-#Etape p{
-    margin: 10px;
-
-}
-#Etape .image{
-    margin: 10px;
-    height: 75%;
-    width: auto;
-    border-radius: 5px;
-    margin-bottom: 15px;
+#etapes {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
 }
 
-.indispo{
+#etapes .etape {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    padding: 1rem;
+    background-color: var(--c-gray-100);
+    border-radius: 6px;
+}
+
+#etapes .etape .image {
+    width: 100%;
+    border-radius: 4px;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+
+.indispo {
     background-color: rgba(255, 0, 0, .5);
 }
 
-.save{
+.save {
     justify-content: right;
 }
 
@@ -170,4 +197,13 @@ hr {
 
 #hebergements .hebergement .lienheberg {
     grid-row: 2 / 2;
+}
+
+#reduction-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+#reduction-buttons .button {
+    flex: 1;
 }

@@ -33,6 +33,7 @@ a {
 a.link {
     color: var(--c-accent-500);
     text-decoration: underline dotted;
+    cursor: pointer;
 }
 
 a.link:hover {
@@ -179,41 +180,63 @@ hr.separateur-titre {
     background-color: var(--c-accent-500);
 }
 
-*[data-tooltip] {
+*[data-tooltip],
+*[data-help] {
     position: relative;
 }
 
-*[data-tooltip]::before {
+*[data-help] {
+    cursor: help;
+}
+
+*[data-tooltip]::before,
+*[data-help]::before {
     display: none;
     content: attr(data-tooltip);
     padding: 0.25rem 0.5rem;
     position: absolute;
-    top: calc(-100% - 10px);
+    top: -10px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(-100%);
     background-color: var(--c-accent-500);
     color: var(--c-gray-50);
     z-index: 110;
     border-radius: 4px;
     width: max-content;
+    font-size: 1rem;
 }
 
-*[data-tooltip]::after {
+*[data-tooltip]::after,
+*[data-help]::after {
     content: "";
     position: absolute;
     height: 0.75rem;
     width: 0.75rem;
     border-bottom-right-radius: 2px;
     background-color: var(--c-accent-500);
-    top: calc(-100% + 8px);
+    top: -10px;
     left: 50%;
-    transform: translateX(-50%) rotateZ(45deg);
+    transform: translateX(-50%) translateY(-50%) rotateZ(45deg);
     display: none;
 }
 
 *[data-tooltip]:hover::before,
-*[data-tooltip]:hover::after {
+*[data-tooltip]:hover::after,
+*[data-help]:hover::before,
+*[data-help]:hover::after {
     display: block;
+}
+
+*[data-help]::before {
+    content: attr(data-help);
+    padding: 0.5rem;
+    background-color: var(--c-gray-600);
+    max-width: 300px;
+    text-align: left;
+}
+
+*[data-help]::after {
+    background-color: var(--c-gray-600);
 }
 
 footer {
@@ -254,9 +277,26 @@ footer a:hover {
     font-size: 1rem;
 }
 
-.button:hover {
+.button:hover:not(:disabled) {
     background-color: var(--c-accent-500);
     color: white;
+}
+
+.button:disabled {
+    color: var(--c-gray-400);
+    cursor: not-allowed;
+}
+
+.button.button-sm {
+    padding: 0.25rem 0.75rem;
+}
+
+.icon-button {
+    padding: 0;
+    margin: 0;
+    border: none;
+    background-color: transparent;
+    width: max-content;
 }
 
 .input-control {
@@ -268,7 +308,18 @@ footer a:hover {
     gap: 0.5rem;
 }
 
+.input-control .required-star {
+    color: var(--c-red-500);
+    display: inline-flex;
+}
+
+.input-control label:has(.required-star) {
+    display: inline-flex;
+    align-items: center;
+}
+
 .input-control.input-control-text input,
+.input-control.input-control-text textarea,
 .input-control.input-control-select select {
     background-color: transparent;
     padding: 0.5rem 0.75rem;
@@ -276,21 +327,26 @@ footer a:hover {
     border-radius: 6px;
     outline: none;
     transition: background-color 100ms, border-color 100ms;
+    font-size: .9rem;
 }
 
 .input-control.input-control-text input:hover:not(:disabled):not(:read-only),
 .input-control.input-control-text input:focus:not(:disabled):not(:read-only),
+.input-control.input-control-text textarea:hover:not(:disabled):not(:read-only),
+.input-control.input-control-text textarea:focus:not(:disabled):not(:read-only),
 .input-control.input-control-select select:hover:not(:disabled),
 .input-control.input-control-select select:focus:not(:disabled) {
     border-color: var(--c-accent-500);
 }
 
 .input-control.input-control-text input:focus,
+.input-control.input-control-text textarea:focus,
 .input-control.input-control-select select:focus {
     background-color: white;
 }
 
 .input-control.input-control-text input::placeholder,
+.input-control.input-control-text textarea::placeholder,
 .input-control.input-control-select select::placeholder {
     opacity: 1;
     color: var(--c-gray-500);
@@ -298,8 +354,13 @@ footer a:hover {
 }
 
 .input-control.input-control-text input:focus::placeholder,
+.input-control.input-control-text textarea:focus::placeholder,
 .input-control.input-control-select select:focus::placeholder {
     opacity: 0;
+}
+
+.input-control.input-control-text textarea {
+    resize: vertical;
 }
 
 .input-control.input-control-radio {
@@ -379,6 +440,31 @@ footer a:hover {
     margin: 0;
 }
 
+.alert.alert-warning {
+    background-color: var(--c-orange-200);
+}
+
+.alert .button {
+    padding: .25rem .5rem;
+    margin-left: auto;
+}
+
+.alert .button {
+    background-color: var(--c-blue-500);
+    color: white;
+}
+.alert .button:hover {
+    background-color: var(--c-blue-400);
+}
+
+.alert.alert-warning .button {
+    background-color: var(--c-orange-500);
+}
+
+.alert.alert-warning .button:hover {
+    background-color: var(--c-orange-400);
+}
+
 .overlay {
     position: fixed;
     top: 0;
@@ -453,4 +539,16 @@ footer a:hover {
 .clipboard-copy[data-text].copied::before,
 .clipboard-copy[data-text].copied::after {
     display: block;
+}
+
+.columns {
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+}
+
+.columns .column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }

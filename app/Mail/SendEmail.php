@@ -33,7 +33,7 @@ class SendEmail extends Mailable
     public function content(): Content
     {
         return new Content(
-            html: 'mail',
+            html: 'mail.email',
             with: $this->mailData,
         );
     }

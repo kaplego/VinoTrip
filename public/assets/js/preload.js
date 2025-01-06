@@ -16,9 +16,15 @@ document.querySelectorAll(".clipboard-copy[data-text]").forEach((element) => {
     element.addEventListener("click", async () => {
         element.setAttribute("data-tooltip", "Copié !");
         element.classList.add("copied");
-        navigator.clipboard.writeText(element.getAttribute('data-text'));
+        navigator.clipboard.writeText(element.getAttribute("data-text"));
         await sleep(1500);
         element.classList.remove("copied");
         element.setAttribute("data-tooltip", "Copier");
     });
+});
+
+document.querySelectorAll("*[data-help]").forEach((element) => {
+    const icon = document.createElement("i");
+    icon.setAttribute("data-lucide", "circle-help");
+    element.appendChild(icon);
 });

@@ -1,0 +1,177 @@
+h2 {
+    margin: 1rem 0;
+}
+
+.separateur-section {
+    margin: 1rem 0;
+    border-color: var(--c-blackAlpha-500);
+    border-style: solid;
+}
+
+.columns .column .input-control {
+    width: 100%;
+}
+
+#photo {
+    padding: .5rem;
+    border: 2px solid var(--c-gray-200);
+    border-radius: 6px;
+}
+
+#photo-img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+#photo-upload-container input,
+#photo-link-container input {
+    width: 100%;
+}
+
+#photo-upload-container {
+    display: flex;
+    gap: .5rem;
+}
+
+#photo-ou {
+    position: relative;
+    width: 100%;
+    display: flex;
+    user-select: none;
+}
+
+#photo-ou::before,
+#photo-ou::after {
+    content: '';
+    flex: 1;
+    margin: auto 0;
+    height: 1px;
+    background-color: var(--c-gray-400);
+}
+
+#photo-ou .text {
+    background-color: var(--c-gray-100);
+    color: var(--c-gray-500);
+    padding: 0 .5rem;
+    text-transform: uppercase;
+    font-size: .9rem;
+}
+
+#etapes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+#etapes .etape {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: repeat(5, auto);
+    background-color: var(--c-gray-100);
+    border-radius: 8px;
+    padding: 1rem;
+    gap: .5rem 1rem;
+}
+
+#etapes .etape .image {
+    grid-column: 1 / 3;
+    grid-row: 1 / 2;
+    position: relative;
+    cursor: pointer;
+}
+
+#etapes .etape .image .hover {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--c-blackAlpha-500);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 4px;
+}
+
+#etapes .etape .image .hover .lucide {
+    color: white;
+    height: 3rem;
+    width: 3rem;
+}
+
+#etapes .etape .image:hover .hover {
+    display: flex;
+}
+
+#etapes .etape .image img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+#etapes .etape .image input {
+    display: none;
+}
+
+#etapes .etape > input,
+#etapes .etape > textarea {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px dotted currentColor;
+    outline: none;
+    font-size: 1rem;
+}
+
+#etapes .etape > textarea {
+    resize: vertical;
+}
+
+#etapes .etape .titre {
+    font-size: 1.25rem;
+    font-weight: bold;
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+}
+
+#etapes .etape .description {
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+}
+
+#etapes .etape .hebergement {
+    grid-column: 1 / 3;
+    grid-row: 4 / 5;
+    display: flex;
+    flex-direction: row !important;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    margin: 0;
+}
+
+#etapes .etape .hebergement select {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#etapes .etape .btn-supprimer {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+}
+
+#etapes .etape .errors {
+    grid-column: 1 / 3;
+    grid-row: 5 / 6;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+}
+
+button[type=submit] {
+    margin-top: 1rem;
+    width: 100%;
+}

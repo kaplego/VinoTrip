@@ -18,7 +18,7 @@ class Panier extends Model
     public function descriptionspanier(): HasMany
     {
         return $this->hasMany(
-            Descriptionpanier::class,
+            VDescriptionpanier::class,
             'idpanier',
             'idpanier'
         );

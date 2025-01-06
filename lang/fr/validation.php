@@ -69,7 +69,7 @@ return [
     ],
     'hex_color' => 'The :attribute field must be a valid hexadecimal color.',
     'image' => 'The :attribute field must be an image.',
-    'in' => 'The selected :attribute is invalid.',
+    'in' => 'La valeur sélectionnée de :attribute est incorrecte.',
     'in_array' => 'The :attribute field must exist in :other.',
     'integer' => 'Le champ :attribute doit être un nombre entier.',
     'ip' => 'The :attribute field must be a valid IP address.',

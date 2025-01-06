@@ -1,6 +1,6 @@
 <div id="breadcrumb">
     @php
-        $arr = array_slice(explode('/', Request::url()), 3);
+        $arr = array_slice(explode('/', $bcCustomLink ?? Request::path()), 0);
         $i = -1;
         $url = '';
     @endphp

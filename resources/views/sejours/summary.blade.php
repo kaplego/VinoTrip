@@ -8,6 +8,9 @@
 
 @section('head')
     <link rel="stylesheet" href="/assets/css/sejours/summary.css">
+    <meta name="description" content="{{ $sejour->descriptionsejour }}">
+    <meta property="twitter:card" content="https://vinotrip.lmgt.me/storage/sejour/{{ $sejour->photosejour }}">
+    <meta property="og:image" content="https://vinotrip.lmgt.me/storage/sejour/{{ $sejour->photosejour }}">
 @endsection
 
 @section('body')
@@ -23,29 +26,74 @@
         @endphp
         @include('layout.breadcrumb')
 
+        @if (!$sejour->publie)
+            <form class="alert alert-warning" action="/api/sejour/{{ $sejour->idsejour }}/publish" method="POST">
+                @csrf
+                <i data-lucide="lock"></i>
+                <span class="text">Le séjour n'est pas encore publié.</span>
+                <button class="button" type="submit">Publier le séjour</button>
+            </form>
+        @endif
+
         <section id="sejour">
-            <img class="image" src="/assets/images/sejour/{{ $sejour->photosejour }}" />
+            <img class="image" src="/storage/sejour/{{ $sejour->photosejour }}" />
             <div id="description">
                 <h1 class="titre">{{ $sejour->titresejour }}</h1>
                 <hr>
-                <h4 class="prix">Prix: {{ $sejour->prixsejour }}€/personne</h3>
-                    <p class="descriptionsej">{{ $sejour->descriptionsejour }}</p>
-                    <div id="categorie">
-                        <p class="descriptionsej">{{ $sejour->categoriesejour->libellecategoriesejour }}</p>
-                        <p class="descriptionsej">{{ $sejour->categorievignoble->libellecategorievignoble }}</p>
-                        <p class="descriptionsej">{{ $sejour->duree->libelleduree }}</p>
-                        <p class="descriptionsej">{{ $sejour->theme->libelletheme }}</p>
-                    </div>
-                    <div>
-                        <a class="button" href="/personnaliser/{{ $sejour->idsejour }}">Personnaliser ou offrir</a>
-                    </div>
-                    <div>
-                        @if (Auth::check() && Auth::user()->idrole == 3)
-                            <div>
-                                <a class="button" href="/sejour/{{ $sejour->idsejour }}/edit">Modifier séjour</a>
-                            </div>
+                @if (isset($sejour->nouveauprixsejour))
+                    <h4 class="prix" style="text-decoration-line: line-through;">Prix: {{ $sejour->prixsejour }}€ /
+                        personne</h4>
+                    <h4 class="prix" style="color: red; text-decoration-line:underline;">Prix:
+                        {{ $sejour->nouveauprixsejour }}€ / personne</br>
+                        Profitez de
+                        {{ round((1 - ($sejour->nouveauprixsejour ?? $sejour->prixsejour) / $sejour->prixsejour) * 100, 1) }}%
+                        de réduction !
+                    </h4>
+                @else
+                    <h4 class="prix">Prix: {{ $sejour->prixsejour }}€ / personne</h4>
+                @endif
+                <p class="descriptionsej">{{ $sejour->descriptionsejour }}</p>
+                <div id="categorie">
+                    <p class="descriptionsej">{{ $sejour->categoriesejour->libellecategoriesejour }}</p>
+                    <p class="descriptionsej">{{ $sejour->categorievignoble->libellecategorievignoble }}</p>
+                    <p class="descriptionsej">{{ $sejour->duree->libelleduree }}</p>
+                    <p class="descriptionsej">{{ $sejour->theme->libelletheme }}</p>
+                </div>
+                <div>
+                    <a class="button" href="/personnaliser/{{ $sejour->idsejour }}">Personnaliser ou offrir</a>
+                </div>
+                <div>
+                    @if (Helpers::AuthIsRole(Role::ServiceVente))
+                        <div>
+                            <a class="button" href="/sejour/{{ $sejour->idsejour }}/edit">Modifier séjour</a>
+                        </div>
+                    @endif
+
+                    @if (Helpers::AuthIsRole(Role::ServiceMarketing))
+                        <div>
+                            <button class="reduction button" data-idsejour="{{ $sejour->idsejour }}">Appliquer une
+                                réduction</button>
+                        </div>
+                    @endif
+
+                    @if (Auth::check())
+                        @if (Auth::user()->favoris->contains($sejour))
+                            <form id="favoris" class="favoris" method="post" action="/api/client/favoris/delete">
+                                @csrf
+                                <input type="hidden" name="idsejour" value="{{ $sejour->idsejour }}">
+                                <button class="icon-button" type="submit" data-tooltip="Retirer des favoris"><i
+                                        data-lucide="heart"></i></button>
+                            </form>
+                        @else
+                            <form id="favoris" method="post" action="/api/client/favoris/add">
+                                @csrf
+                                <input type="hidden" name="idsejour" value="{{ $sejour->idsejour }}">
+                                <button class="icon-button" type="submit" data-tooltip="Ajouter aux favoris"><i
+                                        data-lucide="heart"></i></button>
+                            </form>
                         @endif
-                    </div>
+                    @endif
+                </div>
             </div>
         </section>
 
@@ -53,11 +101,13 @@
 
         <h2 class="titreg">Le programme détaillé de votre séjour</h2>
 
-        <section id="Etape">
+        <section id="etapes">
             @foreach ($sejour->etape as $etape)
-                <h2>Jour {{ $jour }} {{ $etape->titreetape }}</h2>
-                <p>{{ $etape->descriptionetape }}</p>
-                <img class="image" src="/assets/images/etape/{{ $etape->photoetape }}" />
+                <article class="etape">
+                    <h2>Étape {{ $jour }} : {{ $etape->titreetape }}</h2>
+                    <p>{{ $etape->descriptionetape }}</p>
+                    <img class="image" src="/storage/etape/{{ $etape->photoetape }}" />
+                </article>
                 @php
                     $jour++;
                 @endphp
@@ -130,8 +180,41 @@
                 @endforeach
             </section>
         @endif
+        <form class="overlay hidden" id="reduc" method="post" action="/api/sejour/discount">
+            @csrf
+            <div class="overlay-content">
+                <h2>Indiquer le nouveau prix voulu :</h2>
+                <input type="hidden" name="idsejour" id="reduc-idsejour">
 
+                <div class="input">
+                    <div class="input-control input-control-text required">
+                        <label for="reduc-nouvprix">Nouveau prix (€)</label>
+                        <input type="number" basevalue="{{ $sejour->nouveauprixsejour ?? $sejour->prixsejour }}"
+                            step="0.01" value="{{ $sejour->nouveauprixsejour ?? $sejour->prixsejour }}"
+                            min="0" max="{{ $sejour->prixsejour }}" name="nouveauprixsejour"
+                            id="reduc-nouvprix">
+                    </div>
+                    <div class="input-control input-control-text required">
+                        <label for="reduc-pourcentage">Réduction (%)</label>
+                        <input
+                            type="number"
+                            basevalue="{{ round((1 - ($sejour->nouveauprixsejour ?? $sejour->prixsejour) / $sejour->prixsejour) * 100, 2) }}"
+                            step="0.01"
+                            value="{{ round((1 - ($sejour->nouveauprixsejour ?? $sejour->prixsejour) / $sejour->prixsejour) * 100, 2) }}"
+                            min="0" max="100" name="pourcentagereduction" id="reduc-pourcentage">
+                </div>
+
+                <div id="reduction-buttons">
+                    <button type="button" class="button" id="reduc-annuler">Annuler</button>
+                    <button type="submit" class="button">Appliquer</button>
+                </div>
+            </div>
+        </form>
     </main>
     @include('layout.footer')
 
+@endsection
+
+@section('scripts')
+    <script src="/assets/js/reduction.js" defer></script>
 @endsection

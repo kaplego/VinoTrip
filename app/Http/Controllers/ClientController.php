@@ -79,36 +79,26 @@ class ClientController extends Controller
             'prenomclient' => ['required', "regex:/^[a-z \-']+$/i"],
             'nomclient' => ['required', "regex:/^[a-z \-']+$/i"],
             'emailclient' => ['required', 'email'],
+            'telephoneclient' => ['required', 'regex:/^\d{10}$/'],
             'motdepasseclient' => ['required', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{12,}$/'],
             'offrespromotionnellesclient' => ['boolean'],
         ]);
-        $datenaissance = DateTime::createFromFormat(
+        $datenaissanceclient = DateTime::createFromFormat(
             'j/n/Y',
             $request->request->get('journaissance') . "/" .
             $request->request->get('moisnaissance') . "/" .
             $request->request->get('anneenaissance')
         );
-        /*
-        $ = bcrypt($credentials['motdepasseclient']);
-        $user = new User();
 
-        $user->prenomclient = ucfirst($credentials['prenomclient']);
-        $user->nomclient = ucfirst($credentials['nomclient']);
-        $user->emailclient = $credentials['emailclient'];
-        $user->motdepasseclient = $password;
-        $user->offrespromotionnellesclient = $credentials['offrespromotionnellesclient'] ?? '0' === 'on';
-        $user->civiliteclient = $request->request->get('civiliteclient');
-        $user->datenaissanceclient = gettype($datenaissance) == "boolean" ? null : $datenaissance;
-        $user->idrole = 1;
-*/
 
-        return redirect('client/adresse/ajouter')->with([
+        return redirect('/client/adresse/ajouter')->withInput([
             'prenomclient' => $credentials['prenomclient'],
             'nomclient' => $credentials['nomclient'],
             'emailclient' => $credentials['emailclient'],
+            'telephoneclient' => $credentials['telephoneclient'],
             'motdepasseclient' => $credentials['motdepasseclient'],
             'civiliteclient' => $request->request->get('civiliteclient'),
-            'datenaissance' => gettype($datenaissance) == "boolean" ? null : $datenaissance->format('j/n/Y'),
+            'datenaissanceclient' => gettype($datenaissanceclient) == "boolean" ? null : $datenaissanceclient->format('j/n/Y'),
             'offrespromotionnellesclient' => $credentials['offrespromotionnellesclient'] ?? '0' === 'on',
             'redirect' => $credentials['redirect'] ?? null,
         ]);
@@ -117,24 +107,23 @@ class ClientController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
-        return redirect()->intended('/');
+        return redirect('/');
     }
 
     public function edit(Request $request)
     {
+        // todo : l'edit marche plus ?????
         $credentials = $request->validate([
             'prenomclient' => ['required', "regex:/^[a-z \-']+$/i"],
             'nomclient' => ['required', "regex:/^[a-z \-']+$/i"],
             'emailclient' => ['required', 'email'],
+            'numtelephoneclient' => ['required', 'regex:/^\d{10}$/'],
             'ancienmotdepasse' => ['required'],
         ]);
 
-        if ($request->request->get('offrespromotionnellesclient') != "on")
-            $credentials["offrespromotionnellesclient"] = false;
-        else
-            $credentials["offrespromotionnellesclient"] = true;
+        $credentials["offrespromotionnellesclient"] = $request->input('offrespromotionnellesclient') == 'on';
 
-        $datenaissance = DateTime::createFromFormat(
+        $datenaissanceclient = DateTime::createFromFormat(
             'j/n/Y',
             $request->request->get('journaissance') . "/" .
             $request->request->get('moisnaissance') . "/" .
@@ -171,7 +160,7 @@ class ClientController extends Controller
             $user->motdepasseclient = $credentials['password'];
             $user->offrespromotionnellesclient = $credentials['offrespromotionnellesclient'];
             $user->civiliteclient = $request->request->get('civiliteclient');
-            $user->datenaissanceclient = gettype($datenaissance) == "boolean" ? null : $datenaissance;
+            $user->datenaissanceclient = gettype($datenaissanceclient) == "boolean" ? null : $datenaissanceclient;
 
             try {
                 $user->update();
@@ -191,29 +180,26 @@ class ClientController extends Controller
     public function envoiemailmdp(Request $request)
     {
         $email = $request->input("email");
-        $client = Client::firstWhere('emailclient', "=", $email);
-
-        $token = Str::random(60);
+        $client = Client::where('emailclient', "=", $email)->first();
 
         if ($client != null) {
-            Client::where('idclient', $client['idclient'])
-                ->update([
-                    'tokenresetmdp' => $token,
-                    'datecreationtoken' => Carbon::now()
-                ]);
+            $token = Str::random(60);
 
-            Mail::to("ppartenairehotel@gmail.com")->send(new SendEmail([
+            $client->update([
+                'tokenresetmdp' => $token,
+                'datecreationtoken' => Carbon::now()
+            ]);
+
+            Mail::to($email)->send(new SendEmail([
                 'type' => 'mdp',
                 'prenom' => $client['prenomclient'],
                 'nom' => $client['nomclient'],
                 'civilite' => $client['civiliteclient'],
                 'token' => $token
-            ], "Vinotrip Renitialsiation mots de passe "));
-
-            return redirect()->back()->with("successhotel", "le mail a été envoyé");
-        } else {
-            return redirect()->back()->with("successhotel", "le mail a été envoyé");
+            ], "Reinitialisiation du mot de passe"));
         }
+
+        return back()->with("password_success", "Si ce compte existe, vous recevrez un email afin de réinitialiser votre mot de passe.");
     }
 
     public function envoiSMS()
@@ -230,7 +216,7 @@ class ClientController extends Controller
             return view("client.mdpreset", ['token' => $token]);
         }
 
-        return redirect("http://51.83.36.122:8074/");
+        return redirect("/");
 
 
     }
@@ -254,10 +240,10 @@ class ClientController extends Controller
                     'motdepasseclient' => $client->motdepasseclient
                 ]);
 
-            return redirect("http://51.83.36.122:8074/connexion");
+            return redirect("/connexion");
         }
 
-        return redirect("http://51.83.36.122:8074/");
+        return redirect("/");
     }
 
     public function createJsonFile($client)
@@ -285,9 +271,10 @@ class ClientController extends Controller
     {
         try {
             $client = Client::firstWhere("idclient", $idclient);
+
             $fileInfo = $this->createJsonFile($client);
 
-            Mail::to("ppartenairehotel@gmail.com")
+            Mail::to($client->emailclient)
                 ->send(new SendEmail([
                     'type' => 'data',
                     'prenom' => $client['prenomclient'],

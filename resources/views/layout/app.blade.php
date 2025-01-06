@@ -8,7 +8,7 @@
     <title>@yield('title', 'VinoTrip')</title>
     <link rel="stylesheet" href="/assets/css/style.css">
     <!-- CookieBot -->
-    <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="b446234c-b83c-4bb5-ace9-c9241e79f49b"
+    <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="f794f983-7d26-4dde-bb67-ea67be4f7240"
         data-blockingmode="auto" type="text/javascript"></script>
 
     @yield('head')

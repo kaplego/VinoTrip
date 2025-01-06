@@ -1,8 +1,9 @@
-@import url(colors.css);
+@import url(../colors.css);
 
 #filtres {
     display: flex;
     gap: 1rem;
+    margin-top: 1rem;
 }
 
 #filtres select {

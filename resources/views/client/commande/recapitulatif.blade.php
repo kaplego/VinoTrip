@@ -29,20 +29,17 @@
                 <thead>
                     <tr>
                         <th>Date de la commande</th>
-                        <th>État de la commande</th>
                         <th>Prix total</th>
                         <th>Mode de paiement</th>
-                        @if ($commande->codereduction)
+                        @if ($commande->codereduction && !str_contains($commande->etatcommande, 'refusé'))
                             <th>Code cadeau</th>
                         @endif
+                        <th>État de la commande</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>{{ date_format(date_create($commande->datecommande), 'd/m/Y') }}</td>
-                        <td>
-                            {{ $commande->etatcommande }}
-                        </td>
                         <td>{{ $commande->prix }} €</td>
                         <td>
                             @switch($commande->typepaiementcommande)
@@ -50,23 +47,41 @@
                                     Carte bancaire @if ($commande->cartebancaire)
                                         •••• •••• •••• {{ substr($commande->cartebancaire->numerocbclient, -4) }}
                                     @endif
-                                    @break
+                                @break
+
                                 @case('paypal')
                                     PayPal
-                                    @break
+                                @break
+
                                 @case('stripe')
                                     Stripe
-                                    @break
+                                @break
+
                                 @default
                                     Inconnu
                             @endswitch
                         </td>
-                        @if ($commande->codereduction)
+                        @if ($commande->codereduction && !str_contains($commande->etatcommande, 'refusé'))
                             <td class="code-cadeau">
                                 <div class="clipboard-copy" data-text="{{ $commande->codereduction }}">
                                     {{ $commande->codereduction }}</div>
                             </td>
                         @endif
+                        <td>
+                            {{ $commande->etatcommande }} @if (str_contains($commande->etatcommande, 'refusé'))
+                                <div
+                                    data-help="Vérifiez que le solde de votre compte est suffisant, puis essayez à nouveau.">
+                                </div>
+                            @elseif ($commande->etatcommande === 'En attente de validation')
+                                <div
+                                    data-help="Vous recevrez un e-mail lorsque nous recevrons une réponse positive de nos partenaires.">
+                                </div>
+                            @elseif ($commande->etatcommande === 'Paiement validé')
+                                <div
+                                    data-help="Nous allons bientôt traiter votre commande.">
+                                </div>
+                            @endif
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -83,7 +98,7 @@
                         <input type="hidden" name="idsejour" value="{{ $sejour->idsejour }}">
                         <div class="sejour">
                             <h2>{{ $sejour->titresejour }}</h2>
-                            <img class="photo" src="/assets/images/sejour/{{ $sejour->photosejour }}"
+                            <img class="photo" src="/storage/sejour/{{ $sejour->photosejour }}"
                                 alt="{{ $sejour->titresejour }}">
                         </div>
                         <table class="details">

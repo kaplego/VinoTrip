@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Adresse;
 use App\Models\User;
 use Auth;
+use \Datetime;
 use Illuminate\Http\Request;
 use Session;
 
@@ -31,13 +32,14 @@ class AdresseController extends Controller
         return view("client.adresse.modifier", ["adresse" => Adresse::find($id)]);
     }
 
-    public function ajouter()
+    public function ajouter(Request $request)
     {
-        dd(Session::All());
-        if (!Auth::check() && Session::get("prenomclient") == null)
+        // dd($request);
+        $data = $request->old() ?? $request->input();
+        if (!Auth::check() && !$data['prenomclient'])
             return redirect('/connexion');
 
-        return view("client.adresse.ajouter", Session::all());
+        return view("client.adresse.ajouter", $data);
 
     }
 
@@ -125,21 +127,22 @@ class AdresseController extends Controller
 
             //renvoie les valeurs et les erreurs correspondantes
             return response(redirect()->back()->withErrors(
-                $e->validator->messages()->messages())->with($values));
+                $e->validator->messages()->messages())->withInput($values));
         }
 
         $password = bcrypt($request->request->get('motdepasseclient'));
 
         $user = new User();
-
         $user->prenomclient = ucfirst($request->request->get('prenomclient'));
         $user->nomclient = ucfirst($request->request->get('nomclient'));
         $user->emailclient = $request->request->get('emailclient');
         $user->motdepasseclient = $password;
         $user->offrespromotionnellesclient =$request->request->get('offrespromotionnellesclient')?? '0';
         $user->civiliteclient = $request->request->get('civiliteclient');
-        $user->datenaissanceclient = $request->request->get('datenaissanceclient');
-        $user->telephoneclient = $request->request->get('telephoneclient') ?? '0102030405';
+
+        $datenaissance = DateTime::createFromFormat('j/n/Y',$request->request->get('datenaissanceclient'));
+        $user->datenaissanceclient = is_bool($datenaissance) ? null : $datenaissance->format('n/j/Y');
+        $user->telephoneclient = $request->request->get('numtelephoneclient') ?? '0102030405';
         $user->idrole = 1;
         $user->save();
 

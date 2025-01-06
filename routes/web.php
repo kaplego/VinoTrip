@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdresseController;
 use App\Http\Controllers\CommandeController;
+use App\Http\Controllers\FavorisController;
 use App\Http\Controllers\PanierController;
 use App\Http\Controllers\SejourController;
 use App\Http\Controllers\ClientController;
@@ -41,12 +42,23 @@ Route::get('/conditions-vente', [SiteController::class, 'conditions']);
 
 Route::get('/sejour/{id}', action: [SejourController::class, 'one']);
 Route::get('/sejour/{id}/edit', [SejourController::class, 'edit']);
-Route::post('/edit/choix', [SejourController::class, 'choixhebergement']);
+Route::post('/sejours/edit/hebergement', [SejourController::class, 'choixhebergement']);
+Route::get('/sejours/create', action: [SejourController::class, 'createview']);
+Route::get('/sejours/validate', action: [SejourController::class, 'validateview']);
 Route::post('/api/edit/changes', [SejourController::class, 'apitogglehebergement']);
+Route::post('/api/sejours/create', action: [SejourController::class, 'create']);
+Route::post('/api/sejour/{id}/publish', action: [SejourController::class, 'publier']);
+Route::post('/api/sejour/discount', action: [SejourController::class, 'discount']);
+
 
 Route::get('/connexion', [ClientController::class, 'connexion']);
 Route::get('/client', [ClientController::class, 'profil']);
 Route::get('/client/informations', [ClientController::class, 'informations']);
+Route::get('/client/favoris', [FavorisController::class, 'list']);
+
+Route::post('/api/client/favoris/delete', [FavorisController::class, 'delete']);
+Route::post('/api/client/favoris/add', [FavorisController::class, 'add']);
+
 Route::get('/client/commandes', [CommandeController::class, 'liste']);
 Route::get('/client/commande/{id}', [CommandeController::class, 'recapitulatif']);
 Route::get('/client/adresses', [AdresseController::class, 'adresses']);

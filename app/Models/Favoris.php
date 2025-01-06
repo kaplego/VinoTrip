@@ -5,11 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Sesitue extends Model
+class Favoris extends Model
 {
     use HasFactory;
-
-    protected $table = "se_situe";
-    protected $primaryKey = ["idlocalite", "idsejour"];
+    protected $table = "favoris";
+    protected $primaryKey = ["idclient", "idsejour"];
     public $timestamps = false;
 }

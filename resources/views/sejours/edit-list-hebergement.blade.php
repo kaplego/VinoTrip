@@ -14,8 +14,7 @@
     @endphp
     <main class="container">
         @php
-            $breadcrumReplaceLink = ['/sejour' => '/sejours'];
-            // $breadcrumReplaceName = ['/sejour' => 'Sejours', "/sejour/$sejour->idsejour" => $sejour->titresejour];
+            $bcCustomLink = 'reservation/hebergement';
         @endphp
         @include('layout.breadcrumb')
         <section id="hebergements">

@@ -33,7 +33,7 @@
                                 value="{{ $descriptionpanier->iddescriptionpanier }}">
                             <div class="sejour">
                                 <h2>{{ $sejour->titresejour }}</h2>
-                                <img class="photo" src="/assets/images/sejour/{{ $sejour->photosejour }}"
+                                <img class="photo" src="/storage/sejour/{{ $sejour->photosejour }}"
                                     alt="{{ $sejour->titresejour }}">
                             </div>
                             <table class="details">
@@ -126,27 +126,35 @@
                                     €</span>
                             </div>
                             <div class="infos">
-                                <a class="button" href="/modifier/{{ $descriptionpanier->idsejour }}">
-                                    <i data-lucide="pencil"></i> Modifier les détails
-                                </a>
-                                <div class="input-control input-control-text" style="margin: 0">
-                                    <input type="number" name="quantite" autocomplete="off" min="1" max="10"
-                                        id="quantite-{{ $sejour->idsejour }}" value="{{ $descriptionpanier->quantite }}">
-                                </div>
-                                @error('quantite')
-                                    {{ $message }}
-                                @enderror
-                                <div class="buttons">
-                                    <button class="button" type="submit" name="action" value="update">
-                                        <i data-lucide="save"></i>
-                                    </button>
-                                    <button class="button" type="submit" name="action" value="delete">
-                                        <i data-lucide="trash-2"></i>
-                                    </button>
-                                </div>
-                                @error('action')
-                                    {{ $message }}
-                                @enderror
+                                @if ($descriptionpanier->codepromoutilise === null)
+                                    <a class="button" href="/modifier/{{ $descriptionpanier->idsejour }}">
+                                        <i data-lucide="pencil"></i> Modifier les détails
+                                    </a>
+                                    <div class="input-control input-control-text" style="margin: 0">
+                                        <input type="number" name="quantite" autocomplete="off" min="1" max="10"
+                                            id="quantite-{{ $sejour->idsejour }}" value="{{ $descriptionpanier->quantite }}">
+                                    </div>
+                                    @error('quantite')
+                                        {{ $message }}
+                                    @enderror
+                                    <div class="buttons">
+                                        <button class="button" type="submit" name="action" value="update">
+                                            <i data-lucide="save"></i>
+                                        </button>
+                                        <button class="button" type="submit" name="action" value="delete">
+                                            <i data-lucide="trash-2"></i>
+                                        </button>
+                                    </div>
+                                    @error('action')
+                                        {{ $message }}
+                                    @enderror
+                                @else
+                                    <div class="buttons">
+                                        <button class="button" type="submit" name="action" value="delete">
+                                            <i data-lucide="trash-2"></i>
+                                        </button>
+                                    </div>
+                                @endif
                             </div>
                         </form>
                     </article>

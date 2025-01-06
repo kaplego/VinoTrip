@@ -15,13 +15,18 @@
 
     <main class="container">
         @include('layout.breadcrumb')
+
+        <h1>Liste des séjours</h1>
+        <hr class="separateur-titre" />
+
         <form id="filtres" method="get">
             <select id="vignoble" name="vignoble" autocomplete="off">
                 <option selected disabled>Quel vignoble ?</option>
                 <option value="all">Tous les vignoble</option>
 
                 @foreach ($categoriesvignoble as $categorie)
-                    <option value="{{ $categorie->idcategorievignoble }}">{{ $categorie->libellecategorievignoble }}</option>
+                    <option value="{{ $categorie->idcategorievignoble }}">{{ $categorie->libellecategorievignoble }}
+                    </option>
                 @endforeach
             </select>
 
@@ -79,8 +84,8 @@
                 @php
                     $note = 0;
                     $localites = [];
-                    foreach ($sejour->localite as $localite) {
-                        $localites[] = $localite->idlocalite;
+                    if ($sejour->localite) {
+                        $localites[] = $sejour->localite->idlocalite;
                     }
                 @endphp
 
@@ -89,7 +94,7 @@
                     data-duree="{{ $sejour->idduree }}" data-localite="{{ implode(',', $localites) }}"
                     data-participant="{{ $sejour->categorieparticipant->idcategorieparticipant }}">
                     <h2 class="titre"><a href="/sejour/{{ $sejour->idsejour }}">{{ $sejour->titresejour }}</a></h2>
-                    <img class="image" data-src="/assets/images/sejour/{{ $sejour->photosejour }}" />
+                    <img class="image" data-src="/storage/sejour/{{ $sejour->photosejour }}" />
                     <div class="contenu">
                         <div class="icones">
                             <div data-tooltip="{{ $sejour->categoriesejour->libellecategoriesejour }}">
@@ -148,7 +153,15 @@
                             {{ $sejour->categorievignoble->libellecategorievignoble }}
                         </p>
                         <hr />
-                        <p class="prix">À partir de <span class="euros">{{ $sejour->prixsejour }}€</span> par personne
+                        @if (isset($sejour->nouveauprixsejour))
+                            <p class="prix" style="text-decoration-line: line-through;">À partir de <span
+                                    class="euros">{{ $sejour->prixsejour }}€</span> par personne
+                            <p class="prix" style="color: red; text-decoration-line:underline;">À partir de <span
+                                    class="euros">{{ $sejour->nouveauprixsejour }}€</span> par personne
+                            @else
+                            <p class="prix">À partir de <span class="euros">{{ $sejour->prixsejour }}€</span> par
+                                personne
+                        @endif
                         </p>
                         <p class="description">{{ $sejour->descriptionsejour }}</p>
                         <p class="duree">{{ $sejour->duree->libelleduree }}</p>
@@ -170,24 +183,24 @@
                                 $note = $note / $cpt;
                                 $note = round($note, 1);
                             @endphp
-                            <div class="avis">
-                                <p class="note">
-                                    <i data-lucide="star" fill="currentColor" class="checked"></i>
-                                    <i data-lucide="star" fill="currentColor"
-                                        class="@if ($note >= 2) checked @endif"></i>
-                                    <i data-lucide="star" fill="currentColor"
-                                        class="@if ($note >= 3) checked @endif"></i>
-                                    <i data-lucide="star" fill="currentColor"
-                                        class="@if ($note >= 4) checked @endif"></i>
-                                    <i data-lucide="star" fill="currentColor"
-                                        class="@if ($note == 5) checked @endif"></i>
-                                </p>
-                                <p class="valeur">{{ $note }}/5</p>
-                                <a href="/sejour/{{ $sejour->idsejour }}#avis">Voir les avis</a>
-                            </div>
                         @endif
-                        <a class="decouvrir button" href="/sejour/{{ $sejour->idsejour }}">Découvrir</a>
                     </div>
+                    <div class="avis">
+                        <p class="note">
+                            <i data-lucide="star" fill="currentColor" class="checked"></i>
+                            <i data-lucide="star" fill="currentColor"
+                                class="@if ($note >= 2) checked @endif"></i>
+                            <i data-lucide="star" fill="currentColor"
+                                class="@if ($note >= 3) checked @endif"></i>
+                            <i data-lucide="star" fill="currentColor"
+                                class="@if ($note >= 4) checked @endif"></i>
+                            <i data-lucide="star" fill="currentColor"
+                                class="@if ($note == 5) checked @endif"></i>
+                        </p>
+                        <p class="valeur">{{ $note }}/5</p>
+                        <a href="/sejour/{{ $sejour->idsejour }}#avis">Voir les avis</a>
+                    </div>
+                    <a class="decouvrir button" href="/sejour/{{ $sejour->idsejour }}">Découvrir</a>
                 </article>
                 @php
                     $i++;

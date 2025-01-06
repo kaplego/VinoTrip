@@ -19,12 +19,18 @@
         @endphp
         @include('layout.breadcrumb')
 
+        <div class="alert alert-warning">
+            <i data-lucide="pencil-ruler"></i>
+            <span class="tex">Vous êtes en train de modifier ce séjour.</span>
+            <a class="button" href="/sejour/{{$sejour->idsejour}}">Quitter le mode d'édition</a>
+        </div>
+
         <section id="sejour">
-            <img class="image" src="/assets/images/sejour/{{ $sejour->photosejour }}" />
+            <img class="image" src="/storage/sejour/{{ $sejour->photosejour }}" />
             <div id="description">
                 <h1 class="titre">{{ $sejour->titresejour }}</h1>
                 <hr>
-                <h4 class="prix">Prix: {{ $sejour->prixsejour }}€/personne</h3>
+                <h4 class="prix">Prix: {{ $sejour->prixsejour }}€/personne</h4>
                     <p class="descriptionsej">{{ $sejour->descriptionsejour }}</p>
                     <div id="categorie">
                         <p class="descriptionsej">{{ $sejour->categoriesejour->libellecategoriesejour }}</p>
@@ -47,7 +53,7 @@
             @foreach ($sejour->etape as $etape)
                 <h2>Jour {{ $jour }} {{ $etape->titreetape }}</h2>
                 <p>{{ $etape->descriptionetape }}</p>
-                <img class="image" src="/assets/images/etape/{{ $etape->photoetape }}" />
+                <img class="image" src="/storage/etape/{{ $etape->photoetape }}" />
                 @php
                     $jour++;
                 @endphp
@@ -65,7 +71,7 @@
                     <a class="lienheberg" href="{{ $etape->hebergement->lienhebergement }}"
                         target="_blank">{{ $etape->hebergement->hotel->nompartenaire }}</a>
                     {{-- {{ $etape->hebergement->lienhebergement }} --}}
-                    <form action="/sejour/{{ $sejour->idsejour }}/edit/choix" method="POST">
+                    <form action="/sejour/{{ $sejour->idsejour }}/edit/hebergement" method="POST">
                         @csrf
                         <input type="hidden" name="idhebergement" value="{{ $etape->hebergement->idhebergement }}" />
                         <input type="hidden" name="idetape" value="{{ $etape->idetape }}" />

@@ -217,7 +217,7 @@
     @include('layout.footer')
 
     <script>
-        const prixDeBase = {{ $sejour->prixsejour }};
+        const prixDeBase = {{ $sejour->nouveauprixsejour ?? $sejour->prixsejour}};
     </script>
 @endsection
 
