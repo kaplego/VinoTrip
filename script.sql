@@ -3781,6 +3781,7 @@ CREATE VIEW v_descriptioncommande AS (
 	GROUP BY
 		descriptioncommande.iddescriptioncommande,
 		sejour.prixsejour,
+		sejour.nouveauprixsejour,
 		hebergement.prixhebergement
 );
 
@@ -3811,6 +3812,7 @@ CREATE VIEW v_descriptionpanier AS (
 	GROUP BY
 		descriptionpanier.iddescriptionpanier,
 		sejour.prixsejour,
+		sejour.nouveauprixsejour,
 		hebergement.prixhebergement
 );
 
