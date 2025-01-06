@@ -3758,7 +3758,7 @@ CREATE VIEW v_descriptioncommande AS (
 	SELECT
 		descriptioncommande.*,
 		(
-			(COALESCE(sejour.prixsejour, 0) +
+			(COALESCE(sejour.nouveauprixsejour, COALESCE(sejour.prixsejour, 0)) +
 			 COALESCE(hebergement.prixhebergement, 0) +
 	     SUM(COALESCE(repas.prixrepas, 0)) +
 	     SUM(COALESCE(activite.prixactivite, 0))
@@ -3788,7 +3788,7 @@ CREATE VIEW v_descriptionpanier AS (
 	SELECT
 		descriptionpanier.*,
 		(
-			(COALESCE(sejour.prixsejour, 0) +
+			(COALESCE(sejour.nouveauprixsejour, COALESCE(sejour.prixsejour, 0)) +
 			 COALESCE(hebergement.prixhebergement, 0) +
 	     SUM(COALESCE(repas.prixrepas, 0)) +
 	     SUM(COALESCE(activite.prixactivite, 0))
