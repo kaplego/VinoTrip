@@ -3838,7 +3838,7 @@ CREATE VIEW v_commande AS (
 );
 
 create view v_etatcommande_sejour as (
-	select etatcommande, datecommande, titresejour from commande c
+	select etatcommande, datecommande, titresejour, prixsejour from commande c
 	join descriptioncommande d on c.idcommande = d.idcommande 
 	join sejour s on d.idsejour = s.idsejour
 );
