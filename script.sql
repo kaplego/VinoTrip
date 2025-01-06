@@ -1691,7 +1691,7 @@ alter table RESTAURANT
 alter table ADRESSE
 	
    add constraint CK_ADRESSE_EXCLUSIF
-      check (idClient != null or idPartenaire != null);
+      check (idClient is not null or idPartenaire is not null);
 	  
 alter table COMMANDE
    add constraint CK_COMMANDE_ETAT
@@ -3760,7 +3760,7 @@ CREATE VIEW v_descriptioncommande AS (
 	SELECT
 		descriptioncommande.*,
 		CASE
-			WHEN descriptioncommande.codepromoutilise != null THEN 0
+			WHEN descriptioncommande.codepromoutilise is not null THEN 0
 			ELSE (
 			    (
 		                COALESCE(sejour.nouveauprixsejour, COALESCE(sejour.prixsejour, 0)) +
@@ -3795,7 +3795,7 @@ CREATE VIEW v_descriptionpanier AS (
 	SELECT
 		descriptionpanier.*,
 		CASE
-			WHEN descriptionpanier.codepromoutilise != null THEN 0
+			WHEN descriptionpanier.codepromoutilise is not null THEN 0
 			ELSE (
 			    (
 		                COALESCE(sejour.nouveauprixsejour, COALESCE(sejour.prixsejour, 0)) +
