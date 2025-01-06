@@ -3759,20 +3759,24 @@ values
 CREATE VIEW v_descriptioncommande AS (
 	SELECT
 		descriptioncommande.*,
-		(
-			(COALESCE(sejour.nouveauprixsejour, COALESCE(sejour.prixsejour, 0)) +
-			 COALESCE(hebergement.prixhebergement, 0) +
-	     SUM(COALESCE(repas.prixrepas, 0)) +
-	     SUM(COALESCE(activite.prixactivite, 0))
-		) * (descriptioncommande.nbadultes + descriptioncommande.nbenfants) +
-		(descriptioncommande.nbchambressimple * 75) +
-		(descriptioncommande.nbchambresdouble * 100) +
-		(descriptioncommande.nbchambrestriple * 125) +
-	  (CASE
-	    WHEN descriptioncommande.offrir AND NOT descriptioncommande.ecoffret THEN 5
-	    ELSE 0
-	  END) * descriptioncommande.quantite
-		) AS prix
+		CASE
+			WHEN descriptioncommande.codepromoutilise != null THEN 0
+			ELSE (
+			    (
+		                COALESCE(sejour.nouveauprixsejour, COALESCE(sejour.prixsejour, 0)) +
+			        COALESCE(hebergement.prixhebergement, 0) +
+		                SUM(COALESCE(repas.prixrepas, 0)) +
+		                SUM(COALESCE(activite.prixactivite, 0))
+		            ) * (descriptioncommande.nbadultes + descriptioncommande.nbenfants) +
+		            (descriptioncommande.nbchambressimple * 75) +
+		            (descriptioncommande.nbchambresdouble * 100) +
+		            (descriptioncommande.nbchambrestriple * 125) +
+	                    (CASE
+	                        WHEN descriptioncommande.offrir AND NOT descriptioncommande.ecoffret THEN 5
+	                        ELSE 0
+	                    END) * descriptioncommande.quantite
+		        )
+                END AS prix
 	FROM descriptioncommande
 		LEFT JOIN mange1 mange ON descriptioncommande.iddescriptioncommande = mange.iddescriptioncommande
 		LEFT JOIN repas ON mange.idrepas = repas.idrepas
@@ -3790,20 +3794,24 @@ CREATE VIEW v_descriptioncommande AS (
 CREATE VIEW v_descriptionpanier AS (
 	SELECT
 		descriptionpanier.*,
-		(
-			(COALESCE(sejour.nouveauprixsejour, COALESCE(sejour.prixsejour, 0)) +
-			 COALESCE(hebergement.prixhebergement, 0) +
-	     SUM(COALESCE(repas.prixrepas, 0)) +
-	     SUM(COALESCE(activite.prixactivite, 0))
-		) * (descriptionpanier.nbadultes + descriptionpanier.nbenfants) +
-		(descriptionpanier.nbchambressimple * 75) +
-		(descriptionpanier.nbchambresdouble * 100) +
-		(descriptionpanier.nbchambrestriple * 125) +
-	  (CASE
-	    WHEN descriptionpanier.offrir AND NOT descriptionpanier.ecoffret THEN 5
-	    ELSE 0
-	  END) * descriptionpanier.quantite
-		) AS prix
+		CASE
+			WHEN descriptionpanier.codepromoutilise != null THEN 0
+			ELSE (
+			    (
+		                COALESCE(sejour.nouveauprixsejour, COALESCE(sejour.prixsejour, 0)) +
+			        COALESCE(hebergement.prixhebergement, 0) +
+		                SUM(COALESCE(repas.prixrepas, 0)) +
+		                SUM(COALESCE(activite.prixactivite, 0))
+		            ) * (descriptionpanier.nbadultes + descriptionpanier.nbenfants) +
+		            (descriptionpanier.nbchambressimple * 75) +
+		            (descriptionpanier.nbchambresdouble * 100) +
+		            (descriptionpanier.nbchambrestriple * 125) +
+	                    (CASE
+	                        WHEN descriptionpanier.offrir AND NOT descriptionpanier.ecoffret THEN 5
+	                        ELSE 0
+	                    END) * descriptionpanier.quantite
+		        )
+                END AS prix
 	FROM descriptionpanier
 		LEFT JOIN association_39 mange ON descriptionpanier.iddescriptionpanier = mange.iddescriptionpanier
 		LEFT JOIN repas ON mange.idrepas = repas.idrepas
