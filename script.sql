@@ -720,6 +720,7 @@ create table DESCRIPTIONCOMMANDE
    ECOFFRET             bool                       null,
    DISPONIBILITEHEBERGEMENT bool                       null,
    VALIDATIONCLIENT     bool      default false                 null,
+   CODEPROMOUTILISE     varchar(20)                    null default null,
    constraint PK_DESCRIPTIONCOMMANDE primary key (IDDESCRIPTIONCOMMANDE)
 );
 
@@ -771,6 +772,7 @@ create table DESCRIPTIONPANIER
    OFFRIR               bool                       null,
    ECOFFRET             bool                       null,
    DISPONIBILITEHEBERGEMENT bool                       null,
+   CODEPROMOUTILISE     varchar(20)                    null default null,
    constraint PK_DESCRIPTIONPANIER primary key (IDDESCRIPTIONPANIER)
 );
 
