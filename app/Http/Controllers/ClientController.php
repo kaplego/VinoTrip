@@ -51,22 +51,35 @@ class ClientController extends Controller
     public function login(Request $request)
     {
 
-        $credentials = $request->validate([
+        $inputs = $request->validate([
             'emailclientconnexion' => ['required', 'email'],
             'motdepasseconnexion' => ['required'],
             'redirect' => ['string']
         ]);
 
+        $credentials = [
+            'emailclient' => $inputs['emailclientconnexion'],
+            'password' => $inputs["motdepasseconnexion"]
+        ];
+
         if (
-            Auth::attempt([
-                'emailclient' => $credentials['emailclientconnexion'],
-                'password' => $credentials["motdepasseconnexion"]
-            ])
+            Auth::validate($credentials)
         ) {
-            $request->session()->regenerate();
-            return redirect()->intended(isset($credentials['redirect'])
-                ? $credentials['redirect']
-                : '/client');
+            $user = User::where('emailclient', '=', $credentials['emailclient'])->first();
+
+            if ($user->a2f) {
+                session()->put('user-auth', value: $user);
+
+                return redirect('/connexion/a2f')->with([
+                    'redirect' => $inputs['redirect'] ?? null
+                ]);
+            } else {
+                Auth::loginUsingId($user->idclient);
+                $request->session()->regenerate();
+                return redirect()->intended(isset($inputs['redirect']) && $inputs['redirect'] !== null
+                    ? $inputs['redirect']
+                    : '/client');
+            }
         }
 
         return response(back()->withErrors([
@@ -204,10 +217,6 @@ class ClientController extends Controller
         return back()->with("password_success", "Si ce compte existe, vous recevrez un email afin de réinitialiser votre mot de passe.");
     }
 
-    public function envoiSMS()
-    {
-
-    }
     public function resetPassword(Request $request, $token)
     {
         $client = Client::firstWhere('tokenresetmdp', "=", $token);
@@ -333,132 +342,205 @@ class ClientController extends Controller
         return view("client.securite");
     }
 
-    public function a2fstart(Request $request)
+    public function a2f()
     {
+        $user = session('user-auth');
+        if (!$user)
+            return redirect('/connexion');
+        return view('client.a2f', [
+            'client' => $user
+        ]);
+    }
+
+    public function a2fauth(Request $request)
+    {
+        $SESSION_A2F_AUTH = 'a2f-sms-auth';
+
+        $user = Auth::user();
+        $session = session('user-auth');
+        if ($user || !$session)
+            return response([
+                'ok' => false
+            ]);
+
+        // =============================================== CREER UNE DEMANDE
+        if ($request->isMethod('PUT')) {
+            // $phone = Helpers::ClientPhone($user);
+            $phone = '+33772241781';
+
+            $verif = SMS::start($phone);
+
+            session()->put($SESSION_A2F_AUTH, $verif->sid);
+
+            return response([
+                'ok' => true,
+                'status' => $verif->status
+            ], 200, [
+                'Content-Type' => 'application/json'
+            ]);
+            // =========================================== VERIFIER LA DEMANDE
+        } else if ($request->isMethod('POST')) {
+            // $phone = Helpers::ClientPhone($user);
+            $phone = '+33772241781';
+
+            $status = SMS::check($phone, $request->input('code'));
+
+            if ($status === 'approved') {
+                Auth::loginUsingId($session['idclient']);
+
+                session()->remove($SESSION_A2F_AUTH);
+                session()->remove('user-auth');
+
+                return response([
+                    'ok' => true
+                ]);
+            } else
+                return response([
+                    'ok' => false,
+                    'error' => SMS::messageFromStatus($status)
+                ]);
+            // =========================================== RECUPERER LA DEMANDE
+        } else if ($request->isMethod('GET')) {
+            $sid = session($SESSION_A2F_AUTH);
+
+            if (!$sid)
+                return response([
+                    'ok' => false
+                ]);
+
+            try {
+                $verif = SMS::get($sid);
+
+                return response([
+                    'ok' => true,
+                    'status' => $verif->status
+                ]);
+            } catch (\Exception $e) {
+                return response([
+                    'ok' => false
+                ]);
+            }
+            // =========================================== ANNULER LA DEMANDE
+        } else if ($request->isMethod('DELETE')) {
+            $sid = session($SESSION_A2F_AUTH);
+
+            if (!$sid)
+                return response([
+                    'ok' => false
+                ]);
+
+            try {
+                $verif = SMS::cancel($sid);
+
+                session()->remove($SESSION_A2F_AUTH);
+                session()->remove('user-auth');
+
+                return response([
+                    'ok' => true,
+                    'status' => $verif->status
+                ]);
+            } catch (\Exception $e) {
+                return response([
+                    'ok' => false
+                ]);
+            }
+        }
+    }
+
+    public function a2ftoggle(Request $request)
+    {
+        $SESSION_A2F_TOGGLE = 'a2f-toggle-sms';
+
         $user = Auth::user();
         if (!$user)
             return response([
                 'ok' => false
             ]);
 
-        // $phone = Helpers::ClientPhone($user);
-        $phone = '+33772241781';
+        // =============================================== CREER UNE DEMANDE
+        if ($request->isMethod('PUT')) {
+            // $phone = Helpers::ClientPhone($user);
+            $phone = '+33772241781';
 
-        $verif = SMS::start($phone);
+            $verif = SMS::start($phone);
 
-        session()->put('a2f-sms', $verif->sid);
-
-        return response([
-            'ok' => true,
-            'status' => $verif->status
-        ], 200, [
-            'Content-Type' => 'application/json'
-        ]);
-    }
-
-    public function a2fget(Request $request)
-    {
-        $user = Auth::user();
-        $sid = session('a2f-sms');
-
-        if (!$user || !$sid)
-            return response([
-                'ok' => false
-            ]);
-
-        try {
-            $verif = SMS::get($sid);
+            session()->put($SESSION_A2F_TOGGLE, $verif->sid);
 
             return response([
                 'ok' => true,
                 'status' => $verif->status
+            ], 200, [
+                'Content-Type' => 'application/json'
             ]);
-        } catch (\Exception $e) {
-            return response([
-                'ok' => false
-            ]);
-        }
-    }
+            // =========================================== VERIFIER LA DEMANDE
+        } else if ($request->isMethod('POST')) {
+            // $phone = Helpers::ClientPhone($user);
+            $phone = '+33772241781';
 
-    public function a2fcheck(Request $request)
-    {
-        $user = Auth::user();
-        if (!$user || !$request->input('code'))
-            return response([
-                'ok' => false
-            ]);
+            $status = SMS::check($phone, $request->input('code'));
 
-        // $phone = Helpers::ClientPhone($user);
-        $phone = '+33772241781';
+            if ($status === 'approved') {
+                $a2f = !Auth::user()->a2f;
 
-        $status = SMS::check($phone, $request->input('code'));
+                Client::find(Auth::user()->idclient)->update([
+                    'a2f' => $a2f
+                ]);
 
-        if ($status === 'approved') {
-            $a2f = !Auth::user()->a2f;
+                session()->remove($SESSION_A2F_TOGGLE);
 
-            Client::find(Auth::user()->idclient)->update([
-                'a2f' => $a2f
-            ]);
+                return response([
+                    'ok' => true,
+                    'status' => $a2f ? 'enabled' : 'disabled'
+                ]);
+            } else
+                return response([
+                    'ok' => false,
+                    'error' => SMS::messageFromStatus($status)
+                ]);
+            // =========================================== RECUPERER LA DEMANDE
+        } else if ($request->isMethod('GET')) {
+            $sid = session($SESSION_A2F_TOGGLE);
 
-            session()->remove('a2f-sms');
+            if (!$sid)
+                return response([
+                    'ok' => false
+                ]);
 
-            return response([
-                'ok' => true,
-                'status' => 'enabled' | 'disabled'
-            ]);
-        } else
-            switch ($status) {
-                case 'pending':
-                        $error = "Le code est incorrect.";
-                    break;
-                case 'canceled':
-                        $error = "La vérification a été annulée.";
-                    break;
-                case 'max_attempts_reached':
-                        $error = "Vous avez atteint le nombre maximal d'essais.";
-                    break;
-                case 'deleted':
-                        $error = "La vérification a été supprimée.";
-                    break;
-                case 'failed':
-                        $error = "La vérification a échoué.";
-                    break;
-                case 'expired':
-                        $error = "La vérification a expiré.";
-                    break;
-                default:
-                        $error = "Une erreur s'est produite.";
-                    break;
+            try {
+                $verif = SMS::get($sid);
+
+                return response([
+                    'ok' => true,
+                    'status' => $verif->status
+                ]);
+            } catch (\Exception $e) {
+                return response([
+                    'ok' => false
+                ]);
             }
-            return response([
-                'ok' => false,
-                'error' => $error
-            ]);
-    }
+            // =========================================== ANNULER LA DEMANDE
+        } else if ($request->isMethod('DELETE')) {
+            $sid = session($SESSION_A2F_TOGGLE);
 
-    public function a2fcancel(Request $request)
-    {
-        $user = Auth::user();
-        $sid = session('a2f-sms');
+            if (!$sid)
+                return response([
+                    'ok' => false
+                ]);
 
-        if (!$user || !$sid)
-            return response([
-                'ok' => false
-            ]);
+            try {
+                $verif = SMS::cancel($sid);
 
-        try {
-            $verif = SMS::cancel($sid);
+                session()->remove($SESSION_A2F_TOGGLE);
 
-            session()->remove('a2f-sms');
-
-            return response([
-                'ok' => true,
-                'status' => $verif->status
-            ]);
-        } catch (\Exception $e) {
-            return response([
-                'ok' => false
-            ]);
+                return response([
+                    'ok' => true,
+                    'status' => $verif->status
+                ]);
+            } catch (\Exception $e) {
+                return response([
+                    'ok' => false
+                ]);
+            }
         }
     }
 

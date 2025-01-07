@@ -19,20 +19,25 @@
         @if (\Session::has('success'))
             <p class="alert alert-success"><i data-lucide="circle-check-big"></i>{!! \Session::get('success') !!}</p>
         @endif
-        <form class="formulaire" method="post" action="/api/client/autha2f">
+        <form class="formulaire" id="a2f-form">
             @csrf
             <div class="input-control input-control-text">
                 <label>Numéro de téléphone</label>
-                <input type="text" value="+33{{ substr(Auth::user()->telephoneclient, 1) }}" name="phone" readonly />
-                <a href="/client/informations" class="link">Modifier mon numéro de téléphone.</a>
-                @error('phone')
-                    <div class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</div>
-                @enderror
+                <input type="text" value="+33*******{{-- substr($client->telephoneclient, 8) --}}81" readonly />
             </div>
-            <input type="submit"
-                @if (Auth::user()->a2f) value="Désactiver l'A2F" @else value="Activer l'A2F" @endif
-                class="button" />
+            <div class="input-control input-control-text hidden" id="a2f-code">
+                <label>Code de vérification</label>
+                <input type="text" name="code" placeholder="XXXXXX" autocomplete="off" />
+                <div class="alert alert-error hidden" id="a2f-code-error"><i data-lucide="circle-x"></i><span class="text"></span></div>
+            </div>
+            <input type="submit" value="Envoyer le code" class="button" id="button-submit" />
+            <button class="button hidden" id="button-cancel" type="button">Annuler</button>
         </form>
     </main>
     @include('layout.footer')
+@endsection
+
+@section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/assets/js/client/a2f.js"></script>
 @endsection

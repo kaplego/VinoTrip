@@ -52,6 +52,7 @@ Route::post('/api/sejour/discount', action: [SejourController::class, 'discount'
 
 
 Route::get('/connexion', [ClientController::class, 'connexion']);
+Route::get('/connexion/a2f', [ClientController::class, 'a2f']);
 Route::get('/client', [ClientController::class, 'profil']);
 Route::get('/client/informations', [ClientController::class, 'informations']);
 Route::get('/client/securite', [ClientController::class, 'securite']);
@@ -67,10 +68,16 @@ Route::get('/client/adresse/{id}/modifier', [AdresseController::class, 'modifier
 Route::get('/client/adresse/ajouter', [AdresseController::class, 'ajouter']);
 
 
-Route::put('/api/client/a2f', [ClientController::class, 'a2fstart']);
-Route::post('/api/client/a2f', [ClientController::class, 'a2fcheck']);
-Route::get('/api/client/a2f', [ClientController::class, 'a2fget']);
-Route::delete('/api/client/a2f', [ClientController::class, 'a2fcancel']);
+Route::put('/api/client/a2f', [ClientController::class, 'a2ftoggle']);
+Route::post('/api/client/a2f', [ClientController::class, 'a2ftoggle']);
+Route::get('/api/client/a2f', [ClientController::class, 'a2ftoggle']);
+Route::delete('/api/client/a2f', [ClientController::class, 'a2ftoggle']);
+
+Route::put('/api/client/a2f/login', [ClientController::class, 'a2fauth']);
+Route::post('/api/client/a2f/login', [ClientController::class, 'a2fauth']);
+Route::get('/api/client/a2f/login', [ClientController::class, 'a2fauth']);
+Route::delete('/api/client/a2f/login', [ClientController::class, 'a2fauth']);
+
 Route::post('/api/client/adresse/modifier', [AdresseController::class, 'edit']);
 Route::post('/api/client/adresse/add', [AdresseController::class, 'add']);
 Route::post('/api/client/adresse/firstaddress', [AdresseController::class, 'firstaddress']);
