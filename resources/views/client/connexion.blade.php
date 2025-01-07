@@ -47,11 +47,6 @@
                                     autocomplete="off" {{ old('civiliteclient') === 'Mme' ? 'checked' : '' }} />
                                 <label for="civilitemadame">Mme</label>
                             </div>
-                            <div class="input-control input-control-radio">
-                                <input id="civilitemademoiselle" type="radio" name="civiliteclient" value="Mlle"
-                                    autocomplete="off" {{ old('civiliteclient') === 'Mlle' ? 'checked' : '' }} />
-                                <label for="civilitemademoiselle">Mlle</label>
-                            </div>
                         </div>
                     </div>
 

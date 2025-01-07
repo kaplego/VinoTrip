@@ -37,17 +37,8 @@
             <li class="@if (($active ?? '') == 'sejours-list') active @endif">
                 <a href="/sejours">Tous nos Séjours</a>
             </li>
-            <li class="@if (($active ?? '') == 'destinations') active @endif">
-                <a href="/destinations">Destinations</a>
-            </li>
-            <li class="@if (($active ?? '') == 'thematiques') active @endif">
-                <a href="/thematiques">Thématiques</a>
-            </li>
-            <li class="@if (($active ?? '') == 'route-des-vins') active @endif">
-                <a href="/route-des-vins">Route des Vins</a>
-            </li>
-            <li class="@if (($active ?? '') == 'cadeaux') active @endif">
-                <a href="/cadeaux">Coffret Cadeau</a>
+            <li class="@if (($active ?? '') == 'routes-des-vins') active @endif">
+                <a href="/routes-des-vins">Routes des Vins</a>
             </li>
             @if(Auth::check() && Auth::user()->idrole == 3)
                 <li class="@if (($active ?? '') == 'reservation') active @endif">

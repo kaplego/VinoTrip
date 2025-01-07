@@ -177,6 +177,7 @@
                         {{ $avis->client->nomclient }} {{ $sub }}. &nbsp;|&nbsp; {{ $avis->titreavis }}
                     </p>
                     <p class="descravis">{{ $avis->descriptionavis }}</p>
+                    <a class="button signaler" href="/sejour/{{$sejour->idsejour}}#avis">Signaler l'avis</a>
                 @endforeach
             </section>
         @endif
@@ -216,5 +217,6 @@
 @endsection
 
 @section('scripts')
+    <script src="/assets/js/avis.js" defer></script>
     <script src="/assets/js/reduction.js" defer></script>
 @endsection

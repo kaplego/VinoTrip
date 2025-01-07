@@ -36,11 +36,6 @@
                                 {{ old('civiliteclient', Auth::User()->civiliteclient) == 'Mme' ? 'checked' : '' }} />
                             <label for="civilitemadame">Mme</label>
                         </div>
-                        <div class="input-control input-control-radio">
-                            <input id="civilitemademoiselle" type="radio" name="civiliteclient" value="Mlle"
-                                {{ old('civiliteclient', Auth::User()->civiliteclient) == 'Mlle' ? 'checked' : '' }} />
-                            <label for="civilitemademoiselle">Mlle</label>
-                        </div>
                     </div>
                 </div>
 
@@ -158,6 +153,27 @@
 
                 <input type="submit" value="Enregistrer" class="button" />
             </form>
+            <h1>Gérer mes informations personnelles</h1>
+            <hr class="separateur-titre" />
+            <p>
+                Si vous souhaitez envoyer, supprimer ou anonymiser vos données personnelles, vous pouvez effectuer une demande ci-dessous.
+                Veuillez noter que la suppression et l'anonymisation de vos données sont irréversibles.
+            </p>
+
+            <form method="post" action="/api/client/supprimer/{{ Auth::User()->idclient }}">
+                @csrf
+                <button type="submit" class="button" onclick="return confirm('Êtes-vous sûr de vouloir supprimer vos informations ? Cette action est irréversible.')">
+                    Demander la suppression de mes informations
+                </button>
+            </form>
+
+            <form method="post" action="/api/client/anonymiser/{{ Auth::User()->idclient }}">
+                @csrf
+                <button type="submit" class="button" onclick="return confirm('Êtes-vous sûr de vouloir anonymiser vos informations ? Cette action est irréversible.')">
+                    Demander l’anonymisation de mes informations
+                </button>
+            </form>
+        </div>
             <form method="post" action="/api/client/clientdata/{{Auth::User()->idclient }}">
                 @csrf
                 <button type="submit" class="button">Envoyer information personel</button>

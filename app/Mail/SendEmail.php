@@ -44,7 +44,7 @@ class SendEmail extends Mailable
             return [
                 Attachment::fromPath($this->mailData['attachment']['path'])
                     ->as($this->mailData['attachment']['name'])
-                    ->withMime('application/json')
+                    ->withMime('application/pdf')
             ];
         }
 

@@ -18,32 +18,45 @@
         <hr class="separateur-titre" />
         <div class="buttons">
             <a class="button" href="/client/informations">
-                Mes informations personnelles
+                <i data-lucide="id-card"></i>
+                <span class="text">Informations</span>
+                <span class="details">Email, tél, mot de passe</span>
             </a>
-            <a class="button" href="/client/adresses">
-                Mes adresses
-            </a>
-            <a class="button" href="/client/commandes">
-                Mes commandes
-            </a>
-            <a class="button" href="/client/favoris">
-                Mes favoris
+            <a class="button" href="/client/securite">
+                <i data-lucide="lock"></i>
+                <span class="text">Sécurité</span>
+                <span class="details">A2F</span>
             </a>
             <form method="post" action="/api/client/logout">
                 @csrf
                 <button class="button" type="submit">
-                    Deconnexion
+                    <i data-lucide="log-out"></i>
+                    <span class="text">Deconnexion</span>
                 </button>
             </form>
+            <a class="button" href="/client/adresses">
+                <i data-lucide="map-pin-house"></i>
+                <span class="text">Mes adresses</span>
+            </a>
+            <a class="button" href="/client/commandes">
+                <i data-lucide="logs"></i>
+                <span class="text">Mes commandes</span>
+            </a>
+            <a class="button" href="/client/favoris">
+                <i data-lucide="heart"></i>
+                <span class="text">Mes favoris</span>
+            </a>
         </div>
         @if (Helpers::AuthIsRole(Role::Dirigeant))
             <hr class="separateur-titre" />
             <div class="buttons">
                 <a class="button" href="/sejours/create">
-                    Créer un séjour
+                    <i data-lucide="image-plus"></i>
+                    <span class="text">Créer un séjour</span>
                 </a>
                 <a class="button" href="/sejours/validate">
-                    Voir les séjours non publiés
+                    <i data-lucide="key-square"></i>
+                    <span class="text">Séjours non publiés</span>
                 </a>
             </div>
         @endif

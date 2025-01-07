@@ -152,7 +152,7 @@
 #sejours .avis {
     display: flex;
     flex-wrap: wrap;
-    justify-content: left   ;
+    justify-content: left;
     align-items: center;
     gap: .5rem;
 
@@ -166,6 +166,11 @@
 #sejours .avis .note .lucide {
     height: .9rem;
     width: .9rem;
+    color: var(--c-gray-300);
+}
+
+#sejours .avis .note .lucide.checked {
+    color: var(--c-accent-500);
 }
 
 #sejours .avis .note .valeur {

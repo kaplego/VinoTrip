@@ -5,6 +5,7 @@ namespace App\Helpers;
 use App\Models\Client;
 use App\Models\User;
 use Auth;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\UploadedFile;
 use Storage;
 
@@ -35,5 +36,9 @@ class Helpers {
         } catch (\Exception $e) {
             return false;
         }
+    }
+
+    public static function ClientPhone(Client|User|Authenticatable $client) {
+        return '+33'.substr($client->telephoneclient, 1);
     }
 }

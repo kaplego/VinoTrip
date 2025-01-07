@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helpers;
 use App\Models\Adresse;
 use Carbon\Carbon;
 use DateInterval;
@@ -10,11 +11,12 @@ use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Hashing\BcryptHasher;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendEmail;
 use App\Models\Client;
 use Illuminate\Support\Str;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Verification\SMS;
 
 class ClientController extends Controller
 {
@@ -55,7 +57,6 @@ class ClientController extends Controller
             'redirect' => ['string']
         ]);
 
-
         if (
             Auth::attempt([
                 'emailclient' => $credentials['emailclientconnexion'],
@@ -76,6 +77,7 @@ class ClientController extends Controller
     public function signin(Request $request)
     {
         $credentials = $request->validate([
+            'civiliteclient' => ['nullable', 'in:M,Mme'],
             'prenomclient' => ['required', "regex:/^[a-z \-']+$/i"],
             'nomclient' => ['required', "regex:/^[a-z \-']+$/i"],
             'emailclient' => ['required', 'email'],
@@ -112,8 +114,8 @@ class ClientController extends Controller
 
     public function edit(Request $request)
     {
-        // todo : l'edit marche plus ?????
         $credentials = $request->validate([
+            'civiliteclient' => ['nullable', 'in:M,Mme'],
             'prenomclient' => ['required', "regex:/^[a-z \-']+$/i"],
             'nomclient' => ['required', "regex:/^[a-z \-']+$/i"],
             'emailclient' => ['required', 'email'],
@@ -246,20 +248,44 @@ class ClientController extends Controller
         return redirect("/");
     }
 
-    public function createJsonFile($client)
+    public function createPdfFile($client)
     {
-        $clientData = $client->toArray();
-        $jsonData = json_encode($clientData, JSON_PRETTY_PRINT);
-        $filename = 'client_' . $client->idclient . '_' . date('Y-m-d_H-i-s') . '.json';
+        $filename = 'client_' . $client->idclient . '_' . date('Y-m-d_H-i-s') . '.pdf';
         $path = storage_path('app/clients/');
 
         if (!file_exists($path)) {
             mkdir($path, 0755, true);
         }
 
-        $filePath = $path . $filename;
+        $html = '<h2 style="text-align:center">Informations clients</h2>';
+        $html .= '<div style="font-size: 14px; line-height: 1.6">';
 
-        file_put_contents($filePath, $jsonData);
+        $data = [
+            'Nom' => $client->nomclient,
+            'Prénom' => $client->prenomclient,
+            'Email' => $client->emailclient,
+            'Téléphone' => $client->telephoneclient,
+            'Date de Naissance' => $client->datenaissanceclient,
+        ];
+
+        foreach ($data as $label => $value) {
+            $html .= "<p><strong>$label:</strong> $value</p>";
+        }
+
+        $html .= '<h3>Adresses : </h3>';
+        foreach ($client->adresses as $address) {
+            $html .= "<p><strong>{$address->nomadresse}</strong><br>
+            {$address->prenomadressedestinataire} {$address->nomadressedestinataire}<br>
+            {$address->rueadresse}<br>
+            {$address->cpadresse} {$address->villeadresse}<br>
+            {$address->paysadresse}</p>";
+        }
+
+        $html .= '</div>';
+
+        $pdf = PDF::loadHTML($html);
+        $filePath = $path . $filename;
+        $pdf->save($filePath);
 
         return [
             'path' => $filePath,
@@ -272,7 +298,7 @@ class ClientController extends Controller
         try {
             $client = Client::firstWhere("idclient", $idclient);
 
-            $fileInfo = $this->createJsonFile($client);
+            $fileInfo = $this->createPdfFile($client);
 
             Mail::to($client->emailclient)
                 ->send(new SendEmail([
@@ -299,4 +325,193 @@ class ClientController extends Controller
             throw $e;
         }
     }
+
+    public function securite()
+    {
+        if (!Auth::check())
+            return redirect('/connexion');
+        return view("client.securite");
+    }
+
+    public function a2fstart(Request $request)
+    {
+        $user = Auth::user();
+        if (!$user)
+            return response([
+                'ok' => false
+            ]);
+
+        // $phone = Helpers::ClientPhone($user);
+        $phone = '+33772241781';
+
+        $verif = SMS::start($phone);
+
+        session()->put('a2f-sms', $verif->sid);
+
+        return response([
+            'ok' => true,
+            'status' => $verif->status
+        ], 200, [
+            'Content-Type' => 'application/json'
+        ]);
+    }
+
+    public function a2fget(Request $request)
+    {
+        $user = Auth::user();
+        $sid = session('a2f-sms');
+
+        if (!$user || !$sid)
+            return response([
+                'ok' => false
+            ]);
+
+        try {
+            $verif = SMS::get($sid);
+
+            return response([
+                'ok' => true,
+                'status' => $verif->status
+            ]);
+        } catch (\Exception $e) {
+            return response([
+                'ok' => false
+            ]);
+        }
+    }
+
+    public function a2fcheck(Request $request)
+    {
+        $user = Auth::user();
+        if (!$user || !$request->input('code'))
+            return response([
+                'ok' => false
+            ]);
+
+        // $phone = Helpers::ClientPhone($user);
+        $phone = '+33772241781';
+
+        $status = SMS::check($phone, $request->input('code'));
+
+        if ($status === 'approved') {
+            $a2f = !Auth::user()->a2f;
+
+            Client::find(Auth::user()->idclient)->update([
+                'a2f' => $a2f
+            ]);
+
+            session()->remove('a2f-sms');
+
+            return response([
+                'ok' => true,
+                'status' => 'enabled' | 'disabled'
+            ]);
+        } else
+            switch ($status) {
+                case 'pending':
+                        $error = "Le code est incorrect.";
+                    break;
+                case 'canceled':
+                        $error = "La vérification a été annulée.";
+                    break;
+                case 'max_attempts_reached':
+                        $error = "Vous avez atteint le nombre maximal d'essais.";
+                    break;
+                case 'deleted':
+                        $error = "La vérification a été supprimée.";
+                    break;
+                case 'failed':
+                        $error = "La vérification a échoué.";
+                    break;
+                case 'expired':
+                        $error = "La vérification a expiré.";
+                    break;
+                default:
+                        $error = "Une erreur s'est produite.";
+                    break;
+            }
+            return response([
+                'ok' => false,
+                'error' => $error
+            ]);
+    }
+
+    public function a2fcancel(Request $request)
+    {
+        $user = Auth::user();
+        $sid = session('a2f-sms');
+
+        if (!$user || !$sid)
+            return response([
+                'ok' => false
+            ]);
+
+        try {
+            $verif = SMS::cancel($sid);
+
+            session()->remove('a2f-sms');
+
+            return response([
+                'ok' => true,
+                'status' => $verif->status
+            ]);
+        } catch (\Exception $e) {
+            return response([
+                'ok' => false
+            ]);
+        }
+    }
+
+    public function supprimerInformations($id)
+    {
+        $client = Client::find($id);
+
+
+        $client->nomclient = "null";
+        $client->prenomclient = "null";
+        $client->telephoneclient = "0000000000";
+        $client->civiliteclient = null;
+        $client->offrespromotionnellesclient = false;
+        $client->datenaissanceclient = null;
+
+        $client->save();
+
+        foreach ($client->adresses as $address) {
+            $address->delete();
+        }
+
+        return redirect()->back()->with('success', 'Les modifications ont bien été prises en compte.');
+
+    }
+
+
+
+    public function anonymiser($idclient)
+    {
+        $client = Client::findOrFail($idclient);
+
+
+        $client->update([
+            'nomclient' => 'Anonyme',
+            'prenomclient' => 'Anonyme',
+            'telephoneclient' => '0000000000',
+            'datenaissanceclient' => null,
+            'civiliteclient' => null,
+            'offrespromotionnellesclient' => false,
+        ]);
+
+        foreach ($client->adresses as $address) {
+            $address->nomadresse = 'Anonyme';
+            $address->prenomadressedestinataire = 'Anonyme';
+            $address->nomadressedestinataire = 'Anonyme';
+            $address->rueadresse = 'Anonyme';
+            $address->cpadresse = '00000';
+            $address->villeadresse = 'Anonyme';
+            $address->paysadresse = 'Anonyme';
+            $address->save();
+        }
+
+        return redirect()->back()->with('success', 'Les modifications ont bien été prises en compte.');
+    }
+
 }

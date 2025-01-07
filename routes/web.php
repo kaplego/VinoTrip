@@ -54,6 +54,7 @@ Route::post('/api/sejour/discount', action: [SejourController::class, 'discount'
 Route::get('/connexion', [ClientController::class, 'connexion']);
 Route::get('/client', [ClientController::class, 'profil']);
 Route::get('/client/informations', [ClientController::class, 'informations']);
+Route::get('/client/securite', [ClientController::class, 'securite']);
 Route::get('/client/favoris', [FavorisController::class, 'list']);
 
 Route::post('/api/client/favoris/delete', [FavorisController::class, 'delete']);
@@ -66,6 +67,10 @@ Route::get('/client/adresse/{id}/modifier', [AdresseController::class, 'modifier
 Route::get('/client/adresse/ajouter', [AdresseController::class, 'ajouter']);
 
 
+Route::put('/api/client/a2f', [ClientController::class, 'a2fstart']);
+Route::post('/api/client/a2f', [ClientController::class, 'a2fcheck']);
+Route::get('/api/client/a2f', [ClientController::class, 'a2fget']);
+Route::delete('/api/client/a2f', [ClientController::class, 'a2fcancel']);
 Route::post('/api/client/adresse/modifier', [AdresseController::class, 'edit']);
 Route::post('/api/client/adresse/add', [AdresseController::class, 'add']);
 Route::post('/api/client/adresse/firstaddress', [AdresseController::class, 'firstaddress']);
@@ -96,7 +101,7 @@ Route::post('/api/reservationok', [ReservationHotelController::class, 'hebergeme
 Route::post('/api/clientok', [ReservationHotelController::class, 'clientok']);
 Route::post('/api/clientnon', [ReservationHotelController::class, 'clientnon']);
 
-Route::get('/route-des-vins', [RoutesVinsController::class, 'list']);
+Route::get('/routes-des-vins', [RoutesVinsController::class, 'list']);
 Route::get('/route-des-vins/{id}', [RoutesVinsController::class, 'one']);
 
 Route::get('/mdpreset/{token}', [ClientController::class,'resetPassword']);
@@ -106,6 +111,11 @@ Route::post('/api/client/mdpreset/{token}', [ClientController::class,'updatePass
 Route::post('/api/dialogflow', [SiteController::class, 'dialogflow']);
 
 Route::post('/api/client/clientdata/{id}', [ClientController::class,'sendclientdata']);
+
+Route::post('/api/client/anonymiser/{id}', [ClientController::class,'anonymiser']);
+
+Route::post('/api/client/supprimer/{id}', [ClientController::class,'supprimerInformations']);
+
 
 # Route de test
 Route::get('/test', [SiteController::class, 'test']);

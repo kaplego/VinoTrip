@@ -7,6 +7,8 @@
 @extends('layout.app')
 
 @section('head')
+    <script src="https://unpkg.com/@geoapify/geocoder-autocomplete@^1/dist/index.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/@geoapify/geocoder-autocomplete@^1/styles/minimal.css">
     <link rel="stylesheet" href="/assets/css/client/connexion.css">
 @endsection
 
@@ -69,25 +71,36 @@
                 <div class="input-control input-control-text">
                     <label for="nomadressedestinataire">Nom</label>
                     <input id="nomadressedestinataire" type="text" name="nomadressedestinataire"
-                        value="{{ old('nomadressedestinataire', Session::get('nomadressedestinataire')) }}" />
+                    value="{{ old('nomadressedestinataire', Session::get('nomadressedestinataire')) }}" />
                     @error('nomadressedestinataire')
-                        <p class="alert alert-error"><i data-lucide="circle-x"></i>Le nom n'est pas valide !</p>
+                    <p class="alert alert-error"><i data-lucide="circle-x"></i>Le nom n'est pas valide !</p>
                     @enderror
                 </div>
 
                 <div class="input-control input-control-text">
                     <label for="prenomadressedestinataire">Prénom</label>
                     <input id="prenomadressedestinataire" type="text" name="prenomadressedestinataire"
-                        value="{{ old('prenomadressedestinataire', Session::get('prenomadressedestinataire')) }}" />
+                    value="{{ old('prenomadressedestinataire', Session::get('prenomadressedestinataire')) }}" />
                     @error('prenomadressedestinataire')
-                        <p class="alert alert-error"><i data-lucide="circle-x"></i>Le prénom n'est pas valide !</p>
+                    <p class="alert alert-error"><i data-lucide="circle-x"></i>Le prénom n'est pas valide !</p>
                     @enderror
                 </div>
 
+
+                <div class="hidden">
+                    <input id="housenumber" class="geoapify-autocomplete-input small-input" />
+                    <div id="state" class="address-field autocomplete-container"></div>
+                    <input id="rueadresse" name="rueadresse">
+                    <input id="villeadresse" name="villeadresse">
+                    <input id="paysadresse" name="paysadresse">
+                </div>
+
+                {{-- Todo : Ajouter caractères spécieaux dans le regex (àéèç....) --}}
+                <input id="oldstreet" class='hidden' value="{{ old('rueadresse', Session::get('rueadresse')) }}">
                 <div class="input-control input-control-text">
-                    <label for="rueadresse">Rue</label>
-                    <input id="rueadresse" type="text" name="rueadresse"
-                        value="{{ old('rueadresse', Session::get('rueadresse')) }}" />
+                    <label >Rue</label>
+                    <div id="street" class="address-field autocomplete-container" name="street">
+
                     @error('rueadresse')
                         <p class="alert alert-error"><i data-lucide="circle-x"></i>La rue n'est pas valide !</p>
                     @enderror
@@ -95,33 +108,40 @@
 
                 <div class="input-control input-control-text">
                     <label for="cpadresse">Code Postal</label>
-                    <input id="cpadresse" type="text" name="cpadresse"
+                    <input id="cpadresse" type="text" name="cpadresse" class="geoapify-autocomplete-input small-input"
                         value="{{ old('cpadresse', Session::get('cpadresse')) }}" />
                     @error('cpadresse')
                         <p class="alert alert-error"><i data-lucide="circle-x"></i>Le code postal n'est pas valide !</p>
                     @enderror
                 </div>
 
+                <input id="oldcity" class='hidden' value="{{ old('villeadresse', Session::get('villeadresse')) }}">
                 <div class="input-control input-control-text">
-                    <label for="villeadresse">Ville</label>
-                    <input id="villeadresse" type="text" name="villeadresse"
+                    <label>Ville</label>
+                    <div id="city" type="text" name="city" class="address-field autocomplete-container"
                         value="{{ old('villeadresse', Session::get('villeadresse')) }}" />
                     @error('villeadresse')
                         <p class="alert alert-error"><i data-lucide="circle-x"></i>La ville n'est pas valide !</p>
                     @enderror
                 </div>
 
+                <input id="oldcountry" class='hidden' value="{{ old('paysadresse', Session::get('paysadresse')) }}">
                 <div class="input-control input-control-text">
-                    <label for="paysadresse">Pays</label>
-                    <input id="paysadresse" type="text" name="paysadresse"
+                    <label>Pays</label>
+                    <div id="country" type="text" name="country"
+                        class="address-field autocomplete-container"
                         value="{{ old('paysadresse', Session::get('paysadresse')) }}" />
                     @error('paysadresse')
                         <p class="alert alert-error"><i data-lucide="circle-x"></i>Le pays n'est pas valide !</p>
                     @enderror
                 </div>
-                <input type="submit" value="Enregistrer" class="button" />
+                <input type="submit" value="Enregistrer" class="button" id="submit"/>
             </form>
         </div>
     </main>
     @include('layout.footer')
+@endsection
+
+@section('scripts')
+    <script src="/assets/js/autocomplete.js"></script>
 @endsection

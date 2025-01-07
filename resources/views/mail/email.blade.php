@@ -89,7 +89,7 @@
             <p>Nous avons reçu une demande de réinitialisation de votre mot de passe. Pour réinitialiser votre mot de passe,
                 cliquez sur le lien ci-dessous :</p>
             <p style="text-align: center;">
-                <a href="https://{{ Request::host() }}/mdpreset/{{ $token }}">Réinitialiser mon mot de passe</a>
+                <a href="http://{{ Request::getHttpHost() }}/mdpreset/{{ $token }}">Réinitialiser mon mot de passe</a>
             </p>
         @break
 
