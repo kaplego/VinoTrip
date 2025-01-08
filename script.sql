@@ -3898,6 +3898,4 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Schedule the function to run daily at midnight
-SELECT cron.schedule('0 0 * * *', $$ SELECT anonymize_inactive_clients(); $$);
 
