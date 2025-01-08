@@ -3825,7 +3825,7 @@ BEGIN
         civiliteclient = NULL,
         offrespromotionnellesclient = FALSE
     WHERE datederniereactiviteclient < CURRENT_DATE - INTERVAL '2 years';
-
+    
     UPDATE adresse
     SET 
         nomadresse = 'Anonyme',
@@ -3835,8 +3835,8 @@ BEGIN
         cpadresse = '00000',
         villeadresse = 'Anonyme',
         paysadresse = 'Anonyme'
-    WHERE client_id IN (
-        SELECT id FROM client
+    WHERE idclient IN (
+        SELECT idclient FROM client  -- Changed from 'id' to 'idclient'
         WHERE datederniereactiviteclient < CURRENT_DATE - INTERVAL '2 years'
     );
 END;
