@@ -1,11 +1,12 @@
 /*==============================================================*/
-/* Nom de SGBD :  Sybase SQL Anywhere 12                        */
-/* Date de cr�ation :  16/12/2024 09:29:13                      */
+/* Nom de SGBD :  PostgreSQL 8                                  */
+/* Date de cr�ation :  08/01/2025 14:30:14                      */
 /*==============================================================*/
+
 
 drop index if exists ACTIVITE_PK cascade;
 drop table if exists ACTIVITE cascade;
-drop index if exists A_ENREGISTRE_FK cascade;
+drop index if exists ASSOCIATION_48_FK cascade;
 drop index if exists LOCALISE_FK cascade;
 drop index if exists ADRESSE_PK cascade;
 drop table if exists ADRESSE cascade;
@@ -25,25 +26,25 @@ drop index if exists ASSOCIATION_39_FK cascade;
 drop index if exists ASSOCIATION_38_FK cascade;
 drop index if exists ASSOCIATION_38_PK cascade;
 drop table if exists ASSOCIATION_38 cascade;
-drop index if exists mange1_FK cascade;
-drop index if exists ASSOCIATION_40_FK cascade;
+drop index if exists ASSOCIATION_53_FK cascade;
+drop index if exists ASSOCIATION_51_FK cascade;
 drop index if exists ASSOCIATION_39_PK cascade;
 drop table if exists ASSOCIATION_39 cascade;
-drop index if exists ASSOCIATION_46_FK cascade;
-drop index if exists ASSOCIATION_45_FK cascade;
+drop index if exists ASSOCIATION_42_FK cascade;
+drop index if exists ASSOCIATION_40_FK cascade;
 drop index if exists ASSOCIATION_40_PK cascade;
 drop table if exists ASSOCIATION_40 cascade;
-drop index if exists ASSOCIATION_48_FK cascade;
-drop index if exists ASSOCIATION_47_FK cascade;
-drop index if exists mange1_PK cascade;
+drop index if exists ASSOCIATION_55_FK cascade;
+drop index if exists ASSOCIATION_54_FK cascade;
+drop index if exists ASSOCIATION_42_PK cascade;
 drop table if exists mange1 cascade;
 drop index if exists AUTRESOCIETE_PK cascade;
 drop table if exists AUTRESOCIETE cascade;
-drop index if exists POSTE_FK cascade;
+drop index if exists ASSOCIATION_50_FK cascade;
 drop index if exists CRITIQUE_FK cascade;
 drop index if exists AVIS_PK cascade;
 drop table if exists AVIS cascade;
-drop index if exists DETIENT_FK cascade;
+drop index if exists ASSOCIATION_49_FK cascade;
 drop index if exists CARTE_BANCAIRE_PK cascade;
 drop table if exists CARTE_BANCAIRE cascade;
 drop index if exists CATEGORIEPARTICIPANT_PK cascade;
@@ -57,31 +58,34 @@ drop index if exists CAVE_PK cascade;
 drop table if exists CAVE cascade;
 drop index if exists CHATBOT_PK cascade;
 drop table if exists CHATBOT cascade;
-drop index if exists ASSOCIATION_43_FK cascade;
+drop index if exists ASSOCIATION_47_FK cascade;
 drop index if exists CLIENT_PK cascade;
 drop table if exists CLIENT cascade;
-drop index if exists BENEFICIAIRE_FK cascade;
-drop index if exists ASSOCIE2_FK cascade;
-drop index if exists LIVREA_FK cascade;
-drop index if exists FACTUREA_FK cascade;
-drop index if exists REALISE_FK cascade;
+drop index if exists CODEPROMO_PK cascade;
+drop table if exists CODEPROMO cascade;
+drop index if exists ASSOCIATION_46_FK cascade;
+drop index if exists ASSOCIATION_45_FK cascade;
+drop index if exists ASSOCIATION_44_FK cascade;
+drop index if exists ASSOCIATION_43_FK cascade;
+drop index if exists DIMINUE_FK cascade;
+drop index if exists ASSOCIE_FK cascade;
 drop index if exists COMMANDE_PK cascade;
 drop table if exists COMMANDE cascade;
-drop index if exists ASSOCIATION_44_FK cascade;
-drop index if exists ASSOCIATION_41_FK cascade;
-drop index if exists ASSOCIATION_36_FK cascade;
+drop index if exists ASSOCIATION_52_FK cascade;
 drop index if exists ASSOCIATION_35_FK cascade;
+drop index if exists ASSOCIATION_36_FK cascade;
+drop index if exists ASSOCIATION_41_FK cascade;
 drop index if exists DESCRIPTIONCOMMANDE_PK cascade;
 drop table if exists DESCRIPTIONCOMMANDE cascade;
-drop index if exists ASSOCIATION_37_FK cascade;
 drop index if exists DECRIT_PANIER_FK cascade;
 drop index if exists DECRIT_SEJOUR_PANIER_FK cascade;
+drop index if exists ASSOCIATION_37_FK cascade;
 drop index if exists DESCRIPTIONPANIER_PK cascade;
 drop table if exists DESCRIPTIONPANIER cascade;
 drop index if exists DUREE_PK cascade;
 drop table if exists DUREE cascade;
-drop index if exists APPARTIENT_3_FK cascade;
 drop index if exists POSSEDE_FK cascade;
+drop index if exists APPARTIENT_3_FK cascade;
 drop index if exists ETAPE_PK cascade;
 drop table if exists ETAPE cascade;
 drop index if exists FAVORIS2_FK cascade;
@@ -96,6 +100,7 @@ drop table if exists HOTEL cascade;
 drop index if exists A_FK cascade;
 drop index if exists LOCALITE_PK cascade;
 drop table if exists LOCALITE cascade;
+drop index if exists REDUIT_FK cascade;
 drop index if exists PANIER_PK cascade;
 drop table if exists PANIER cascade;
 drop index if exists PARTENAIRE_PK cascade;
@@ -113,13 +118,14 @@ drop index if exists RESTAURANT_PK cascade;
 drop table if exists RESTAURANT cascade;
 drop index if exists ROLES_PK cascade;
 drop table if exists ROLES cascade;
-drop index if exists ROUTE_DES_VINS.ROUTE_DES_VINS_PK cascade;
+drop index if exists ROUTE_DES_VINS_PK cascade;
 drop table if exists ROUTE_DES_VINS cascade;
+drop index if exists DESTINE_A_FK cascade;
 drop index if exists DURE_FK cascade;
 drop index if exists REGROUPE_FK cascade;
-drop index if exists DESTINE_A_FK cascade;
 drop index if exists DEFINIT_FK cascade;
 drop index if exists CATEGORISE_FK cascade;
+drop index if exists SE_SITUE_FK cascade;
 drop index if exists SEJOUR_PK cascade;
 drop table if exists SEJOUR cascade;
 drop index if exists SE_LOCALISE2_FK cascade;
@@ -133,25 +139,15 @@ drop table if exists TYPECUISINE cascade;
 drop index if exists TYPEDEGUSTATION_PK cascade;
 drop table if exists TYPEDEGUSTATION cascade;
 drop index if exists PROPOSE_1_FK cascade;
-drop index if exists VISITE_PK cascade;
 drop table if exists VISITE cascade;
-drop view if exists v_descriptioncommande cascade;
-drop view if exists v_descriptionpanier cascade;
-drop view if exists v_commande cascade;
-drop view if exists v_etatcommande_sejour cascade;
-drop view if exists v_nbsejour_vendu cascade;
-drop view if exists v_nbsejour_vendu_vignoble cascade;
-drop view if exists v_datecommande cascade;
-drop view if exists v_etatcommande_sejour_localite cascade;
 
 /*==============================================================*/
 /* Table : ACTIVITE                                             */
 /*==============================================================*/
-create table ACTIVITE 
-(
-   IDACTIVITE           serial                        not null,
-   LIBELLEACTIVITE      varchar(100)                   not null,
-   PRIXACTIVITE         numeric(8,2)                   null,
+create table ACTIVITE (
+   IDACTIVITE           SERIAL               not null,
+   LIBELLEACTIVITE      VARCHAR(100)         null,
+   PRIXACTIVITE         NUMERIC(8,2)         null,
    constraint PK_ACTIVITE primary key (IDACTIVITE)
 );
 
@@ -159,24 +155,23 @@ create table ACTIVITE
 /* Index : ACTIVITE_PK                                          */
 /*==============================================================*/
 create unique index ACTIVITE_PK on ACTIVITE (
-IDACTIVITE ASC
+IDACTIVITE
 );
 
 /*==============================================================*/
 /* Table : ADRESSE                                              */
 /*==============================================================*/
-create table ADRESSE 
-(
-   IDADRESSE            serial                        not null,
-   IDCLIENT             integer                        null,
-   IDPARTENAIRE         integer                        null,
-   NOMADRESSE           varchar(50)                    null,
-   PRENOMADRESSEDESTINATAIRE varchar(50)                    null,
-   NOMADRESSEDESTINATAIRE varchar(50)                    null,
-   RUEADRESSE           varchar(100)                   not null,
-   VILLEADRESSE         varchar(50)                    not null,
-   PAYSADRESSE          varchar(50)    default 'France'                null,
-   CPADRESSE            char(5)                        not null,
+create table ADRESSE (
+   IDADRESSE            SERIAL               not null,
+   IDPARTENAIRE         INTEGER                 null,
+   IDCLIENT             INTEGER                 null,
+   NOMADRESSE           VARCHAR(50)          null,
+   PRENOMADRESSEDESTINATAIRE VARCHAR(50)          null,
+   NOMADRESSEDESTINATAIRE VARCHAR(50)          null,
+   RUEADRESSE           VARCHAR(100)         null,
+   VILLEADRESSE         VARCHAR(50)          null,
+   PAYSADRESSE          VARCHAR(50)          null,
+   CPADRESSE            CHAR(5)              null,
    constraint PK_ADRESSE primary key (IDADRESSE)
 );
 
@@ -184,278 +179,267 @@ create table ADRESSE
 /* Index : ADRESSE_PK                                           */
 /*==============================================================*/
 create unique index ADRESSE_PK on ADRESSE (
-IDADRESSE ASC
+IDADRESSE
 );
 
 /*==============================================================*/
 /* Index : LOCALISE_FK                                          */
 /*==============================================================*/
-create index LOCALISE_FK on ADRESSE (
-IDPARTENAIRE ASC
+create  index LOCALISE_FK on ADRESSE (
+IDPARTENAIRE
 );
 
 /*==============================================================*/
-/* Index : A_ENREGISTRE_FK                                      */
+/* Index : ASSOCIATION_48_FK                                    */
 /*==============================================================*/
-create index A_ENREGISTRE_FK on ADRESSE (
-IDCLIENT ASC
+create  index ASSOCIATION_48_FK on ADRESSE (
+IDCLIENT
 );
-
 /*==============================================================*/
 /* Table : APPARTIENT_1                                         */
 /*==============================================================*/
-create table APPARTIENT_1 
-(
-   IDETAPE              integer                        not null,
-   IDVISITE             integer                        not null,
-   constraint PK_APPARTIENT_1 primary key (IDETAPE, IDVISITE)
+create table APPARTIENT_1 (
+   IDVISITE             INTEGER                 not null,
+   IDETAPE              INTEGER                 not null,
+   constraint PK_APPARTIENT_1 primary key (IDVISITE, IDETAPE)
 );
 
 /*==============================================================*/
 /* Index : APPARTIENT_1_PK                                      */
 /*==============================================================*/
 create unique index APPARTIENT_1_PK on APPARTIENT_1 (
-IDETAPE ASC,
-IDVISITE ASC
+IDVISITE,
+IDETAPE
 );
 
 /*==============================================================*/
 /* Index : APPARTIENT_1_FK                                      */
 /*==============================================================*/
-create index APPARTIENT_1_FK on APPARTIENT_1 (
-IDETAPE ASC
+create  index APPARTIENT_1_FK on APPARTIENT_1 (
+IDVISITE
 );
 
 /*==============================================================*/
 /* Index : APPARTIENT_5_FK                                      */
 /*==============================================================*/
-create index APPARTIENT_5_FK on APPARTIENT_1 (
-IDVISITE ASC
+create  index APPARTIENT_5_FK on APPARTIENT_1 (
+IDETAPE
 );
-
 /*==============================================================*/
 /* Table : APPARTIENT_2                                         */
 /*==============================================================*/
-create table APPARTIENT_2 
-(
-   IDETAPE              integer                        not null,
-   IDREPAS              integer                        not null,
-   constraint PK_APPARTIENT_2 primary key  (IDETAPE, IDREPAS)
+create table APPARTIENT_2 (
+   IDREPAS              INTEGER                 not null,
+   IDETAPE              INTEGER                 not null,
+   constraint PK_APPARTIENT_2 primary key (IDREPAS, IDETAPE)
 );
 
 /*==============================================================*/
 /* Index : APPARTIENT_2_PK                                      */
 /*==============================================================*/
-create unique  index APPARTIENT_2_PK on APPARTIENT_2 (
-IDETAPE ASC,
-IDREPAS ASC
+create unique index APPARTIENT_2_PK on APPARTIENT_2 (
+IDREPAS,
+IDETAPE
 );
 
 /*==============================================================*/
 /* Index : APPARTIENT_2_FK                                      */
 /*==============================================================*/
-create index APPARTIENT_2_FK on APPARTIENT_2 (
-IDETAPE ASC
+create  index APPARTIENT_2_FK on APPARTIENT_2 (
+IDREPAS
 );
 
 /*==============================================================*/
 /* Index : APPARTIENT_4_FK                                      */
 /*==============================================================*/
-create index APPARTIENT_4_FK on APPARTIENT_2 (
-IDREPAS ASC
+create  index APPARTIENT_4_FK on APPARTIENT_2 (
+IDETAPE
 );
 
 /*==============================================================*/
 /* Table : APPARTIENT_4                                         */
 /*==============================================================*/
-create table APPARTIENT_4 
-(
-   IDETAPE              integer                        not null,
-   IDACTIVITE           integer                        not null,
-   constraint PK_APPARTIENT_4 primary key  (IDETAPE, IDACTIVITE)
+create table APPARTIENT_4 (
+   IDACTIVITE           INTEGER                 not null,
+   IDETAPE              INTEGER                 not null,
+   constraint PK_APPARTIENT_4 primary key (IDACTIVITE, IDETAPE)
 );
 
 /*==============================================================*/
 /* Index : APPARTIENT_4_PK                                      */
 /*==============================================================*/
-create unique  index APPARTIENT_4_PK on APPARTIENT_4 (
-IDETAPE ASC,
-IDACTIVITE ASC
+create unique index APPARTIENT_4_PK on APPARTIENT_4 (
+IDACTIVITE,
+IDETAPE
 );
 
 /*==============================================================*/
 /* Index : APPARTIENT_6_FK                                      */
 /*==============================================================*/
-create index APPARTIENT_6_FK on APPARTIENT_4 (
-IDETAPE ASC
+create  index APPARTIENT_6_FK on APPARTIENT_4 (
+IDACTIVITE
 );
 
 /*==============================================================*/
 /* Index : APPARTIENT_7_FK                                      */
 /*==============================================================*/
-create index APPARTIENT_7_FK on APPARTIENT_4 (
-IDACTIVITE ASC
+create  index APPARTIENT_7_FK on APPARTIENT_4 (
+IDETAPE
 );
 
 /*==============================================================*/
 /* Table : ASSOCIATION_38                                       */
 /*==============================================================*/
-create table ASSOCIATION_38 
-(
-   IDACTIVITE           integer                        not null,
-   IDDESCRIPTIONPANIER  integer                        not null,
-   constraint PK_ASSOCIATION_38 primary key  (IDACTIVITE, IDDESCRIPTIONPANIER)
+create table ASSOCIATION_38 (
+   IDACTIVITE           INTEGER                 not null,
+   IDDESCRIPTIONPANIER  INTEGER                 not null,
+   constraint PK_ASSOCIATION_38 primary key (IDACTIVITE, IDDESCRIPTIONPANIER)
 );
 
 /*==============================================================*/
 /* Index : ASSOCIATION_38_PK                                    */
 /*==============================================================*/
-create unique  index ASSOCIATION_38_PK on ASSOCIATION_38 (
-IDACTIVITE ASC,
-IDDESCRIPTIONPANIER ASC
+create unique index ASSOCIATION_38_PK on ASSOCIATION_38 (
+IDACTIVITE,
+IDDESCRIPTIONPANIER
 );
 
 /*==============================================================*/
 /* Index : ASSOCIATION_38_FK                                    */
 /*==============================================================*/
-create index ASSOCIATION_38_FK on ASSOCIATION_38 (
-IDACTIVITE ASC
+create  index ASSOCIATION_38_FK on ASSOCIATION_38 (
+IDACTIVITE
 );
 
 /*==============================================================*/
 /* Index : ASSOCIATION_39_FK                                    */
 /*==============================================================*/
-create index ASSOCIATION_39_FK on ASSOCIATION_38 (
-IDDESCRIPTIONPANIER ASC
+create  index ASSOCIATION_39_FK on ASSOCIATION_38 (
+IDDESCRIPTIONPANIER
 );
 
 /*==============================================================*/
 /* Table : ASSOCIATION_39                                       */
 /*==============================================================*/
-create table ASSOCIATION_39 
-(
-   IDREPAS              integer                        not null,
-   IDDESCRIPTIONPANIER  integer                        not null,
-   constraint PK_ASSOCIATION_39 primary key  (IDREPAS, IDDESCRIPTIONPANIER)
+create table ASSOCIATION_39 (
+   IDREPAS              INTEGER                 not null,
+   IDDESCRIPTIONPANIER  INTEGER                 not null,
+   constraint PK_ASSOCIATION_39 primary key (IDREPAS, IDDESCRIPTIONPANIER)
 );
 
 /*==============================================================*/
 /* Index : ASSOCIATION_39_PK                                    */
 /*==============================================================*/
-create unique  index ASSOCIATION_39_PK on ASSOCIATION_39 (
-IDREPAS ASC,
-IDDESCRIPTIONPANIER ASC
+create unique index ASSOCIATION_39_PK on ASSOCIATION_39 (
+IDREPAS,
+IDDESCRIPTIONPANIER
 );
 
 /*==============================================================*/
-/* Index : ASSOCIATION_40_FK                                    */
+/* Index : ASSOCIATION_51_FK                                    */
 /*==============================================================*/
-create index ASSOCIATION_40_FK on ASSOCIATION_39 (
-IDREPAS ASC
+create  index ASSOCIATION_51_FK on ASSOCIATION_39 (
+IDREPAS
 );
 
 /*==============================================================*/
-/* Index : mange1_FK                                    */
+/* Index : ASSOCIATION_53_FK                                    */
 /*==============================================================*/
-create index mange1_FK on ASSOCIATION_39 (
-IDDESCRIPTIONPANIER ASC
+create  index ASSOCIATION_53_FK on ASSOCIATION_39 (
+IDDESCRIPTIONPANIER
 );
 
 /*==============================================================*/
 /* Table : ASSOCIATION_40                                       */
 /*==============================================================*/
-create table ASSOCIATION_40 
-(
-   IDDESCRIPTIONCOMMANDE integer                        not null,
-   IDACTIVITE           integer                        not null,
-   constraint PK_ASSOCIATION_40 primary key  (IDDESCRIPTIONCOMMANDE, IDACTIVITE)
+create table ASSOCIATION_40 (
+   IDACTIVITE           INTEGER                 not null,
+   IDDESCRIPTIONCOMMANDE INTEGER                 not null,
+   constraint PK_ASSOCIATION_40 primary key (IDACTIVITE, IDDESCRIPTIONCOMMANDE)
 );
 
 /*==============================================================*/
 /* Index : ASSOCIATION_40_PK                                    */
 /*==============================================================*/
-create unique  index ASSOCIATION_40_PK on ASSOCIATION_40 (
-IDDESCRIPTIONCOMMANDE ASC,
-IDACTIVITE ASC
+create unique index ASSOCIATION_40_PK on ASSOCIATION_40 (
+IDACTIVITE,
+IDDESCRIPTIONCOMMANDE
 );
 
 /*==============================================================*/
-/* Index : ASSOCIATION_45_FK                                    */
+/* Index : ASSOCIATION_40_FK                                    */
 /*==============================================================*/
-create index ASSOCIATION_45_FK on ASSOCIATION_40 (
-IDDESCRIPTIONCOMMANDE ASC
+create  index ASSOCIATION_40_FK on ASSOCIATION_40 (
+IDACTIVITE
 );
 
 /*==============================================================*/
-/* Index : ASSOCIATION_46_FK                                    */
+/* Index : ASSOCIATION_42_FK                                    */
 /*==============================================================*/
-create index ASSOCIATION_46_FK on ASSOCIATION_40 (
-IDACTIVITE ASC
+create  index ASSOCIATION_42_FK on ASSOCIATION_40 (
+IDDESCRIPTIONCOMMANDE
 );
 
 /*==============================================================*/
 /* Table : mange1                                       */
 /*==============================================================*/
-create table mange1 
-(
-   IDDESCRIPTIONCOMMANDE integer                        not null,
-   IDREPAS              integer                        not null,
-   constraint PK_mange1 primary key  (IDDESCRIPTIONCOMMANDE, IDREPAS)
+create table mange1 (
+   IDREPAS              INTEGER                 not null,
+   IDDESCRIPTIONCOMMANDE INTEGER                 not null,
+   constraint PK_ASSOCIATION_42 primary key (IDREPAS, IDDESCRIPTIONCOMMANDE)
 );
 
 /*==============================================================*/
-/* Index : mange1_PK                                    */
+/* Index : ASSOCIATION_42_PK                                    */
 /*==============================================================*/
-create unique  index mange1_PK on mange1 (
-IDDESCRIPTIONCOMMANDE ASC,
-IDREPAS ASC
+create unique index ASSOCIATION_42_PK on mange1 (
+IDREPAS,
+IDDESCRIPTIONCOMMANDE
 );
 
 /*==============================================================*/
-/* Index : ASSOCIATION_47_FK                                    */
+/* Index : ASSOCIATION_54_FK                                    */
 /*==============================================================*/
-create index ASSOCIATION_47_FK on mange1 (
-IDDESCRIPTIONCOMMANDE ASC
+create  index ASSOCIATION_54_FK on mange1 (
+IDREPAS
 );
 
 /*==============================================================*/
-/* Index : ASSOCIATION_48_FK                                    */
+/* Index : ASSOCIATION_55_FK                                    */
 /*==============================================================*/
-create index ASSOCIATION_48_FK on mange1 (
-IDREPAS ASC
+create  index ASSOCIATION_55_FK on mange1 (
+IDDESCRIPTIONCOMMANDE
 );
 
 /*==============================================================*/
 /* Table : AUTRESOCIETE                                         */
 /*==============================================================*/
-create table AUTRESOCIETE 
-(
-   IDPARTENAIRE         integer                        not null,
-   NOMPARTENAIRE        varchar(50)                    not null,
-   MAILPARTENAIRE       varchar(100)                   not null,
-   TELPARTENAIRE        char(10)                       not null,
-   constraint PK_AUTRESOCIETE primary key  (IDPARTENAIRE)
+create table AUTRESOCIETE (
+   IDPARTENAIRE         INTEGER                 not null,
+   NOMPARTENAIRE        VARCHAR(50)          null,
+   MAILPARTENAIRE       VARCHAR(100)         null,
+   TELPARTENAIRE        CHAR(10)             null,
+   constraint PK_AUTRESOCIETE primary key (IDPARTENAIRE)
 );
 
 /*==============================================================*/
 /* Index : AUTRESOCIETE_PK                                      */
 /*==============================================================*/
-create unique  index AUTRESOCIETE_PK on AUTRESOCIETE (
-IDPARTENAIRE ASC
+create unique index AUTRESOCIETE_PK on AUTRESOCIETE (
+IDPARTENAIRE
 );
 
 /*==============================================================*/
 /* Table : AVIS                                                 */
 /*==============================================================*/
-create table AVIS 
-(
-   IDAVIS               serial                        not null,
-   IDCLIENT             integer                        not null,
-   IDSEJOUR             integer                        not null,
-   TITREAVIS            varchar(50)                    not null,
-   DATEAVIS             timestamp                      not null,
-   DESCRIPTIONAVIS      varchar(2048)                  not null,
-   NOTEAVIS             integer                        not null,
+create table AVIS (
+   IDAVIS               SERIAL               not null,
+   IDSEJOUR             INTEGER                 not null,
+   IDCLIENT             INTEGER                 not null,
+   TITREAVIS            VARCHAR(50)          null,
+   DATEAVIS             DATE                 null,
+   DESCRIPTIONAVIS      VARCHAR(2048)        null,
+   NOTEAVIS             INTEGER                 null,
    constraint PK_AVIS primary key (IDAVIS)
 );
 
@@ -463,58 +447,56 @@ create table AVIS
 /* Index : AVIS_PK                                              */
 /*==============================================================*/
 create unique index AVIS_PK on AVIS (
-IDAVIS ASC
+IDAVIS
 );
 
 /*==============================================================*/
 /* Index : CRITIQUE_FK                                          */
 /*==============================================================*/
-create index CRITIQUE_FK on AVIS (
-IDSEJOUR ASC
+create  index CRITIQUE_FK on AVIS (
+IDSEJOUR
 );
 
 /*==============================================================*/
-/* Index : POSTE_FK                                             */
+/* Index : ASSOCIATION_50_FK                                    */
 /*==============================================================*/
-create index POSTE_FK on AVIS (
-IDCLIENT ASC
+create  index ASSOCIATION_50_FK on AVIS (
+IDCLIENT
 );
 
 /*==============================================================*/
 /* Table : CARTE_BANCAIRE                                       */
 /*==============================================================*/
-create table CARTE_BANCAIRE 
-(
-   IDcb                 serial                        not null,
-   IDCLIENT             integer                        not null,
-   TITULAIREcb          varchar(100)                   null,
-   NUMEROcbCLIENT       char(16)                       null,
-   DATEEXPIRATIONcbCLIENT date                           null,
-   ACTIF				bool		default true					not null,
-   constraint PK_CARTE_BANCAIRE primary key (IDcb)
+create table CARTE_BANCAIRE (
+   IDCB                 SERIAL               not null,
+   IDCLIENT             INTEGER                 not null,
+   TITULAIRECB          VARCHAR(100)         null,
+   NUMEROCBCLIENT       CHAR(16)             null,
+   DATEEXPIRATIONCBCLIENT DATE                 null,
+   ACTIF                BOOL                 null,
+   constraint PK_CARTE_BANCAIRE primary key (IDCB)
 );
 
 /*==============================================================*/
 /* Index : CARTE_BANCAIRE_PK                                    */
 /*==============================================================*/
 create unique index CARTE_BANCAIRE_PK on CARTE_BANCAIRE (
-IDcb ASC
+IDCB
 );
 
 /*==============================================================*/
-/* Index : DETIENT_FK                                           */
+/* Index : ASSOCIATION_49_FK                                    */
 /*==============================================================*/
-create index DETIENT_FK on CARTE_BANCAIRE (
-IDCLIENT ASC
+create  index ASSOCIATION_49_FK on CARTE_BANCAIRE (
+IDCLIENT
 );
 
 /*==============================================================*/
 /* Table : CATEGORIEPARTICIPANT                                 */
 /*==============================================================*/
-create table CATEGORIEPARTICIPANT 
-(
-   IDCATEGORIEPARTICIPANT serial                        not null,
-   LIBELLECATEGORIEPARTICIPANT varchar(50)                    not null,
+create table CATEGORIEPARTICIPANT (
+   IDCATEGORIEPARTICIPANT SERIAL               not null,
+   LIBELLECATEGORIEPARTICIPANT VARCHAR(50)          null,
    constraint PK_CATEGORIEPARTICIPANT primary key (IDCATEGORIEPARTICIPANT)
 );
 
@@ -522,16 +504,15 @@ create table CATEGORIEPARTICIPANT
 /* Index : CATEGORIEPARTICIPANT_PK                              */
 /*==============================================================*/
 create unique index CATEGORIEPARTICIPANT_PK on CATEGORIEPARTICIPANT (
-IDCATEGORIEPARTICIPANT ASC
+IDCATEGORIEPARTICIPANT
 );
 
 /*==============================================================*/
 /* Table : CATEGORIESEJOUR                                      */
 /*==============================================================*/
-create table CATEGORIESEJOUR 
-(
-   IDCATEGORIESEJOUR    serial                        not null,
-   LIBELLECATEGORIESEJOUR varchar(50)                    null,
+create table CATEGORIESEJOUR (
+   IDCATEGORIESEJOUR    SERIAL               not null,
+   LIBELLECATEGORIESEJOUR VARCHAR(50)          null,
    constraint PK_CATEGORIESEJOUR primary key (IDCATEGORIESEJOUR)
 );
 
@@ -539,16 +520,15 @@ create table CATEGORIESEJOUR
 /* Index : CATEGORIESEJOUR_PK                                   */
 /*==============================================================*/
 create unique index CATEGORIESEJOUR_PK on CATEGORIESEJOUR (
-IDCATEGORIESEJOUR ASC
+IDCATEGORIESEJOUR
 );
 
 /*==============================================================*/
 /* Table : CATEGORIEVIGNOBLE                                    */
 /*==============================================================*/
-create table CATEGORIEVIGNOBLE 
-(
-   IDCATEGORIEVIGNOBLE  serial                        not null,
-   LIBELLECATEGORIEVIGNOBLE varchar(50)                    not null,
+create table CATEGORIEVIGNOBLE (
+   IDCATEGORIEVIGNOBLE  SERIAL               not null,
+   LIBELLECATEGORIEVIGNOBLE VARCHAR(50)          null,
    constraint PK_CATEGORIEVIGNOBLE primary key (IDCATEGORIEVIGNOBLE)
 );
 
@@ -556,43 +536,41 @@ create table CATEGORIEVIGNOBLE
 /* Index : CATEGORIEVIGNOBLE_PK                                 */
 /*==============================================================*/
 create unique index CATEGORIEVIGNOBLE_PK on CATEGORIEVIGNOBLE (
-IDCATEGORIEVIGNOBLE ASC
+IDCATEGORIEVIGNOBLE
 );
 
 /*==============================================================*/
 /* Table : CAVE                                                 */
 /*==============================================================*/
-create table CAVE 
-(
-   IDPARTENAIRE         integer                        not null,
-   IDTYPEDEGUSTATION    integer                        not null,
-   NOMPARTENAIRE        varchar(50)                    not null,
-   MAILPARTENAIRE       varchar(100)                   not null,
-   TELPARTENAIRE        char(10)                       not null,
-   constraint PK_CAVE primary key  (IDPARTENAIRE)
+create table CAVE (
+   IDPARTENAIRE         INTEGER                 not null,
+   IDTYPEDEGUSTATION    INTEGER                 not null,
+   NOMPARTENAIRE        VARCHAR(50)          null,
+   MAILPARTENAIRE       VARCHAR(100)         null,
+   TELPARTENAIRE        CHAR(10)             null,
+   constraint PK_CAVE primary key (IDPARTENAIRE)
 );
 
 /*==============================================================*/
 /* Index : CAVE_PK                                              */
 /*==============================================================*/
-create unique  index CAVE_PK on CAVE (
-IDPARTENAIRE ASC
+create unique index CAVE_PK on CAVE (
+IDPARTENAIRE
 );
 
 /*==============================================================*/
 /* Index : FAIT_DEGUSTER_FK                                     */
 /*==============================================================*/
-create index FAIT_DEGUSTER_FK on CAVE (
-IDTYPEDEGUSTATION ASC
+create  index FAIT_DEGUSTER_FK on CAVE (
+IDTYPEDEGUSTATION
 );
 
 /*==============================================================*/
 /* Table : CHATBOT                                              */
 /*==============================================================*/
-create table CHATBOT 
-(
-   IDCHAT               serial                        not null,
-   MESSAGECHAT          varchar(500)                   null,
+create table CHATBOT (
+   IDCHAT               SERIAL               not null,
+   MESSAGECHAT          VARCHAR(500)         null,
    constraint PK_CHATBOT primary key (IDCHAT)
 );
 
@@ -600,28 +578,27 @@ create table CHATBOT
 /* Index : CHATBOT_PK                                           */
 /*==============================================================*/
 create unique index CHATBOT_PK on CHATBOT (
-IDCHAT ASC
+IDCHAT
 );
 
 /*==============================================================*/
 /* Table : CLIENT                                               */
 /*==============================================================*/
-create table CLIENT 
-(
-   IDCLIENT             serial                        not null,
-   IDROLE               integer                        not null,
-   CIVILITECLIENT       varchar(10)                    null,
-   PRENOMCLIENT         varchar(50)                    not null,
-   NOMCLIENT            varchar(50)                    not null,
-   EMAILCLIENT          varchar(150)                   not null,
-   DATENAISSANCECLIENT  date                           null,
-   MOTDEPASSECLIENT     varchar(512)                   not null,
-   OFFRESPROMOTIONNELLESCLIENT bool                       not null,
-   DATEDERNIEREACTIVITECLIENT date                           null,
-   TELEPHONECLIENT		char(10)						not null,
-   TOKENRESETMDP		char(60)	default null		null,
-   DATECREATIONTOKEN	timestamp	default null		null,
-   A2F                  bool            default false  not null,
+create table CLIENT (
+   IDCLIENT             SERIAL               not null,
+   IDROLE               INTEGER                 not null,
+   CIVILITECLIENT       VARCHAR(10)          null,
+   PRENOMCLIENT         VARCHAR(50)          null,
+   NOMCLIENT            VARCHAR(50)          null,
+   EMAILCLIENT          VARCHAR(150)         null,
+   DATENAISSANCECLIENT  DATE                 null,
+   MOTDEPASSECLIENT     VARCHAR(512)         null,
+   OFFRESPROMOTIONNELLESCLIENT BOOL                 null,
+   DATEDERNIEREACTIVITECLIENT DATE                 null,
+   A2F                  BOOL                 null,
+   TELEPHONECLIENT      CHAR(10)             null,
+   TOKENRESETMDP        CHAR(60)             null,
+   DATECREATIONTOKEN    DATE                 null,
    constraint PK_CLIENT primary key (IDCLIENT)
 );
 
@@ -629,32 +606,50 @@ create table CLIENT
 /* Index : CLIENT_PK                                            */
 /*==============================================================*/
 create unique index CLIENT_PK on CLIENT (
-IDCLIENT ASC
+IDCLIENT
 );
 
 /*==============================================================*/
-/* Index : ASSOCIATION_43_FK                                    */
+/* Index : ASSOCIATION_47_FK                                    */
 /*==============================================================*/
-create index ASSOCIATION_43_FK on CLIENT (
-IDROLE ASC
+create  index ASSOCIATION_47_FK on CLIENT (
+IDROLE
+);
+
+/*==============================================================*/
+/* Table : CODEPROMO                                            */
+/*==============================================================*/
+create table CODEPROMO (
+   IDCODEPROMO          SERIAL               not null,
+   LIBELLECODEPROMO     VARCHAR(15)          null,
+   REDUCTION            INTEGER                 null,
+   constraint PK_CODEPROMO primary key (IDCODEPROMO)
+);
+
+/*==============================================================*/
+/* Index : CODEPROMO_PK                                         */
+/*==============================================================*/
+create unique index CODEPROMO_PK on CODEPROMO (
+IDCODEPROMO
 );
 
 /*==============================================================*/
 /* Table : COMMANDE                                             */
 /*==============================================================*/
-create table COMMANDE 
-(
-   IDCOMMANDE           serial                        not null,
+create table COMMANDE (
+   IDCOMMANDE           SERIAL               not null,
    IDcb                 integer                        null,
-   IDCLIENTACHETEUR             integer                        not null,
-   IDCLIENTBENEFICIAIRE         integer                        null,
-   IDADRESSELIVRAISON            integer                        null,
-   IDPANIER             integer                        not null,
-   IDADRESSEFACTURATION        integer                        not null,
-   CODEREDUCTION        varchar(20)                     null,
-   ETATCOMMANDE         varchar(50)       default 'En attente de validation'            null,
-   TYPEPAIEMENTCOMMANDE varchar(50)                    null,
-   DATECOMMANDE          date         default '2025-01-01'                 not null,
+   IDADRESSEFACTURATION INTEGER                 not null,
+   IDCLIENTACHETEUR     INTEGER                 not null,
+   IDPANIER             INTEGER                 not null,
+   IDADRESSELIVRAISON   INTEGER                 null,
+   IDCODEPROMO          INTEGER                 null,
+   CODEREDUCTION        VARCHAR(20)          null,
+   VALIDATIONCLIENT     BOOL                 null,
+   ETATCOMMANDE         VARCHAR(50)          null,
+   TYPEPAIEMENTCOMMANDE VARCHAR(50)          null,
+   DATECOMMANDE         DATE                 null,
+   IDCLIENTBENEFICIAIRE INTEGER                 null,
    constraint PK_COMMANDE primary key (IDCOMMANDE)
 );
 
@@ -662,66 +657,72 @@ create table COMMANDE
 /* Index : COMMANDE_PK                                          */
 /*==============================================================*/
 create unique index COMMANDE_PK on COMMANDE (
-IDCOMMANDE ASC
+IDCOMMANDE
 );
 
 /*==============================================================*/
-/* Index : REALISE_FK                                           */
+/* Index : ASSOCIE_FK                                           */
 /*==============================================================*/
-create index REALISE_FK on COMMANDE (
-IDCLIENTBENEFICIAIRE ASC
+create  index ASSOCIE_FK on COMMANDE (
+IDPANIER
 );
 
 /*==============================================================*/
-/* Index : FACTUREA_FK                                          */
+/* Index : DIMINUE_FK                                           */
 /*==============================================================*/
-create index FACTUREA_FK on COMMANDE (
-IDADRESSEFACTURATION ASC
+create  index DIMINUE_FK on COMMANDE (
+IDCODEPROMO
 );
 
 /*==============================================================*/
-/* Index : LIVREA_FK                                            */
+/* Index : ASSOCIATION_43_FK                                    */
 /*==============================================================*/
-create index LIVREA_FK on COMMANDE (
-IDADRESSELIVRAISON ASC
+create  index ASSOCIATION_43_FK on COMMANDE (
+IDCLIENTACHETEUR
 );
 
 /*==============================================================*/
-/* Index : ASSOCIE2_FK                                          */
+/* Index : ASSOCIATION_44_FK                                    */
 /*==============================================================*/
-create index ASSOCIE2_FK on COMMANDE (
-IDPANIER ASC
+create  index ASSOCIATION_44_FK on COMMANDE (
+IDCLIENTBENEFICIAIRE
 );
 
 /*==============================================================*/
-/* Index : BENEFICIAIRE_FK                                      */
+/* Index : ASSOCIATION_45_FK                                    */
 /*==============================================================*/
-create index BENEFICIAIRE_FK on COMMANDE (
-IDCLIENTACHETEUR ASC
+create  index ASSOCIATION_45_FK on COMMANDE (
+IDADRESSEFACTURATION
+);
+
+/*==============================================================*/
+/* Index : ASSOCIATION_46_FK                                    */
+/*==============================================================*/
+create  index ASSOCIATION_46_FK on COMMANDE (
+IDADRESSELIVRAISON
 );
 
 /*==============================================================*/
 /* Table : DESCRIPTIONCOMMANDE                                  */
 /*==============================================================*/
-create table DESCRIPTIONCOMMANDE 
-(
-   IDDESCRIPTIONCOMMANDE serial                        not null,
-   IDHEBERGEMENT        integer                        not null,
-   IDSEJOUR             integer                        not null,
-   IDCOMMANDE           integer                        not null,
-   QUANTITE             integer                        null,
-   DATEDEBUT            date                           null,
-   DATEFIN              date                           null,
-   NBADULTES            integer                        null,
-   NBENFANTS            integer                        null,
-   NBCHAMBRESSIMPLE     integer                        null,
-   NBCHAMBRESDOUBLE     integer                        null,
-   NBCHAMBRESTRIPLE     integer                        null,
-   OFFRIR               bool                       null,
-   ECOFFRET             bool                       null,
-   DISPONIBILITEHEBERGEMENT bool                       null,
-   VALIDATIONCLIENT     bool      default false                 null,
-   CODEPROMOUTILISE     varchar(20)                    null default null,
+create table DESCRIPTIONCOMMANDE (
+   IDDESCRIPTIONCOMMANDE SERIAL               not null,
+   IDCOMMANDE           INTEGER                 not null,
+   IDHEBERGEMENT        INTEGER                 not null,
+   IDSEJOUR             INTEGER                 not null,
+   IDCB                 INTEGER                 null,
+   QUANTITE             INTEGER                 null,
+   DATEDEBUT            DATE                 null,
+   DATEFIN              DATE                 null,
+   NBADULTES            INTEGER                 null,
+   NBENFANTS            INTEGER                 null,
+   NBCHAMBRESSIMPLE     INTEGER                 null,
+   NBCHAMBRESDOUBLE     INTEGER                 null,
+   NBCHAMBRESTRIPLE     INTEGER                 null,
+   OFFRIR               BOOL                 null,
+   ECOFFRET             BOOL                 null,
+   DISPONIBILITEHEBERGEMENT BOOL                 null,
+   VALIDATIONCLIENT     BOOL                 null,
    constraint PK_DESCRIPTIONCOMMANDE primary key (IDDESCRIPTIONCOMMANDE)
 );
 
@@ -729,51 +730,56 @@ create table DESCRIPTIONCOMMANDE
 /* Index : DESCRIPTIONCOMMANDE_PK                               */
 /*==============================================================*/
 create unique index DESCRIPTIONCOMMANDE_PK on DESCRIPTIONCOMMANDE (
-IDDESCRIPTIONCOMMANDE ASC
-);
-
-/*==============================================================*/
-/* Index : ASSOCIATION_35_FK                                    */
-/*==============================================================*/
-create index ASSOCIATION_35_FK on DESCRIPTIONCOMMANDE (
-IDCOMMANDE ASC
-);
-
-/*==============================================================*/
-/* Index : ASSOCIATION_36_FK                                    */
-/*==============================================================*/
-create index ASSOCIATION_36_FK on DESCRIPTIONCOMMANDE (
-IDSEJOUR ASC
+IDDESCRIPTIONCOMMANDE
 );
 
 /*==============================================================*/
 /* Index : ASSOCIATION_41_FK                                    */
 /*==============================================================*/
-create index ASSOCIATION_41_FK on DESCRIPTIONCOMMANDE (
-IDHEBERGEMENT ASC
+create  index ASSOCIATION_41_FK on DESCRIPTIONCOMMANDE (
+IDHEBERGEMENT
+);
+
+/*==============================================================*/
+/* Index : ASSOCIATION_36_FK                                    */
+/*==============================================================*/
+create  index ASSOCIATION_36_FK on DESCRIPTIONCOMMANDE (
+IDSEJOUR
+);
+
+/*==============================================================*/
+/* Index : ASSOCIATION_35_FK                                    */
+/*==============================================================*/
+create  index ASSOCIATION_35_FK on DESCRIPTIONCOMMANDE (
+IDCOMMANDE
+);
+
+/*==============================================================*/
+/* Index : ASSOCIATION_52_FK                                    */
+/*==============================================================*/
+create  index ASSOCIATION_52_FK on DESCRIPTIONCOMMANDE (
+IDCB
 );
 
 /*==============================================================*/
 /* Table : DESCRIPTIONPANIER                                    */
 /*==============================================================*/
-create table DESCRIPTIONPANIER 
-(
-   IDDESCRIPTIONPANIER  serial                        not null,
-   IDPANIER             integer                        not null,
-   IDSEJOUR             integer                        not null,
-   IDHEBERGEMENT        integer                        not null,
-   QUANTITE             integer                        null,
-   DATEDEBUT            date                           null,
-   DATEFIN              date                           null,
-   NBADULTES            integer                        null,
-   NBENFANTS            integer                        null,
-   NBCHAMBRESSIMPLE     integer                        null,
-   NBCHAMBRESDOUBLE     integer                        null,
-   NBCHAMBRESTRIPLE     integer                        null,
-   OFFRIR               bool                       null,
-   ECOFFRET             bool                       null,
-   DISPONIBILITEHEBERGEMENT bool                       null,
-   CODEPROMOUTILISE     varchar(20)                    null default null,
+create table DESCRIPTIONPANIER (
+   IDDESCRIPTIONPANIER  SERIAL               not null,
+   IDSEJOUR             INTEGER                 not null,
+   IDHEBERGEMENT        INTEGER                 not null,
+   IDPANIER             INTEGER                 not null,
+   QUANTITE             INTEGER                 null,
+   DATEDEBUT            DATE                 null,
+   DATEFIN              DATE                 null,
+   NBADULTES            INTEGER                 null,
+   NBENFANTS            INTEGER                 null,
+   NBCHAMBRESSIMPLE     INTEGER                 null,
+   NBCHAMBRESDOUBLE     INTEGER                 null,
+   NBCHAMBRESTRIPLE     INTEGER                 null,
+   OFFRIR               BOOL                 null,
+   ECOFFRET             BOOL                 null,
+   DISPONIBILITEHEBERGEMENT BOOL                 null,
    constraint PK_DESCRIPTIONPANIER primary key (IDDESCRIPTIONPANIER)
 );
 
@@ -781,37 +787,36 @@ create table DESCRIPTIONPANIER
 /* Index : DESCRIPTIONPANIER_PK                                 */
 /*==============================================================*/
 create unique index DESCRIPTIONPANIER_PK on DESCRIPTIONPANIER (
-IDDESCRIPTIONPANIER ASC
-);
-
-/*==============================================================*/
-/* Index : DECRIT_SEJOUR_PANIER_FK                              */
-/*==============================================================*/
-create index DECRIT_SEJOUR_PANIER_FK on DESCRIPTIONPANIER (
-IDSEJOUR ASC
-);
-
-/*==============================================================*/
-/* Index : DECRIT_PANIER_FK                                     */
-/*==============================================================*/
-create index DECRIT_PANIER_FK on DESCRIPTIONPANIER (
-IDPANIER ASC
+IDDESCRIPTIONPANIER
 );
 
 /*==============================================================*/
 /* Index : ASSOCIATION_37_FK                                    */
 /*==============================================================*/
-create index ASSOCIATION_37_FK on DESCRIPTIONPANIER (
-IDHEBERGEMENT ASC
+create  index ASSOCIATION_37_FK on DESCRIPTIONPANIER (
+IDHEBERGEMENT
+);
+
+/*==============================================================*/
+/* Index : DECRIT_SEJOUR_PANIER_FK                              */
+/*==============================================================*/
+create  index DECRIT_SEJOUR_PANIER_FK on DESCRIPTIONPANIER (
+IDSEJOUR
+);
+
+/*==============================================================*/
+/* Index : DECRIT_PANIER_FK                                     */
+/*==============================================================*/
+create  index DECRIT_PANIER_FK on DESCRIPTIONPANIER (
+IDPANIER
 );
 
 /*==============================================================*/
 /* Table : DUREE                                                */
 /*==============================================================*/
-create table DUREE 
-(
-   IDDUREE              serial                        not null,
-   LIBELLEDUREE         varchar(50)                    not null,
+create table DUREE (
+   IDDUREE              SERIAL               not null,
+   LIBELLEDUREE         VARCHAR(50)          null,
    constraint PK_DUREE primary key (IDDUREE)
 );
 
@@ -819,22 +824,21 @@ create table DUREE
 /* Index : DUREE_PK                                             */
 /*==============================================================*/
 create unique index DUREE_PK on DUREE (
-IDDUREE ASC
+IDDUREE
 );
 
 /*==============================================================*/
 /* Table : ETAPE                                                */
 /*==============================================================*/
-create table ETAPE 
-(
-   IDETAPE              serial                        not null,
-   IDHEBERGEMENT        integer                        not null,
-   IDSEJOUR             integer                        not null,
-   TITREETAPE           varchar(100)                   not null,
-   DESCRIPTIONETAPE     varchar(4096)                  null,
-   PHOTOETAPE           varchar(512)                   null,
-   URLETAPE             varchar(150)                   null,
-   VIDEOETAPE           varchar(512)                   null,
+create table ETAPE (
+   IDETAPE              SERIAL               not null,
+   IDSEJOUR             INTEGER                 not null,
+   IDHEBERGEMENT        INTEGER                 not null,
+   TITREETAPE           VARCHAR(100)         null,
+   DESCRIPTIONETAPE     VARCHAR(4096)        null,
+   PHOTOETAPE           VARCHAR(512)         null,
+   URLETAPE             VARCHAR(150)         null,
+   VIDEOETAPE           VARCHAR(512)         null,
    constraint PK_ETAPE primary key (IDETAPE)
 );
 
@@ -842,66 +846,64 @@ create table ETAPE
 /* Index : ETAPE_PK                                             */
 /*==============================================================*/
 create unique index ETAPE_PK on ETAPE (
-IDETAPE ASC
-);
-
-/*==============================================================*/
-/* Index : POSSEDE_FK                                           */
-/*==============================================================*/
-create index POSSEDE_FK on ETAPE (
-IDSEJOUR ASC
+IDETAPE
 );
 
 /*==============================================================*/
 /* Index : APPARTIENT_3_FK                                      */
 /*==============================================================*/
-create index APPARTIENT_3_FK on ETAPE (
-IDHEBERGEMENT ASC
+create  index APPARTIENT_3_FK on ETAPE (
+IDHEBERGEMENT
+);
+
+/*==============================================================*/
+/* Index : POSSEDE_FK                                           */
+/*==============================================================*/
+create  index POSSEDE_FK on ETAPE (
+IDSEJOUR
 );
 
 /*==============================================================*/
 /* Table : FAVORIS                                              */
 /*==============================================================*/
-create table FAVORIS 
-(
-   IDCLIENT             integer                        not null,
-   IDSEJOUR             integer                        not null,
-   constraint PK_FAVORIS primary key  (IDCLIENT, IDSEJOUR)
+create table FAVORIS (
+   IDCLIENT             INTEGER                 not null,
+   IDSEJOUR             INTEGER                 not null,
+   constraint PK_FAVORIS primary key (IDCLIENT, IDSEJOUR)
 );
 
 /*==============================================================*/
 /* Index : FAVORIS_PK                                           */
 /*==============================================================*/
-create unique  index FAVORIS_PK on FAVORIS (
-IDCLIENT ASC,
-IDSEJOUR ASC
+create unique index FAVORIS_PK on FAVORIS (
+IDCLIENT,
+IDSEJOUR
 );
 
 /*==============================================================*/
 /* Index : FAVORIS_FK                                           */
 /*==============================================================*/
-create index FAVORIS_FK on FAVORIS (
-IDCLIENT ASC
+create  index FAVORIS_FK on FAVORIS (
+IDCLIENT
 );
 
 /*==============================================================*/
 /* Index : FAVORIS2_FK                                          */
 /*==============================================================*/
-create index FAVORIS2_FK on FAVORIS (
-IDSEJOUR ASC
+create  index FAVORIS2_FK on FAVORIS (
+IDSEJOUR
 );
 
 /*==============================================================*/
 /* Table : HEBERGEMENT                                          */
 /*==============================================================*/
-create table HEBERGEMENT 
-(
-   IDHEBERGEMENT        serial                        not null,
-   IDPARTENAIRE         integer                        not null,
-   DESCRIPTIONHEBERGEMENT varchar(4096)                  not null,
-   PHOTOHEBERGEMENT     varchar(512)                   null,
-   LIENHEBERGEMENT      varchar(512)                   null,
-   PRIXHEBERGEMENT      numeric(8,2)                   null,
+create table HEBERGEMENT (
+   IDHEBERGEMENT        SERIAL               not null,
+   IDPARTENAIRE         INTEGER                 not null,
+   DESCRIPTIONHEBERGEMENT VARCHAR(4096)        null,
+   PHOTOHEBERGEMENT     VARCHAR(512)         null,
+   LIENHEBERGEMENT      VARCHAR(512)         null,
+   PRIXHEBERGEMENT      NUMERIC(8,2)         null,
    constraint PK_HEBERGEMENT primary key (IDHEBERGEMENT)
 );
 
@@ -909,45 +911,43 @@ create table HEBERGEMENT
 /* Index : HEBERGEMENT_PK                                       */
 /*==============================================================*/
 create unique index HEBERGEMENT_PK on HEBERGEMENT (
-IDHEBERGEMENT ASC
+IDHEBERGEMENT
 );
 
 /*==============================================================*/
 /* Index : PROPOSE_3_FK                                         */
 /*==============================================================*/
-create index PROPOSE_3_FK on HEBERGEMENT (
-IDPARTENAIRE ASC
+create  index PROPOSE_3_FK on HEBERGEMENT (
+IDPARTENAIRE
 );
 
 /*==============================================================*/
 /* Table : HOTEL                                                */
 /*==============================================================*/
-create table HOTEL 
-(
-   IDPARTENAIRE         integer                        not null,
-   NOMPARTENAIRE        varchar(50)                    not null,
-   MAILPARTENAIRE       varchar(100)                   not null,
-   TELPARTENAIRE        char(10)                       not null,
-   NOMBRECHAMBRESHOTEL  integer                        not null,
-   CATEGORIEHOTEL       integer                        not null,
-   constraint PK_HOTEL primary key  (IDPARTENAIRE)
+create table HOTEL (
+   IDPARTENAIRE         INTEGER                 not null,
+   NOMPARTENAIRE        VARCHAR(50)          null,
+   MAILPARTENAIRE       VARCHAR(100)         null,
+   TELPARTENAIRE        CHAR(10)             null,
+   NOMBRECHAMBRESHOTEL  INTEGER                 null,
+   CATEGORIEHOTEL       INTEGER                 null,
+   constraint PK_HOTEL primary key (IDPARTENAIRE)
 );
 
 /*==============================================================*/
 /* Index : HOTEL_PK                                             */
 /*==============================================================*/
-create unique  index HOTEL_PK on HOTEL (
-IDPARTENAIRE ASC
+create unique index HOTEL_PK on HOTEL (
+IDPARTENAIRE
 );
 
 /*==============================================================*/
 /* Table : LOCALITE                                             */
 /*==============================================================*/
-create table LOCALITE 
-(
-   IDLOCALITE           serial                        not null,
-   IDCATEGORIEVIGNOBLE  integer                        not null,
-   LIBELLELOCALITE      varchar(50)                    not null,
+create table LOCALITE (
+   IDLOCALITE           SERIAL               not null,
+   IDCATEGORIEVIGNOBLE  INTEGER                 not null,
+   LIBELLELOCALITE      VARCHAR(50)          null,
    constraint PK_LOCALITE primary key (IDLOCALITE)
 );
 
@@ -955,23 +955,23 @@ create table LOCALITE
 /* Index : LOCALITE_PK                                          */
 /*==============================================================*/
 create unique index LOCALITE_PK on LOCALITE (
-IDLOCALITE ASC
+IDLOCALITE
 );
 
 /*==============================================================*/
 /* Index : A_FK                                                 */
 /*==============================================================*/
-create index A_FK on LOCALITE (
-IDCATEGORIEVIGNOBLE ASC
+create  index A_FK on LOCALITE (
+IDCATEGORIEVIGNOBLE
 );
 
 /*==============================================================*/
 /* Table : PANIER                                               */
 /*==============================================================*/
-create table PANIER 
-(
-   IDPANIER             serial                        not null,
-   DATEHEUREPANIER      timestamp   				  not null,
+create table PANIER (
+   IDPANIER             SERIAL               not null,
+   IDCODEPROMO          INTEGER                 null,
+   DATEHEUREPANIER      DATE                 null,
    constraint PK_PANIER primary key (IDPANIER)
 );
 
@@ -979,18 +979,24 @@ create table PANIER
 /* Index : PANIER_PK                                            */
 /*==============================================================*/
 create unique index PANIER_PK on PANIER (
-IDPANIER ASC
+IDPANIER
+);
+
+/*==============================================================*/
+/* Index : REDUIT_FK                                            */
+/*==============================================================*/
+create  index REDUIT_FK on PANIER (
+IDCODEPROMO
 );
 
 /*==============================================================*/
 /* Table : PARTENAIRE                                           */
 /*==============================================================*/
-create table PARTENAIRE 
-(
-   IDPARTENAIRE         serial                        not null,
-   NOMPARTENAIRE        varchar(50)                    not null,
-   MAILPARTENAIRE       varchar(100)                   not null,
-   TELPARTENAIRE        char(10)                       not null,
+create table PARTENAIRE (
+   IDPARTENAIRE         SERIAL               not null,
+   NOMPARTENAIRE        VARCHAR(50)          null,
+   MAILPARTENAIRE       VARCHAR(100)         null,
+   TELPARTENAIRE        CHAR(10)             null,
    constraint PK_PARTENAIRE primary key (IDPARTENAIRE)
 );
 
@@ -998,60 +1004,58 @@ create table PARTENAIRE
 /* Index : PARTENAIRE_PK                                        */
 /*==============================================================*/
 create unique index PARTENAIRE_PK on PARTENAIRE (
-IDPARTENAIRE ASC
+IDPARTENAIRE
 );
 
 /*==============================================================*/
 /* Table : PROPOSE_4                                            */
 /*==============================================================*/
-create table PROPOSE_4 
-(
-   IDACTIVITE           integer                        not null,
-   IDPARTENAIRE         integer                        not null,
-   IDADRESSE            integer                        not null,
-   constraint PK_PROPOSE_4 primary key  (IDACTIVITE, IDPARTENAIRE, IDADRESSE)
+create table PROPOSE_4 (
+   IDPARTENAIRE         INTEGER                 not null,
+   IDACTIVITE           INTEGER                 not null,
+   IDADRESSE            INTEGER                 not null,
+   constraint PK_PROPOSE_4 primary key (IDPARTENAIRE, IDACTIVITE, IDADRESSE)
 );
 
 /*==============================================================*/
 /* Index : PROPOSE_4_PK                                         */
 /*==============================================================*/
-create unique  index PROPOSE_4_PK on PROPOSE_4 (
-IDACTIVITE ASC,
-IDPARTENAIRE ASC,
-IDADRESSE ASC
+create unique index PROPOSE_4_PK on PROPOSE_4 (
+IDPARTENAIRE,
+IDACTIVITE,
+IDADRESSE
 );
 
 /*==============================================================*/
 /* Index : PROPOSE_4_FK                                         */
 /*==============================================================*/
-create index PROPOSE_4_FK on PROPOSE_4 (
-IDACTIVITE ASC
+create  index PROPOSE_4_FK on PROPOSE_4 (
+IDPARTENAIRE
 );
 
 /*==============================================================*/
 /* Index : PROPOSE_5_FK                                         */
 /*==============================================================*/
-create index PROPOSE_5_FK on PROPOSE_4 (
-IDPARTENAIRE ASC
+create  index PROPOSE_5_FK on PROPOSE_4 (
+IDACTIVITE
 );
 
 /*==============================================================*/
 /* Index : PROPOSE_6_FK                                         */
 /*==============================================================*/
-create index PROPOSE_6_FK on PROPOSE_4 (
-IDADRESSE ASC
+create  index PROPOSE_6_FK on PROPOSE_4 (
+IDADRESSE
 );
 
 /*==============================================================*/
 /* Table : REPAS                                                */
 /*==============================================================*/
-create table REPAS 
-(
-   IDREPAS              serial                        not null,
-   IDPARTENAIRE         integer                        not null,
-   DESCRIPTIONREPAS     varchar(4096)                  not null,
-   PHOTOREPAS           varchar(512)                   null,
-   PRIXREPAS            numeric(8,2)                   null,
+create table REPAS (
+   IDREPAS              SERIAL               not null,
+   IDPARTENAIRE         INTEGER                 not null,
+   DESCRIPTIONREPAS     VARCHAR(4096)        null,
+   PHOTOREPAS           VARCHAR(512)         null,
+   PRIXREPAS            NUMERIC(8,2)         null,
    constraint PK_REPAS primary key (IDREPAS)
 );
 
@@ -1059,52 +1063,50 @@ create table REPAS
 /* Index : REPAS_PK                                             */
 /*==============================================================*/
 create unique index REPAS_PK on REPAS (
-IDREPAS ASC
+IDREPAS
 );
 
 /*==============================================================*/
 /* Index : PROPOSE_2_FK                                         */
 /*==============================================================*/
-create index PROPOSE_2_FK on REPAS (
-IDPARTENAIRE ASC
+create  index PROPOSE_2_FK on REPAS (
+IDPARTENAIRE
 );
 
 /*==============================================================*/
 /* Table : RESTAURANT                                           */
 /*==============================================================*/
-create table RESTAURANT 
-(
-   IDPARTENAIRE         integer                        not null,
-   IDTYPECUISINE        integer                        not null,
-   NOMPARTENAIRE        varchar(50)                    not null,
-   MAILPARTENAIRE       varchar(100)                   not null,
-   TELPARTENAIRE        char(10)                       not null,
-   NOMBREETOILESRESTAURANT integer                        not null,
-   SPECIALITERESTAURANT varchar(50)                    null,
-   constraint PK_RESTAURANT primary key  (IDPARTENAIRE)
+create table RESTAURANT (
+   IDPARTENAIRE         INTEGER                 not null,
+   IDTYPECUISINE        INTEGER                 not null,
+   NOMPARTENAIRE        VARCHAR(50)          null,
+   MAILPARTENAIRE       VARCHAR(100)         null,
+   TELPARTENAIRE        CHAR(10)             null,
+   NOMBREETOILESRESTAURANT INTEGER                 null,
+   SPECIALITERESTAURANT VARCHAR(50)          null,
+   constraint PK_RESTAURANT primary key (IDPARTENAIRE)
 );
 
 /*==============================================================*/
 /* Index : RESTAURANT_PK                                        */
 /*==============================================================*/
-create unique  index RESTAURANT_PK on RESTAURANT (
-IDPARTENAIRE ASC
+create unique index RESTAURANT_PK on RESTAURANT (
+IDPARTENAIRE
 );
 
 /*==============================================================*/
 /* Index : CUISINE_FK                                           */
 /*==============================================================*/
-create index CUISINE_FK on RESTAURANT (
-IDTYPECUISINE ASC
+create  index CUISINE_FK on RESTAURANT (
+IDTYPECUISINE
 );
 
 /*==============================================================*/
 /* Table : ROLES                                                */
 /*==============================================================*/
-create table ROLES 
-(
-   IDROLE               serial                        not null,
-   LIBELLEROLE          varchar(50)                    null,
+create table ROLES (
+   IDROLE               SERIAL               not null,
+   LIBELLEROLE          VARCHAR(50)          null,
    constraint PK_ROLES primary key (IDROLE)
 );
 
@@ -1112,18 +1114,17 @@ create table ROLES
 /* Index : ROLES_PK                                             */
 /*==============================================================*/
 create unique index ROLES_PK on ROLES (
-IDROLE ASC
+IDROLE
 );
 
 /*==============================================================*/
 /* Table : ROUTE_DES_VINS                                       */
 /*==============================================================*/
-create table ROUTE_DES_VINS 
-(
-   IDROUTE              serial                        not null,
-   TITREROUTE           varchar(120)                   null,
-   DESCRIPTIONROUTE     varchar(2048)                  null,
-   PHOTOROUTE           varchar(512)                   null,
+create table ROUTE_DES_VINS (
+   IDROUTE              SERIAL               not null,
+   TITREROUTE           VARCHAR(120)         null,
+   DESCRIPTIONROUTE     VARCHAR(2048)        null,
+   PHOTOROUTE           VARCHAR(512)         null,
    constraint PK_ROUTE_DES_VINS primary key (IDROUTE)
 );
 
@@ -1131,27 +1132,26 @@ create table ROUTE_DES_VINS
 /* Index : ROUTE_DES_VINS_PK                                    */
 /*==============================================================*/
 create unique index ROUTE_DES_VINS_PK on ROUTE_DES_VINS (
-IDROUTE ASC
+IDROUTE
 );
 
 /*==============================================================*/
 /* Table : SEJOUR                                               */
 /*==============================================================*/
-create table SEJOUR 
-(
-   IDSEJOUR             serial                        not null,
-   IDCATEGORIESEJOUR    integer                        not null,
-   IDDUREE              integer                        not null,
-   IDTHEME              integer                        not null,
-   IDCATEGORIEVIGNOBLE  integer                        not null,
-   IDCATEGORIEPARTICIPANT integer                        not null,
-   IDLOCALITE           integer                        null,
-   TITRESEJOUR          varchar(100)                   not null,
-   PHOTOSEJOUR          varchar(512)                   null,
-   DESCRIPTIONSEJOUR    varchar(4096)                  null,
-   PRIXSEJOUR           numeric(8,2)                   null,
-   NOUVEAUPRIXSEJOUR	numeric(8,2)			null,
-   PUBLIE               boolean                        not null default false,
+create table SEJOUR (
+   IDSEJOUR             SERIAL               not null,
+   IDDUREE              INTEGER                 not null,
+   IDCATEGORIEVIGNOBLE  INTEGER                 not null,
+   IDCATEGORIESEJOUR    INTEGER                 not null,
+   IDLOCALITE           INTEGER                 null,
+   IDTHEME              INTEGER                 not null,
+   IDCATEGORIEPARTICIPANT INTEGER                 not null,
+   TITRESEJOUR          VARCHAR(100)         null,
+   PHOTOSEJOUR          VARCHAR(512)         null,
+   DESCRIPTIONSEJOUR    VARCHAR(4096)        null,
+   PRIXSEJOUR           NUMERIC(8,2)         null,
+   PUBLIE               BOOL                 null,
+   NOUVEAUPRIXSEJOUR    NUMERIC(8,2)         null,
    constraint PK_SEJOUR primary key (IDSEJOUR)
 );
 
@@ -1159,83 +1159,88 @@ create table SEJOUR
 /* Index : SEJOUR_PK                                            */
 /*==============================================================*/
 create unique index SEJOUR_PK on SEJOUR (
-IDSEJOUR ASC
+IDSEJOUR
+);
+
+/*==============================================================*/
+/* Index : SE_SITUE_FK                                          */
+/*==============================================================*/
+create  index SE_SITUE_FK on SEJOUR (
+IDLOCALITE
 );
 
 /*==============================================================*/
 /* Index : CATEGORISE_FK                                        */
 /*==============================================================*/
-create index CATEGORISE_FK on SEJOUR (
-IDCATEGORIEVIGNOBLE ASC
+create  index CATEGORISE_FK on SEJOUR (
+IDCATEGORIEVIGNOBLE
 );
 
 /*==============================================================*/
 /* Index : DEFINIT_FK                                           */
 /*==============================================================*/
-create index DEFINIT_FK on SEJOUR (
-IDTHEME ASC
-);
-
-/*==============================================================*/
-/* Index : DESTINE_A_FK                                         */
-/*==============================================================*/
-create index DESTINE_A_FK on SEJOUR (
-IDCATEGORIEPARTICIPANT ASC
+create  index DEFINIT_FK on SEJOUR (
+IDTHEME
 );
 
 /*==============================================================*/
 /* Index : REGROUPE_FK                                          */
 /*==============================================================*/
-create index REGROUPE_FK on SEJOUR (
-IDCATEGORIESEJOUR ASC
+create  index REGROUPE_FK on SEJOUR (
+IDCATEGORIESEJOUR
 );
 
 /*==============================================================*/
 /* Index : DURE_FK                                              */
 /*==============================================================*/
-create index DURE_FK on SEJOUR (
-IDDUREE ASC
+create  index DURE_FK on SEJOUR (
+IDDUREE
+);
+
+/*==============================================================*/
+/* Index : DESTINE_A_FK                                         */
+/*==============================================================*/
+create  index DESTINE_A_FK on SEJOUR (
+IDCATEGORIEPARTICIPANT
 );
 
 /*==============================================================*/
 /* Table : SE_LOCALISE                                          */
 /*==============================================================*/
-create table SE_LOCALISE 
-(
-   IDROUTE              integer                        not null,
-   IDCATEGORIEVIGNOBLE  integer                        not null,
-   constraint PK_SE_LOCALISE primary key  (IDROUTE, IDCATEGORIEVIGNOBLE)
+create table SE_LOCALISE (
+   IDROUTE              INTEGER                 not null,
+   IDCATEGORIEVIGNOBLE  INTEGER                 not null,
+   constraint PK_SE_LOCALISE primary key (IDROUTE, IDCATEGORIEVIGNOBLE)
 );
 
 /*==============================================================*/
 /* Index : SE_LOCALISE_PK                                       */
 /*==============================================================*/
-create unique  index SE_LOCALISE_PK on SE_LOCALISE (
-IDROUTE ASC,
-IDCATEGORIEVIGNOBLE ASC
+create unique index SE_LOCALISE_PK on SE_LOCALISE (
+IDROUTE,
+IDCATEGORIEVIGNOBLE
 );
 
 /*==============================================================*/
 /* Index : SE_LOCALISE_FK                                       */
 /*==============================================================*/
-create index SE_LOCALISE_FK on SE_LOCALISE (
-IDROUTE ASC
+create  index SE_LOCALISE_FK on SE_LOCALISE (
+IDROUTE
 );
 
 /*==============================================================*/
 /* Index : SE_LOCALISE2_FK                                      */
 /*==============================================================*/
-create index SE_LOCALISE2_FK on SE_LOCALISE (
-IDCATEGORIEVIGNOBLE ASC
+create  index SE_LOCALISE2_FK on SE_LOCALISE (
+IDCATEGORIEVIGNOBLE
 );
 
 /*==============================================================*/
 /* Table : THEME                                                */
 /*==============================================================*/
-create table THEME 
-(
-   IDTHEME              serial                        not null,
-   LIBELLETHEME         varchar(50)                    not null,
+create table THEME (
+   IDTHEME              SERIAL               not null,
+   LIBELLETHEME         VARCHAR(50)          null,
    constraint PK_THEME primary key (IDTHEME)
 );
 
@@ -1243,16 +1248,15 @@ create table THEME
 /* Index : THEME_PK                                             */
 /*==============================================================*/
 create unique index THEME_PK on THEME (
-IDTHEME ASC
+IDTHEME
 );
 
 /*==============================================================*/
 /* Table : TYPECUISINE                                          */
 /*==============================================================*/
-create table TYPECUISINE 
-(
-   IDTYPECUISINE        serial                        not null,
-   LIBELLETYPECUISINE  varchar(50)                    not null,
+create table TYPECUISINE (
+   IDTYPECUISINE        SERIAL               not null,
+   LIBELLETYPECUISINE   VARCHAR(50)          null,
    constraint PK_TYPECUISINE primary key (IDTYPECUISINE)
 );
 
@@ -1260,16 +1264,15 @@ create table TYPECUISINE
 /* Index : TYPECUISINE_PK                                       */
 /*==============================================================*/
 create unique index TYPECUISINE_PK on TYPECUISINE (
-IDTYPECUISINE ASC
+IDTYPECUISINE
 );
 
 /*==============================================================*/
 /* Table : TYPEDEGUSTATION                                      */
 /*==============================================================*/
-create table TYPEDEGUSTATION 
-(
-   IDTYPEDEGUSTATION    serial                        not null,
-   LIBELLETYPEDEGUSTATION varchar(50)                    not null,
+create table TYPEDEGUSTATION (
+   IDTYPEDEGUSTATION    SERIAL               not null,
+   LIBELLETYPEDEGUSTATION VARCHAR(50)          null,
    constraint PK_TYPEDEGUSTATION primary key (IDTYPEDEGUSTATION)
 );
 
@@ -1277,377 +1280,323 @@ create table TYPEDEGUSTATION
 /* Index : TYPEDEGUSTATION_PK                                   */
 /*==============================================================*/
 create unique index TYPEDEGUSTATION_PK on TYPEDEGUSTATION (
-IDTYPEDEGUSTATION ASC
+IDTYPEDEGUSTATION
 );
 
 /*==============================================================*/
 /* Table : VISITE                                               */
 /*==============================================================*/
-create table VISITE 
-(
-   IDVISITE             serial                        not null,
-   IDPARTENAIRE         integer                        not null,
-   DESCRIPTIONVISITE    varchar(4096)                  not null,
-   PHOTOVISITE          varchar(512)                   null,
-   LIENVISITE           varchar(512)                   null,
+create table VISITE (
+   IDVISITE             SERIAL               not null,
+   IDPARTENAIRE         INTEGER                 not null,
+   DESCRIPTIONVISITE    VARCHAR(4096)        null,
+   PHOTOVISITE          VARCHAR(512)         null,
+   LIENVISITE           VARCHAR(512)         null,
    constraint PK_VISITE primary key (IDVISITE)
 );
 
-/*==============================================================*/
-/* Index : VISITE_PK                                            */
-/*==============================================================*/
-create unique index VISITE_PK on VISITE (
-IDVISITE ASC
-);
 
 /*==============================================================*/
 /* Index : PROPOSE_1_FK                                         */
 /*==============================================================*/
-create index PROPOSE_1_FK on VISITE (
-IDPARTENAIRE ASC
+create  index PROPOSE_1_FK on VISITE (
+IDPARTENAIRE
 );
 
 alter table ADRESSE
-   add constraint FK_ADRESSE_A_ENREGIS_CLIENT foreign key (IDCLIENT)
+   add constraint FK_ADRESSE_ASSOCIATI_CLIENT foreign key (IDCLIENT)
       references CLIENT (IDCLIENT)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table ADRESSE
    add constraint FK_ADRESSE_LOCALISE_PARTENAI foreign key (IDPARTENAIRE)
       references PARTENAIRE (IDPARTENAIRE)
-      on update restrict
-      on delete restrict;
-
-alter table APPARTIENT_1
-   add constraint FK_APPARTIE_APPARTIEN_ETAPE foreign key (IDETAPE)
-      references ETAPE (IDETAPE)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table APPARTIENT_1
    add constraint FK_APPARTIE_APPARTIEN_VISITE foreign key (IDVISITE)
       references VISITE (IDVISITE)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
-alter table APPARTIENT_2
+alter table APPARTIENT_1
    add constraint FK_APPARTIE_APPARTIEN_ETAPE foreign key (IDETAPE)
       references ETAPE (IDETAPE)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table APPARTIENT_2
    add constraint FK_APPARTIE_APPARTIEN_REPAS foreign key (IDREPAS)
       references REPAS (IDREPAS)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
-alter table APPARTIENT_4
+alter table APPARTIENT_2
    add constraint FK_APPARTIE_APPARTIEN_ETAPE foreign key (IDETAPE)
       references ETAPE (IDETAPE)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table APPARTIENT_4
    add constraint FK_APPARTIE_APPARTIEN_ACTIVITE foreign key (IDACTIVITE)
       references ACTIVITE (IDACTIVITE)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
+
+alter table APPARTIENT_4
+   add constraint FK_APPARTIE_APPARTIEN_ETAPE foreign key (IDETAPE)
+      references ETAPE (IDETAPE)
+      on delete restrict on update restrict;
 
 alter table ASSOCIATION_38
    add constraint FK_ASSOCIAT_ASSOCIATI_ACTIVITE foreign key (IDACTIVITE)
       references ACTIVITE (IDACTIVITE)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table ASSOCIATION_38
    add constraint FK_ASSOCIAT_ASSOCIATI_DESCRIPT foreign key (IDDESCRIPTIONPANIER)
       references DESCRIPTIONPANIER (IDDESCRIPTIONPANIER)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table ASSOCIATION_39
    add constraint FK_ASSOCIAT_ASSOCIATI_REPAS foreign key (IDREPAS)
       references REPAS (IDREPAS)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table ASSOCIATION_39
    add constraint FK_ASSOCIAT_ASSOCIATI_DESCRIPT foreign key (IDDESCRIPTIONPANIER)
       references DESCRIPTIONPANIER (IDDESCRIPTIONPANIER)
-      on update restrict
-      on delete restrict;
-
-alter table ASSOCIATION_40
-   add constraint FK_ASSOCIAT_ASSOCIATI_DESCRIPT foreign key (IDDESCRIPTIONCOMMANDE)
-      references DESCRIPTIONCOMMANDE (IDDESCRIPTIONCOMMANDE)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table ASSOCIATION_40
    add constraint FK_ASSOCIAT_ASSOCIATI_ACTIVITE foreign key (IDACTIVITE)
       references ACTIVITE (IDACTIVITE)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
-alter table mange1
+alter table ASSOCIATION_40
    add constraint FK_ASSOCIAT_ASSOCIATI_DESCRIPT foreign key (IDDESCRIPTIONCOMMANDE)
       references DESCRIPTIONCOMMANDE (IDDESCRIPTIONCOMMANDE)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table mange1
    add constraint FK_ASSOCIAT_ASSOCIATI_REPAS foreign key (IDREPAS)
       references REPAS (IDREPAS)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
+
+alter table mange1
+   add constraint FK_ASSOCIAT_ASSOCIATI_DESCRIPT foreign key (IDDESCRIPTIONCOMMANDE)
+      references DESCRIPTIONCOMMANDE (IDDESCRIPTIONCOMMANDE)
+      on delete restrict on update restrict;
 
 alter table AUTRESOCIETE
    add constraint FK_AUTRESOC_HERITAGE__PARTENAI foreign key (IDPARTENAIRE)
       references PARTENAIRE (IDPARTENAIRE)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
+
+alter table AVIS
+   add constraint FK_AVIS_ASSOCIATI_CLIENT foreign key (IDCLIENT)
+      references CLIENT (IDCLIENT)
+      on delete restrict on update restrict;
 
 alter table AVIS
    add constraint FK_AVIS_CRITIQUE_SEJOUR foreign key (IDSEJOUR)
       references SEJOUR (IDSEJOUR)
-      on update restrict
-      on delete restrict;
-
-alter table AVIS
-   add constraint FK_AVIS_POSTE_CLIENT foreign key (IDCLIENT)
-      references CLIENT (IDCLIENT)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table CARTE_BANCAIRE
-   add constraint FK_CARTE_BA_DETIENT_CLIENT foreign key (IDCLIENT)
+   add constraint FK_CARTE_BA_ASSOCIATI_CLIENT foreign key (IDCLIENT)
       references CLIENT (IDCLIENT)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table CAVE
    add constraint FK_CAVE_FAIT_DEGU_TYPEDEGU foreign key (IDTYPEDEGUSTATION)
       references TYPEDEGUSTATION (IDTYPEDEGUSTATION)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table CAVE
    add constraint FK_CAVE_HERITAGE__PARTENAI foreign key (IDPARTENAIRE)
       references PARTENAIRE (IDPARTENAIRE)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table CLIENT
    add constraint FK_CLIENT_ASSOCIATI_ROLES foreign key (IDROLE)
       references ROLES (IDROLE)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table COMMANDE
-   add constraint FK_COMMANDE_ASSOCIE2_PANIER foreign key (IDPANIER)
+   add constraint FK_COMMANDE_ASSOCIATI_CLIENT2 foreign key (IDCLIENTACHETEUR)
+      references CLIENT (IDCLIENT)
+      on delete restrict on update restrict;
+
+alter table COMMANDE
+   add constraint FK_COMMANDE_ASSOCIATI_CLIENT foreign key (IDCLIENTBENEFICIAIRE)
+      references CLIENT (IDCLIENT)
+      on delete restrict on update restrict;
+
+alter table COMMANDE
+   add constraint FK_COMMANDE_ASSOCIATI_ADRESSE2 foreign key (IDADRESSEFACTURATION)
+      references ADRESSE (IDADRESSE)
+      on delete restrict on update restrict;
+
+alter table COMMANDE
+   add constraint FK_COMMANDE_ASSOCIATI_ADRESSE foreign key (IDADRESSELIVRAISON)
+      references ADRESSE (IDADRESSE)
+      on delete restrict on update restrict;
+
+alter table COMMANDE
+   add constraint FK_COMMANDE_ASSOCIE_PANIER foreign key (IDPANIER)
       references PANIER (IDPANIER)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table COMMANDE
-   add constraint FK_COMMANDE_BENEFICIA_CLIENT foreign key (IDCLIENTACHETEUR)
-      references CLIENT (IDCLIENT)
-      on update restrict
-      on delete restrict;
+   add constraint FK_COMMANDE_DIMINUE_CODEPROM foreign key (IDCODEPROMO)
+      references CODEPROMO (IDCODEPROMO)
+      on delete restrict on update restrict;
 
-alter table COMMANDE
-   add constraint FK_COMMANDE_FACTUREA_ADRESSE foreign key (IDADRESSEFACTURATION)
-      references ADRESSE (IDADRESSE)
-      on update restrict
-      on delete restrict;
-
-alter table COMMANDE
-   add constraint FK_COMMANDE_LIVREA_ADRESSE foreign key (IDADRESSELIVRAISON)
-      references ADRESSE (IDADRESSE)
-      on update restrict
-      on delete restrict;
-
-alter table COMMANDE
-   add constraint FK_COMMANDE_REALISE_CLIENT foreign key (IDCLIENTBENEFICIAIRE)
-      references CLIENT (IDCLIENT)
-      on update restrict
-      on delete restrict;
-
-alter table COMMANDE
-   add constraint FK_COMMANDE_cb foreign key (IDcb)
-      references CARTE_BANCAIRE (IDcb)
-      on update restrict
-      on delete restrict;
-	  
 alter table DESCRIPTIONCOMMANDE
    add constraint FK_DESCRIPT_ASSOCIATI_COMMANDE foreign key (IDCOMMANDE)
       references COMMANDE (IDCOMMANDE)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table DESCRIPTIONCOMMANDE
    add constraint FK_DESCRIPT_ASSOCIATI_SEJOUR foreign key (IDSEJOUR)
       references SEJOUR (IDSEJOUR)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table DESCRIPTIONCOMMANDE
    add constraint FK_DESCRIPT_ASSOCIATI_HEBERGEM foreign key (IDHEBERGEMENT)
       references HEBERGEMENT (IDHEBERGEMENT)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
+
+alter table DESCRIPTIONCOMMANDE
+   add constraint FK_DESCRIPT_ASSOCIATI_CARTE_BA foreign key (IDCB)
+      references CARTE_BANCAIRE (IDCB)
+      on delete restrict on update restrict;
 
 alter table DESCRIPTIONPANIER
    add constraint FK_DESCRIPT_ASSOCIATI_HEBERGEM foreign key (IDHEBERGEMENT)
       references HEBERGEMENT (IDHEBERGEMENT)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table DESCRIPTIONPANIER
    add constraint FK_DESCRIPT_DECRIT_PA_PANIER foreign key (IDPANIER)
       references PANIER (IDPANIER)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table DESCRIPTIONPANIER
    add constraint FK_DESCRIPT_DECRIT_SE_SEJOUR foreign key (IDSEJOUR)
       references SEJOUR (IDSEJOUR)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table ETAPE
    add constraint FK_ETAPE_APPARTIEN_HEBERGEM foreign key (IDHEBERGEMENT)
       references HEBERGEMENT (IDHEBERGEMENT)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table ETAPE
    add constraint FK_ETAPE_POSSEDE_SEJOUR foreign key (IDSEJOUR)
       references SEJOUR (IDSEJOUR)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table FAVORIS
    add constraint FK_FAVORIS_FAVORIS_CLIENT foreign key (IDCLIENT)
       references CLIENT (IDCLIENT)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table FAVORIS
    add constraint FK_FAVORIS_FAVORIS2_SEJOUR foreign key (IDSEJOUR)
       references SEJOUR (IDSEJOUR)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table HEBERGEMENT
    add constraint FK_HEBERGEM_PROPOSE_3_HOTEL foreign key (IDPARTENAIRE)
       references HOTEL (IDPARTENAIRE)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table HOTEL
    add constraint FK_HOTEL_HERITAGE__PARTENAI foreign key (IDPARTENAIRE)
       references PARTENAIRE (IDPARTENAIRE)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table LOCALITE
    add constraint FK_LOCALITE_A_CATEGORI foreign key (IDCATEGORIEVIGNOBLE)
       references CATEGORIEVIGNOBLE (IDCATEGORIEVIGNOBLE)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
+
+alter table PANIER
+   add constraint FK_PANIER_REDUIT_CODEPROM foreign key (IDCODEPROMO)
+      references CODEPROMO (IDCODEPROMO)
+      on delete restrict on update restrict;
 
 alter table PROPOSE_4
-   add constraint FK_PROPOSE__PROPOSE_4_ACTIVITE foreign key (IDACTIVITE)
-      references ACTIVITE (IDACTIVITE)
-      on update restrict
-      on delete restrict;
-
-alter table PROPOSE_4
-   add constraint FK_PROPOSE__PROPOSE_5_AUTRESOC foreign key (IDPARTENAIRE)
+   add constraint FK_PROPOSE__PROPOSE_4_AUTRESOC foreign key (IDPARTENAIRE)
       references AUTRESOCIETE (IDPARTENAIRE)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
+
+alter table PROPOSE_4
+   add constraint FK_PROPOSE__PROPOSE_5_ACTIVITE foreign key (IDACTIVITE)
+      references ACTIVITE (IDACTIVITE)
+      on delete restrict on update restrict;
 
 alter table PROPOSE_4
    add constraint FK_PROPOSE__PROPOSE_6_ADRESSE foreign key (IDADRESSE)
       references ADRESSE (IDADRESSE)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table REPAS
    add constraint FK_REPAS_PROPOSE_2_RESTAURA foreign key (IDPARTENAIRE)
       references RESTAURANT (IDPARTENAIRE)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table RESTAURANT
    add constraint FK_RESTAURA_CUISINE_TYPECUIS foreign key (IDTYPECUISINE)
       references TYPECUISINE (IDTYPECUISINE)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table RESTAURANT
    add constraint FK_RESTAURA_HERITAGE__PARTENAI foreign key (IDPARTENAIRE)
       references PARTENAIRE (IDPARTENAIRE)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table SEJOUR
    add constraint FK_SEJOUR_CATEGORIS_CATEGORI foreign key (IDCATEGORIEVIGNOBLE)
       references CATEGORIEVIGNOBLE (IDCATEGORIEVIGNOBLE)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table SEJOUR
    add constraint FK_SEJOUR_DEFINIT_THEME foreign key (IDTHEME)
       references THEME (IDTHEME)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table SEJOUR
    add constraint FK_SEJOUR_DESTINE_A_CATEGORI foreign key (IDCATEGORIEPARTICIPANT)
       references CATEGORIEPARTICIPANT (IDCATEGORIEPARTICIPANT)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table SEJOUR
    add constraint FK_SEJOUR_DURE_DUREE foreign key (IDDUREE)
       references DUREE (IDDUREE)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table SEJOUR
    add constraint FK_SEJOUR_REGROUPE_CATEGORI foreign key (IDCATEGORIESEJOUR)
       references CATEGORIESEJOUR (IDCATEGORIESEJOUR)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table SEJOUR
    add constraint FK_SEJOUR_SE_SITUE_LOCALITE foreign key (IDLOCALITE)
       references LOCALITE (IDLOCALITE)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table SE_LOCALISE
    add constraint FK_SE_LOCAL_SE_LOCALI_ROUTE_DE foreign key (IDROUTE)
       references ROUTE_DES_VINS (IDROUTE)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table SE_LOCALISE
    add constraint FK_SE_LOCAL_SE_LOCALI_CATEGORI foreign key (IDCATEGORIEVIGNOBLE)
       references CATEGORIEVIGNOBLE (IDCATEGORIEVIGNOBLE)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 alter table VISITE
    add constraint FK_VISITE_PROPOSE_1_CAVE foreign key (IDPARTENAIRE)
       references CAVE (IDPARTENAIRE)
-      on update restrict
-      on delete restrict;
+      on delete restrict on update restrict;
 
 ----------------------------------------------------------------------- CHECKS
 
@@ -1853,64 +1802,64 @@ VALUES
 	
 ------------------------------------------------- CLIENT
 INSERT INTO
-	CLIENT (civiliteClient, idRole, prenomClient, nomClient, emailClient, dateNaissanceClient, motDePasseClient, offresPromotionnellesClient, dateDerniereActiviteClient, TELEPHONECLIENT)
+	CLIENT (civiliteClient, idRole, prenomClient, nomClient, emailClient, dateNaissanceClient, motDePasseClient, offresPromotionnellesClient, dateDerniereActiviteClient, TELEPHONECLIENT, A2F)
 VALUES
-	('M', 1, 'Elliott', 'Serena', 'serenaelliott8820@google.com', '1977-02-18', '$2y$12$oG8AVZThhOQp3Huf3yPSsOjklPDT.wTdMdTsYKrwXTWVtngfnm7AG', 'False','2022-05-08','0767662202'),
-	('M', 1, 'Houston', 'Isaiah', 'i_houston8482@yahoo.fr', '1997-06-09', '$2y$12$T7aFs0JYqyVIFsqDKlpZpOqCNS4zNBaA7Olxbn5s4CexFEUPb85M6', 'True','2024-07-21','0637056342'),
-	('M', 1, 'Beard', 'Zenaida', 'bzenaida9389@icloud.fr', '1964-07-11', '$2y$12$tDvZzbMipr7TduC2//x64ecFpFxS7d2nkolu6ukKQbJI6aHC/rF82', 'False','2023-08-26','0634303099'),
-	('M', 1, 'Hewitt', 'Alma', 'hewitt.alma1314@yahoo.com', '1962-02-02', '$2y$12$MnLYDNoErNM70hHDorkt/uZ7ktwMKQdHO4G/QO.tuZiJVVfggLss2', 'True','2023-05-20','0794788234'),
-	('M', 1, 'Morse', 'Daniel', 'm-daniel@google.com', '1995-01-04', '$2y$12$YgE5UebR2l1etg3Pf/if3uOUYgpKn80gnl9ZDmZkvwn5rVUHU.Qey ', 'True','2023-06-13','0722774688'),
-	('M', 1, 'Wallace', 'Charity', 'wallace.charity@outlook.fr', '2004-05-19', '$2y$12$3CnriwLciJuF5q8Z2NQeE.VOdG4uM8UQ0ZzMDI2z4B7T2OPZrwNKO ', 'False','2022-03-13','0612207228'),
-	('Mme', 1, 'Bright', 'Karleigh', 'karleigh-bright@yahoo.fr', '1989-05-06', '$2y$12$510HXLToXaX.WcPTRt93o.Jd8cKX8wM0kzEiOZg9.bkXeqyu9QFzq ', 'False','2023-10-01','0768109082'),
-	('Mme', 1, 'Quinn', 'Eaton', 'eaton-quinn6882@icloud.fr', '1963-10-03', '$2y$12$6bvIIB/usUxh6xu8gpxJCeeC40JAhWeHdRwRMZuM7Xb2WGPa/wcF6', 'False','2024-03-17','0735632316'),
-	('Mme', 1, 'Parks', 'Alexa', 'p_alexa5631@google.fr', '2002-09-02', '$2y$12$25hWZiSNEr1stpiydsG2.uh/ugVQgsn/vbRcyU0Yg7aGyF4M0WTHi', 'True','2023-05-28','0645416824'),
-	('M', 1, 'Stanley', 'Cassidy', 'cassidystanley4658@icloud.com', '1973-09-28', '$2y$12$T7ZFvO0/gxkXrMtlvFmXU.assb889M7xeaK.03HRjGuvu1tsvJ3ZW', 'False','2023-03-31','0687113083'),
-	('Mme', 1, 'Gould', 'Hanna', 'hannagould@icloud.fr', '2002-08-25', '$2y$12$gTUNuw/XpLnGEjypvo2BTOv5BEEHWs6uLqUQubzPQOjmbjt8fl7Ma', 'True','2022-03-20','0701771126'),
-	('Mme', 1, 'Reyes', 'Daniel', 'danielreyes8150@google.com', '1979-05-08', '$2y$12$oXfxFYh6ZVRAtGTV9h7TTeMSVo9wRaUobP71QJxRxLSyuSDxVml.S', 'True','2024-01-09','0762691646'),
-	('Mme', 1, 'Stokes', 'Raven', 'r.stokes@outlook.com', '1998-01-11', '$2y$12$a70Kyj8lpSxRmD4i4wn/c.fK1tAF8qvAOqri2ylEHgfAPCZ4mU41y', 'False','2024-08-30','0791223553'),
-	('Mme', 1, 'Merrill', 'Reese', 'rmerrill875@yahoo.com', '1978-10-29', '$2y$12$8fNLEUG0bdmfbgzE/ldNp.PnQ.YOEsSQimx7zgX5LFB7OvX69t136', 'True','2023-07-13','0777573234'),
-	('Mme', 1, 'Dudley', 'Quail', 'dquail9287@google.com', '1993-04-19', '$2y$12$g5sJ3hPraxehIUqOevfNfO1Q3Yy4yhIf71Ik7Ae/8T0Zscby.nDbG', 'False','2023-05-28','0667181469'),
-	('M', 1, 'Galloway', 'Rhea', 'rhea_galloway@outlook.fr', '1969-01-28', '$2y$12$x393WGhA/BGKNSccbPau4uCeH5ynaF8PYsfz6CegEhma9xw/Aj5V2', 'True','2022-12-31','0607264814'),
-	('Mme', 1, 'Jimenez', 'Margaret', 'jimenez-margaret7788@google.com', '1993-09-20', '$2y$12$u4gxI9a..6WV.zKAhwNeh.2Lo7Fft2hIqMLCo/KjPftCtYiHog.pO', 'False','2023-10-07','0756298295'),
-	('Mme', 1, 'Roy', 'Leonard', 'rleonard@hotmail.fr', '1997-04-23', '$2y$12$b2Guf5QneGQEVYXW0lPbuOPy/Cxvn5nokrC2AWzYFZJJHs.iEnR6a', 'False','2023-04-29','0653756290'),
-	('M', 1, 'Whitney', 'Keith', 'whitney-keith6811@google.fr', '2000-12-29', '$2y$12$6M4nCnhOi.UMai9LOcJqIu7GUrt6bppsYnE6JONgyYQGo8mJ5zeVG', 'False','2023-09-25','0718886362'),
-	('Mme', 1, 'Sears', 'Gail', 'gail_sears@icloud.fr', '2001-01-17', '$2y$12$/LoLCuJBUCEHHcbLczByTeDMaB9kuQLf0CiCtXyEhDUdOoltyKUQy', 'True','2024-10-18','0723808127'),
-	('Mme', 1, 'Clements', 'Perry', 'perry.clements6445@yahoo.com', '1994-07-21', '$2y$12$bGxwpgYNtIUHQeJLbhqUCuCsOeNa5Y66BZDtKSyo8WNDegYUzRgT.', 'True','2023-10-22','0603966614'),
-	('Mme', 1, 'Bass', 'Rae', 'rae-bass6126@yahoo.com', '1970-11-13', '$2y$12$BeO9dpyQ/YYNQRRQFkAvSufLs2qFVOjmkzdJMM6238254F3qQWKVC', 'False','2023-07-21','0662663238'),
-	('Mme', 1, 'Stuart', 'Tatiana', 'stuart-tatiana@icloud.com', '1974-09-23', '$2y$12$K.1f.M6Vn/DGaZVa1v3JqOk4Ul2JxlRiz0aIdykD45cbkxNoypqb2', 'False','2022-08-25','0611472177'),
-	('Mme', 1, 'Durham', 'Gage', 'g-durham@icloud.com', '1964-01-18', '$2y$12$RHKprCXOeZU28RCfw6Ib4.OyADLEzuhKMVaQ1dz/7JWW8R4ieDN/O', 'False','2022-03-03','0754987167'),
-	('Mme', 1, 'Owens', 'Christopher', 'c-owens@hotmail.fr', '2006-08-16', '$2y$12$.PrDYMBinG4UeALkwBLOzuoUBdUajkpkhaGpxGK3iTpyD9ALlnMei', 'False','2023-04-01','0668288049'),
-	('Mme', 1, 'Bartlett', 'Maia', 'maia.bartlett@google.com', '2003-11-10', '$2y$12$VeZgWJLl6Gol06CqSoHy6eEk4cYKaIGY9W1Fe9chI2i3qDdsU6SH6', 'True','2022-07-09','0627263821'),
-	('Mme', 1, 'Branch', 'Derek', 'dbranch6752@outlook.com', '1995-02-08', '$2y$12$NzFQkVJ4wE1QPjAJqSZikuGP/YVkMvttjied19//DHJ1DwOZ2QlGm', 'True','2024-05-14','0621073828'),
-	('Mme', 1, 'Nielsen', 'Amanda', 'n.amanda@yahoo.com', '1987-07-03', '$2y$12$Ar/pJ/oc2FkscqIV5Rn5SORHR9lALuShpdoe.jR4w1hs5ew7UcKLO', 'True','2022-05-09','0618351474'),
-	('Mme', 1, 'Blackwell', 'Jonas', 'bjonas@yahoo.com', '1992-04-03', '$2y$12$NZDLkMisCpPpi8XP.ko5huLDcAryQpvsHi5j23dGBP5TdhCg4mNlm', 'True','2024-10-09','0732047834'),
-	('Mme', 1, 'Roman', 'Ali', 'rali@yahoo.fr', '1984-11-09', '$2y$12$BV3j8L6ACi84z1vAGaW/9.duICsuGYsY4qSAToHIRjw6v/Thkhd3q', 'False','2024-03-24','0696434046'),
-	('M', 1, 'Mathews', 'Fulton', 'm-fulton4627@yahoo.fr', '1986-08-27', '$2y$12$c0qcb6DOM2rOBBYxnRa4eewMlOVbOb5zZ7LSeZrTXyJlWjudzqzXu', 'True','2023-01-27','0622103446'),
-	('Mme', 1, 'Patterson', 'Justin', 'justin-patterson@google.fr', '1974-04-03', '$2y$12$hraoMRE1jxahfcbtCcD0GOpZ5914hT1AWlmF704zKu09tBkuX6U8O', 'True','2023-09-05','0747780259'),
-	('M', 1, 'Salas', 'Wynter', 'salas-wynter1587@outlook.fr', '1971-01-04', '$2y$12$a.uNrpwK08AM4GAKfsr9hO9XAg2na7Z81B40yOyu7D/ofk1qkJTly', 'True','2022-04-18','0757626251'),
-	('Mme', 1, 'Reyes', 'Natalie', 'natalie.reyes6824@yahoo.fr', '1967-03-30', '$2y$12$4U.20xCg7YxApXm0Df1mA.OV1MX9nnD9ZyH/tVvoZHb3k0tAN2bNC', 'True','2022-11-08','0657285525'),
-	('Mme', 1, 'Glover', 'Bo', 'b-glover@yahoo.com', '1968-01-26', '$2y$12$v6ysj3SGMbXZPKvT5UImXOwvYqvibsXd9DcrWoYKnOwRqHh1GXmh2', 'False','2022-05-04','0626931827'),
-	('Mme', 1, 'Mercado', 'Yeo', 'yeomercado@hotmail.com', '1976-06-21', '$2y$12$R2XMKgnrnHS0hGtuIfjSXOZbRBaE0nOMOO3OrsY7XGDQx.UDp1Z8q', 'False','2024-03-01','0722785760'),
-	('M', 1, 'Valdez', 'Samuel', 'valdez.samuel@hotmail.fr', '2006-04-10', '$2y$12$qDPwcFFwB04TvO.sCDkXWeQEzkvFy5E53yFx9Nw3eDnxpUDczdi2K', 'False','2024-10-19','0626122479'),
-	('M', 1, 'Hensley', 'Kennedy', 'kennedy_hensley1420@hotmail.fr', '1964-11-08', '$2y$12$Cz8OTQ7H2y/oiyj6zRNQpOUy6A9A5hcbnfo9wvJ5riR2i9MFeJ/v2', 'False','2022-04-08','0708837451'),
-	('M', 1, 'Atkins', 'Orla', 'oatkins@yahoo.fr', '1998-01-15', '$2y$12$rAGeQAaJN2CuAqiOvLKxP.hqeqTjrmVnvAeoVxCanpA5gHWWN5Ss2', 'True','2024-08-14','0605795163'),
-	('M', 1, 'Gibson', 'Evangeline', 'gibson-evangeline@yahoo.fr', '1986-11-03', '$2y$12$fKGg5gWf7ceh1pAIGfm4VePtsqX1v8nBt91eNTeIqceUKvvpp3IJK', 'False','2022-04-17','0728168777'),
-	('M', 1, 'Wheeler', 'Charissa', 'charissa_wheeler@icloud.fr', '1990-11-05', '$2y$12$lmE72e3C/JyU77qbsYFK5OfrXVXZC7erMY.O/bC.dCn1aIk7TLCFW', 'True','2023-12-28','0717831053'),
-	('M', 1, 'Johns', 'Armando', 'armando.johns9353@outlook.fr', '1983-04-02', '$2y$12$agkF5wC0n64qnSxNB6u4z.4KMkoIW8MwYHE.4RX3zEc3wfGuSJnS6', 'False','2023-01-14','0778333086'),
-	('M', 1, 'Mcdaniel', 'Caesar', 'm-caesar8163@hotmail.com', '2004-11-09', '$2y$12$fvR7U1RyYv/Ne9oDbkgAQue0QwJUxBWjB5ANUmkzh3NX8R4iYnKai', 'False','2023-03-25','0768846761'),
-	('Mme', 1, 'Battle', 'Elliott', 'b.elliott@outlook.fr', '2003-11-29', '$2y$12$djQmZK.n2fL9cXgk0llDNOczA06MaIBZ16EYT/gLm0R5o3BQ27VgS', 'False','2024-02-24','0678607562'),
-	('Mme', 1, 'Thornton', 'Gil', 't_gil@google.com', '1961-07-23', '$2y$12$1ZoFbE/l/6DsVsbg7lta6efNFDymgUiyMW.Mcm9riquqQleEBvWly', 'True','2022-03-08','0655357110'),
-	('Mme', 1, 'Washington', 'Rinah', 'rinah-washington@outlook.com', '2000-10-08', '$2y$12$Qb1wngnzB0q3tBkbw1JG7egKQFk.FodOgLrKM2gJtFgzPaUV1uC1a', 'True','2023-12-06','0687134476'),
-	('M', 1, 'Gaines', 'Kelly', 'gkelly3905@google.com', '1998-09-06', '$2y$12$SkxxhIbaWj3HZHV67GL8yesNId6ea9CiAa9xLtzIBgGKD/bRK7sPm', 'False','2024-10-06','0657532720'),
-	('Mme', 1, 'Holt', 'Gavin', 'h_gavin@google.com', '2003-05-23', '$2y$12$iUivNOYQx1MEf/zNAYFeX.w3QsXEIn9xRAxsj5snjMuH271qwiQQS', 'False','2022-07-27','0706742458'),
-	('M', 1, 'Burch', 'Inez', 'inez.burch5236@hotmail.com', '1986-03-16', '$2y$12$EfF.UraWgKA2Xss/MZdgWOSVPW4a6UFgnhHItz049INQm7Te3jF5G', 'True','2024-08-29','0658575212'),
-	('Mme', 1, 'Randall', 'Maggie', 'randall_maggie4776@google.fr', '1963-09-13', '$2y$12$154ccb6/K0Mtkn4VBXIyN.l0IbL/Swqzz2P6vtuKzjiTGJeBA8zGq', 'False','2022-09-11','0715177544'),
-	('M', 2, 'Vente', 'Service', 'servicevente@gmail.com', '2000-09-13', '$2y$12$UZrFuCpTum4Z3s3IHF5d.eLnMGPErg5JQ4JfUufXATr29qpxMnbV2', 'False','2022-09-11','0602780180'),
-	('M', 4, 'Dodey', 'Kenny', 'kenny_dodey@google.fr', '2005-01-13', '$2y$12$1O3DET3NhybnUUmmrQAaA.sYP2.4RgjZenW8qzu2wrfAT5uSZy6GO', 'False','2022-09-11','0718590626'),
-	('M', 1, 'Vino', 'Client', 'client.vinotrip@gmail.com', '2005-02-13', '$2y$12$oG8AVZThhOQp3Huf3yPSsOjklPDT.wTdMdTsYKrwXTWVtngfnm7AG', 'False','2022-09-11','0695738371'),
-	('M', 2, 'Carpentier', 'Aina', 'aina.carpentier@vinotrip.fr', '1900-09-13', '$2y$12$WQlLswWkAfV8DGxVEfc/3.mNYNoHj.B/kZcJQA6vcZ3beLHBg0gx6', 'False','2022-09-11','0788524453'),
-	('M', 4, 'Magnenat', 'Lou', 'vinotrip@lmgt.me', '2006-07-30', '$2y$12$TQ2Z.PnyLE4v5tTOkDX3Ee9txFQIzl38J.QPw/JuUAIr3FZFTlSzy', 'False','2022-09-11','0772241781'),
-	('M', 3, 'Selmane', 'Rayan', 'rayan.selmane@vinotrip.fr', '2003-09-13', '$2y$12$sXHLUTy5Dj9S/cns6EF6Pe4AdOk0jC0WySr1q8GRiLB1E/Jx9Gyea', 'False','2022-09-11','0102030405');
+	('M', 1, 'Elliott', 'Serena', 'serenaelliott8820@google.com', '1977-02-18', '$2y$12$oG8AVZThhOQp3Huf3yPSsOjklPDT.wTdMdTsYKrwXTWVtngfnm7AG', 'False','2022-05-08','0767662202', false),
+	('M', 1, 'Houston', 'Isaiah', 'i_houston8482@yahoo.fr', '1997-06-09', '$2y$12$T7aFs0JYqyVIFsqDKlpZpOqCNS4zNBaA7Olxbn5s4CexFEUPb85M6', 'True','2024-07-21','0637056342', false),
+	('M', 1, 'Beard', 'Zenaida', 'bzenaida9389@icloud.fr', '1964-07-11', '$2y$12$tDvZzbMipr7TduC2//x64ecFpFxS7d2nkolu6ukKQbJI6aHC/rF82', 'False','2023-08-26','0634303099', false),
+	('M', 1, 'Hewitt', 'Alma', 'hewitt.alma1314@yahoo.com', '1962-02-02', '$2y$12$MnLYDNoErNM70hHDorkt/uZ7ktwMKQdHO4G/QO.tuZiJVVfggLss2', 'True','2023-05-20','0794788234', false),
+	('M', 1, 'Morse', 'Daniel', 'm-daniel@google.com', '1995-01-04', '$2y$12$YgE5UebR2l1etg3Pf/if3uOUYgpKn80gnl9ZDmZkvwn5rVUHU.Qey ', 'True','2023-06-13','0722774688', false),
+	('M', 1, 'Wallace', 'Charity', 'wallace.charity@outlook.fr', '2004-05-19', '$2y$12$3CnriwLciJuF5q8Z2NQeE.VOdG4uM8UQ0ZzMDI2z4B7T2OPZrwNKO ', 'False','2022-03-13','0612207228', false),
+	('Mme', 1, 'Bright', 'Karleigh', 'karleigh-bright@yahoo.fr', '1989-05-06', '$2y$12$510HXLToXaX.WcPTRt93o.Jd8cKX8wM0kzEiOZg9.bkXeqyu9QFzq ', 'False','2023-10-01','0768109082', false),
+	('Mme', 1, 'Quinn', 'Eaton', 'eaton-quinn6882@icloud.fr', '1963-10-03', '$2y$12$6bvIIB/usUxh6xu8gpxJCeeC40JAhWeHdRwRMZuM7Xb2WGPa/wcF6', 'False','2024-03-17','0735632316', false),
+	('Mme', 1, 'Parks', 'Alexa', 'p_alexa5631@google.fr', '2002-09-02', '$2y$12$25hWZiSNEr1stpiydsG2.uh/ugVQgsn/vbRcyU0Yg7aGyF4M0WTHi', 'True','2023-05-28','0645416824', false),
+	('M', 1, 'Stanley', 'Cassidy', 'cassidystanley4658@icloud.com', '1973-09-28', '$2y$12$T7ZFvO0/gxkXrMtlvFmXU.assb889M7xeaK.03HRjGuvu1tsvJ3ZW', 'False','2023-03-31','0687113083', false),
+	('Mme', 1, 'Gould', 'Hanna', 'hannagould@icloud.fr', '2002-08-25', '$2y$12$gTUNuw/XpLnGEjypvo2BTOv5BEEHWs6uLqUQubzPQOjmbjt8fl7Ma', 'True','2022-03-20','0701771126', false),
+	('Mme', 1, 'Reyes', 'Daniel', 'danielreyes8150@google.com', '1979-05-08', '$2y$12$oXfxFYh6ZVRAtGTV9h7TTeMSVo9wRaUobP71QJxRxLSyuSDxVml.S', 'True','2024-01-09','0762691646', false),
+	('Mme', 1, 'Stokes', 'Raven', 'r.stokes@outlook.com', '1998-01-11', '$2y$12$a70Kyj8lpSxRmD4i4wn/c.fK1tAF8qvAOqri2ylEHgfAPCZ4mU41y', 'False','2024-08-30','0791223553', false),
+	('Mme', 1, 'Merrill', 'Reese', 'rmerrill875@yahoo.com', '1978-10-29', '$2y$12$8fNLEUG0bdmfbgzE/ldNp.PnQ.YOEsSQimx7zgX5LFB7OvX69t136', 'True','2023-07-13','0777573234', false),
+	('Mme', 1, 'Dudley', 'Quail', 'dquail9287@google.com', '1993-04-19', '$2y$12$g5sJ3hPraxehIUqOevfNfO1Q3Yy4yhIf71Ik7Ae/8T0Zscby.nDbG', 'False','2023-05-28','0667181469', false),
+	('M', 1, 'Galloway', 'Rhea', 'rhea_galloway@outlook.fr', '1969-01-28', '$2y$12$x393WGhA/BGKNSccbPau4uCeH5ynaF8PYsfz6CegEhma9xw/Aj5V2', 'True','2022-12-31','0607264814', false),
+	('Mme', 1, 'Jimenez', 'Margaret', 'jimenez-margaret7788@google.com', '1993-09-20', '$2y$12$u4gxI9a..6WV.zKAhwNeh.2Lo7Fft2hIqMLCo/KjPftCtYiHog.pO', 'False','2023-10-07','0756298295', false),
+	('Mme', 1, 'Roy', 'Leonard', 'rleonard@hotmail.fr', '1997-04-23', '$2y$12$b2Guf5QneGQEVYXW0lPbuOPy/Cxvn5nokrC2AWzYFZJJHs.iEnR6a', 'False','2023-04-29','0653756290', false),
+	('M', 1, 'Whitney', 'Keith', 'whitney-keith6811@google.fr', '2000-12-29', '$2y$12$6M4nCnhOi.UMai9LOcJqIu7GUrt6bppsYnE6JONgyYQGo8mJ5zeVG', 'False','2023-09-25','0718886362', false),
+	('Mme', 1, 'Sears', 'Gail', 'gail_sears@icloud.fr', '2001-01-17', '$2y$12$/LoLCuJBUCEHHcbLczByTeDMaB9kuQLf0CiCtXyEhDUdOoltyKUQy', 'True','2024-10-18','0723808127', false),
+	('Mme', 1, 'Clements', 'Perry', 'perry.clements6445@yahoo.com', '1994-07-21', '$2y$12$bGxwpgYNtIUHQeJLbhqUCuCsOeNa5Y66BZDtKSyo8WNDegYUzRgT.', 'True','2023-10-22','0603966614', false),
+	('Mme', 1, 'Bass', 'Rae', 'rae-bass6126@yahoo.com', '1970-11-13', '$2y$12$BeO9dpyQ/YYNQRRQFkAvSufLs2qFVOjmkzdJMM6238254F3qQWKVC', 'False','2023-07-21','0662663238', false),
+	('Mme', 1, 'Stuart', 'Tatiana', 'stuart-tatiana@icloud.com', '1974-09-23', '$2y$12$K.1f.M6Vn/DGaZVa1v3JqOk4Ul2JxlRiz0aIdykD45cbkxNoypqb2', 'False','2022-08-25','0611472177', false),
+	('Mme', 1, 'Durham', 'Gage', 'g-durham@icloud.com', '1964-01-18', '$2y$12$RHKprCXOeZU28RCfw6Ib4.OyADLEzuhKMVaQ1dz/7JWW8R4ieDN/O', 'False','2022-03-03','0754987167', false),
+	('Mme', 1, 'Owens', 'Christopher', 'c-owens@hotmail.fr', '2006-08-16', '$2y$12$.PrDYMBinG4UeALkwBLOzuoUBdUajkpkhaGpxGK3iTpyD9ALlnMei', 'False','2023-04-01','0668288049', false),
+	('Mme', 1, 'Bartlett', 'Maia', 'maia.bartlett@google.com', '2003-11-10', '$2y$12$VeZgWJLl6Gol06CqSoHy6eEk4cYKaIGY9W1Fe9chI2i3qDdsU6SH6', 'True','2022-07-09','0627263821', false),
+	('Mme', 1, 'Branch', 'Derek', 'dbranch6752@outlook.com', '1995-02-08', '$2y$12$NzFQkVJ4wE1QPjAJqSZikuGP/YVkMvttjied19//DHJ1DwOZ2QlGm', 'True','2024-05-14','0621073828', false),
+	('Mme', 1, 'Nielsen', 'Amanda', 'n.amanda@yahoo.com', '1987-07-03', '$2y$12$Ar/pJ/oc2FkscqIV5Rn5SORHR9lALuShpdoe.jR4w1hs5ew7UcKLO', 'True','2022-05-09','0618351474', false),
+	('Mme', 1, 'Blackwell', 'Jonas', 'bjonas@yahoo.com', '1992-04-03', '$2y$12$NZDLkMisCpPpi8XP.ko5huLDcAryQpvsHi5j23dGBP5TdhCg4mNlm', 'True','2024-10-09','0732047834', false),
+	('Mme', 1, 'Roman', 'Ali', 'rali@yahoo.fr', '1984-11-09', '$2y$12$BV3j8L6ACi84z1vAGaW/9.duICsuGYsY4qSAToHIRjw6v/Thkhd3q', 'False','2024-03-24','0696434046', false),
+	('M', 1, 'Mathews', 'Fulton', 'm-fulton4627@yahoo.fr', '1986-08-27', '$2y$12$c0qcb6DOM2rOBBYxnRa4eewMlOVbOb5zZ7LSeZrTXyJlWjudzqzXu', 'True','2023-01-27','0622103446', false),
+	('Mme', 1, 'Patterson', 'Justin', 'justin-patterson@google.fr', '1974-04-03', '$2y$12$hraoMRE1jxahfcbtCcD0GOpZ5914hT1AWlmF704zKu09tBkuX6U8O', 'True','2023-09-05','0747780259', false),
+	('M', 1, 'Salas', 'Wynter', 'salas-wynter1587@outlook.fr', '1971-01-04', '$2y$12$a.uNrpwK08AM4GAKfsr9hO9XAg2na7Z81B40yOyu7D/ofk1qkJTly', 'True','2022-04-18','0757626251', false),
+	('Mme', 1, 'Reyes', 'Natalie', 'natalie.reyes6824@yahoo.fr', '1967-03-30', '$2y$12$4U.20xCg7YxApXm0Df1mA.OV1MX9nnD9ZyH/tVvoZHb3k0tAN2bNC', 'True','2022-11-08','0657285525', false),
+	('Mme', 1, 'Glover', 'Bo', 'b-glover@yahoo.com', '1968-01-26', '$2y$12$v6ysj3SGMbXZPKvT5UImXOwvYqvibsXd9DcrWoYKnOwRqHh1GXmh2', 'False','2022-05-04','0626931827', false),
+	('Mme', 1, 'Mercado', 'Yeo', 'yeomercado@hotmail.com', '1976-06-21', '$2y$12$R2XMKgnrnHS0hGtuIfjSXOZbRBaE0nOMOO3OrsY7XGDQx.UDp1Z8q', 'False','2024-03-01','0722785760', false),
+	('M', 1, 'Valdez', 'Samuel', 'valdez.samuel@hotmail.fr', '2006-04-10', '$2y$12$qDPwcFFwB04TvO.sCDkXWeQEzkvFy5E53yFx9Nw3eDnxpUDczdi2K', 'False','2024-10-19','0626122479', false),
+	('M', 1, 'Hensley', 'Kennedy', 'kennedy_hensley1420@hotmail.fr', '1964-11-08', '$2y$12$Cz8OTQ7H2y/oiyj6zRNQpOUy6A9A5hcbnfo9wvJ5riR2i9MFeJ/v2', 'False','2022-04-08','0708837451', false),
+	('M', 1, 'Atkins', 'Orla', 'oatkins@yahoo.fr', '1998-01-15', '$2y$12$rAGeQAaJN2CuAqiOvLKxP.hqeqTjrmVnvAeoVxCanpA5gHWWN5Ss2', 'True','2024-08-14','0605795163', false),
+	('M', 1, 'Gibson', 'Evangeline', 'gibson-evangeline@yahoo.fr', '1986-11-03', '$2y$12$fKGg5gWf7ceh1pAIGfm4VePtsqX1v8nBt91eNTeIqceUKvvpp3IJK', 'False','2022-04-17','0728168777', false),
+	('M', 1, 'Wheeler', 'Charissa', 'charissa_wheeler@icloud.fr', '1990-11-05', '$2y$12$lmE72e3C/JyU77qbsYFK5OfrXVXZC7erMY.O/bC.dCn1aIk7TLCFW', 'True','2023-12-28','0717831053', false),
+	('M', 1, 'Johns', 'Armando', 'armando.johns9353@outlook.fr', '1983-04-02', '$2y$12$agkF5wC0n64qnSxNB6u4z.4KMkoIW8MwYHE.4RX3zEc3wfGuSJnS6', 'False','2023-01-14','0778333086', false),
+	('M', 1, 'Mcdaniel', 'Caesar', 'm-caesar8163@hotmail.com', '2004-11-09', '$2y$12$fvR7U1RyYv/Ne9oDbkgAQue0QwJUxBWjB5ANUmkzh3NX8R4iYnKai', 'False','2023-03-25','0768846761', false),
+	('Mme', 1, 'Battle', 'Elliott', 'b.elliott@outlook.fr', '2003-11-29', '$2y$12$djQmZK.n2fL9cXgk0llDNOczA06MaIBZ16EYT/gLm0R5o3BQ27VgS', 'False','2024-02-24','0678607562', false),
+	('Mme', 1, 'Thornton', 'Gil', 't_gil@google.com', '1961-07-23', '$2y$12$1ZoFbE/l/6DsVsbg7lta6efNFDymgUiyMW.Mcm9riquqQleEBvWly', 'True','2022-03-08','0655357110', false),
+	('Mme', 1, 'Washington', 'Rinah', 'rinah-washington@outlook.com', '2000-10-08', '$2y$12$Qb1wngnzB0q3tBkbw1JG7egKQFk.FodOgLrKM2gJtFgzPaUV1uC1a', 'True','2023-12-06','0687134476', false),
+	('M', 1, 'Gaines', 'Kelly', 'gkelly3905@google.com', '1998-09-06', '$2y$12$SkxxhIbaWj3HZHV67GL8yesNId6ea9CiAa9xLtzIBgGKD/bRK7sPm', 'False','2024-10-06','0657532720', false),
+	('Mme', 1, 'Holt', 'Gavin', 'h_gavin@google.com', '2003-05-23', '$2y$12$iUivNOYQx1MEf/zNAYFeX.w3QsXEIn9xRAxsj5snjMuH271qwiQQS', 'False','2022-07-27','0706742458', false),
+	('M', 1, 'Burch', 'Inez', 'inez.burch5236@hotmail.com', '1986-03-16', '$2y$12$EfF.UraWgKA2Xss/MZdgWOSVPW4a6UFgnhHItz049INQm7Te3jF5G', 'True','2024-08-29','0658575212', false),
+	('Mme', 1, 'Randall', 'Maggie', 'randall_maggie4776@google.fr', '1963-09-13', '$2y$12$154ccb6/K0Mtkn4VBXIyN.l0IbL/Swqzz2P6vtuKzjiTGJeBA8zGq', 'False','2022-09-11','0715177544', false),
+	('M', 2, 'Vente', 'Service', 'servicevente@gmail.com', '2000-09-13', '$2y$12$UZrFuCpTum4Z3s3IHF5d.eLnMGPErg5JQ4JfUufXATr29qpxMnbV2', 'False','2022-09-11','0602780180', false),
+	('M', 4, 'Dodey', 'Kenny', 'kenny_dodey@google.fr', '2005-01-13', '$2y$12$1O3DET3NhybnUUmmrQAaA.sYP2.4RgjZenW8qzu2wrfAT5uSZy6GO', 'False','2022-09-11','0718590626', false),
+	('M', 1, 'Vino', 'Client', 'client.vinotrip@gmail.com', '2005-02-13', '$2y$12$oG8AVZThhOQp3Huf3yPSsOjklPDT.wTdMdTsYKrwXTWVtngfnm7AG', 'False','2022-09-11','0695738371', false),
+	('M', 2, 'Carpentier', 'Aina', 'aina.carpentier@vinotrip.fr', '1900-09-13', '$2y$12$WQlLswWkAfV8DGxVEfc/3.mNYNoHj.B/kZcJQA6vcZ3beLHBg0gx6', 'False','2022-09-11','0788524453', false),
+	('M', 4, 'Magnenat', 'Lou', 'vinotrip@lmgt.me', '2006-07-30', '$2y$12$1VCthzTd2LpBcnYgW88S7uLCTjl.krik.Kw2mhLWHGl1q41gd9ye.', 'False','2022-09-11','0772241781', true),
+	('M', 3, 'Selmane', 'Rayan', 'rayan.selmane@vinotrip.fr', '2003-09-13', '$2y$12$sXHLUTy5Dj9S/cns6EF6Pe4AdOk0jC0WySr1q8GRiLB1E/Jx9Gyea', 'False','2022-09-11','0102030405', false);
 
 ------------------------------------------------- CARTE_BANCAIRE	
 INSERT INTO 
@@ -3761,9 +3710,7 @@ values
 CREATE VIEW v_descriptioncommande AS (
 	SELECT
 		descriptioncommande.*,
-		CASE
-			WHEN descriptioncommande.codepromoutilise is not null THEN 0
-			ELSE (
+		(
 			    (
 		                COALESCE(sejour.nouveauprixsejour, COALESCE(sejour.prixsejour, 0)) +
 			        COALESCE(hebergement.prixhebergement, 0) +
@@ -3777,8 +3724,7 @@ CREATE VIEW v_descriptioncommande AS (
 	                        WHEN descriptioncommande.offrir AND NOT descriptioncommande.ecoffret THEN 5
 	                        ELSE 0
 	                    END) * descriptioncommande.quantite
-		        )
-                END AS prix
+		        ) AS prix
 	FROM descriptioncommande
 		LEFT JOIN mange1 mange ON descriptioncommande.iddescriptioncommande = mange.iddescriptioncommande
 		LEFT JOIN repas ON mange.idrepas = repas.idrepas
@@ -3796,9 +3742,7 @@ CREATE VIEW v_descriptioncommande AS (
 CREATE VIEW v_descriptionpanier AS (
 	SELECT
 		descriptionpanier.*,
-		CASE
-			WHEN descriptionpanier.codepromoutilise is not null THEN 0
-			ELSE (
+		(
 			    (
 		                COALESCE(sejour.nouveauprixsejour, COALESCE(sejour.prixsejour, 0)) +
 			        COALESCE(hebergement.prixhebergement, 0) +
@@ -3812,8 +3756,7 @@ CREATE VIEW v_descriptionpanier AS (
 	                        WHEN descriptionpanier.offrir AND NOT descriptionpanier.ecoffret THEN 5
 	                        ELSE 0
 	                    END) * descriptionpanier.quantite
-		        )
-                END AS prix
+		        ) AS prix
 	FROM descriptionpanier
 		LEFT JOIN association_39 mange ON descriptionpanier.iddescriptionpanier = mange.iddescriptionpanier
 		LEFT JOIN repas ON mange.idrepas = repas.idrepas
@@ -3898,5 +3841,4 @@ BEGIN
     );
 END;
 $$ LANGUAGE plpgsql;
-
 
