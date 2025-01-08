@@ -3824,7 +3824,7 @@ BEGIN
         datenaissanceclient = NULL,
         civiliteclient = NULL,
         offrespromotionnellesclient = FALSE
-    WHERE datederniereactiviteclient < CURRENT_DATE - INTERVAL '2 years';
+    WHERE datederniereactiviteclient < CURRENT_DATE - INTERVAL '3 years';
     
     UPDATE adresse
     SET 
@@ -3837,7 +3837,7 @@ BEGIN
         paysadresse = 'Anonyme'
     WHERE idclient IN (
         SELECT idclient FROM client  -- Changed from 'id' to 'idclient'
-        WHERE datederniereactiviteclient < CURRENT_DATE - INTERVAL '2 years'
+        WHERE datederniereactiviteclient < CURRENT_DATE - INTERVAL '3 years'
     );
 END;
 $$ LANGUAGE plpgsql;
