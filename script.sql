@@ -1905,11 +1905,12 @@ VALUES
 	('Mme', 1, 'Holt', 'Gavin', 'h_gavin@google.com', '2003-05-23', '$2y$12$iUivNOYQx1MEf/zNAYFeX.w3QsXEIn9xRAxsj5snjMuH271qwiQQS', 'False','2022-07-27','0706742458'),
 	('M', 1, 'Burch', 'Inez', 'inez.burch5236@hotmail.com', '1986-03-16', '$2y$12$EfF.UraWgKA2Xss/MZdgWOSVPW4a6UFgnhHItz049INQm7Te3jF5G', 'True','2024-08-29','0658575212'),
 	('Mme', 1, 'Randall', 'Maggie', 'randall_maggie4776@google.fr', '1963-09-13', '$2y$12$154ccb6/K0Mtkn4VBXIyN.l0IbL/Swqzz2P6vtuKzjiTGJeBA8zGq', 'False','2022-09-11','0715177544'),
-	('M', 3, 'Vente', 'Service', 'servicevente@gmail.com', '2000-09-13', '$2y$12$UZrFuCpTum4Z3s3IHF5d.eLnMGPErg5JQ4JfUufXATr29qpxMnbV2', 'False','2022-09-11','0602780180'),
+	('M', 2, 'Vente', 'Service', 'servicevente@gmail.com', '2000-09-13', '$2y$12$UZrFuCpTum4Z3s3IHF5d.eLnMGPErg5JQ4JfUufXATr29qpxMnbV2', 'False','2022-09-11','0602780180'),
 	('M', 4, 'Dodey', 'Kenny', 'kenny_dodey@google.fr', '2005-01-13', '$2y$12$1O3DET3NhybnUUmmrQAaA.sYP2.4RgjZenW8qzu2wrfAT5uSZy6GO', 'False','2022-09-11','0718590626'),
 	('M', 1, 'Vino', 'Client', 'client.vinotrip@gmail.com', '2005-02-13', '$2y$12$oG8AVZThhOQp3Huf3yPSsOjklPDT.wTdMdTsYKrwXTWVtngfnm7AG', 'False','2022-09-11','0695738371'),
 	('M', 2, 'Carpentier', 'Aina', 'aina.carpentier@vinotrip.fr', '1900-09-13', '$2y$12$WQlLswWkAfV8DGxVEfc/3.mNYNoHj.B/kZcJQA6vcZ3beLHBg0gx6', 'False','2022-09-11','0788524453'),
-	('M', 4, 'Magnenat', 'Lou', 'vinotrip@lmgt.me', '2006-07-30', '$2y$12$TQ2Z.PnyLE4v5tTOkDX3Ee9txFQIzl38J.QPw/JuUAIr3FZFTlSzy', 'False','2022-09-11','0772241781');
+	('M', 4, 'Magnenat', 'Lou', 'vinotrip@lmgt.me', '2006-07-30', '$2y$12$TQ2Z.PnyLE4v5tTOkDX3Ee9txFQIzl38J.QPw/JuUAIr3FZFTlSzy', 'False','2022-09-11','0772241781'),
+	('M', 3, 'Selmane', 'Rayan', 'rayan.selmane@vinotrip.fr', '2003-09-13', '$2y$12$sXHLUTy5Dj9S/cns6EF6Pe4AdOk0jC0WySr1q8GRiLB1E/Jx9Gyea', 'False','2022-09-11','0102030405');
 
 ------------------------------------------------- CARTE_BANCAIRE	
 INSERT INTO 
