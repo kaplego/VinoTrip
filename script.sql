@@ -3869,3 +3869,35 @@ create view v_etatcommande_sejour_localite as (
 	join sejour s on d.idsejour = s.idsejour
 	join categorievignoble cv on s.idcategorievignoble = cv.idcategorievignoble
 );
+CREATE OR REPLACE FUNCTION anonymize_inactive_clients()
+RETURNS void AS $$
+BEGIN
+    UPDATE client
+    SET 
+        nomclient = 'Anonyme',
+        prenomclient = 'Anonyme',
+        telephoneclient = '0000000000',
+        datenaissanceclient = NULL,
+        civiliteclient = NULL,
+        offrespromotionnellesclient = FALSE
+    WHERE datederniereactiviteclient < CURRENT_DATE - INTERVAL '2 years';
+
+    UPDATE adresse
+    SET 
+        nomadresse = 'Anonyme',
+        prenomadressedestinataire = 'Anonyme',
+        nomadressedestinataire = 'Anonyme',
+        rueadresse = 'Anonyme',
+        cpadresse = '00000',
+        villeadresse = 'Anonyme',
+        paysadresse = 'Anonyme'
+    WHERE client_id IN (
+        SELECT id FROM client
+        WHERE datederniereactiviteclient < CURRENT_DATE - INTERVAL '2 years'
+    );
+END;
+$$ LANGUAGE plpgsql;
+
+-- Schedule the function to run daily at midnight
+SELECT cron.schedule('0 0 * * *', $$ SELECT anonymize_inactive_clients(); $$);
+
