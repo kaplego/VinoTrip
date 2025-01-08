@@ -1706,8 +1706,8 @@ INSERT INTO
 	ROLES (libelleRole)
 VALUES
 	('Client'),
-	('Service marketing'),
 	('Service vente'),
+	('DPO'),
 	('Dirigeant');
 	
 ------------------------------------------------- ROUTE_DES_VINS
