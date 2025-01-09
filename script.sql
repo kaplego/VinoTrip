@@ -3817,10 +3817,12 @@ create view v_datecommande as
 select datecommande from commande;
 
 create view v_etatcommande_sejour_localite as (
-	select libellecategorievignoble, etatcommande, datecommande, titresejour,'France' as "Pays" from commande c
+	select libellecategorievignoble, etatcommande, datecommande, titresejour, villeAdresse, paysAdresse, cpAdresse from commande c
 	join descriptioncommande d on c.idcommande = d.idcommande 
 	join sejour s on d.idsejour = s.idsejour
 	join categorievignoble cv on s.idcategorievignoble = cv.idcategorievignoble
+	join client cl on cl.idclient = c.idClientAcheteur
+	join adresse a on cl.idclient = a.idclient
 );
 
 CREATE OR REPLACE FUNCTION anonymize_inactive_clients()
