@@ -722,6 +722,7 @@ create table DESCRIPTIONCOMMANDE (
    OFFRIR               BOOL                 null,
    ECOFFRET             BOOL                 null,
    DISPONIBILITEHEBERGEMENT BOOL                 null,
+   REDUCTION            INTEGER     default 0         null,
    VALIDATIONCLIENT     BOOL                 null,
    constraint PK_DESCRIPTIONCOMMANDE primary key (IDDESCRIPTIONCOMMANDE)
 );
@@ -779,6 +780,7 @@ create table DESCRIPTIONPANIER (
    NBCHAMBRESTRIPLE     INTEGER                 null,
    OFFRIR               BOOL                 null,
    ECOFFRET             BOOL                 null,
+   REDUCTION            INTEGER     default 0         null,
    DISPONIBILITEHEBERGEMENT BOOL                 null,
    constraint PK_DESCRIPTIONPANIER primary key (IDDESCRIPTIONPANIER)
 );
@@ -3707,6 +3709,13 @@ values
 (122,	16),
 (123,	13);
 
+------------------------------------------------- CODEPROMO
+
+Insert into CODEPROMO (LIBELLECODEPROMO, REDUCTION)
+values
+('NOEL', 200),
+('INFO10', 10);
+
 CREATE VIEW v_descriptioncommande AS (
 	SELECT
 		descriptioncommande.*,
@@ -3724,7 +3733,7 @@ CREATE VIEW v_descriptioncommande AS (
 	                        WHEN descriptioncommande.offrir AND NOT descriptioncommande.ecoffret THEN 5
 	                        ELSE 0
 	                    END) * descriptioncommande.quantite
-		        ) AS prix
+		        )  - descriptioncommande.reduction AS prix
 	FROM descriptioncommande
 		LEFT JOIN mange1 mange ON descriptioncommande.iddescriptioncommande = mange.iddescriptioncommande
 		LEFT JOIN repas ON mange.idrepas = repas.idrepas
@@ -3756,7 +3765,7 @@ CREATE VIEW v_descriptionpanier AS (
 	                        WHEN descriptionpanier.offrir AND NOT descriptionpanier.ecoffret THEN 5
 	                        ELSE 0
 	                    END) * descriptionpanier.quantite
-		        ) AS prix
+		        )  - descriptionpanier.reduction AS prix
 	FROM descriptionpanier
 		LEFT JOIN association_39 mange ON descriptionpanier.iddescriptionpanier = mange.iddescriptionpanier
 		LEFT JOIN repas ON mange.idrepas = repas.idrepas
@@ -3813,6 +3822,7 @@ create view v_etatcommande_sejour_localite as (
 	join sejour s on d.idsejour = s.idsejour
 	join categorievignoble cv on s.idcategorievignoble = cv.idcategorievignoble
 );
+
 CREATE OR REPLACE FUNCTION anonymize_inactive_clients()
 RETURNS void AS $$
 BEGIN
@@ -3841,4 +3851,5 @@ BEGIN
     );
 END;
 $$ LANGUAGE plpgsql;
+
 
