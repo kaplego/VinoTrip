@@ -722,7 +722,6 @@ create table DESCRIPTIONCOMMANDE (
    OFFRIR               BOOL                 null,
    ECOFFRET             BOOL                 null,
    DISPONIBILITEHEBERGEMENT BOOL                 null,
-   REDUCTION            INTEGER     default 0         null,
    VALIDATIONCLIENT     BOOL                 null,
    constraint PK_DESCRIPTIONCOMMANDE primary key (IDDESCRIPTIONCOMMANDE)
 );
@@ -780,7 +779,6 @@ create table DESCRIPTIONPANIER (
    NBCHAMBRESTRIPLE     INTEGER                 null,
    OFFRIR               BOOL                 null,
    ECOFFRET             BOOL                 null,
-   REDUCTION            INTEGER     default 0         null,
    DISPONIBILITEHEBERGEMENT BOOL                 null,
    constraint PK_DESCRIPTIONPANIER primary key (IDDESCRIPTIONPANIER)
 );
@@ -3733,7 +3731,7 @@ CREATE VIEW v_descriptioncommande AS (
 	                        WHEN descriptioncommande.offrir AND NOT descriptioncommande.ecoffret THEN 5
 	                        ELSE 0
 	                    END) * descriptioncommande.quantite
-		        )  - descriptioncommande.reduction AS prix
+		        )  - COALESCE(codepromo.reduction, 0) AS prix
 	FROM descriptioncommande
 		LEFT JOIN mange1 mange ON descriptioncommande.iddescriptioncommande = mange.iddescriptioncommande
 		LEFT JOIN repas ON mange.idrepas = repas.idrepas
@@ -3741,11 +3739,14 @@ CREATE VIEW v_descriptioncommande AS (
 		LEFT JOIN activite ON a.idactivite = activite.idactivite
 		LEFT JOIN sejour ON descriptioncommande.idsejour = sejour.idsejour
 		LEFT JOIN hebergement ON descriptioncommande.idhebergement = hebergement.idhebergement
+	        LEFT JOIN commande ON descriptioncommande.idcommande = commande.idcommande
+                LEFT JOIN codepromo ON panier.idcodepromo = codepromo.idcodepromo
 	GROUP BY
 		descriptioncommande.iddescriptioncommande,
 		sejour.prixsejour,
 		sejour.nouveauprixsejour,
-		hebergement.prixhebergement
+		hebergement.prixhebergement,
+	        codepromo.idcodepromo
 );
 
 CREATE VIEW v_descriptionpanier AS (
@@ -3765,7 +3766,7 @@ CREATE VIEW v_descriptionpanier AS (
 	                        WHEN descriptionpanier.offrir AND NOT descriptionpanier.ecoffret THEN 5
 	                        ELSE 0
 	                    END) * descriptionpanier.quantite
-		        )  - descriptionpanier.reduction AS prix
+		        )  - COALESCE(codepromo.reduction, 0) AS prix
 	FROM descriptionpanier
 		LEFT JOIN association_39 mange ON descriptionpanier.iddescriptionpanier = mange.iddescriptionpanier
 		LEFT JOIN repas ON mange.idrepas = repas.idrepas
@@ -3773,11 +3774,14 @@ CREATE VIEW v_descriptionpanier AS (
 		LEFT JOIN activite ON a.idactivite = activite.idactivite
 		LEFT JOIN sejour ON descriptionpanier.idsejour = sejour.idsejour
 		LEFT JOIN hebergement ON descriptionpanier.idhebergement = hebergement.idhebergement
+	        LEFT JOIN panier ON descriptionpanier.idpanier = panier.idpanier
+                LEFT JOIN codepromo ON panier.idcodepromo = codepromo.idcodepromo
 	GROUP BY
 		descriptionpanier.iddescriptionpanier,
 		sejour.prixsejour,
 		sejour.nouveauprixsejour,
-		hebergement.prixhebergement
+		hebergement.prixhebergement,
+                codepromo.idcodepromo
 );
 
 CREATE VIEW v_commande AS (
