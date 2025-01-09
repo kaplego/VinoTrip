@@ -3792,7 +3792,14 @@ CREATE VIEW v_commande AS (
 	SELECT
 		commande.*,
 	        sum(dc.prix * dc.quantite) AS prix,
-		sum(dc.prix * dc.quantite) - COALESCE(codepromo.reduction, 0) AS prixreduit
+		(CASE
+	            WHEN COALESCE(codepromo.reduction, 0) > sum(dc.prix * dc.quantite) THEN 0
+	            ELSE sum(dc.prix * dc.quantite) - COALESCE(codepromo.reduction, 0)
+	        END) AS prixreduit,
+	        (CASE
+	            WHEN COALESCE(codepromo.reduction, 0) > sum(dc.prix * dc.quantite) THEN sum(dc.prix * dc.quantite)
+	            ELSE COALESCE(codepromo.reduction, 0)
+	        END) AS reduction
 	FROM commande
 		JOIN v_descriptioncommande dc ON commande.idcommande = dc.idcommande
 	        LEFT JOIN codepromo ON commande.idcodepromo = codepromo.idcodepromo
@@ -3805,7 +3812,14 @@ CREATE VIEW v_panier AS (
 	SELECT
 		panier.*,
 		sum(dp.prix * dp.quantite) AS prix,
-	        sum(dp.prix * dp.quantite) - COALESCE(codepromo.reduction, 0) AS prixreduit
+	        (CASE
+	            WHEN COALESCE(codepromo.reduction, 0) > sum(dp.prix * dp.quantite) THEN 0
+	            ELSE sum(dp.prix * dp.quantite) - COALESCE(codepromo.reduction, 0)
+	        END) AS prixreduit,
+	        (CASE
+	            WHEN COALESCE(codepromo.reduction, 0) > sum(dp.prix * dp.quantite) THEN sum(dp.prix * dp.quantite)
+	            ELSE COALESCE(codepromo.reduction, 0)
+	        END) AS reduction
 	FROM panier
 		JOIN v_descriptionpanier dp ON panier.idpanier = dp.idpanier
 	        LEFT JOIN codepromo ON panier.idcodepromo = codepromo.idcodepromo
