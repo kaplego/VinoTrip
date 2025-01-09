@@ -1,17 +1,8 @@
 /*==============================================================*/
 /* Nom de SGBD :  PostgreSQL 8                                  */
-/* Date de cr�ation :  08/01/2025 14:30:14                      */
+/* Date de cr�ation :  09/01/2025 10:23:55                      */
 /*==============================================================*/
 
-drop view if exists V_DESCRIPTIONCOMMANDE cascade;
-drop view if exists V_DESCRIPTIONPANIER cascade;
-drop view if exists V_COMMANDE cascade;
-drop view if exists V_PANIER cascade;
-drop view if exists V_DATECOMMANDE cascade;
-drop view if exists V_ETATCOMMANDE_SEJOUR cascade;
-drop view if exists V_ETATCOMMANDE_SEJOUR_LOCALITE cascade;
-drop view if exists V_NBSEJOUR_VENDU cascade;
-drop view if exists V_NBSEJOUR_VENDU_VIGNOBLE cascade;
 
 drop index if exists ACTIVITE_PK cascade;
 drop table if exists ACTIVITE cascade;
@@ -35,16 +26,16 @@ drop index if exists ASSOCIATION_39_FK cascade;
 drop index if exists ASSOCIATION_38_FK cascade;
 drop index if exists ASSOCIATION_38_PK cascade;
 drop table if exists ASSOCIATION_38 cascade;
+drop index if exists ASSOCIATION_54_FK cascade;
 drop index if exists ASSOCIATION_53_FK cascade;
-drop index if exists ASSOCIATION_51_FK cascade;
 drop index if exists ASSOCIATION_39_PK cascade;
 drop table if exists ASSOCIATION_39 cascade;
 drop index if exists ASSOCIATION_42_FK cascade;
 drop index if exists ASSOCIATION_40_FK cascade;
 drop index if exists ASSOCIATION_40_PK cascade;
 drop table if exists ASSOCIATION_40 cascade;
+drop index if exists ASSOCIATION_56_FK cascade;
 drop index if exists ASSOCIATION_55_FK cascade;
-drop index if exists ASSOCIATION_54_FK cascade;
 drop index if exists ASSOCIATION_42_PK cascade;
 drop table if exists mange1 cascade;
 drop index if exists AUTRESOCIETE_PK cascade;
@@ -72,6 +63,7 @@ drop index if exists CLIENT_PK cascade;
 drop table if exists CLIENT cascade;
 drop index if exists CODEPROMO_PK cascade;
 drop table if exists CODEPROMO cascade;
+drop index if exists ASSOCIATION_51_FK cascade;
 drop index if exists ASSOCIATION_46_FK cascade;
 drop index if exists ASSOCIATION_45_FK cascade;
 drop index if exists ASSOCIATION_44_FK cascade;
@@ -122,6 +114,9 @@ drop table if exists PROPOSE_4 cascade;
 drop index if exists PROPOSE_2_FK cascade;
 drop index if exists REPAS_PK cascade;
 drop table if exists REPAS cascade;
+drop index if exists REPOND_FK cascade;
+drop index if exists REPONSE_PK cascade;
+drop table if exists REPONSE cascade;
 drop index if exists CUISINE_FK cascade;
 drop index if exists RESTAURANT_PK cascade;
 drop table if exists RESTAURANT cascade;
@@ -148,6 +143,7 @@ drop table if exists TYPECUISINE cascade;
 drop index if exists TYPEDEGUSTATION_PK cascade;
 drop table if exists TYPEDEGUSTATION cascade;
 drop index if exists PROPOSE_1_FK cascade;
+drop index if exists VISITE_PK cascade;
 drop table if exists VISITE cascade;
 
 /*==============================================================*/
@@ -172,16 +168,16 @@ IDACTIVITE
 /*==============================================================*/
 create table ADRESSE (
    IDADRESSE            SERIAL               not null,
-   IDPARTENAIRE         INTEGER                 null,
-   IDCLIENT             INTEGER                 null,
+   IDPARTENAIRE         INT4                 null,
+   IDCLIENT             INT4                 null,
    NOMADRESSE           VARCHAR(50)          null,
    PRENOMADRESSEDESTINATAIRE VARCHAR(50)          null,
    NOMADRESSEDESTINATAIRE VARCHAR(50)          null,
-   NUMADRESSE		VARCHAR(10)	     null,
    RUEADRESSE           VARCHAR(100)         null,
    VILLEADRESSE         VARCHAR(50)          null,
-   PAYSADRESSE          VARCHAR(50)          DEFAULT 'France',
+   PAYSADRESSE          VARCHAR(50)     default'France'     null,
    CPADRESSE            CHAR(5)              null,
+   NUMADRESSE           VARCHAR(10)          null,
    constraint PK_ADRESSE primary key (IDADRESSE)
 );
 
@@ -205,12 +201,13 @@ IDPARTENAIRE
 create  index ASSOCIATION_48_FK on ADRESSE (
 IDCLIENT
 );
+
 /*==============================================================*/
 /* Table : APPARTIENT_1                                         */
 /*==============================================================*/
 create table APPARTIENT_1 (
-   IDVISITE             INTEGER                 not null,
-   IDETAPE              INTEGER                 not null,
+   IDVISITE             INT4                 not null,
+   IDETAPE              INT4                 not null,
    constraint PK_APPARTIENT_1 primary key (IDVISITE, IDETAPE)
 );
 
@@ -235,12 +232,13 @@ IDVISITE
 create  index APPARTIENT_5_FK on APPARTIENT_1 (
 IDETAPE
 );
+
 /*==============================================================*/
 /* Table : APPARTIENT_2                                         */
 /*==============================================================*/
 create table APPARTIENT_2 (
-   IDREPAS              INTEGER                 not null,
-   IDETAPE              INTEGER                 not null,
+   IDREPAS              INT4                 not null,
+   IDETAPE              INT4                 not null,
    constraint PK_APPARTIENT_2 primary key (IDREPAS, IDETAPE)
 );
 
@@ -270,8 +268,8 @@ IDETAPE
 /* Table : APPARTIENT_4                                         */
 /*==============================================================*/
 create table APPARTIENT_4 (
-   IDACTIVITE           INTEGER                 not null,
-   IDETAPE              INTEGER                 not null,
+   IDACTIVITE           INT4                 not null,
+   IDETAPE              INT4                 not null,
    constraint PK_APPARTIENT_4 primary key (IDACTIVITE, IDETAPE)
 );
 
@@ -301,8 +299,8 @@ IDETAPE
 /* Table : ASSOCIATION_38                                       */
 /*==============================================================*/
 create table ASSOCIATION_38 (
-   IDACTIVITE           INTEGER                 not null,
-   IDDESCRIPTIONPANIER  INTEGER                 not null,
+   IDACTIVITE           INT4                 not null,
+   IDDESCRIPTIONPANIER  INT4                 not null,
    constraint PK_ASSOCIATION_38 primary key (IDACTIVITE, IDDESCRIPTIONPANIER)
 );
 
@@ -332,8 +330,8 @@ IDDESCRIPTIONPANIER
 /* Table : ASSOCIATION_39                                       */
 /*==============================================================*/
 create table ASSOCIATION_39 (
-   IDREPAS              INTEGER                 not null,
-   IDDESCRIPTIONPANIER  INTEGER                 not null,
+   IDREPAS              INT4                 not null,
+   IDDESCRIPTIONPANIER  INT4                 not null,
    constraint PK_ASSOCIATION_39 primary key (IDREPAS, IDDESCRIPTIONPANIER)
 );
 
@@ -346,16 +344,16 @@ IDDESCRIPTIONPANIER
 );
 
 /*==============================================================*/
-/* Index : ASSOCIATION_51_FK                                    */
+/* Index : ASSOCIATION_53_FK                                    */
 /*==============================================================*/
-create  index ASSOCIATION_51_FK on ASSOCIATION_39 (
+create  index ASSOCIATION_53_FK on ASSOCIATION_39 (
 IDREPAS
 );
 
 /*==============================================================*/
-/* Index : ASSOCIATION_53_FK                                    */
+/* Index : ASSOCIATION_54_FK                                    */
 /*==============================================================*/
-create  index ASSOCIATION_53_FK on ASSOCIATION_39 (
+create  index ASSOCIATION_54_FK on ASSOCIATION_39 (
 IDDESCRIPTIONPANIER
 );
 
@@ -363,8 +361,8 @@ IDDESCRIPTIONPANIER
 /* Table : ASSOCIATION_40                                       */
 /*==============================================================*/
 create table ASSOCIATION_40 (
-   IDACTIVITE           INTEGER                 not null,
-   IDDESCRIPTIONCOMMANDE INTEGER                 not null,
+   IDACTIVITE           INT4                 not null,
+   IDDESCRIPTIONCOMMANDE INT4                 not null,
    constraint PK_ASSOCIATION_40 primary key (IDACTIVITE, IDDESCRIPTIONCOMMANDE)
 );
 
@@ -394,8 +392,8 @@ IDDESCRIPTIONCOMMANDE
 /* Table : mange1                                       */
 /*==============================================================*/
 create table mange1 (
-   IDREPAS              INTEGER                 not null,
-   IDDESCRIPTIONCOMMANDE INTEGER                 not null,
+   IDREPAS              INT4                 not null,
+   IDDESCRIPTIONCOMMANDE INT4                 not null,
    constraint PK_ASSOCIATION_42 primary key (IDREPAS, IDDESCRIPTIONCOMMANDE)
 );
 
@@ -408,16 +406,16 @@ IDDESCRIPTIONCOMMANDE
 );
 
 /*==============================================================*/
-/* Index : ASSOCIATION_54_FK                                    */
+/* Index : ASSOCIATION_55_FK                                    */
 /*==============================================================*/
-create  index ASSOCIATION_54_FK on mange1 (
+create  index ASSOCIATION_55_FK on mange1 (
 IDREPAS
 );
 
 /*==============================================================*/
-/* Index : ASSOCIATION_55_FK                                    */
+/* Index : ASSOCIATION_56_FK                                    */
 /*==============================================================*/
-create  index ASSOCIATION_55_FK on mange1 (
+create  index ASSOCIATION_56_FK on mange1 (
 IDDESCRIPTIONCOMMANDE
 );
 
@@ -425,7 +423,7 @@ IDDESCRIPTIONCOMMANDE
 /* Table : AUTRESOCIETE                                         */
 /*==============================================================*/
 create table AUTRESOCIETE (
-   IDPARTENAIRE         INTEGER                 not null,
+   IDPARTENAIRE         INT4                 not null,
    NOMPARTENAIRE        VARCHAR(50)          null,
    MAILPARTENAIRE       VARCHAR(100)         null,
    TELPARTENAIRE        CHAR(10)             null,
@@ -444,12 +442,13 @@ IDPARTENAIRE
 /*==============================================================*/
 create table AVIS (
    IDAVIS               SERIAL               not null,
-   IDSEJOUR             INTEGER                 not null,
-   IDCLIENT             INTEGER                 not null,
+   IDSEJOUR             INT4                 not null,
+   IDCLIENT             INT4                 not null,
    TITREAVIS            VARCHAR(50)          null,
    DATEAVIS             DATE                 null,
    DESCRIPTIONAVIS      VARCHAR(2048)        null,
-   NOTEAVIS             INTEGER                 null,
+   NOTEAVIS             INT4                 null,
+   PHOTOAVIS            VARCHAR(512)         null,
    constraint PK_AVIS primary key (IDAVIS)
 );
 
@@ -479,11 +478,11 @@ IDCLIENT
 /*==============================================================*/
 create table CARTE_BANCAIRE (
    IDCB                 SERIAL               not null,
-   IDCLIENT             INTEGER                 not null,
+   IDCLIENT             INT4                 not null,
    TITULAIRECB          VARCHAR(100)         null,
    NUMEROCBCLIENT       CHAR(16)             null,
    DATEEXPIRATIONCBCLIENT DATE                 null,
-   ACTIF                BOOL                 null,
+   ACTIF                BOOL       default true          null,
    constraint PK_CARTE_BANCAIRE primary key (IDCB)
 );
 
@@ -553,8 +552,8 @@ IDCATEGORIEVIGNOBLE
 /* Table : CAVE                                                 */
 /*==============================================================*/
 create table CAVE (
-   IDPARTENAIRE         INTEGER                 not null,
-   IDTYPEDEGUSTATION    INTEGER                 not null,
+   IDPARTENAIRE         INT4                 not null,
+   IDTYPEDEGUSTATION    INT4                 not null,
    NOMPARTENAIRE        VARCHAR(50)          null,
    MAILPARTENAIRE       VARCHAR(100)         null,
    TELPARTENAIRE        CHAR(10)             null,
@@ -596,7 +595,7 @@ IDCHAT
 /*==============================================================*/
 create table CLIENT (
    IDCLIENT             SERIAL               not null,
-   IDROLE               INTEGER                 not null,
+   IDROLE               INT4                 not null,
    CIVILITECLIENT       VARCHAR(10)          null,
    PRENOMCLIENT         VARCHAR(50)          null,
    NOMCLIENT            VARCHAR(50)          null,
@@ -605,10 +604,10 @@ create table CLIENT (
    MOTDEPASSECLIENT     VARCHAR(512)         null,
    OFFRESPROMOTIONNELLESCLIENT BOOL                 null,
    DATEDERNIEREACTIVITECLIENT DATE                 null,
-   A2F                  BOOL                 null,
+   A2F                  BOOL        default false         not null,
    TELEPHONECLIENT      CHAR(10)             null,
-   TOKENRESETMDP        CHAR(60)             null,
-   DATECREATIONTOKEN    DATE                 null,
+   TOKENRESETMDP        CHAR(60)    default null         null,
+   DATECREATIONTOKEN    DATE         default null        null,
    constraint PK_CLIENT primary key (IDCLIENT)
 );
 
@@ -632,7 +631,7 @@ IDROLE
 create table CODEPROMO (
    IDCODEPROMO          SERIAL               not null,
    LIBELLECODEPROMO     VARCHAR(15)          null,
-   REDUCTION            INTEGER                 null,
+   REDUCTION            INT4                 null,
    constraint PK_CODEPROMO primary key (IDCODEPROMO)
 );
 
@@ -648,18 +647,18 @@ IDCODEPROMO
 /*==============================================================*/
 create table COMMANDE (
    IDCOMMANDE           SERIAL               not null,
-   IDcb                 integer                        null,
-   IDADRESSEFACTURATION INTEGER                 not null,
-   IDCLIENTACHETEUR     INTEGER                 not null,
-   IDPANIER             INTEGER                 not null,
-   IDADRESSELIVRAISON   INTEGER                 null,
-   IDCODEPROMO          INTEGER                 null,
+   IDADRESSEFACTURATION INT4                 not null,
+   IDCB                 INT4                 null,
+   IDCLIENTBENEFICIAIRE INT4                 null,
+   IDPANIER             INT4                 not null,
+   IDADRESSELIVRAISON   INT4                 null,
+   IDCLIENTACHETEUR     INT4                 not null,
+   IDCODEPROMO          INT4                 null,
    CODEREDUCTION        VARCHAR(20)          null,
    VALIDATIONCLIENT     BOOL                 null,
-   ETATCOMMANDE         VARCHAR(50)          null,
+   ETATCOMMANDE         VARCHAR(50)    default 'En attente de validation'      null,
    TYPEPAIEMENTCOMMANDE VARCHAR(50)          null,
-   DATECOMMANDE         DATE                 null,
-   IDCLIENTBENEFICIAIRE INTEGER                 null,
+   DATECOMMANDE         DATE      default '2025-01-01'           not null,
    constraint PK_COMMANDE primary key (IDCOMMANDE)
 );
 
@@ -713,26 +712,33 @@ IDADRESSELIVRAISON
 );
 
 /*==============================================================*/
+/* Index : ASSOCIATION_51_FK                                    */
+/*==============================================================*/
+create  index ASSOCIATION_51_FK on COMMANDE (
+IDCB
+);
+
+/*==============================================================*/
 /* Table : DESCRIPTIONCOMMANDE                                  */
 /*==============================================================*/
 create table DESCRIPTIONCOMMANDE (
    IDDESCRIPTIONCOMMANDE SERIAL               not null,
-   IDCOMMANDE           INTEGER                 not null,
-   IDHEBERGEMENT        INTEGER                 not null,
-   IDSEJOUR             INTEGER                 not null,
-   IDCB                 INTEGER                 null,
-   QUANTITE             INTEGER                 null,
+   IDCOMMANDE           INT4                 not null,
+   IDHEBERGEMENT        INT4                 not null,
+   IDSEJOUR             INT4                 not null,
+   IDCB                 INT4                 null,
+   QUANTITE             INT4                 null,
    DATEDEBUT            DATE                 null,
    DATEFIN              DATE                 null,
-   NBADULTES            INTEGER                 null,
-   NBENFANTS            INTEGER                 null,
-   NBCHAMBRESSIMPLE     INTEGER                 null,
-   NBCHAMBRESDOUBLE     INTEGER                 null,
-   NBCHAMBRESTRIPLE     INTEGER                 null,
+   NBADULTES            INT4                 null,
+   NBENFANTS            INT4                 null,
+   NBCHAMBRESSIMPLE     INT4                 null,
+   NBCHAMBRESDOUBLE     INT4                 null,
+   NBCHAMBRESTRIPLE     INT4                 null,
    OFFRIR               BOOL                 null,
    ECOFFRET             BOOL                 null,
    DISPONIBILITEHEBERGEMENT BOOL                 null,
-   VALIDATIONCLIENT     BOOL                 null,
+   VALIDATIONCLIENT     BOOL       default false          null,
    constraint PK_DESCRIPTIONCOMMANDE primary key (IDDESCRIPTIONCOMMANDE)
 );
 
@@ -776,17 +782,17 @@ IDCB
 /*==============================================================*/
 create table DESCRIPTIONPANIER (
    IDDESCRIPTIONPANIER  SERIAL               not null,
-   IDSEJOUR             INTEGER                 not null,
-   IDHEBERGEMENT        INTEGER                 not null,
-   IDPANIER             INTEGER                 not null,
-   QUANTITE             INTEGER                 null,
+   IDSEJOUR             INT4                 not null,
+   IDHEBERGEMENT        INT4                 not null,
+   IDPANIER             INT4                 not null,
+   QUANTITE             INT4                 null,
    DATEDEBUT            DATE                 null,
    DATEFIN              DATE                 null,
-   NBADULTES            INTEGER                 null,
-   NBENFANTS            INTEGER                 null,
-   NBCHAMBRESSIMPLE     INTEGER                 null,
-   NBCHAMBRESDOUBLE     INTEGER                 null,
-   NBCHAMBRESTRIPLE     INTEGER                 null,
+   NBADULTES            INT4                 null,
+   NBENFANTS            INT4                 null,
+   NBCHAMBRESSIMPLE     INT4                 null,
+   NBCHAMBRESDOUBLE     INT4                 null,
+   NBCHAMBRESTRIPLE     INT4                 null,
    OFFRIR               BOOL                 null,
    ECOFFRET             BOOL                 null,
    DISPONIBILITEHEBERGEMENT BOOL                 null,
@@ -842,8 +848,8 @@ IDDUREE
 /*==============================================================*/
 create table ETAPE (
    IDETAPE              SERIAL               not null,
-   IDSEJOUR             INTEGER                 not null,
-   IDHEBERGEMENT        INTEGER                 not null,
+   IDSEJOUR             INT4                 not null,
+   IDHEBERGEMENT        INT4                 not null,
    TITREETAPE           VARCHAR(100)         null,
    DESCRIPTIONETAPE     VARCHAR(4096)        null,
    PHOTOETAPE           VARCHAR(512)         null,
@@ -877,8 +883,8 @@ IDSEJOUR
 /* Table : FAVORIS                                              */
 /*==============================================================*/
 create table FAVORIS (
-   IDCLIENT             INTEGER                 not null,
-   IDSEJOUR             INTEGER                 not null,
+   IDCLIENT             INT4                 not null,
+   IDSEJOUR             INT4                 not null,
    constraint PK_FAVORIS primary key (IDCLIENT, IDSEJOUR)
 );
 
@@ -909,7 +915,7 @@ IDSEJOUR
 /*==============================================================*/
 create table HEBERGEMENT (
    IDHEBERGEMENT        SERIAL               not null,
-   IDPARTENAIRE         INTEGER                 not null,
+   IDPARTENAIRE         INT4                 not null,
    DESCRIPTIONHEBERGEMENT VARCHAR(4096)        null,
    PHOTOHEBERGEMENT     VARCHAR(512)         null,
    LIENHEBERGEMENT      VARCHAR(512)         null,
@@ -935,12 +941,12 @@ IDPARTENAIRE
 /* Table : HOTEL                                                */
 /*==============================================================*/
 create table HOTEL (
-   IDPARTENAIRE         INTEGER                 not null,
+   IDPARTENAIRE         INT4                 not null,
    NOMPARTENAIRE        VARCHAR(50)          null,
    MAILPARTENAIRE       VARCHAR(100)         null,
    TELPARTENAIRE        CHAR(10)             null,
-   NOMBRECHAMBRESHOTEL  INTEGER                 null,
-   CATEGORIEHOTEL       INTEGER                 null,
+   NOMBRECHAMBRESHOTEL  INT4                 null,
+   CATEGORIEHOTEL       INT4                 null,
    constraint PK_HOTEL primary key (IDPARTENAIRE)
 );
 
@@ -956,7 +962,7 @@ IDPARTENAIRE
 /*==============================================================*/
 create table LOCALITE (
    IDLOCALITE           SERIAL               not null,
-   IDCATEGORIEVIGNOBLE  INTEGER                 not null,
+   IDCATEGORIEVIGNOBLE  INT4                 not null,
    LIBELLELOCALITE      VARCHAR(50)          null,
    constraint PK_LOCALITE primary key (IDLOCALITE)
 );
@@ -980,7 +986,7 @@ IDCATEGORIEVIGNOBLE
 /*==============================================================*/
 create table PANIER (
    IDPANIER             SERIAL               not null,
-   IDCODEPROMO          INTEGER                 null,
+   IDCODEPROMO          INT4                 null,
    DATEHEUREPANIER      DATE                 null,
    constraint PK_PANIER primary key (IDPANIER)
 );
@@ -1021,9 +1027,9 @@ IDPARTENAIRE
 /* Table : PROPOSE_4                                            */
 /*==============================================================*/
 create table PROPOSE_4 (
-   IDPARTENAIRE         INTEGER                 not null,
-   IDACTIVITE           INTEGER                 not null,
-   IDADRESSE            INTEGER                 not null,
+   IDPARTENAIRE         INT4                 not null,
+   IDACTIVITE           INT4                 not null,
+   IDADRESSE            INT4                 not null,
    constraint PK_PROPOSE_4 primary key (IDPARTENAIRE, IDACTIVITE, IDADRESSE)
 );
 
@@ -1062,7 +1068,7 @@ IDADRESSE
 /*==============================================================*/
 create table REPAS (
    IDREPAS              SERIAL               not null,
-   IDPARTENAIRE         INTEGER                 not null,
+   IDPARTENAIRE         INT4                 not null,
    DESCRIPTIONREPAS     VARCHAR(4096)        null,
    PHOTOREPAS           VARCHAR(512)         null,
    PRIXREPAS            NUMERIC(8,2)         null,
@@ -1084,15 +1090,39 @@ IDPARTENAIRE
 );
 
 /*==============================================================*/
+/* Table : REPONSE                                              */
+/*==============================================================*/
+create table REPONSE (
+   IDREPONSE            SERIAL               not null,
+   IDAVIS               INT4                 not null,
+   DESCRIPTIONREPONSE   VARCHAR(4096)        null,
+   constraint PK_REPONSE primary key (IDREPONSE)
+);
+
+/*==============================================================*/
+/* Index : REPONSE_PK                                           */
+/*==============================================================*/
+create unique index REPONSE_PK on REPONSE (
+IDREPONSE
+);
+
+/*==============================================================*/
+/* Index : REPOND_FK                                            */
+/*==============================================================*/
+create  index REPOND_FK on REPONSE (
+IDAVIS
+);
+
+/*==============================================================*/
 /* Table : RESTAURANT                                           */
 /*==============================================================*/
 create table RESTAURANT (
-   IDPARTENAIRE         INTEGER                 not null,
-   IDTYPECUISINE        INTEGER                 not null,
+   IDPARTENAIRE         INT4                 not null,
+   IDTYPECUISINE        INT4                 not null,
    NOMPARTENAIRE        VARCHAR(50)          null,
    MAILPARTENAIRE       VARCHAR(100)         null,
    TELPARTENAIRE        CHAR(10)             null,
-   NOMBREETOILESRESTAURANT INTEGER                 null,
+   NOMBREETOILESRESTAURANT INT4                 null,
    SPECIALITERESTAURANT VARCHAR(50)          null,
    constraint PK_RESTAURANT primary key (IDPARTENAIRE)
 );
@@ -1150,17 +1180,17 @@ IDROUTE
 /*==============================================================*/
 create table SEJOUR (
    IDSEJOUR             SERIAL               not null,
-   IDDUREE              INTEGER                 not null,
-   IDCATEGORIEVIGNOBLE  INTEGER                 not null,
-   IDCATEGORIESEJOUR    INTEGER                 not null,
-   IDLOCALITE           INTEGER                 null,
-   IDTHEME              INTEGER                 not null,
-   IDCATEGORIEPARTICIPANT INTEGER                 not null,
+   IDDUREE              INT4                 not null,
+   IDCATEGORIEVIGNOBLE  INT4                 not null,
+   IDCATEGORIESEJOUR    INT4                 not null,
+   IDLOCALITE           INT4                 null,
+   IDTHEME              INT4                 not null,
+   IDCATEGORIEPARTICIPANT INT4                 not null,
    TITRESEJOUR          VARCHAR(100)         null,
    PHOTOSEJOUR          VARCHAR(512)         null,
    DESCRIPTIONSEJOUR    VARCHAR(4096)        null,
    PRIXSEJOUR           NUMERIC(8,2)         null,
-   PUBLIE               BOOL                 null,
+   PUBLIE               BOOL      default false          not null,
    NOUVEAUPRIXSEJOUR    NUMERIC(8,2)         null,
    constraint PK_SEJOUR primary key (IDSEJOUR)
 );
@@ -1218,8 +1248,8 @@ IDCATEGORIEPARTICIPANT
 /* Table : SE_LOCALISE                                          */
 /*==============================================================*/
 create table SE_LOCALISE (
-   IDROUTE              INTEGER                 not null,
-   IDCATEGORIEVIGNOBLE  INTEGER                 not null,
+   IDROUTE              INT4                 not null,
+   IDCATEGORIEVIGNOBLE  INT4                 not null,
    constraint PK_SE_LOCALISE primary key (IDROUTE, IDCATEGORIEVIGNOBLE)
 );
 
@@ -1298,13 +1328,19 @@ IDTYPEDEGUSTATION
 /*==============================================================*/
 create table VISITE (
    IDVISITE             SERIAL               not null,
-   IDPARTENAIRE         INTEGER                 not null,
+   IDPARTENAIRE         INT4                 not null,
    DESCRIPTIONVISITE    VARCHAR(4096)        null,
    PHOTOVISITE          VARCHAR(512)         null,
    LIENVISITE           VARCHAR(512)         null,
    constraint PK_VISITE primary key (IDVISITE)
 );
 
+/*==============================================================*/
+/* Index : VISITE_PK                                            */
+/*==============================================================*/
+create unique index VISITE_PK on VISITE (
+IDVISITE
+);
 
 /*==============================================================*/
 /* Index : PROPOSE_1_FK                                         */
@@ -1449,6 +1485,11 @@ alter table COMMANDE
       on delete restrict on update restrict;
 
 alter table COMMANDE
+   add constraint FK_COMMANDE_ASSOCIATI_CARTE_BA foreign key (IDCB)
+      references CARTE_BANCAIRE (IDCB)
+      on delete restrict on update restrict;
+
+alter table COMMANDE
    add constraint FK_COMMANDE_ASSOCIE_PANIER foreign key (IDPANIER)
       references PANIER (IDPANIER)
       on delete restrict on update restrict;
@@ -1551,6 +1592,11 @@ alter table PROPOSE_4
 alter table REPAS
    add constraint FK_REPAS_PROPOSE_2_RESTAURA foreign key (IDPARTENAIRE)
       references RESTAURANT (IDPARTENAIRE)
+      on delete restrict on update restrict;
+
+alter table REPONSE
+   add constraint FK_REPONSE_REPOND_AVIS foreign key (IDAVIS)
+      references AVIS (IDAVIS)
       on delete restrict on update restrict;
 
 alter table RESTAURANT
@@ -1987,61 +2033,61 @@ VALUES
 
 ------------------------------------------------- ADRESSE
 INSERT INTO
-	adresse (idClient, idPartenaire, nomadresse, prenomadressedestinataire, nomadressedestinataire, rueAdresse, villeAdresse, CPAdresse, numadresse)
+	adresse (idClient, idPartenaire, nomadresse, prenomadressedestinataire, nomadressedestinataire, rueAdresse, villeAdresse, CPAdresse, NUMADRESSE)
 VALUES
-	(1, 5,   'Maison principale',  'Houston', 'Isaiah', 'Boulevard Carnot', 'Troyes', 10000, 1),
-	(2, 19,  'Maison principale', 'Elliott', 'Serena', 'Boulevard Foch',  'Thionville', 57100, 2),
-	(2, 19,  'Maison secondaire', 'Elliott', 'Serena', 'Rue du Maréchal Foch',  'Schiltigheim', 67300, 3),
-	(3, 43,  'Chez mamie', 'Beard', 'Zenaida',  'Rue du Général de Gaulle',  'Bastia', 20200, 4),
-	(4, 28,  'Chez papi', 'Hewitt', 'Alma',  'Rue Saint-Malo',  'Rennes', 35000, 5),
-	(50, 35,  'Maison principale', 'Morse', 'Daniel', 'Rue des Artisans',  'Brive-la-Gaillarde', 24480, 6),
-	(5, 8,   'Maison principale', 'Wallace', 'Charity', 'Rue de l''Abbé Darrasse',  'Mont-de-Marsan', 40000, 7),
-	(6, 36,  'Maison principale', 'Bright', 'Karleigh', 'Rue du Président Salvador Allende',  'Rennes', 35000, 8),
-	(7, 3,   'Appartement', 'Quinn', 'Eaton', 'Rue des Tanneurs',  'Moulins', 3000, 8),
-	(9, 46,  'Chez maman', 'Parks', 'Alexa',  'Rue de la Barre',  'Dijon', 21000, 9),
-	(10, 12,  'Maison principale', 'Stanley', 'Cassidy', 'Place du Champ de Mars',  'Angoulême', 16000, 10),
-	(11, 27,  'Chez maman', 'Gould', 'Hanna',  'Avenue des Palmiers',  'Hyères', 83400, 11),
-	(11, 28,  'Maison principale', 'Reyes', 'Daniel', 'Avenue des Pins',  'Tournefeuille', 89852, 12),
-	(13, 38,  'Appartement', 'Stokes', 'Raven', 'Place Kléber',  'Strasbourg', 67000, 13),
-	(14, 47,  'Chez papi', 'Merrill', 'Reese',  'Boulevard de la Madeleine',  'Beauvais', 60000, 14),
-	(14, 5,   'Maison principale', 'Dudley', 'Quail', 'Rue des Artisans',  'Brive-la-Gaillarde', 19100, 15),
-	(14, 1,   'Maison principale', 'Galloway', 'Rhea', 'Rue Pasteur',  'Dole', 39100, 16),
-	(15, 47,  'Maison principale', 'Jimenez', 'Margaret', 'Rue de Vesle',  'Reims', 51100, 17),
-	(16, 23,  'Chez mamie', 'Roy', 'Leonard',  'Rue de la République',  'Dijon', 21000, 18),
-	(17, 42,  'Maison principale', 'Whitney', 'Keith', 'Rue du 4 Septembre',  'Béziers', 34500, 19),
-	(17, 35,  'Maison principale', 'Sears', 'Gail', 'Rue Pasteur',  'Dole', 78938, 20),
-	(18, 39,  'Maison principale', 'Clements', 'Perry', 'Rue des Capucins',  'Mâcon', 52231, 21),
-	(19, 12,  'Maison principale', 'Bass', 'Rae', 'Rue de l''Embranchement',  'Gap', 5000, 22),
-	(20, 32,  'Chez papi', 'Stuart', 'Tatiana',  'Rue de la Loire',  'Tours', 37000, 23),
-	(23, 24,  'Maison principale', 'Durham', 'Gage', 'Rue de la Solidarité',  'Colombes', 87020, 24),
-	(24, 13,  'Maison de vacances', 'Owens', 'Christopher',  'Rue de la Forêt',  'Haguenau', 67500, 25),
-	(26, 20,  'Chez mamie', 'Bartlett', 'Maia',  'Avenue de l''Industrie',  'Tournefeuille', 31170, 26),
-	(27, 36,  'Appartement', 'Branch', 'Derek', 'Rue de la Résistance',  'Brive-la-Gaillarde', 19100, 27),
-	(28, 1,   'Appartement', 'Nielsen', 'Amanda', 'Rue de la Gare',  'Niort', 79000, 28),
-	(30, 50,  'Chez papa', 'Blackwell', 'Jonas',  'Rue des Auteurs',  'Limoges', 87000, 29),
-	(31, 5,   'Chez papa', 'Roman', 'Ali',  'Rue de la Paix',  'Strasbourg', 67000, 30),
-	(32, 23,  'Chez maman', 'Mathews', 'Fulton',  'Rue Gambetta',  'Tarbes', 65000, 31),
-	(33, 30,  'Chez papi', 'Patterson', 'Justin',  'Quai de la République',  'La Rochelle', 17000, 32),
-	(33, 10,  'Maison principale', 'Salas', 'Wynter', 'Rue de la Solidarité',  'Colombes', 92700, 33),
-	(34, 44,  'Chez papa', 'Reyes', 'Natalie',  'Rue du Cygne',  'Chartres', 28000, 34),
-	(35, 34,  'Chez papi', 'Glover', 'Bo',  'Rue des Ardennes',  'Nevers', 58000, 35),
-	(37, 44,  'Appartement', 'Mercado', 'Yeo',  'Avenue de la République',  'Vernon', 27200, 36),
-	(39, 2,   'Chez maman', 'Valdez', 'Samuel',  'Rue Stanislas',  'Nancy', 54000, 37),
-	(40, 25,  'Appartement', 'Hensley', 'Kennedy', 'Rue de la Madeleine',  'Laval', 53000, 38),
-	(40, 14,  'Maison principale', 'Atkins', 'Orla', 'Rue des Capucins',  'Mâcon', 71000, 39),
-	(40, 17,  'Maison principale', 'Gibson', 'Evangeline', 'Rue de l''Abbé Darrasse',  'Mont-de-Marsan', 94155, 40),
-	(41, 31,  'Adresse principale', 'Wheeler', 'Charissa',  'Rue de la Liberté',  'Mont-de-Marsan', 40000, 41),
-	(42, 46,  'Maison principale', 'Johns', 'Armando', 'Rue de la Cité',  'Carcassonne', 11000, 42),
-	(43, 6,   'Appartement', 'Mcdaniel', 'Caesar', 'Rue du 14 Juillet',  'Évreux', 27000, 43),
-	(44, 45,  'Chez papa', 'Battle', 'Elliott',  'Boulevard des Pyrénées',  'Pau', 64000, 44),
-	(45, 19,  'Chez maman', 'Thornton', 'Gil',  'Rue de la Bretonnerie',  'Rezé', 44400, 45),
-	(46, 28,  'Chez mamie', 'Washington', 'Rinah',  'Avenue de la Libération',  'Salon-de-Provence', 13300, 46),
-	(47, 37,  'Chez mamie', 'Gaines', 'Kelly',  'Rue du Général Leclerc',  'Soissons', 2200, 47),
+	(1, 5,   'Maison principale',  'Houston', 'Isaiah', '7 Boulevard Carnot', 'Troyes', 10000, 1),
+	(2, 19,  'Maison principale', 'Elliott', 'Serena', '18 Boulevard Foch',  'Thionville', 57100, 2),
+	(2, 19,  'Maison secondaire', 'Elliott', 'Serena', '4 Rue du Maréchal Foch',  'Schiltigheim', 67300, 3),
+	(3, 43,  'Chez mamie', 'Beard', 'Zenaida',  '9 Rue du Général de Gaulle',  'Bastia', 20200, 4),
+	(4, 28,  'Chez papi', 'Hewitt', 'Alma',  '8 Rue Saint-Malo',  'Rennes', 35000, 5),
+	(50, 35,  'Maison principale', 'Morse', 'Daniel', '10 Rue des Artisans',  'Brive-la-Gaillarde', 24480, 6),
+	(5, 8,   'Maison principale', 'Wallace', 'Charity', '5 Rue de l''Abbé Darrasse',  'Mont-de-Marsan', 40000, 7),
+	(6, 36,  'Maison principale', 'Bright', 'Karleigh', '5 Rue du Président Salvador Allende',  'Rennes', 35000, 8),
+	(7, 3,   'Appartement', 'Quinn', 'Eaton', '10 Rue des Tanneurs',  'Moulins', 3000, 8),
+	(9, 46,  'Chez maman', 'Parks', 'Alexa',  '3 Rue de la Barre',  'Dijon', 21000, 9),
+	(10, 12,  'Maison principale', 'Stanley', 'Cassidy', '19 Place du Champ de Mars',  'Angoulême', 16000, 10),
+	(11, 27,  'Chez maman', 'Gould', 'Hanna',  '25 Avenue des Palmiers',  'Hyères', 83400, 11),
+	(11, 28,  'Maison principale', 'Reyes', 'Daniel', '16 Avenue des Pins',  'Tournefeuille', 89852, 12),
+	(13, 38,  'Appartement', 'Stokes', 'Raven', '6 Place Kléber',  'Strasbourg', 67000, 13),
+	(14, 47,  'Chez papi', 'Merrill', 'Reese',  '6 Boulevard de la Madeleine',  'Beauvais', 60000, 14),
+	(14, 5,   'Maison principale', 'Dudley', 'Quail', '9 Rue des Artisans',  'Brive-la-Gaillarde', 19100, 15),
+	(14, 1,   'Maison principale', 'Galloway', 'Rhea', '13 Rue Pasteur',  'Dole', 39100, 16),
+	(15, 47,  'Maison principale', 'Jimenez', 'Margaret', '25 Rue de Vesle',  'Reims', 51100, 17),
+	(16, 23,  'Chez mamie', 'Roy', 'Leonard',  '5 Rue de la République',  'Dijon', 21000, 18),
+	(17, 42,  'Maison principale', 'Whitney', 'Keith', '12 Rue du 4 Septembre',  'Béziers', 34500, 19),
+	(17, 35,  'Maison principale', 'Sears', 'Gail', '15 Rue Pasteur',  'Dole', 78938, 20),
+	(18, 39,  'Maison principale', 'Clements', 'Perry', '10 Rue des Capucins',  'Mâcon', 52231, 21),
+	(19, 12,  'Maison principale', 'Bass', 'Rae', '20 Rue de l''Embranchement',  'Gap', 5000, 22),
+	(20, 32,  'Chez papi', 'Stuart', 'Tatiana',  '14 Rue de la Loire',  'Tours', 37000, 23),
+	(23, 24,  'Maison principale', 'Durham', 'Gage', '15 Rue de la Solidarité',  'Colombes', 87020, 24),
+	(24, 13,  'Maison de vacances', 'Owens', 'Christopher',  '3 Rue de la Forêt',  'Haguenau', 67500, 25),
+	(26, 20,  'Chez mamie', 'Bartlett', 'Maia',  '34 Avenue de l''Industrie',  'Tournefeuille', 31170, 26),
+	(27, 36,  'Appartement', 'Branch', 'Derek', '15 Rue de la Résistance',  'Brive-la-Gaillarde', 19100, 27),
+	(28, 1,   'Appartement', 'Nielsen', 'Amanda', '13 Rue de la Gare',  'Niort', 79000, 28),
+	(30, 50,  'Chez papa', 'Blackwell', 'Jonas',  '7 Rue des Auteurs',  'Limoges', 87000, 29),
+	(31, 5,   'Chez papa', 'Roman', 'Ali',  '18 Rue de la Paix',  'Strasbourg', 67000, 30),
+	(32, 23,  'Chez maman', 'Mathews', 'Fulton',  '11 Rue Gambetta',  'Tarbes', 65000, 31),
+	(33, 30,  'Chez papi', 'Patterson', 'Justin',  '16 Quai de la République',  'La Rochelle', 17000, 32),
+	(33, 10,  'Maison principale', 'Salas', 'Wynter', '11 Rue de la Solidarité',  'Colombes', 92700, 33),
+	(34, 44,  'Chez papa', 'Reyes', 'Natalie',  '28 Rue du Cygne',  'Chartres', 28000, 34),
+	(35, 34,  'Chez papi', 'Glover', 'Bo',  '17 Rue des Ardennes',  'Nevers', 58000, 35),
+	(37, 44,  'Appartement', 'Mercado', 'Yeo',  '22 Avenue de la République',  'Vernon', 27200, 36),
+	(39, 2,   'Chez maman', 'Valdez', 'Samuel',  '11 Rue Stanislas',  'Nancy', 54000, 37),
+	(40, 25,  'Appartement', 'Hensley', 'Kennedy', '9 Rue de la Madeleine',  'Laval', 53000, 38),
+	(40, 14,  'Maison principale', 'Atkins', 'Orla', '18 Rue des Capucins',  'Mâcon', 71000, 39),
+	(40, 17,  'Maison principale', 'Gibson', 'Evangeline', '15 Rue de l''Abbé Darrasse',  'Mont-de-Marsan', 94155, 40),
+	(41, 31,  'Adresse principale', 'Wheeler', 'Charissa',  '15 Rue de la Liberté',  'Mont-de-Marsan', 40000, 41),
+	(42, 46,  'Maison principale', 'Johns', 'Armando', '21 Rue de la Cité',  'Carcassonne', 11000, 42),
+	(43, 6,   'Appartement', 'Mcdaniel', 'Caesar', '22 Rue du 14 Juillet',  'Évreux', 27000, 43),
+	(44, 45,  'Chez papa', 'Battle', 'Elliott',  '12 Boulevard des Pyrénées',  'Pau', 64000, 44),
+	(45, 19,  'Chez maman', 'Thornton', 'Gil',  '30 Rue de la Bretonnerie',  'Rezé', 44400, 45),
+	(46, 28,  'Chez mamie', 'Washington', 'Rinah',  '8 Avenue de la Libération',  'Salon-de-Provence', 13300, 46),
+	(47, 37,  'Chez mamie', 'Gaines', 'Kelly',  '10 Rue du Général Leclerc',  'Soissons', 2200, 47),
 	(48, 22,  'Chez papi', 'Holt', 'Gavin',  '19 Rue de la Mairie',  'Douai', 59500, 48),
-	(48, 15,  'Maison principale', 'Burch', 'Inez', 'Avenue des Pins',  'Tournefeuille', 31170, 49),
-	(49, 35,  'Chez papa', 'Randall', 'Maggie',  'Rue des Vins',  'Colmar', 68000, 50),
-	(53, 46,  'Maison principale', 'Vente', 'Service', 'Rue de la Cité',  'Carcassonne', 11000, 51),
-	(53, 13,  'Maison de vacances', 'Vente', 'Service',  'Rue de la Forêt',  'Haguenau', 67500, 52),
+	(48, 15,  'Maison principale', 'Burch', 'Inez', '6 Avenue des Pins',  'Tournefeuille', 31170, 49),
+	(49, 35,  'Chez papa', 'Randall', 'Maggie',  '21 Rue des Vins',  'Colmar', 68000, 50),
+	(53, 46,  'Maison principale', 'Vente', 'Service', '21 Rue de la Cité',  'Carcassonne', 11000, 51),
+	(53, 13,  'Maison de vacances', 'Vente', 'Service',  '3 Rue de la Forêt',  'Haguenau', 67500, 52),
 	(55, 40,  'Principal', 'A', 'B', 'C', 'D', 74000, 53);
 
 ------------------------------------------------- CATEGORIE SEJOUR
@@ -2162,7 +2208,7 @@ VALUES
 INSERT INTO
 	Favoris (idClient, idSejour)
 VALUES
-	(25, 25),
+	(25, 24),
 	(17, 90),
 	(2, 71),
 	(6, 82),
@@ -3891,5 +3937,4 @@ BEGIN
     );
 END;
 $$ LANGUAGE plpgsql;
-
 
