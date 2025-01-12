@@ -1,12 +1,12 @@
 /*==============================================================*/
 /* Nom de SGBD :  PostgreSQL 8                                  */
-/* Date de création :  13/12/2024 11:16:20                      */
+/* Date de cr�ation :  09/01/2025 11:21:31                      */
 /*==============================================================*/
 
 
 drop index if exists ACTIVITE_PK cascade;
 drop table if exists ACTIVITE cascade;
-drop index if exists A_ENREGISTRE_FK cascade;
+drop index if exists ASSOCIATION_48_FK cascade;
 drop index if exists LOCALISE_FK cascade;
 drop index if exists ADRESSE_PK cascade;
 drop table if exists ADRESSE cascade;
@@ -26,25 +26,25 @@ drop index if exists ASSOCIATION_39_FK cascade;
 drop index if exists ASSOCIATION_38_FK cascade;
 drop index if exists ASSOCIATION_38_PK cascade;
 drop table if exists ASSOCIATION_38 cascade;
-drop index if exists ASSOCIATION_41_FK cascade;
-drop index if exists ASSOCIATION_40_FK cascade;
+drop index if exists ASSOCIATION_55_FK cascade;
+drop index if exists ASSOCIATION_54_FK cascade;
 drop index if exists ASSOCIATION_39_PK cascade;
 drop table if exists ASSOCIATION_39 cascade;
-drop index if exists ASSOCIATION_44_FK cascade;
-drop index if exists ASSOCIATION_43_FK cascade;
+drop index if exists ASSOCIATION_42_FK cascade;
+drop index if exists ASSOCIATION_40_FK cascade;
 drop index if exists ASSOCIATION_40_PK cascade;
 drop table if exists ASSOCIATION_40 cascade;
-drop index if exists ASSOCIATION_46_FK cascade;
-drop index if exists ASSOCIATION_45_FK cascade;
+drop index if exists ASSOCIATION_57_FK cascade;
+drop index if exists ASSOCIATION_56_FK cascade;
 drop index if exists ASSOCIATION_42_PK cascade;
-drop table if exists ASSOCIATION_42 cascade;
+drop table if exists mange1 cascade;
 drop index if exists AUTRESOCIETE_PK cascade;
 drop table if exists AUTRESOCIETE cascade;
-drop index if exists POSTE_FK cascade;
+drop index if exists ASSOCIATION_50_FK cascade;
 drop index if exists CRITIQUE_FK cascade;
 drop index if exists AVIS_PK cascade;
 drop table if exists AVIS cascade;
-drop index if exists DETIENT_FK cascade;
+drop index if exists ASSOCIATION_49_FK cascade;
 drop index if exists CARTE_BANCAIRE_PK cascade;
 drop table if exists CARTE_BANCAIRE cascade;
 drop index if exists CATEGORIEPARTICIPANT_PK cascade;
@@ -58,30 +58,35 @@ drop index if exists CAVE_PK cascade;
 drop table if exists CAVE cascade;
 drop index if exists CHATBOT_PK cascade;
 drop table if exists CHATBOT cascade;
-drop index if exists ASSOCIATION_43_FK2 cascade;
+drop index if exists ASSOCIATION_47_FK cascade;
 drop index if exists CLIENT_PK cascade;
 drop table if exists CLIENT cascade;
-drop index if exists BENEFICIAIRE_FK cascade;
-drop index if exists ASSOCIE2_FK cascade;
-drop index if exists LIVREA_FK cascade;
-drop index if exists FACTUREA_FK cascade;
-drop index if exists REALISE_FK cascade;
+drop index if exists CODEPROMO_PK cascade;
+drop table if exists CODEPROMO cascade;
+drop index if exists ASSOCIATION_51_FK cascade;
+drop index if exists ASSOCIATION_46_FK cascade;
+drop index if exists ASSOCIATION_45_FK cascade;
+drop index if exists ASSOCIATION_44_FK cascade;
+drop index if exists ASSOCIATION_43_FK cascade;
+drop index if exists DIMINUE_FK cascade;
+drop index if exists ASSOCIE_FK cascade;
 drop index if exists COMMANDE_PK cascade;
 drop table if exists COMMANDE cascade;
-drop index if exists ASSOCIATION_41_FK2 cascade;
-drop index if exists DESCRIPTIONPANIER4_FK cascade;
-drop index if exists DESCRIPTIONPANIER3_FK cascade;
-drop index if exists DESCRIPTIONPANIER2_PK cascade;
+drop index if exists ASSOCIATION_52_FK cascade;
+drop index if exists ASSOCIATION_35_FK cascade;
+drop index if exists ASSOCIATION_36_FK cascade;
+drop index if exists ASSOCIATION_41_FK cascade;
+drop index if exists DESCRIPTIONCOMMANDE_PK cascade;
 drop table if exists DESCRIPTIONCOMMANDE cascade;
+drop index if exists DECRIT_PANIER_FK cascade;
+drop index if exists DECRIT_SEJOUR_PANIER_FK cascade;
 drop index if exists ASSOCIATION_37_FK cascade;
-drop index if exists DESCRIPTIONPANIER2_FK cascade;
-drop index if exists DESCRIPTIONPANIER_FK cascade;
 drop index if exists DESCRIPTIONPANIER_PK cascade;
 drop table if exists DESCRIPTIONPANIER cascade;
 drop index if exists DUREE_PK cascade;
 drop table if exists DUREE cascade;
-drop index if exists APPARTIENT_3_FK cascade;
 drop index if exists POSSEDE_FK cascade;
+drop index if exists APPARTIENT_3_FK cascade;
 drop index if exists ETAPE_PK cascade;
 drop table if exists ETAPE cascade;
 drop index if exists FAVORIS2_FK cascade;
@@ -96,10 +101,14 @@ drop table if exists HOTEL cascade;
 drop index if exists A_FK cascade;
 drop index if exists LOCALITE_PK cascade;
 drop table if exists LOCALITE cascade;
+drop index if exists REDUIT_FK cascade;
 drop index if exists PANIER_PK cascade;
 drop table if exists PANIER cascade;
 drop index if exists PARTENAIRE_PK cascade;
 drop table if exists PARTENAIRE cascade;
+drop index if exists ASSOCIATION_53_FK cascade;
+drop index if exists PHOTOS_PK cascade;
+drop table if exists PHOTOS cascade;
 drop index if exists PROPOSE_6_FK cascade;
 drop index if exists PROPOSE_5_FK cascade;
 drop index if exists PROPOSE_4_FK cascade;
@@ -108,26 +117,28 @@ drop table if exists PROPOSE_4 cascade;
 drop index if exists PROPOSE_2_FK cascade;
 drop index if exists REPAS_PK cascade;
 drop table if exists REPAS cascade;
+drop index if exists REPOND_FK cascade;
+drop index if exists REPONSE_PK cascade;
+drop table if exists REPONSE cascade;
 drop index if exists CUISINE_FK cascade;
 drop index if exists RESTAURANT_PK cascade;
 drop table if exists RESTAURANT cascade;
 drop index if exists ROLES_PK cascade;
 drop table if exists ROLES cascade;
+drop index if exists ROUTE_DES_VINS_PK cascade;
 drop table if exists ROUTE_DES_VINS cascade;
+drop index if exists DESTINE_A_FK cascade;
 drop index if exists DURE_FK cascade;
 drop index if exists REGROUPE_FK cascade;
-drop index if exists DESTINE_A_FK cascade;
 drop index if exists DEFINIT_FK cascade;
 drop index if exists CATEGORISE_FK cascade;
+drop index if exists SE_SITUE_FK cascade;
 drop index if exists SEJOUR_PK cascade;
 drop table if exists SEJOUR cascade;
+drop index if exists SE_LOCALISE2_FK cascade;
 drop index if exists SE_LOCALISE_FK cascade;
 drop index if exists SE_LOCALISE_PK cascade;
 drop table if exists SE_LOCALISE cascade;
-drop index if exists SE_SITUE2_FK cascade;
-drop index if exists SE_SITUE_FK cascade;
-drop index if exists SE_SITUE_PK cascade;
-drop table if exists SE_SITUE cascade;
 drop index if exists THEME_PK cascade;
 drop table if exists THEME cascade;
 drop index if exists TYPECUISINE_PK cascade;
@@ -143,8 +154,8 @@ drop table if exists VISITE cascade;
 /*==============================================================*/
 create table ACTIVITE (
    IDACTIVITE           SERIAL               not null,
-   LIBELLEACTIVITE      VARCHAR(100)         not null,
-   PRIXACTIVITE         numeric(8,2)					null,
+   LIBELLEACTIVITE      VARCHAR(100)         null,
+   PRIXACTIVITE         NUMERIC(8,2)         null,
    constraint PK_ACTIVITE primary key (IDACTIVITE)
 );
 
@@ -160,15 +171,16 @@ IDACTIVITE
 /*==============================================================*/
 create table ADRESSE (
    IDADRESSE            SERIAL               not null,
-   IDCLIENT             INT4                 null,
    IDPARTENAIRE         INT4                 null,
+   IDCLIENT             INT4                 null,
    NOMADRESSE           VARCHAR(50)          null,
    PRENOMADRESSEDESTINATAIRE VARCHAR(50)          null,
    NOMADRESSEDESTINATAIRE VARCHAR(50)          null,
-   RUEADRESSE           VARCHAR(100)         not null,
-   VILLEADRESSE         VARCHAR(50)          not null,
-   PAYSADRESSE          VARCHAR(50)          null,
-   CPADRESSE            CHAR(5)              not null,
+   RUEADRESSE           VARCHAR(100)         null,
+   VILLEADRESSE         VARCHAR(50)          null,
+   PAYSADRESSE          VARCHAR(50)          null default 'France',
+   CPADRESSE            CHAR(5)              null,
+   NUMADRESSE           VARCHAR(10)          null,
    constraint PK_ADRESSE primary key (IDADRESSE)
 );
 
@@ -187,9 +199,9 @@ IDPARTENAIRE
 );
 
 /*==============================================================*/
-/* Index : A_ENREGISTRE_FK                                      */
+/* Index : ASSOCIATION_48_FK                                    */
 /*==============================================================*/
-create  index A_ENREGISTRE_FK on ADRESSE (
+create  index ASSOCIATION_48_FK on ADRESSE (
 IDCLIENT
 );
 
@@ -197,110 +209,110 @@ IDCLIENT
 /* Table : APPARTIENT_1                                         */
 /*==============================================================*/
 create table APPARTIENT_1 (
-   IDETAPE              INT4                 not null,
    IDVISITE             INT4                 not null,
-   constraint PK_APPARTIENT_1 primary key (IDETAPE, IDVISITE)
+   IDETAPE              INT4                 not null,
+   constraint PK_APPARTIENT_1 primary key (IDVISITE, IDETAPE)
 );
 
 /*==============================================================*/
 /* Index : APPARTIENT_1_PK                                      */
 /*==============================================================*/
 create unique index APPARTIENT_1_PK on APPARTIENT_1 (
-IDETAPE,
-IDVISITE
+IDVISITE,
+IDETAPE
 );
 
 /*==============================================================*/
 /* Index : APPARTIENT_1_FK                                      */
 /*==============================================================*/
 create  index APPARTIENT_1_FK on APPARTIENT_1 (
-IDETAPE
+IDVISITE
 );
 
 /*==============================================================*/
 /* Index : APPARTIENT_5_FK                                      */
 /*==============================================================*/
 create  index APPARTIENT_5_FK on APPARTIENT_1 (
-IDVISITE
+IDETAPE
 );
 
 /*==============================================================*/
 /* Table : APPARTIENT_2                                         */
 /*==============================================================*/
 create table APPARTIENT_2 (
-   IDETAPE              INT4                 not null,
    IDREPAS              INT4                 not null,
-   constraint PK_APPARTIENT_2 primary key (IDETAPE, IDREPAS)
+   IDETAPE              INT4                 not null,
+   constraint PK_APPARTIENT_2 primary key (IDREPAS, IDETAPE)
 );
 
 /*==============================================================*/
 /* Index : APPARTIENT_2_PK                                      */
 /*==============================================================*/
 create unique index APPARTIENT_2_PK on APPARTIENT_2 (
-IDETAPE,
-IDREPAS
+IDREPAS,
+IDETAPE
 );
 
 /*==============================================================*/
 /* Index : APPARTIENT_2_FK                                      */
 /*==============================================================*/
 create  index APPARTIENT_2_FK on APPARTIENT_2 (
-IDETAPE
+IDREPAS
 );
 
 /*==============================================================*/
 /* Index : APPARTIENT_4_FK                                      */
 /*==============================================================*/
 create  index APPARTIENT_4_FK on APPARTIENT_2 (
-IDREPAS
+IDETAPE
 );
 
 /*==============================================================*/
 /* Table : APPARTIENT_4                                         */
 /*==============================================================*/
 create table APPARTIENT_4 (
-   IDETAPE              INT4                 not null,
    IDACTIVITE           INT4                 not null,
-   constraint PK_APPARTIENT_4 primary key (IDETAPE, IDACTIVITE)
+   IDETAPE              INT4                 not null,
+   constraint PK_APPARTIENT_4 primary key (IDACTIVITE, IDETAPE)
 );
 
 /*==============================================================*/
 /* Index : APPARTIENT_4_PK                                      */
 /*==============================================================*/
 create unique index APPARTIENT_4_PK on APPARTIENT_4 (
-IDETAPE,
-IDACTIVITE
+IDACTIVITE,
+IDETAPE
 );
 
 /*==============================================================*/
 /* Index : APPARTIENT_6_FK                                      */
 /*==============================================================*/
 create  index APPARTIENT_6_FK on APPARTIENT_4 (
-IDETAPE
+IDACTIVITE
 );
 
 /*==============================================================*/
 /* Index : APPARTIENT_7_FK                                      */
 /*==============================================================*/
 create  index APPARTIENT_7_FK on APPARTIENT_4 (
-IDACTIVITE
+IDETAPE
 );
 
 /*==============================================================*/
 /* Table : ASSOCIATION_38                                       */
 /*==============================================================*/
 create table ASSOCIATION_38 (
-	IDDESCRIPTIONPANIER	INT4				not null,
    IDACTIVITE           INT4                 not null,
-   constraint PK_ASSOCIATION_38 primary key (IDDESCRIPTIONPANIER, IDACTIVITE)
+   IDDESCRIPTIONPANIER  INT4                 not null,
+   constraint PK_ASSOCIATION_38 primary key (IDACTIVITE, IDDESCRIPTIONPANIER)
 );
 
 /*==============================================================*/
 /* Index : ASSOCIATION_38_PK                                    */
 /*==============================================================*/
 create unique index ASSOCIATION_38_PK on ASSOCIATION_38 (
-IDDESCRIPTIONPANIER,
-IDACTIVITE
+IDACTIVITE,
+IDDESCRIPTIONPANIER
 );
 
 /*==============================================================*/
@@ -321,99 +333,93 @@ IDDESCRIPTIONPANIER
 /* Table : ASSOCIATION_39                                       */
 /*==============================================================*/
 create table ASSOCIATION_39 (
-   IDSEJOUR             INT4                 not null,
-   IDPANIER             INT4                 not null,
    IDREPAS              INT4                 not null,
-   constraint PK_ASSOCIATION_39 primary key (IDSEJOUR, IDPANIER, IDREPAS)
+   IDDESCRIPTIONPANIER  INT4                 not null,
+   constraint PK_ASSOCIATION_39 primary key (IDREPAS, IDDESCRIPTIONPANIER)
 );
 
 /*==============================================================*/
 /* Index : ASSOCIATION_39_PK                                    */
 /*==============================================================*/
 create unique index ASSOCIATION_39_PK on ASSOCIATION_39 (
-IDSEJOUR,
-IDPANIER,
+IDREPAS,
+IDDESCRIPTIONPANIER
+);
+
+/*==============================================================*/
+/* Index : ASSOCIATION_54_FK                                    */
+/*==============================================================*/
+create  index ASSOCIATION_54_FK on ASSOCIATION_39 (
 IDREPAS
 );
 
 /*==============================================================*/
-/* Index : ASSOCIATION_40_FK                                    */
+/* Index : ASSOCIATION_55_FK                                    */
 /*==============================================================*/
-create  index ASSOCIATION_40_FK on ASSOCIATION_39 (
-IDREPAS
-);
-
-/*==============================================================*/
-/* Index : ASSOCIATION_41_FK                                    */
-/*==============================================================*/
-create  index ASSOCIATION_41_FK on ASSOCIATION_39 (
-IDSEJOUR,
-IDPANIER
+create  index ASSOCIATION_55_FK on ASSOCIATION_39 (
+IDDESCRIPTIONPANIER
 );
 
 /*==============================================================*/
 /* Table : ASSOCIATION_40                                       */
 /*==============================================================*/
 create table ASSOCIATION_40 (
-   IDCOMMANDE           INT4                 not null,
-   IDSEJOUR             INT4                 not null,
    IDACTIVITE           INT4                 not null,
-   constraint PK_ASSOCIATION_40 primary key (IDCOMMANDE, IDSEJOUR, IDACTIVITE)
+   IDDESCRIPTIONCOMMANDE INT4                 not null,
+   constraint PK_ASSOCIATION_40 primary key (IDACTIVITE, IDDESCRIPTIONCOMMANDE)
 );
 
 /*==============================================================*/
 /* Index : ASSOCIATION_40_PK                                    */
 /*==============================================================*/
 create unique index ASSOCIATION_40_PK on ASSOCIATION_40 (
-IDCOMMANDE,
-IDSEJOUR,
+IDACTIVITE,
+IDDESCRIPTIONCOMMANDE
+);
+
+/*==============================================================*/
+/* Index : ASSOCIATION_40_FK                                    */
+/*==============================================================*/
+create  index ASSOCIATION_40_FK on ASSOCIATION_40 (
 IDACTIVITE
 );
 
 /*==============================================================*/
-/* Index : ASSOCIATION_43_FK                                    */
+/* Index : ASSOCIATION_42_FK                                    */
 /*==============================================================*/
-create  index ASSOCIATION_43_FK on ASSOCIATION_40 (
-IDCOMMANDE,
-IDSEJOUR
+create  index ASSOCIATION_42_FK on ASSOCIATION_40 (
+IDDESCRIPTIONCOMMANDE
 );
 
 /*==============================================================*/
-/* Index : ASSOCIATION_44_FK                                    */
+/* Table : mange1                                       */
 /*==============================================================*/
-create  index ASSOCIATION_44_FK on ASSOCIATION_40 (
-IDACTIVITE
-);
-
-/*==============================================================*/
-/* Table : ASSOCIATION_42                                       */
-/*==============================================================*/
-create table ASSOCIATION_42 (
-	IDDESCRIPTIONPANIER	INT4				not null,
+create table mange1 (
    IDREPAS              INT4                 not null,
-   constraint PK_ASSOCIATION_42 primary key (IDDESCRIPTIONPANIER, IDREPAS)
+   IDDESCRIPTIONCOMMANDE INT4                 not null,
+   constraint PK_ASSOCIATION_42 primary key (IDREPAS, IDDESCRIPTIONCOMMANDE)
 );
 
 /*==============================================================*/
 /* Index : ASSOCIATION_42_PK                                    */
 /*==============================================================*/
-create unique index ASSOCIATION_42_PK on ASSOCIATION_42 (
-IDDESCRIPTIONPANIER,
+create unique index ASSOCIATION_42_PK on mange1 (
+IDREPAS,
+IDDESCRIPTIONCOMMANDE
+);
+
+/*==============================================================*/
+/* Index : ASSOCIATION_56_FK                                    */
+/*==============================================================*/
+create  index ASSOCIATION_56_FK on mange1 (
 IDREPAS
 );
 
 /*==============================================================*/
-/* Index : ASSOCIATION_45_FK                                    */
+/* Index : ASSOCIATION_57_FK                                    */
 /*==============================================================*/
-create  index ASSOCIATION_45_FK on ASSOCIATION_42 (
-IDDESCRIPTIONPANIER
-);
-
-/*==============================================================*/
-/* Index : ASSOCIATION_46_FK                                    */
-/*==============================================================*/
-create  index ASSOCIATION_46_FK on ASSOCIATION_42 (
-IDREPAS
+create  index ASSOCIATION_57_FK on mange1 (
+IDDESCRIPTIONCOMMANDE
 );
 
 /*==============================================================*/
@@ -421,9 +427,9 @@ IDREPAS
 /*==============================================================*/
 create table AUTRESOCIETE (
    IDPARTENAIRE         INT4                 not null,
-   NOMPARTENAIRE        VARCHAR(50)          not null,
-   MAILPARTENAIRE       VARCHAR(100)         not null,
-   TELPARTENAIRE        CHAR(10)             not null,
+   NOMPARTENAIRE        VARCHAR(50)          null,
+   MAILPARTENAIRE       VARCHAR(100)         null,
+   TELPARTENAIRE        CHAR(10)             null,
    constraint PK_AUTRESOCIETE primary key (IDPARTENAIRE)
 );
 
@@ -439,12 +445,13 @@ IDPARTENAIRE
 /*==============================================================*/
 create table AVIS (
    IDAVIS               SERIAL               not null,
-   IDCLIENT             INT4                 not null,
    IDSEJOUR             INT4                 not null,
-   TITREAVIS            VARCHAR(50)          not null,
-   DATEAVIS             DATE                 not null,
-   DESCRIPTIONAVIS      VARCHAR(2048)        not null,
-   NOTEAVIS             INT4                 not null,
+   IDCLIENT             INT4                 not null,
+   TITREAVIS            VARCHAR(50)          null,
+   DATEAVIS             DATE                 null,
+   DESCRIPTIONAVIS      VARCHAR(2048)        null,
+   NOTEAVIS             INT4                 null,
+   PHOTOAVIS            VARCHAR(512)         null,
    constraint PK_AVIS primary key (IDAVIS)
 );
 
@@ -463,9 +470,9 @@ IDSEJOUR
 );
 
 /*==============================================================*/
-/* Index : POSTE_FK                                             */
+/* Index : ASSOCIATION_50_FK                                    */
 /*==============================================================*/
-create  index POSTE_FK on AVIS (
+create  index ASSOCIATION_50_FK on AVIS (
 IDCLIENT
 );
 
@@ -478,6 +485,7 @@ create table CARTE_BANCAIRE (
    TITULAIRECB          VARCHAR(100)         null,
    NUMEROCBCLIENT       CHAR(16)             null,
    DATEEXPIRATIONCBCLIENT DATE                 null,
+   ACTIF                BOOL        default true         null,
    constraint PK_CARTE_BANCAIRE primary key (IDCB)
 );
 
@@ -489,9 +497,9 @@ IDCB
 );
 
 /*==============================================================*/
-/* Index : DETIENT_FK                                           */
+/* Index : ASSOCIATION_49_FK                                    */
 /*==============================================================*/
-create  index DETIENT_FK on CARTE_BANCAIRE (
+create  index ASSOCIATION_49_FK on CARTE_BANCAIRE (
 IDCLIENT
 );
 
@@ -500,7 +508,7 @@ IDCLIENT
 /*==============================================================*/
 create table CATEGORIEPARTICIPANT (
    IDCATEGORIEPARTICIPANT SERIAL               not null,
-   LIBELLECATEGORIEPARTICIPANT VARCHAR(50)          not null,
+   LIBELLECATEGORIEPARTICIPANT VARCHAR(50)          null,
    constraint PK_CATEGORIEPARTICIPANT primary key (IDCATEGORIEPARTICIPANT)
 );
 
@@ -532,7 +540,7 @@ IDCATEGORIESEJOUR
 /*==============================================================*/
 create table CATEGORIEVIGNOBLE (
    IDCATEGORIEVIGNOBLE  SERIAL               not null,
-   LIBELLECATEGORIEVIGNOBLE VARCHAR(50)          not null,
+   LIBELLECATEGORIEVIGNOBLE VARCHAR(50)          null,
    constraint PK_CATEGORIEVIGNOBLE primary key (IDCATEGORIEVIGNOBLE)
 );
 
@@ -549,9 +557,9 @@ IDCATEGORIEVIGNOBLE
 create table CAVE (
    IDPARTENAIRE         INT4                 not null,
    IDTYPEDEGUSTATION    INT4                 not null,
-   NOMPARTENAIRE        VARCHAR(50)          not null,
-   MAILPARTENAIRE       VARCHAR(100)         not null,
-   TELPARTENAIRE        CHAR(10)             not null,
+   NOMPARTENAIRE        VARCHAR(50)          null,
+   MAILPARTENAIRE       VARCHAR(100)         null,
+   TELPARTENAIRE        CHAR(10)             null,
    constraint PK_CAVE primary key (IDPARTENAIRE)
 );
 
@@ -592,13 +600,17 @@ create table CLIENT (
    IDCLIENT             SERIAL               not null,
    IDROLE               INT4                 not null,
    CIVILITECLIENT       VARCHAR(10)          null,
-   PRENOMCLIENT         VARCHAR(50)          not null,
-   NOMCLIENT            VARCHAR(50)          not null,
-   EMAILCLIENT          VARCHAR(150)         not null,
+   PRENOMCLIENT         VARCHAR(50)          null,
+   NOMCLIENT            VARCHAR(50)          null,
+   EMAILCLIENT          VARCHAR(150)         null,
    DATENAISSANCECLIENT  DATE                 null,
-   MOTDEPASSECLIENT     VARCHAR(512)         not null,
-   OFFRESPROMOTIONNELLESCLIENT BOOL                 not null,
+   MOTDEPASSECLIENT     VARCHAR(512)         null,
+   OFFRESPROMOTIONNELLESCLIENT BOOL                 null,
    DATEDERNIEREACTIVITECLIENT DATE                 null,
+   A2F                  BOOL         default false        not null,
+   TELEPHONECLIENT      CHAR(10)             null,
+   TOKENRESETMDP        CHAR(60)     default null        null,
+   DATECREATIONTOKEN    DATE        default null         null,
    constraint PK_CLIENT primary key (IDCLIENT)
 );
 
@@ -610,10 +622,27 @@ IDCLIENT
 );
 
 /*==============================================================*/
-/* Index : ASSOCIATION_43_FK2                                   */
+/* Index : ASSOCIATION_47_FK                                    */
 /*==============================================================*/
-create  index ASSOCIATION_43_FK2 on CLIENT (
+create  index ASSOCIATION_47_FK on CLIENT (
 IDROLE
+);
+
+/*==============================================================*/
+/* Table : CODEPROMO                                            */
+/*==============================================================*/
+create table CODEPROMO (
+   IDCODEPROMO          SERIAL               not null,
+   LIBELLECODEPROMO     VARCHAR(15)          null,
+   REDUCTION            INT4                 null,
+   constraint PK_CODEPROMO primary key (IDCODEPROMO)
+);
+
+/*==============================================================*/
+/* Index : CODEPROMO_PK                                         */
+/*==============================================================*/
+create unique index CODEPROMO_PK on CODEPROMO (
+IDCODEPROMO
 );
 
 /*==============================================================*/
@@ -621,13 +650,18 @@ IDROLE
 /*==============================================================*/
 create table COMMANDE (
    IDCOMMANDE           SERIAL               not null,
-   IDCLIENTACHETEUR     INT4                 not null,
-   IDCLIENTBENEFICIAIRE INT4                 not null,
-   IDADRESSELIVRAISON   INT4                 null,
-   IDPANIER             INT4                 not null,
    IDADRESSEFACTURATION INT4                 not null,
-   CODEREDUCTION        VARCHAR(20)          not null,
-   VALIDATIONCLIENT     BOOL     default false            null,
+   IDCB                 INT4                 not null,
+   IDCLIENTBENEFICIAIRE  INT4                 not null,
+   IDPANIER             INT4                 not null,
+   IDADRESSELIVRAISON   INT4                 null,
+   IDCLIENTACHETEUR     INT4                 not null,
+   IDCODEPROMO          INT4                 null,
+   CODEREDUCTION        VARCHAR(20)          null,
+   VALIDATIONCLIENT     BOOL                 null,
+   ETATCOMMANDE         VARCHAR(50)  default 'En attente de validation'        null,
+   TYPEPAIEMENTCOMMANDE VARCHAR(50)          null,
+   DATECOMMANDE         DATE        default '2025-01-01'         null,
    constraint PK_COMMANDE primary key (IDCOMMANDE)
 );
 
@@ -639,50 +673,63 @@ IDCOMMANDE
 );
 
 /*==============================================================*/
-/* Index : REALISE_FK                                           */
+/* Index : ASSOCIE_FK                                           */
 /*==============================================================*/
-create  index REALISE_FK on COMMANDE (
-IDCLIENTBENEFICIAIRE
-);
-
-/*==============================================================*/
-/* Index : FACTUREA_FK                                          */
-/*==============================================================*/
-create  index FACTUREA_FK on COMMANDE (
-IDADRESSEFACTURATION
-);
-
-/*==============================================================*/
-/* Index : LIVREA_FK                                            */
-/*==============================================================*/
-create  index LIVREA_FK on COMMANDE (
-IDADRESSELIVRAISON
-);
-
-/*==============================================================*/
-/* Index : ASSOCIE2_FK                                          */
-/*==============================================================*/
-create  index ASSOCIE2_FK on COMMANDE (
+create  index ASSOCIE_FK on COMMANDE (
 IDPANIER
 );
 
 /*==============================================================*/
-/* Index : BENEFICIAIRE_FK                                      */
+/* Index : DIMINUE_FK                                           */
 /*==============================================================*/
-create  index BENEFICIAIRE_FK on COMMANDE (
+create  index DIMINUE_FK on COMMANDE (
+IDCODEPROMO
+);
+
+/*==============================================================*/
+/* Index : ASSOCIATION_43_FK                                    */
+/*==============================================================*/
+create  index ASSOCIATION_43_FK on COMMANDE (
 IDCLIENTACHETEUR
+);
+
+/*==============================================================*/
+/* Index : ASSOCIATION_44_FK                                    */
+/*==============================================================*/
+create  index ASSOCIATION_44_FK on COMMANDE (
+IDCLIENTBENEFICIAIRE
+);
+
+/*==============================================================*/
+/* Index : ASSOCIATION_45_FK                                    */
+/*==============================================================*/
+create  index ASSOCIATION_45_FK on COMMANDE (
+IDADRESSEFACTURATION
+);
+
+/*==============================================================*/
+/* Index : ASSOCIATION_46_FK                                    */
+/*==============================================================*/
+create  index ASSOCIATION_46_FK on COMMANDE (
+IDADRESSELIVRAISON
+);
+
+/*==============================================================*/
+/* Index : ASSOCIATION_51_FK                                    */
+/*==============================================================*/
+create  index ASSOCIATION_51_FK on COMMANDE (
+IDCB
 );
 
 /*==============================================================*/
 /* Table : DESCRIPTIONCOMMANDE                                  */
 /*==============================================================*/
 create table DESCRIPTIONCOMMANDE (
-	IDDESCRIPTIONCOMMANDE	SERIAL			not null,
+   IDDESCRIPTIONCOMMANDE SERIAL               not null,
    IDCOMMANDE           INT4                 not null,
-   IDSEJOUR             INT4                 not null,
    IDHEBERGEMENT        INT4                 not null,
-   IDCB					integer				not null,
-   PRIX                 NUMERIC(8,2)         null,
+   IDSEJOUR             INT4                 not null,
+   IDCB                 INT4                 not null,
    QUANTITE             INT4                 null,
    DATEDEBUT            DATE                 null,
    DATEFIN              DATE                 null,
@@ -691,53 +738,56 @@ create table DESCRIPTIONCOMMANDE (
    NBCHAMBRESSIMPLE     INT4                 null,
    NBCHAMBRESDOUBLE     INT4                 null,
    NBCHAMBRESTRIPLE     INT4                 null,
-   REPASMIDI            BOOL                 null,
-   REPASSOIR            BOOL                 null,
-   ACTIVITE             BOOL                 null,
    OFFRIR               BOOL                 null,
    ECOFFRET             BOOL                 null,
    DISPONIBILITEHEBERGEMENT BOOL                 null,
+   VALIDATIONCLIENT     BOOL        default false         null,
    constraint PK_DESCRIPTIONCOMMANDE primary key (IDDESCRIPTIONCOMMANDE)
 );
 
 /*==============================================================*/
-/* Index : DESCRIPTIONPANIER2_PK                                */
+/* Index : DESCRIPTIONCOMMANDE_PK                               */
 /*==============================================================*/
-create unique index DESCRIPTIONPANIER2_PK on DESCRIPTIONCOMMANDE (
-IDCOMMANDE,
+create unique index DESCRIPTIONCOMMANDE_PK on DESCRIPTIONCOMMANDE (
+IDDESCRIPTIONCOMMANDE
+);
+
+/*==============================================================*/
+/* Index : ASSOCIATION_41_FK                                    */
+/*==============================================================*/
+create  index ASSOCIATION_41_FK on DESCRIPTIONCOMMANDE (
+IDHEBERGEMENT
+);
+
+/*==============================================================*/
+/* Index : ASSOCIATION_36_FK                                    */
+/*==============================================================*/
+create  index ASSOCIATION_36_FK on DESCRIPTIONCOMMANDE (
 IDSEJOUR
 );
 
 /*==============================================================*/
-/* Index : DESCRIPTIONPANIER3_FK                                */
+/* Index : ASSOCIATION_35_FK                                    */
 /*==============================================================*/
-create  index DESCRIPTIONPANIER3_FK on DESCRIPTIONCOMMANDE (
+create  index ASSOCIATION_35_FK on DESCRIPTIONCOMMANDE (
 IDCOMMANDE
 );
 
 /*==============================================================*/
-/* Index : DESCRIPTIONPANIER4_FK                                */
+/* Index : ASSOCIATION_52_FK                                    */
 /*==============================================================*/
-create  index DESCRIPTIONPANIER4_FK on DESCRIPTIONCOMMANDE (
-IDSEJOUR
-);
-
-/*==============================================================*/
-/* Index : ASSOCIATION_41_FK2                                   */
-/*==============================================================*/
-create  index ASSOCIATION_41_FK2 on DESCRIPTIONCOMMANDE (
-IDHEBERGEMENT
+create  index ASSOCIATION_52_FK on DESCRIPTIONCOMMANDE (
+IDCB
 );
 
 /*==============================================================*/
 /* Table : DESCRIPTIONPANIER                                    */
 /*==============================================================*/
 create table DESCRIPTIONPANIER (
-	IDDESCRIPTIONPANIER	SERIAL				not null,
+   IDDESCRIPTIONPANIER  SERIAL               not null,
    IDSEJOUR             INT4                 not null,
-   IDPANIER             INT4                 not null,
    IDHEBERGEMENT        INT4                 not null,
-   PRIX                 NUMERIC(8,2)         null,
+   IDPANIER             INT4                 not null,
    QUANTITE             INT4                 null,
    DATEDEBUT            DATE                 null,
    DATEFIN              DATE                 null,
@@ -746,9 +796,6 @@ create table DESCRIPTIONPANIER (
    NBCHAMBRESSIMPLE     INT4                 null,
    NBCHAMBRESDOUBLE     INT4                 null,
    NBCHAMBRESTRIPLE     INT4                 null,
-   REPASMIDI            BOOL                 null,
-   REPASSOIR            BOOL                 null,
-   ACTIVITE             BOOL                 null,
    OFFRIR               BOOL                 null,
    ECOFFRET             BOOL                 null,
    DISPONIBILITEHEBERGEMENT BOOL                 null,
@@ -759,22 +806,7 @@ create table DESCRIPTIONPANIER (
 /* Index : DESCRIPTIONPANIER_PK                                 */
 /*==============================================================*/
 create unique index DESCRIPTIONPANIER_PK on DESCRIPTIONPANIER (
-IDSEJOUR,
-IDPANIER
-);
-
-/*==============================================================*/
-/* Index : DESCRIPTIONPANIER_FK                                 */
-/*==============================================================*/
-create  index DESCRIPTIONPANIER_FK on DESCRIPTIONPANIER (
-IDSEJOUR
-);
-
-/*==============================================================*/
-/* Index : DESCRIPTIONPANIER2_FK                                */
-/*==============================================================*/
-create  index DESCRIPTIONPANIER2_FK on DESCRIPTIONPANIER (
-IDPANIER
+IDDESCRIPTIONPANIER
 );
 
 /*==============================================================*/
@@ -785,11 +817,25 @@ IDHEBERGEMENT
 );
 
 /*==============================================================*/
+/* Index : DECRIT_SEJOUR_PANIER_FK                              */
+/*==============================================================*/
+create  index DECRIT_SEJOUR_PANIER_FK on DESCRIPTIONPANIER (
+IDSEJOUR
+);
+
+/*==============================================================*/
+/* Index : DECRIT_PANIER_FK                                     */
+/*==============================================================*/
+create  index DECRIT_PANIER_FK on DESCRIPTIONPANIER (
+IDPANIER
+);
+
+/*==============================================================*/
 /* Table : DUREE                                                */
 /*==============================================================*/
 create table DUREE (
    IDDUREE              SERIAL               not null,
-   LIBELLEDUREE         VARCHAR(50)          not null,
+   LIBELLEDUREE         VARCHAR(50)          null,
    constraint PK_DUREE primary key (IDDUREE)
 );
 
@@ -805,9 +851,9 @@ IDDUREE
 /*==============================================================*/
 create table ETAPE (
    IDETAPE              SERIAL               not null,
-   IDHEBERGEMENT        INT4                 not null,
    IDSEJOUR             INT4                 not null,
-   TITREETAPE           VARCHAR(100)         not null,
+   IDHEBERGEMENT        INT4                 not null,
+   TITREETAPE           VARCHAR(100)         null,
    DESCRIPTIONETAPE     VARCHAR(4096)        null,
    PHOTOETAPE           VARCHAR(512)         null,
    URLETAPE             VARCHAR(150)         null,
@@ -823,17 +869,17 @@ IDETAPE
 );
 
 /*==============================================================*/
-/* Index : POSSEDE_FK                                           */
-/*==============================================================*/
-create  index POSSEDE_FK on ETAPE (
-IDSEJOUR
-);
-
-/*==============================================================*/
 /* Index : APPARTIENT_3_FK                                      */
 /*==============================================================*/
 create  index APPARTIENT_3_FK on ETAPE (
 IDHEBERGEMENT
+);
+
+/*==============================================================*/
+/* Index : POSSEDE_FK                                           */
+/*==============================================================*/
+create  index POSSEDE_FK on ETAPE (
+IDSEJOUR
 );
 
 /*==============================================================*/
@@ -873,11 +919,10 @@ IDSEJOUR
 create table HEBERGEMENT (
    IDHEBERGEMENT        SERIAL               not null,
    IDPARTENAIRE         INT4                 not null,
-   DESCRIPTIONHEBERGEMENT VARCHAR(4096)        not null,
+   DESCRIPTIONHEBERGEMENT VARCHAR(4096)        null,
    PHOTOHEBERGEMENT     VARCHAR(512)         null,
    LIENHEBERGEMENT      VARCHAR(512)         null,
-   PRIXHEBERGEMENT		numeric(8,2)					null,
-   DISPONIBILITEHEBERGEMENT	boolean		DEFAULT True	   not null,
+   PRIXHEBERGEMENT      NUMERIC(8,2)         null,
    constraint PK_HEBERGEMENT primary key (IDHEBERGEMENT)
 );
 
@@ -900,11 +945,11 @@ IDPARTENAIRE
 /*==============================================================*/
 create table HOTEL (
    IDPARTENAIRE         INT4                 not null,
-   NOMPARTENAIRE        VARCHAR(50)          not null,
-   MAILPARTENAIRE       VARCHAR(100)         not null,
-   TELPARTENAIRE        CHAR(10)             not null,
-   NOMBRECHAMBRESHOTEL  INT4                 not null,
-   CATEGORIEHOTEL       INT4                 not null,
+   NOMPARTENAIRE        VARCHAR(50)          null,
+   MAILPARTENAIRE       VARCHAR(100)         null,
+   TELPARTENAIRE        CHAR(10)             null,
+   NOMBRECHAMBRESHOTEL  INT4                 null,
+   CATEGORIEHOTEL       INT4                 null,
    constraint PK_HOTEL primary key (IDPARTENAIRE)
 );
 
@@ -921,7 +966,7 @@ IDPARTENAIRE
 create table LOCALITE (
    IDLOCALITE           SERIAL               not null,
    IDCATEGORIEVIGNOBLE  INT4                 not null,
-   LIBELLELOCALITE      VARCHAR(50)          not null,
+   LIBELLELOCALITE      VARCHAR(50)          null,
    constraint PK_LOCALITE primary key (IDLOCALITE)
 );
 
@@ -944,7 +989,8 @@ IDCATEGORIEVIGNOBLE
 /*==============================================================*/
 create table PANIER (
    IDPANIER             SERIAL               not null,
-   DATEHEUREPANIER      DATE                 not null,
+   IDCODEPROMO          INT4                 null,
+   DATEHEUREPANIER      DATE                 null,
    constraint PK_PANIER primary key (IDPANIER)
 );
 
@@ -956,13 +1002,20 @@ IDPANIER
 );
 
 /*==============================================================*/
+/* Index : REDUIT_FK                                            */
+/*==============================================================*/
+create  index REDUIT_FK on PANIER (
+IDCODEPROMO
+);
+
+/*==============================================================*/
 /* Table : PARTENAIRE                                           */
 /*==============================================================*/
 create table PARTENAIRE (
    IDPARTENAIRE         SERIAL               not null,
-   NOMPARTENAIRE        VARCHAR(50)          not null,
-   MAILPARTENAIRE       VARCHAR(100)         not null,
-   TELPARTENAIRE        CHAR(10)             not null,
+   NOMPARTENAIRE        VARCHAR(50)          null,
+   MAILPARTENAIRE       VARCHAR(100)         null,
+   TELPARTENAIRE        CHAR(10)             null,
    constraint PK_PARTENAIRE primary key (IDPARTENAIRE)
 );
 
@@ -974,21 +1027,45 @@ IDPARTENAIRE
 );
 
 /*==============================================================*/
+/* Table : PHOTOS                                               */
+/*==============================================================*/
+create table PHOTOS (
+   IDPHOTO              SERIAL               not null,
+   IDSEJOUR             INT4                 not null,
+   PHOTO                VARCHAR(512)         null,
+   constraint PK_PHOTOS primary key (IDPHOTO)
+);
+
+/*==============================================================*/
+/* Index : PHOTOS_PK                                            */
+/*==============================================================*/
+create unique index PHOTOS_PK on PHOTOS (
+IDPHOTO
+);
+
+/*==============================================================*/
+/* Index : ASSOCIATION_53_FK                                    */
+/*==============================================================*/
+create  index ASSOCIATION_53_FK on PHOTOS (
+IDSEJOUR
+);
+
+/*==============================================================*/
 /* Table : PROPOSE_4                                            */
 /*==============================================================*/
 create table PROPOSE_4 (
-   IDACTIVITE           INT4                 not null,
    IDPARTENAIRE         INT4                 not null,
+   IDACTIVITE           INT4                 not null,
    IDADRESSE            INT4                 not null,
-   constraint PK_PROPOSE_4 primary key (IDACTIVITE, IDPARTENAIRE, IDADRESSE)
+   constraint PK_PROPOSE_4 primary key (IDPARTENAIRE, IDACTIVITE, IDADRESSE)
 );
 
 /*==============================================================*/
 /* Index : PROPOSE_4_PK                                         */
 /*==============================================================*/
 create unique index PROPOSE_4_PK on PROPOSE_4 (
-IDACTIVITE,
 IDPARTENAIRE,
+IDACTIVITE,
 IDADRESSE
 );
 
@@ -996,14 +1073,14 @@ IDADRESSE
 /* Index : PROPOSE_4_FK                                         */
 /*==============================================================*/
 create  index PROPOSE_4_FK on PROPOSE_4 (
-IDACTIVITE
+IDPARTENAIRE
 );
 
 /*==============================================================*/
 /* Index : PROPOSE_5_FK                                         */
 /*==============================================================*/
 create  index PROPOSE_5_FK on PROPOSE_4 (
-IDPARTENAIRE
+IDACTIVITE
 );
 
 /*==============================================================*/
@@ -1019,9 +1096,9 @@ IDADRESSE
 create table REPAS (
    IDREPAS              SERIAL               not null,
    IDPARTENAIRE         INT4                 not null,
-   DESCRIPTIONREPAS     VARCHAR(4096)        not null,
+   DESCRIPTIONREPAS     VARCHAR(4096)        null,
    PHOTOREPAS           VARCHAR(512)         null,
-   PRIXREPAS			numeric(8,2)					null,
+   PRIXREPAS            NUMERIC(8,2)         null,
    constraint PK_REPAS primary key (IDREPAS)
 );
 
@@ -1040,15 +1117,39 @@ IDPARTENAIRE
 );
 
 /*==============================================================*/
+/* Table : REPONSE                                              */
+/*==============================================================*/
+create table REPONSE (
+   IDREPONSE            SERIAL               not null,
+   IDAVIS               INT4                 not null,
+   DESCRIPTIONREPONSE   VARCHAR(4096)        null,
+   constraint PK_REPONSE primary key (IDREPONSE)
+);
+
+/*==============================================================*/
+/* Index : REPONSE_PK                                           */
+/*==============================================================*/
+create unique index REPONSE_PK on REPONSE (
+IDREPONSE
+);
+
+/*==============================================================*/
+/* Index : REPOND_FK                                            */
+/*==============================================================*/
+create  index REPOND_FK on REPONSE (
+IDAVIS
+);
+
+/*==============================================================*/
 /* Table : RESTAURANT                                           */
 /*==============================================================*/
 create table RESTAURANT (
    IDPARTENAIRE         INT4                 not null,
    IDTYPECUISINE        INT4                 not null,
-   NOMPARTENAIRE        VARCHAR(50)          not null,
-   MAILPARTENAIRE       VARCHAR(100)         not null,
-   TELPARTENAIRE        CHAR(10)             not null,
-   NOMBREETOILESRESTAURANT INT4                 not null,
+   NOMPARTENAIRE        VARCHAR(50)          null,
+   MAILPARTENAIRE       VARCHAR(100)         null,
+   TELPARTENAIRE        CHAR(10)             null,
+   NOMBREETOILESRESTAURANT INT4                 null,
    SPECIALITERESTAURANT VARCHAR(50)          null,
    constraint PK_RESTAURANT primary key (IDPARTENAIRE)
 );
@@ -1095,19 +1196,29 @@ create table ROUTE_DES_VINS (
 );
 
 /*==============================================================*/
+/* Index : ROUTE_DES_VINS_PK                                    */
+/*==============================================================*/
+create unique index ROUTE_DES_VINS_PK on ROUTE_DES_VINS (
+IDROUTE
+);
+
+/*==============================================================*/
 /* Table : SEJOUR                                               */
 /*==============================================================*/
 create table SEJOUR (
    IDSEJOUR             SERIAL               not null,
-   IDCATEGORIESEJOUR    INT4                 not null,
    IDDUREE              INT4                 not null,
-   IDTHEME              INT4                 not null,
    IDCATEGORIEVIGNOBLE  INT4                 not null,
+   IDCATEGORIESEJOUR    INT4                 not null,
+   IDLOCALITE           INT4                 null,
+   IDTHEME              INT4                 not null,
    IDCATEGORIEPARTICIPANT INT4                 not null,
-   TITRESEJOUR          VARCHAR(100)         not null,
+   TITRESEJOUR          VARCHAR(100)         null,
    PHOTOSEJOUR          VARCHAR(512)         null,
    DESCRIPTIONSEJOUR    VARCHAR(4096)        null,
    PRIXSEJOUR           NUMERIC(8,2)         null,
+   PUBLIE               BOOL        default false         null,
+   NOUVEAUPRIXSEJOUR    NUMERIC(8,2)         null,
    constraint PK_SEJOUR primary key (IDSEJOUR)
 );
 
@@ -1116,6 +1227,13 @@ create table SEJOUR (
 /*==============================================================*/
 create unique index SEJOUR_PK on SEJOUR (
 IDSEJOUR
+);
+
+/*==============================================================*/
+/* Index : SE_SITUE_FK                                          */
+/*==============================================================*/
+create  index SE_SITUE_FK on SEJOUR (
+IDLOCALITE
 );
 
 /*==============================================================*/
@@ -1133,13 +1251,6 @@ IDTHEME
 );
 
 /*==============================================================*/
-/* Index : DESTINE_A_FK                                         */
-/*==============================================================*/
-create  index DESTINE_A_FK on SEJOUR (
-IDCATEGORIEPARTICIPANT
-);
-
-/*==============================================================*/
 /* Index : REGROUPE_FK                                          */
 /*==============================================================*/
 create  index REGROUPE_FK on SEJOUR (
@@ -1151,6 +1262,13 @@ IDCATEGORIESEJOUR
 /*==============================================================*/
 create  index DURE_FK on SEJOUR (
 IDDUREE
+);
+
+/*==============================================================*/
+/* Index : DESTINE_A_FK                                         */
+/*==============================================================*/
+create  index DESTINE_A_FK on SEJOUR (
+IDCATEGORIEPARTICIPANT
 );
 
 /*==============================================================*/
@@ -1178,34 +1296,10 @@ IDROUTE
 );
 
 /*==============================================================*/
-/* Table : SE_SITUE                                             */
+/* Index : SE_LOCALISE2_FK                                      */
 /*==============================================================*/
-create table SE_SITUE (
-   IDSEJOUR             INT4                 not null,
-   IDLOCALITE           INT4                 not null,
-   constraint PK_SE_SITUE primary key (IDSEJOUR, IDLOCALITE)
-);
-
-/*==============================================================*/
-/* Index : SE_SITUE_PK                                          */
-/*==============================================================*/
-create unique index SE_SITUE_PK on SE_SITUE (
-IDSEJOUR,
-IDLOCALITE
-);
-
-/*==============================================================*/
-/* Index : SE_SITUE_FK                                          */
-/*==============================================================*/
-create  index SE_SITUE_FK on SE_SITUE (
-IDSEJOUR
-);
-
-/*==============================================================*/
-/* Index : SE_SITUE2_FK                                         */
-/*==============================================================*/
-create  index SE_SITUE2_FK on SE_SITUE (
-IDLOCALITE
+create  index SE_LOCALISE2_FK on SE_LOCALISE (
+IDCATEGORIEVIGNOBLE
 );
 
 /*==============================================================*/
@@ -1213,7 +1307,7 @@ IDLOCALITE
 /*==============================================================*/
 create table THEME (
    IDTHEME              SERIAL               not null,
-   LIBELLETHEME         VARCHAR(50)          not null,
+   LIBELLETHEME         VARCHAR(50)          null,
    constraint PK_THEME primary key (IDTHEME)
 );
 
@@ -1229,7 +1323,7 @@ IDTHEME
 /*==============================================================*/
 create table TYPECUISINE (
    IDTYPECUISINE        SERIAL               not null,
-   LIBELLETYPECUISINE  VARCHAR(50)          not null,
+   LIBELLETYPECUISINE   VARCHAR(50)          null,
    constraint PK_TYPECUISINE primary key (IDTYPECUISINE)
 );
 
@@ -1245,7 +1339,7 @@ IDTYPECUISINE
 /*==============================================================*/
 create table TYPEDEGUSTATION (
    IDTYPEDEGUSTATION    SERIAL               not null,
-   LIBELLETYPEDEGUSTATION VARCHAR(50)          not null,
+   LIBELLETYPEDEGUSTATION VARCHAR(50)          null,
    constraint PK_TYPEDEGUSTATION primary key (IDTYPEDEGUSTATION)
 );
 
@@ -1262,7 +1356,7 @@ IDTYPEDEGUSTATION
 create table VISITE (
    IDVISITE             SERIAL               not null,
    IDPARTENAIRE         INT4                 not null,
-   DESCRIPTIONVISITE    VARCHAR(4096)        not null,
+   DESCRIPTIONVISITE    VARCHAR(4096)        null,
    PHOTOVISITE          VARCHAR(512)         null,
    LIENVISITE           VARCHAR(512)         null,
    constraint PK_VISITE primary key (IDVISITE)
@@ -1283,7 +1377,7 @@ IDPARTENAIRE
 );
 
 alter table ADRESSE
-   add constraint FK_ADRESSE_A_ENREGIS_CLIENT foreign key (IDCLIENT)
+   add constraint FK_ADRESSE_ASSOCIATI_CLIENT foreign key (IDCLIENT)
       references CLIENT (IDCLIENT)
       on delete restrict on update restrict;
 
@@ -1293,16 +1387,11 @@ alter table ADRESSE
       on delete restrict on update restrict;
 
 alter table APPARTIENT_1
-   add constraint FK_APPARTIE_APPARTIEN_ETAPE foreign key (IDETAPE)
-      references ETAPE (IDETAPE)
-      on delete restrict on update restrict;
-
-alter table APPARTIENT_1
    add constraint FK_APPARTIE_APPARTIEN_VISITE foreign key (IDVISITE)
       references VISITE (IDVISITE)
       on delete restrict on update restrict;
 
-alter table APPARTIENT_2
+alter table APPARTIENT_1
    add constraint FK_APPARTIE_APPARTIEN_ETAPE foreign key (IDETAPE)
       references ETAPE (IDETAPE)
       on delete restrict on update restrict;
@@ -1312,7 +1401,7 @@ alter table APPARTIENT_2
       references REPAS (IDREPAS)
       on delete restrict on update restrict;
 
-alter table APPARTIENT_4
+alter table APPARTIENT_2
    add constraint FK_APPARTIE_APPARTIEN_ETAPE foreign key (IDETAPE)
       references ETAPE (IDETAPE)
       on delete restrict on update restrict;
@@ -1322,14 +1411,19 @@ alter table APPARTIENT_4
       references ACTIVITE (IDACTIVITE)
       on delete restrict on update restrict;
 
+alter table APPARTIENT_4
+   add constraint FK_APPARTIE_APPARTIEN_ETAPE foreign key (IDETAPE)
+      references ETAPE (IDETAPE)
+      on delete restrict on update restrict;
+
 alter table ASSOCIATION_38
    add constraint FK_ASSOCIAT_ASSOCIATI_ACTIVITE foreign key (IDACTIVITE)
       references ACTIVITE (IDACTIVITE)
       on delete restrict on update restrict;
 
 alter table ASSOCIATION_38
-   add constraint FK_ASSOCIAT_ASSOCIATI_DESCRIPT foreign key (IDSEJOUR, IDPANIER)
-      references DESCRIPTIONPANIER (IDSEJOUR, IDPANIER)
+   add constraint FK_ASSOCIAT_ASSOCIATI_DESCRIPT foreign key (IDDESCRIPTIONPANIER)
+      references DESCRIPTIONPANIER (IDDESCRIPTIONPANIER)
       on delete restrict on update restrict;
 
 alter table ASSOCIATION_39
@@ -1338,13 +1432,8 @@ alter table ASSOCIATION_39
       on delete restrict on update restrict;
 
 alter table ASSOCIATION_39
-   add constraint FK_ASSOCIAT_ASSOCIATI_DESCRIPT foreign key (IDSEJOUR, IDPANIER)
-      references DESCRIPTIONPANIER (IDSEJOUR, IDPANIER)
-      on delete restrict on update restrict;
-
-alter table ASSOCIATION_40
-   add constraint FK_ASSOCIAT_ASSOCIATI_DESCRIPT foreign key (IDCOMMANDE, IDSEJOUR)
-      references DESCRIPTIONCOMMANDE (IDCOMMANDE, IDSEJOUR)
+   add constraint FK_ASSOCIAT_ASSOCIATI_DESCRIPT foreign key (IDDESCRIPTIONPANIER)
+      references DESCRIPTIONPANIER (IDDESCRIPTIONPANIER)
       on delete restrict on update restrict;
 
 alter table ASSOCIATION_40
@@ -1352,14 +1441,19 @@ alter table ASSOCIATION_40
       references ACTIVITE (IDACTIVITE)
       on delete restrict on update restrict;
 
-alter table ASSOCIATION_42
-   add constraint FK_ASSOCIAT_ASSOCIATI_DESCRIPT foreign key (IDCOMMANDE, IDSEJOUR)
-      references DESCRIPTIONCOMMANDE (IDCOMMANDE, IDSEJOUR)
+alter table ASSOCIATION_40
+   add constraint FK_ASSOCIAT_ASSOCIATI_DESCRIPT foreign key (IDDESCRIPTIONCOMMANDE)
+      references DESCRIPTIONCOMMANDE (IDDESCRIPTIONCOMMANDE)
       on delete restrict on update restrict;
 
-alter table ASSOCIATION_42
+alter table mange1
    add constraint FK_ASSOCIAT_ASSOCIATI_REPAS foreign key (IDREPAS)
       references REPAS (IDREPAS)
+      on delete restrict on update restrict;
+
+alter table mange1
+   add constraint FK_ASSOCIAT_ASSOCIATI_DESCRIPT foreign key (IDDESCRIPTIONCOMMANDE)
+      references DESCRIPTIONCOMMANDE (IDDESCRIPTIONCOMMANDE)
       on delete restrict on update restrict;
 
 alter table AUTRESOCIETE
@@ -1368,17 +1462,17 @@ alter table AUTRESOCIETE
       on delete restrict on update restrict;
 
 alter table AVIS
+   add constraint FK_AVIS_ASSOCIATI_CLIENT foreign key (IDCLIENT)
+      references CLIENT (IDCLIENT)
+      on delete restrict on update restrict;
+
+alter table AVIS
    add constraint FK_AVIS_CRITIQUE_SEJOUR foreign key (IDSEJOUR)
       references SEJOUR (IDSEJOUR)
       on delete restrict on update restrict;
 
-alter table AVIS
-   add constraint FK_AVIS_POSTE_CLIENT foreign key (IDCLIENT)
-      references CLIENT (IDCLIENT)
-      on delete restrict on update restrict;
-
 alter table CARTE_BANCAIRE
-   add constraint FK_CARTE_BA_DETIENT_CLIENT foreign key (IDCLIENT)
+   add constraint FK_CARTE_BA_ASSOCIATI_CLIENT foreign key (IDCLIENT)
       references CLIENT (IDCLIENT)
       on delete restrict on update restrict;
 
@@ -1398,28 +1492,38 @@ alter table CLIENT
       on delete restrict on update restrict;
 
 alter table COMMANDE
-   add constraint FK_COMMANDE_ASSOCIE2_PANIER foreign key (IDPANIER)
+   add constraint FK_COMMANDE_ASSOCIATI_CLIENT2 foreign key (IDCLIENTACHETEUR)
+      references CLIENT (IDCLIENT)
+      on delete restrict on update restrict;
+
+alter table COMMANDE
+   add constraint FK_COMMANDE_ASSOCIATI_CLIENT foreign key (IDCLIENTBENEFICIAIRE)
+      references CLIENT (IDCLIENT)
+      on delete restrict on update restrict;
+
+alter table COMMANDE
+   add constraint FK_COMMANDE_ASSOCIATI_ADRESSE2 foreign key (IDADRESSEFACTURATION)
+      references ADRESSE (IDADRESSE)
+      on delete restrict on update restrict;
+
+alter table COMMANDE
+   add constraint FK_COMMANDE_ASSOCIATI_ADRESSE foreign key (IDADRESSELIVRAISON)
+      references ADRESSE (IDADRESSE)
+      on delete restrict on update restrict;
+
+alter table COMMANDE
+   add constraint FK_COMMANDE_ASSOCIATI_CARTE_BA foreign key (IDCB)
+      references CARTE_BANCAIRE (IDCB)
+      on delete restrict on update restrict;
+
+alter table COMMANDE
+   add constraint FK_COMMANDE_ASSOCIE_PANIER foreign key (IDPANIER)
       references PANIER (IDPANIER)
       on delete restrict on update restrict;
 
 alter table COMMANDE
-   add constraint FK_COMMANDE_BENEFICIA_CLIENT foreign key (IDCLIENTACHETEUR)
-      references CLIENT (IDCLIENT)
-      on delete restrict on update restrict;
-
-alter table COMMANDE
-   add constraint FK_COMMANDE_FACTUREA_ADRESSE foreign key (IDADRESSEFACTURATION)
-      references ADRESSE (IDADRESSE)
-      on delete restrict on update restrict;
-
-alter table COMMANDE
-   add constraint FK_COMMANDE_LIVREA_ADRESSE foreign key (IDADRESSELIVRAISON)
-      references ADRESSE (IDADRESSE)
-      on delete restrict on update restrict;
-
-alter table COMMANDE
-   add constraint FK_COMMANDE_REALISE_CLIENT foreign key (IDCLIENTBENEFICIAIRE)
-      references CLIENT (IDCLIENT)
+   add constraint FK_COMMANDE_DIMINUE_CODEPROM foreign key (IDCODEPROMO)
+      references CODEPROMO (IDCODEPROMO)
       on delete restrict on update restrict;
 
 alter table DESCRIPTIONCOMMANDE
@@ -1438,7 +1542,7 @@ alter table DESCRIPTIONCOMMANDE
       on delete restrict on update restrict;
 
 alter table DESCRIPTIONCOMMANDE
-   add constraint FK_DESCRIPT_ASSOCIATI_CB foreign key (IDCB)
+   add constraint FK_DESCRIPT_ASSOCIATI_CARTE_BA foreign key (IDCB)
       references CARTE_BANCAIRE (IDCB)
       on delete restrict on update restrict;
 
@@ -1492,14 +1596,24 @@ alter table LOCALITE
       references CATEGORIEVIGNOBLE (IDCATEGORIEVIGNOBLE)
       on delete restrict on update restrict;
 
-alter table PROPOSE_4
-   add constraint FK_PROPOSE__PROPOSE_4_ACTIVITE foreign key (IDACTIVITE)
-      references ACTIVITE (IDACTIVITE)
+alter table PANIER
+   add constraint FK_PANIER_REDUIT_CODEPROM foreign key (IDCODEPROMO)
+      references CODEPROMO (IDCODEPROMO)
+      on delete restrict on update restrict;
+
+alter table PHOTOS
+   add constraint FK_PHOTOS_ASSOCIATI_SEJOUR foreign key (IDSEJOUR)
+      references SEJOUR (IDSEJOUR)
       on delete restrict on update restrict;
 
 alter table PROPOSE_4
-   add constraint FK_PROPOSE__PROPOSE_5_AUTRESOC foreign key (IDPARTENAIRE)
+   add constraint FK_PROPOSE__PROPOSE_4_AUTRESOC foreign key (IDPARTENAIRE)
       references AUTRESOCIETE (IDPARTENAIRE)
+      on delete restrict on update restrict;
+
+alter table PROPOSE_4
+   add constraint FK_PROPOSE__PROPOSE_5_ACTIVITE foreign key (IDACTIVITE)
+      references ACTIVITE (IDACTIVITE)
       on delete restrict on update restrict;
 
 alter table PROPOSE_4
@@ -1510,6 +1624,11 @@ alter table PROPOSE_4
 alter table REPAS
    add constraint FK_REPAS_PROPOSE_2_RESTAURA foreign key (IDPARTENAIRE)
       references RESTAURANT (IDPARTENAIRE)
+      on delete restrict on update restrict;
+
+alter table REPONSE
+   add constraint FK_REPONSE_REPOND_AVIS foreign key (IDAVIS)
+      references AVIS (IDAVIS)
       on delete restrict on update restrict;
 
 alter table RESTAURANT
@@ -1547,6 +1666,11 @@ alter table SEJOUR
       references CATEGORIESEJOUR (IDCATEGORIESEJOUR)
       on delete restrict on update restrict;
 
+alter table SEJOUR
+   add constraint FK_SEJOUR_SE_SITUE_LOCALITE foreign key (IDLOCALITE)
+      references LOCALITE (IDLOCALITE)
+      on delete restrict on update restrict;
+
 alter table SE_LOCALISE
    add constraint FK_SE_LOCAL_SE_LOCALI_ROUTE_DE foreign key (IDROUTE)
       references ROUTE_DES_VINS (IDROUTE)
@@ -1557,16 +1681,6 @@ alter table SE_LOCALISE
       references CATEGORIEVIGNOBLE (IDCATEGORIEVIGNOBLE)
       on delete restrict on update restrict;
 
-alter table SE_SITUE
-   add constraint FK_SE_SITUE_SE_SITUE_SEJOUR foreign key (IDSEJOUR)
-      references SEJOUR (IDSEJOUR)
-      on delete restrict on update restrict;
-
-alter table SE_SITUE
-   add constraint FK_SE_SITUE_SE_SITUE2_LOCALITE foreign key (IDLOCALITE)
-      references LOCALITE (IDLOCALITE)
-      on delete restrict on update restrict;
-
 alter table VISITE
    add constraint FK_VISITE_PROPOSE_1_CAVE foreign key (IDPARTENAIRE)
       references CAVE (IDPARTENAIRE)
@@ -1574,11 +1688,13 @@ alter table VISITE
 
 ----------------------------------------------------------------------- CHECKS
 
-alter table CLIENT
+alter table client
    add constraint CK_CLIENT_CIVILITE
-      check (civiliteClient IN ('M', 'Mme', 'Mlle')),
+      check (civiliteClient IN ('M', 'Mme')),
    add constraint CK_CLIENT_ACTIVITE
 	  check (dateDerniereActiviteClient >= CURRENT_DATE - INTERVAL '3 years');
+   --add constraint CK_CLIENT_DATENAISS
+      --check (NOW()-dateNaissanceClient>=INTERVAL '18 y');
 
 alter table AVIS
    add constraint CK_AVIS_NOTE
@@ -1613,8 +1729,13 @@ alter table RESTAURANT
 alter table ADRESSE
 	
    add constraint CK_ADRESSE_EXCLUSIF
-      check (idClient != null or idPartenaire != null);
+      check (idClient is not null or idPartenaire is not null);
 	  
+alter table COMMANDE
+   add constraint CK_COMMANDE_ETAT
+      check (ETATCOMMANDE IN ('En attente de validation', 'Paiement refusé', 'Annulé', 'Paiement validé')),
+   add constraint CK_COMMANDE_TYPEPAIEMENT
+      check (TYPEPAIEMENTCOMMANDE IN ('paypal', 'cb', 'stripe'));
 
 
 ------------------------------------------------- ROLES
@@ -1622,8 +1743,8 @@ INSERT INTO
 	ROLES (libelleRole)
 VALUES
 	('Client'),
-	('Service marketing'),
 	('Service vente'),
+	('DPO'),
 	('Dirigeant');
 	
 ------------------------------------------------- ROUTE_DES_VINS
@@ -1769,66 +1890,68 @@ VALUES
 	
 ------------------------------------------------- CLIENT
 INSERT INTO
-	CLIENT (civiliteClient, idRole, prenomClient, nomClient, emailClient, dateNaissanceClient, motDePasseClient, offresPromotionnellesClient, dateDerniereActiviteClient)
+	CLIENT (civiliteClient, idRole, prenomClient, nomClient, emailClient, dateNaissanceClient, motDePasseClient, offresPromotionnellesClient, dateDerniereActiviteClient, TELEPHONECLIENT, A2F)
 VALUES
-	('M', 1, 'Elliott', 'Serena', 'serenaelliott8820@google.com', '1977-02-18', '$2y$12$oG8AVZThhOQp3Huf3yPSsOjklPDT.wTdMdTsYKrwXTWVtngfnm7AG', 'False','2022-05-08'),
-	('M', 1, 'Houston', 'Isaiah', 'i_houston8482@yahoo.fr', '1997-06-09', '$2y$12$T7aFs0JYqyVIFsqDKlpZpOqCNS4zNBaA7Olxbn5s4CexFEUPb85M6', 'True','2024-07-21'),
-	('M', 1, 'Beard', 'Zenaida', 'bzenaida9389@icloud.fr', '1964-07-11', '$2y$12$tDvZzbMipr7TduC2//x64ecFpFxS7d2nkolu6ukKQbJI6aHC/rF82', 'False','2023-08-26'),
-	('M', 1, 'Hewitt', 'Alma', 'hewitt.alma1314@yahoo.com', '1962-02-02', '$2y$12$MnLYDNoErNM70hHDorkt/uZ7ktwMKQdHO4G/QO.tuZiJVVfggLss2', 'True','2023-05-20'),
-	('M', 1, 'Morse', 'Daniel', 'm-daniel@google.com', '1995-01-04', '$2y$12$YgE5UebR2l1etg3Pf/if3uOUYgpKn80gnl9ZDmZkvwn5rVUHU.Qey ', 'True','2023-06-13'),
-	('M', 1, 'Wallace', 'Charity', 'wallace.charity@outlook.fr', '2004-05-19', '$2y$12$3CnriwLciJuF5q8Z2NQeE.VOdG4uM8UQ0ZzMDI2z4B7T2OPZrwNKO ', 'False','2022-03-13'),
-	('Mlle', 1, 'Bright', 'Karleigh', 'karleigh-bright@yahoo.fr', '1989-05-06', '$2y$12$510HXLToXaX.WcPTRt93o.Jd8cKX8wM0kzEiOZg9.bkXeqyu9QFzq ', 'False','2023-10-01'),
-	('Mlle', 1, 'Quinn', 'Eaton', 'eaton-quinn6882@icloud.fr', '1963-10-03', '$2y$12$6bvIIB/usUxh6xu8gpxJCeeC40JAhWeHdRwRMZuM7Xb2WGPa/wcF6', 'False','2024-03-17'),
-	('Mlle', 1, 'Parks', 'Alexa', 'p_alexa5631@google.fr', '2002-09-02', '$2y$12$25hWZiSNEr1stpiydsG2.uh/ugVQgsn/vbRcyU0Yg7aGyF4M0WTHi', 'True','2023-05-28'),
-	('M', 1, 'Stanley', 'Cassidy', 'cassidystanley4658@icloud.com', '1973-09-28', '$2y$12$T7ZFvO0/gxkXrMtlvFmXU.assb889M7xeaK.03HRjGuvu1tsvJ3ZW', 'False','2023-03-31'),
-	('Mme', 1, 'Gould', 'Hanna', 'hannagould@icloud.fr', '2002-08-25', '$2y$12$gTUNuw/XpLnGEjypvo2BTOv5BEEHWs6uLqUQubzPQOjmbjt8fl7Ma', 'True','2022-01-20'),
-	('Mlle', 1, 'Reyes', 'Daniel', 'danielreyes8150@google.com', '1979-05-08', '$2y$12$oXfxFYh6ZVRAtGTV9h7TTeMSVo9wRaUobP71QJxRxLSyuSDxVml.S', 'True','2024-01-09'),
-	('Mme', 1, 'Stokes', 'Raven', 'r.stokes@outlook.com', '1998-01-11', '$2y$12$a70Kyj8lpSxRmD4i4wn/c.fK1tAF8qvAOqri2ylEHgfAPCZ4mU41y', 'False','2024-08-30'),
-	('Mlle', 1, 'Merrill', 'Reese', 'rmerrill875@yahoo.com', '1978-10-29', '$2y$12$8fNLEUG0bdmfbgzE/ldNp.PnQ.YOEsSQimx7zgX5LFB7OvX69t136', 'True','2023-07-13'),
-	('Mme', 1, 'Dudley', 'Quail', 'dquail9287@google.com', '1993-04-19', '$2y$12$g5sJ3hPraxehIUqOevfNfO1Q3Yy4yhIf71Ik7Ae/8T0ZscBy.nDbG', 'False','2023-05-28'),
-	('M', 1, 'Galloway', 'Rhea', 'rhea_galloway@outlook.fr', '1969-01-28', '$2y$12$x393WGhA/BGKNScCBPau4uCeH5ynaF8PYsfz6CegEhma9xw/Aj5V2', 'True','2021-12-31'),
-	('Mlle', 1, 'Jimenez', 'Margaret', 'jimenez-margaret7788@google.com', '1993-09-20', '$2y$12$u4gxI9a..6WV.zKAhwNeh.2Lo7Fft2hIqMLCo/KjPftCtYiHog.pO', 'False','2023-10-07'),
-	('Mme', 1, 'Roy', 'Leonard', 'rleonard@hotmail.fr', '1997-04-23', '$2y$12$b2Guf5QneGQEVYXW0lPbuOPy/Cxvn5nokrC2AWzYFZJJHs.iEnR6a', 'False','2023-04-29'),
-	('M', 1, 'Whitney', 'Keith', 'whitney-keith6811@google.fr', '2000-12-29', '$2y$12$6M4nCnhOi.UMai9LOcJqIu7GUrt6bppsYnE6JONgyYQGo8mJ5zeVG', 'False','2023-09-25'),
-	('Mme', 1, 'Sears', 'Gail', 'gail_sears@icloud.fr', '2001-01-17', '$2y$12$/LoLCuJBUCEHHcBLczByTeDMaB9kuQLf0CiCtXyEhDUdOoltyKUQy', 'True','2024-10-18'),
-	('Mlle', 1, 'Clements', 'Perry', 'perry.clements6445@yahoo.com', '1994-07-21', '$2y$12$bGxwpgYNtIUHQeJLbhqUCuCsOeNa5Y66BZDtKSyo8WNDegYUzRgT.', 'True','2023-10-22'),
-	('Mme', 1, 'Bass', 'Rae', 'rae-bass6126@yahoo.com', '1970-11-13', '$2y$12$BeO9dpyQ/YYNQRRQFkAvSufLs2qFVOjmkzdJMM6238254F3qQWKVC', 'False','2023-07-21'),
-	('Mlle', 1, 'Stuart', 'Tatiana', 'stuart-tatiana@icloud.com', '1974-09-23', '$2y$12$K.1f.M6Vn/DGaZVa1v3JqOk4Ul2JxlRiz0aIdykD45CbkxNoypqb2', 'False','2022-08-25'),
-	('Mlle', 1, 'Durham', 'Gage', 'g-durham@icloud.com', '1964-01-18', '$2y$12$RHKprCXOeZU28RCfw6Ib4.OyADLEzuhKMVaQ1dz/7JWW8R4ieDN/O', 'False','2022-01-03'),
-	('Mme', 1, 'Owens', 'Christopher', 'c-owens@hotmail.fr', '2006-08-16', '$2y$12$.PrDYMBinG4UeALkwBLOzuoUBdUajkpkhaGpxGK3iTpyD9ALlnMei', 'False','2023-04-01'),
-	('Mlle', 1, 'Bartlett', 'Maia', 'maia.bartlett@google.com', '2003-11-10', '$2y$12$VeZgWJLl6Gol06CqSoHy6eEk4cYKaIGY9W1Fe9chI2i3qDdsU6SH6', 'True','2022-07-09'),
-	('Mlle', 1, 'Branch', 'Derek', 'dbranch6752@outlook.com', '1995-02-08', '$2y$12$NzFQkVJ4wE1QPjAJqSZikuGP/YVkMvttjied19//DHJ1DwOZ2QlGm', 'True','2024-05-14'),
-	('Mme', 1, 'Nielsen', 'Amanda', 'n.amanda@yahoo.com', '1987-07-03', '$2y$12$Ar/pJ/oc2FkscqIV5Rn5SORHR9lALuShpdoe.jR4w1hs5ew7UcKLO', 'True','2022-05-09'),
-	('Mme', 1, 'Blackwell', 'Jonas', 'bjonas@yahoo.com', '1992-04-03', '$2y$12$NZDLkMisCpPpi8XP.ko5huLDcAryQpvsHi5j23dGBP5TdhCg4mNlm', 'True','2024-10-09'),
-	('Mlle', 1, 'Roman', 'Ali', 'rali@yahoo.fr', '1984-11-09', '$2y$12$BV3j8L6ACi84z1vAGaW/9.duICsuGYsY4qSAToHIRjw6v/Thkhd3q', 'False','2024-03-24'),
-	('M', 1, 'Mathews', 'Fulton', 'm-fulton4627@yahoo.fr', '1986-08-27', '$2y$12$c0qcB6DOM2rOBBYxnRa4eewMlOVbOb5zZ7LSeZrTXyJlWjudzqzXu', 'True','2023-01-27'),
-	('Mme', 1, 'Patterson', 'Justin', 'justin-patterson@google.fr', '1974-04-03', '$2y$12$hraoMRE1jxahfCBtCcD0GOpZ5914hT1AWlmF704zKu09tBkuX6U8O', 'True','2023-09-05'),
-	('M', 1, 'Salas', 'Wynter', 'salas-wynter1587@outlook.fr', '1971-01-04', '$2y$12$a.uNrpwK08AM4GAKfsr9hO9XAg2na7Z81B40yOyu7D/ofk1qkJTly', 'True','2022-02-18'),
-	('Mme', 1, 'Reyes', 'Natalie', 'natalie.reyes6824@yahoo.fr', '1967-03-30', '$2y$12$4U.20xCg7YxApXm0Df1mA.OV1MX9nnD9ZyH/tVvoZHb3k0tAN2bNC', 'True','2022-11-08'),
-	('Mme', 1, 'Glover', 'Bo', 'b-glover@yahoo.com', '1968-01-26', '$2y$12$v6ysj3SGMbXZPKvT5UImXOwvYqvibsXd9DcrWoYKnOwRqHh1GXmh2', 'False','2022-05-04'),
-	('Mlle', 1, 'Mercado', 'Yeo', 'yeomercado@hotmail.com', '1976-06-21', '$2y$12$R2XMKgnrnHS0hGtuIfjSXOZbRBaE0nOMOO3OrsY7XGDQx.UDp1Z8q', 'False','2024-03-01'),
-	('M', 1, 'Valdez', 'Samuel', 'valdez.samuel@hotmail.fr', '2006-04-10', '$2y$12$qDPwcFFwB04TvO.sCDkXWeQEzkvFy5E53yFx9Nw3eDnxpUDczdi2K', 'False','2024-10-19'),
-	('Mlle', 1, 'Hensley', 'Kennedy', 'kennedy_hensley1420@hotmail.fr', '1964-11-08', '$2y$12$Cz8OTQ7H2y/oiyj6zRNQpOUy6A9A5hCbnfo9wvJ5riR2i9MFeJ/v2', 'False','2022-02-08'),
-	('Mlle', 1, 'Atkins', 'Orla', 'oatkins@yahoo.fr', '1998-01-15', '$2y$12$rAGeQAaJN2CuAqiOvLKxP.hqeqTjrmVnvAeoVxCanpA5gHWWN5Ss2', 'True','2024-08-14'),
-	('M', 1, 'Gibson', 'Evangeline', 'gibson-evangeline@yahoo.fr', '1986-11-03', '$2y$12$fKGg5gWf7ceh1pAIGfm4VePtsqX1v8nBt91eNTeIqceUKvvpp3IJK', 'False','2022-02-17'),
-	('M', 1, 'Wheeler', 'Charissa', 'charissa_wheeler@icloud.fr', '1990-11-05', '$2y$12$lmE72e3C/JyU77qbsYFK5OfrXVXZC7erMY.O/bC.dCn1aIk7TLCFW', 'True','2023-12-28'),
-	('Mlle', 1, 'Johns', 'Armando', 'armando.johns9353@outlook.fr', '1983-04-02', '$2y$12$agkF5wC0n64qnSxNB6u4z.4KMkoIW8MwYHE.4RX3zEc3wfGuSJnS6', 'False','2023-01-14'),
-	('M', 1, 'Mcdaniel', 'Caesar', 'm-caesar8163@hotmail.com', '2004-11-09', '$2y$12$fvR7U1RyYv/Ne9oDbkgAQue0QwJUxBWjB5ANUmkzh3NX8R4iYnKai', 'False','2023-03-25'),
-	('Mme', 1, 'Battle', 'Elliott', 'b.elliott@outlook.fr', '2003-11-29', '$2y$12$djQmZK.n2fL9cXgk0llDNOczA06MaIBZ16EYT/gLm0R5o3BQ27VgS', 'False','2024-02-24'),
-	('Mme', 1, 'Thornton', 'Gil', 't_gil@google.com', '1961-07-23', '$2y$12$1ZoFbE/l/6DsVsbg7lta6efNFDymgUiyMW.Mcm9riquqQleEBvWly', 'True','2022-01-08'),
-	('Mme', 1, 'Washington', 'Rinah', 'rinah-washington@outlook.com', '2000-10-08', '$2y$12$Qb1wngnzB0q3tBkbw1JG7egKQFk.FodOgLrKM2gJtFgzPaUV1uC1a', 'True','2023-12-06'),
-	('M', 1, 'Gaines', 'Kelly', 'gkelly3905@google.com', '1998-09-06', '$2y$12$SkxxhIbaWj3HZHV67GL8yesNId6ea9CiAa9xLtzIBgGKD/bRK7sPm', 'False','2024-10-06'),
-	('Mme', 1, 'Holt', 'Gavin', 'h_gavin@google.com', '2003-05-23', '$2y$12$iUivNOYQx1MEf/zNAYFeX.w3QsXEIn9xRAxsj5snjMuH271qwiQQS', 'False','2022-07-27'),
-	('Mlle', 1, 'Burch', 'Inez', 'inez.burch5236@hotmail.com', '1986-03-16', '$2y$12$EfF.UraWgKA2Xss/MZdgWOSVPW4a6UFgnhHItz049INQm7Te3jF5G', 'True','2024-08-29'),
-	('Mme', 1, 'Randall', 'Maggie', 'randall_maggie4776@google.fr', '1963-09-13', '$2y$12$154cCB6/K0Mtkn4VBXIyN.l0IbL/Swqzz2P6vtuKzjiTGJeBA8zGq', 'False','2022-09-11'),
-	('M', 3, 'Vente', 'Service', 'servicevente@gmail.com', '2000-09-13', '$2y$12$UZrFuCpTum4Z3s3IHF5d.eLnMGPErg5JQ4JfUufXATr29qpxMnbV2', 'False','2022-09-11'),
-	('M', 4, 'Dodey', 'Kenny', 'kenny_dodey@google.fr', '2005-09-13', '$2y$12$1O3DET3NhybnUUmmrQAaA.sYP2.4RgjZenW8qzu2wrfAT5uSZy6GO', 'False','2022-09-11'),
-	('M', 1, 'Vino', 'Client', 'client.vinotrip@gmail.com', '2005-09-13', '$2y$12$oG8AVZThhOQp3Huf3yPSsOjklPDT.wTdMdTsYKrwXTWVtngfnm7AG', 'False','2022-09-11'),
-	('M', 2, 'Carpentier', 'Aina', 'aina.carpentier@vinotrip.fr', '1900-09-13', '$2y$12$m1t1E3Ce1FakJ.28vX3jreyQqBHPMHde5zvkkePfzKkh17o/qAHN.', 'False','2022-09-11');
+	('M', 1, 'Elliott', 'Serena', 'serenaelliott8820@google.com', '1977-02-18', '$2y$12$oG8AVZThhOQp3Huf3yPSsOjklPDT.wTdMdTsYKrwXTWVtngfnm7AG', 'False','2022-05-08','0767662202', false),
+	('M', 1, 'Houston', 'Isaiah', 'i_houston8482@yahoo.fr', '1997-06-09', '$2y$12$T7aFs0JYqyVIFsqDKlpZpOqCNS4zNBaA7Olxbn5s4CexFEUPb85M6', 'True','2024-07-21','0637056342', false),
+	('M', 1, 'Beard', 'Zenaida', 'bzenaida9389@icloud.fr', '1964-07-11', '$2y$12$tDvZzbMipr7TduC2//x64ecFpFxS7d2nkolu6ukKQbJI6aHC/rF82', 'False','2023-08-26','0634303099', false),
+	('M', 1, 'Hewitt', 'Alma', 'hewitt.alma1314@yahoo.com', '1962-02-02', '$2y$12$MnLYDNoErNM70hHDorkt/uZ7ktwMKQdHO4G/QO.tuZiJVVfggLss2', 'True','2023-05-20','0794788234', false),
+	('M', 1, 'Morse', 'Daniel', 'm-daniel@google.com', '1995-01-04', '$2y$12$YgE5UebR2l1etg3Pf/if3uOUYgpKn80gnl9ZDmZkvwn5rVUHU.Qey ', 'True','2023-06-13','0722774688', false),
+	('M', 1, 'Wallace', 'Charity', 'wallace.charity@outlook.fr', '2004-05-19', '$2y$12$3CnriwLciJuF5q8Z2NQeE.VOdG4uM8UQ0ZzMDI2z4B7T2OPZrwNKO ', 'False','2022-03-13','0612207228', false),
+	('Mme', 1, 'Bright', 'Karleigh', 'karleigh-bright@yahoo.fr', '1989-05-06', '$2y$12$510HXLToXaX.WcPTRt93o.Jd8cKX8wM0kzEiOZg9.bkXeqyu9QFzq ', 'False','2023-10-01','0768109082', false),
+	('Mme', 1, 'Quinn', 'Eaton', 'eaton-quinn6882@icloud.fr', '1963-10-03', '$2y$12$6bvIIB/usUxh6xu8gpxJCeeC40JAhWeHdRwRMZuM7Xb2WGPa/wcF6', 'False','2024-03-17','0735632316', false),
+	('Mme', 1, 'Parks', 'Alexa', 'p_alexa5631@google.fr', '2002-09-02', '$2y$12$25hWZiSNEr1stpiydsG2.uh/ugVQgsn/vbRcyU0Yg7aGyF4M0WTHi', 'True','2023-05-28','0645416824', false),
+	('M', 1, 'Stanley', 'Cassidy', 'cassidystanley4658@icloud.com', '1973-09-28', '$2y$12$T7ZFvO0/gxkXrMtlvFmXU.assb889M7xeaK.03HRjGuvu1tsvJ3ZW', 'False','2023-03-31','0687113083', false),
+	('Mme', 1, 'Gould', 'Hanna', 'hannagould@icloud.fr', '2002-08-25', '$2y$12$gTUNuw/XpLnGEjypvo2BTOv5BEEHWs6uLqUQubzPQOjmbjt8fl7Ma', 'True','2022-03-20','0701771126', false),
+	('Mme', 1, 'Reyes', 'Daniel', 'danielreyes8150@google.com', '1979-05-08', '$2y$12$oXfxFYh6ZVRAtGTV9h7TTeMSVo9wRaUobP71QJxRxLSyuSDxVml.S', 'True','2024-01-09','0762691646', false),
+	('Mme', 1, 'Stokes', 'Raven', 'r.stokes@outlook.com', '1998-01-11', '$2y$12$a70Kyj8lpSxRmD4i4wn/c.fK1tAF8qvAOqri2ylEHgfAPCZ4mU41y', 'False','2024-08-30','0791223553', false),
+	('Mme', 1, 'Merrill', 'Reese', 'rmerrill875@yahoo.com', '1978-10-29', '$2y$12$8fNLEUG0bdmfbgzE/ldNp.PnQ.YOEsSQimx7zgX5LFB7OvX69t136', 'True','2023-07-13','0777573234', false),
+	('Mme', 1, 'Dudley', 'Quail', 'dquail9287@google.com', '1993-04-19', '$2y$12$g5sJ3hPraxehIUqOevfNfO1Q3Yy4yhIf71Ik7Ae/8T0Zscby.nDbG', 'False','2023-05-28','0667181469', false),
+	('M', 1, 'Galloway', 'Rhea', 'rhea_galloway@outlook.fr', '1969-01-28', '$2y$12$x393WGhA/BGKNSccbPau4uCeH5ynaF8PYsfz6CegEhma9xw/Aj5V2', 'True','2022-12-31','0607264814', false),
+	('Mme', 1, 'Jimenez', 'Margaret', 'jimenez-margaret7788@google.com', '1993-09-20', '$2y$12$u4gxI9a..6WV.zKAhwNeh.2Lo7Fft2hIqMLCo/KjPftCtYiHog.pO', 'False','2023-10-07','0756298295', false),
+	('Mme', 1, 'Roy', 'Leonard', 'rleonard@hotmail.fr', '1997-04-23', '$2y$12$b2Guf5QneGQEVYXW0lPbuOPy/Cxvn5nokrC2AWzYFZJJHs.iEnR6a', 'False','2023-04-29','0653756290', false),
+	('M', 1, 'Whitney', 'Keith', 'whitney-keith6811@google.fr', '2000-12-29', '$2y$12$6M4nCnhOi.UMai9LOcJqIu7GUrt6bppsYnE6JONgyYQGo8mJ5zeVG', 'False','2023-09-25','0718886362', false),
+	('Mme', 1, 'Sears', 'Gail', 'gail_sears@icloud.fr', '2001-01-17', '$2y$12$/LoLCuJBUCEHHcbLczByTeDMaB9kuQLf0CiCtXyEhDUdOoltyKUQy', 'True','2024-10-18','0723808127', false),
+	('Mme', 1, 'Clements', 'Perry', 'perry.clements6445@yahoo.com', '1994-07-21', '$2y$12$bGxwpgYNtIUHQeJLbhqUCuCsOeNa5Y66BZDtKSyo8WNDegYUzRgT.', 'True','2023-10-22','0603966614', false),
+	('Mme', 1, 'Bass', 'Rae', 'rae-bass6126@yahoo.com', '1970-11-13', '$2y$12$BeO9dpyQ/YYNQRRQFkAvSufLs2qFVOjmkzdJMM6238254F3qQWKVC', 'False','2023-07-21','0662663238', false),
+	('Mme', 1, 'Stuart', 'Tatiana', 'stuart-tatiana@icloud.com', '1974-09-23', '$2y$12$K.1f.M6Vn/DGaZVa1v3JqOk4Ul2JxlRiz0aIdykD45cbkxNoypqb2', 'False','2022-08-25','0611472177', false),
+	('Mme', 1, 'Durham', 'Gage', 'g-durham@icloud.com', '1964-01-18', '$2y$12$RHKprCXOeZU28RCfw6Ib4.OyADLEzuhKMVaQ1dz/7JWW8R4ieDN/O', 'False','2022-03-03','0754987167', false),
+	('Mme', 1, 'Owens', 'Christopher', 'c-owens@hotmail.fr', '2006-08-16', '$2y$12$.PrDYMBinG4UeALkwBLOzuoUBdUajkpkhaGpxGK3iTpyD9ALlnMei', 'False','2023-04-01','0668288049', false),
+	('Mme', 1, 'Bartlett', 'Maia', 'maia.bartlett@google.com', '2003-11-10', '$2y$12$VeZgWJLl6Gol06CqSoHy6eEk4cYKaIGY9W1Fe9chI2i3qDdsU6SH6', 'True','2022-07-09','0627263821', false),
+	('Mme', 1, 'Branch', 'Derek', 'dbranch6752@outlook.com', '1995-02-08', '$2y$12$NzFQkVJ4wE1QPjAJqSZikuGP/YVkMvttjied19//DHJ1DwOZ2QlGm', 'True','2024-05-14','0621073828', false),
+	('Mme', 1, 'Nielsen', 'Amanda', 'n.amanda@yahoo.com', '1987-07-03', '$2y$12$Ar/pJ/oc2FkscqIV5Rn5SORHR9lALuShpdoe.jR4w1hs5ew7UcKLO', 'True','2022-05-09','0618351474', false),
+	('Mme', 1, 'Blackwell', 'Jonas', 'bjonas@yahoo.com', '1992-04-03', '$2y$12$NZDLkMisCpPpi8XP.ko5huLDcAryQpvsHi5j23dGBP5TdhCg4mNlm', 'True','2024-10-09','0732047834', false),
+	('Mme', 1, 'Roman', 'Ali', 'rali@yahoo.fr', '1984-11-09', '$2y$12$BV3j8L6ACi84z1vAGaW/9.duICsuGYsY4qSAToHIRjw6v/Thkhd3q', 'False','2024-03-24','0696434046', false),
+	('M', 1, 'Mathews', 'Fulton', 'm-fulton4627@yahoo.fr', '1986-08-27', '$2y$12$c0qcb6DOM2rOBBYxnRa4eewMlOVbOb5zZ7LSeZrTXyJlWjudzqzXu', 'True','2023-01-27','0622103446', false),
+	('Mme', 1, 'Patterson', 'Justin', 'justin-patterson@google.fr', '1974-04-03', '$2y$12$hraoMRE1jxahfcbtCcD0GOpZ5914hT1AWlmF704zKu09tBkuX6U8O', 'True','2023-09-05','0747780259', false),
+	('M', 1, 'Salas', 'Wynter', 'salas-wynter1587@outlook.fr', '1971-01-04', '$2y$12$a.uNrpwK08AM4GAKfsr9hO9XAg2na7Z81B40yOyu7D/ofk1qkJTly', 'True','2022-04-18','0757626251', false),
+	('Mme', 1, 'Reyes', 'Natalie', 'natalie.reyes6824@yahoo.fr', '1967-03-30', '$2y$12$4U.20xCg7YxApXm0Df1mA.OV1MX9nnD9ZyH/tVvoZHb3k0tAN2bNC', 'True','2022-11-08','0657285525', false),
+	('Mme', 1, 'Glover', 'Bo', 'b-glover@yahoo.com', '1968-01-26', '$2y$12$v6ysj3SGMbXZPKvT5UImXOwvYqvibsXd9DcrWoYKnOwRqHh1GXmh2', 'False','2022-05-04','0626931827', false),
+	('Mme', 1, 'Mercado', 'Yeo', 'yeomercado@hotmail.com', '1976-06-21', '$2y$12$R2XMKgnrnHS0hGtuIfjSXOZbRBaE0nOMOO3OrsY7XGDQx.UDp1Z8q', 'False','2024-03-01','0722785760', false),
+	('M', 1, 'Valdez', 'Samuel', 'valdez.samuel@hotmail.fr', '2006-04-10', '$2y$12$qDPwcFFwB04TvO.sCDkXWeQEzkvFy5E53yFx9Nw3eDnxpUDczdi2K', 'False','2024-10-19','0626122479', false),
+	('M', 1, 'Hensley', 'Kennedy', 'kennedy_hensley1420@hotmail.fr', '1964-11-08', '$2y$12$Cz8OTQ7H2y/oiyj6zRNQpOUy6A9A5hcbnfo9wvJ5riR2i9MFeJ/v2', 'False','2022-04-08','0708837451', false),
+	('M', 1, 'Atkins', 'Orla', 'oatkins@yahoo.fr', '1998-01-15', '$2y$12$rAGeQAaJN2CuAqiOvLKxP.hqeqTjrmVnvAeoVxCanpA5gHWWN5Ss2', 'True','2024-08-14','0605795163', false),
+	('M', 1, 'Gibson', 'Evangeline', 'gibson-evangeline@yahoo.fr', '1986-11-03', '$2y$12$fKGg5gWf7ceh1pAIGfm4VePtsqX1v8nBt91eNTeIqceUKvvpp3IJK', 'False','2022-04-17','0728168777', false),
+	('M', 1, 'Wheeler', 'Charissa', 'charissa_wheeler@icloud.fr', '1990-11-05', '$2y$12$lmE72e3C/JyU77qbsYFK5OfrXVXZC7erMY.O/bC.dCn1aIk7TLCFW', 'True','2023-12-28','0717831053', false),
+	('M', 1, 'Johns', 'Armando', 'armando.johns9353@outlook.fr', '1983-04-02', '$2y$12$agkF5wC0n64qnSxNB6u4z.4KMkoIW8MwYHE.4RX3zEc3wfGuSJnS6', 'False','2023-01-14','0778333086', false),
+	('M', 1, 'Mcdaniel', 'Caesar', 'm-caesar8163@hotmail.com', '2004-11-09', '$2y$12$fvR7U1RyYv/Ne9oDbkgAQue0QwJUxBWjB5ANUmkzh3NX8R4iYnKai', 'False','2023-03-25','0768846761', false),
+	('Mme', 1, 'Battle', 'Elliott', 'b.elliott@outlook.fr', '2003-11-29', '$2y$12$djQmZK.n2fL9cXgk0llDNOczA06MaIBZ16EYT/gLm0R5o3BQ27VgS', 'False','2024-02-24','0678607562', false),
+	('Mme', 1, 'Thornton', 'Gil', 't_gil@google.com', '1961-07-23', '$2y$12$1ZoFbE/l/6DsVsbg7lta6efNFDymgUiyMW.Mcm9riquqQleEBvWly', 'True','2022-03-08','0655357110', false),
+	('Mme', 1, 'Washington', 'Rinah', 'rinah-washington@outlook.com', '2000-10-08', '$2y$12$Qb1wngnzB0q3tBkbw1JG7egKQFk.FodOgLrKM2gJtFgzPaUV1uC1a', 'True','2023-12-06','0687134476', false),
+	('M', 1, 'Gaines', 'Kelly', 'gkelly3905@google.com', '1998-09-06', '$2y$12$SkxxhIbaWj3HZHV67GL8yesNId6ea9CiAa9xLtzIBgGKD/bRK7sPm', 'False','2024-10-06','0657532720', false),
+	('Mme', 1, 'Holt', 'Gavin', 'h_gavin@google.com', '2003-05-23', '$2y$12$iUivNOYQx1MEf/zNAYFeX.w3QsXEIn9xRAxsj5snjMuH271qwiQQS', 'False','2022-07-27','0706742458', false),
+	('M', 1, 'Burch', 'Inez', 'inez.burch5236@hotmail.com', '1986-03-16', '$2y$12$EfF.UraWgKA2Xss/MZdgWOSVPW4a6UFgnhHItz049INQm7Te3jF5G', 'True','2024-08-29','0658575212', false),
+	('Mme', 1, 'Randall', 'Maggie', 'randall_maggie4776@google.fr', '1963-09-13', '$2y$12$154ccb6/K0Mtkn4VBXIyN.l0IbL/Swqzz2P6vtuKzjiTGJeBA8zGq', 'False','2022-09-11','0715177544', false),
+	('M', 2, 'Vente', 'Service', 'servicevente@gmail.com', '2000-09-13', '$2y$12$UZrFuCpTum4Z3s3IHF5d.eLnMGPErg5JQ4JfUufXATr29qpxMnbV2', 'False','2022-09-11','0602780180', false),
+	('M', 4, 'Dodey', 'Kenny', 'kenny_dodey@google.fr', '2005-01-13', '$2y$12$1O3DET3NhybnUUmmrQAaA.sYP2.4RgjZenW8qzu2wrfAT5uSZy6GO', 'False','2022-09-11','0718590626', false),
+	('M', 1, 'Vino', 'Client', 'client.vinotrip@gmail.com', '2005-02-13', '$2y$12$oG8AVZThhOQp3Huf3yPSsOjklPDT.wTdMdTsYKrwXTWVtngfnm7AG', 'False','2022-09-11','0695738371', false),
+	('M', 2, 'Carpentier', 'Aina', 'aina.carpentier@vinotrip.fr', '1900-09-13', '$2y$12$WQlLswWkAfV8DGxVEfc/3.mNYNoHj.B/kZcJQA6vcZ3beLHBg0gx6', 'False','2022-09-11','0788524453', false),
+	('M', 4, 'Magnenat', 'Lou', 'vinotrip@lmgt.me', '2006-07-30', '$2y$12$1VCthzTd2LpBcnYgW88S7uLCTjl.krik.Kw2mhLWHGl1q41gd9ye.', 'False','2022-09-11','0772241781', true),
+	('M', 3, 'Selmane', 'Rayan', 'rayan.selmane@vinotrip.fr', '2003-09-13', '$2y$12$sXHLUTy5Dj9S/cns6EF6Pe4AdOk0jC0WySr1q8GRiLB1E/Jx9Gyea', 'False','2022-09-11','0102030405', false);
 
 ------------------------------------------------- CARTE_BANCAIRE	
 INSERT INTO 
-	CARTE_BANCAIRE(idClient,titulaireCB, numeroCBClient, dateExpirationCBClient)
+	CARTE_BANCAIRE(idClient,titulairecb, numerocbClient, dateExpirationcbClient)
 VALUES
 	(1, 'Serena Elliott', '4485471865775737', '2029-06-01'),
 	(2, 'Isaiah Houston', '5254535266882791', '2030-02-01'),
@@ -1942,61 +2065,62 @@ VALUES
 
 ------------------------------------------------- ADRESSE
 INSERT INTO
-	adresse (idClient, idPartenaire, nomadresse, prenomadressedestinataire, nomadressedestinataire, rueAdresse, villeAdresse, CPAdresse)
+	adresse (idClient, idPartenaire, nomadresse, prenomadressedestinataire, nomadressedestinataire, rueAdresse, villeAdresse, CPAdresse, NUMADRESSE)
 VALUES
-	(1, 5,   'Maison principale',  'Houston', 'Isaiah', '7 Boulevard Carnot', 'Troyes', 10000),
-	(2, 19,  'Maison principale', 'Elliott', 'Serena', '18 Boulevard Foch',  'Thionville', 57100),
-	(2, 19,  'Maison secondaire', 'Elliott', 'Serena', '4 Rue du Maréchal Foch',  'Schiltigheim', 67300),
-	(3, 43,  'Chez mamie', 'Beard', 'Zenaida',  '9 Rue du Général de Gaulle',  'Bastia', 20200),
-	(4, 28,  'Chez papi', 'Hewitt', 'Alma',  '8 Rue Saint-Malo',  'Rennes', 35000),
-	(50, 35,  'Maison principale', 'Morse', 'Daniel', '10 Rue des Artisans',  'Brive-la-Gaillarde', 24480),
-	(5, 8,   'Maison principale', 'Wallace', 'Charity', '5 Rue de l''Abbé Darrasse',  'Mont-de-Marsan', 40000),
-	(6, 36,  'Maison principale', 'Bright', 'Karleigh', '5 Rue du Président Salvador Allende',  'Rennes', 35000),
-	(7, 3,   'Appartement', 'Quinn', 'Eaton', '10 Rue des Tanneurs',  'Moulins', 3000),
-	(9, 46,  'Chez maman', 'Parks', 'Alexa',  '3 Rue de la Barre',  'Dijon', 21000),
-	(10, 12,  'Maison principale', 'Stanley', 'Cassidy', '19 Place du Champ de Mars',  'Angoulême', 16000),
-	(11, 27,  'Chez maman', 'Gould', 'Hanna',  '25 Avenue des Palmiers',  'Hyères', 83400),
-	(11, 28,  'Maison principale', 'Reyes', 'Daniel', '16 Avenue des Pins',  'Tournefeuille', 89852),
-	(13, 38,  'Appartement', 'Stokes', 'Raven', '6 Place Kléber',  'Strasbourg', 67000),
-	(14, 47,  'Chez papi', 'Merrill', 'Reese',  '6 Boulevard de la Madeleine',  'Beauvais', 60000),
-	(14, 5,   'Maison principale', 'Dudley', 'Quail', '9 Rue des Artisans',  'Brive-la-Gaillarde', 19100),
-	(14, 1,   'Maison principale', 'Galloway', 'Rhea', '13 Rue Pasteur',  'Dole', 39100),
-	(15, 47,  'Maison principale', 'Jimenez', 'Margaret', '25 Rue de Vesle',  'Reims', 51100),
-	(16, 23,  'Chez mamie', 'Roy', 'Leonard',  '5 Rue de la République',  'Dijon', 21000),
-	(17, 42,  'Maison principale', 'Whitney', 'Keith', '12 Rue du 4 Septembre',  'Béziers', 34500),
-	(17, 35,  'Maison principale', 'Sears', 'Gail', '15 Rue Pasteur',  'Dole', 78938),
-	(18, 39,  'Maison principale', 'Clements', 'Perry', '10 Rue des Capucins',  'Mâcon', 52231),
-	(19, 12,  'Maison principale', 'Bass', 'Rae', '20 Rue de l''Embranchement',  'Gap', 5000),
-	(20, 32,  'Chez papi', 'Stuart', 'Tatiana',  '14 Rue de la Loire',  'Tours', 37000),
-	(23, 24,  'Maison principale', 'Durham', 'Gage', '15 Rue de la Solidarité',  'Colombes', 87020),
-	(24, 13,  'Maison de vacances', 'Owens', 'Christopher',  '3 Rue de la Forêt',  'Haguenau', 67500),
-	(26, 20,  'Chez mamie', 'Bartlett', 'Maia',  '34 Avenue de l''Industrie',  'Tournefeuille', 31170),
-	(27, 36,  'Appartement', 'Branch', 'Derek', '15 Rue de la Résistance',  'Brive-la-Gaillarde', 19100),
-	(28, 1,   'Appartement', 'Nielsen', 'Amanda', '13 Rue de la Gare',  'Niort', 79000),
-	(30, 50,  'Chez papa', 'Blackwell', 'Jonas',  '7 Rue des Auteurs',  'Limoges', 87000),
-	(31, 5,   'Chez papa', 'Roman', 'Ali',  '18 Rue de la Paix',  'Strasbourg', 67000),
-	(32, 23,  'Chez maman', 'Mathews', 'Fulton',  '11 Rue Gambetta',  'Tarbes', 65000),
-	(33, 30,  'Chez papi', 'Patterson', 'Justin',  '16 Quai de la République',  'La Rochelle', 17000),
-	(33, 10,  'Maison principale', 'Salas', 'Wynter', '11 Rue de la Solidarité',  'Colombes', 92700),
-	(34, 44,  'Chez papa', 'Reyes', 'Natalie',  '28 Rue du Cygne',  'Chartres', 28000),
-	(35, 34,  'Chez papi', 'Glover', 'Bo',  '17 Rue des Ardennes',  'Nevers', 58000),
-	(37, 44,  'Appartement', 'Mercado', 'Yeo',  '22 Avenue de la République',  'Vernon', 27200),
-	(39, 2,   'Chez maman', 'Valdez', 'Samuel',  '11 Rue Stanislas',  'Nancy', 54000),
-	(40, 25,  'Appartement', 'Hensley', 'Kennedy', '9 Rue de la Madeleine',  'Laval', 53000),
-	(40, 14,  'Maison principale', 'Atkins', 'Orla', '18 Rue des Capucins',  'Mâcon', 71000),
-	(40, 17,  'Maison principale', 'Gibson', 'Evangeline', '15 Rue de l''Abbé Darrasse',  'Mont-de-Marsan', 94155),
-	(41, 31,  'Adresse principale', 'Wheeler', 'Charissa',  '15 Rue de la Liberté',  'Mont-de-Marsan', 40000),
-	(42, 46,  'Maison principale', 'Johns', 'Armando', '21 Rue de la Cité',  'Carcassonne', 11000),
-	(43, 6,   'Appartement', 'Mcdaniel', 'Caesar', '22 Rue du 14 Juillet',  'Évreux', 27000),
-	(44, 45,  'Chez papa', 'Battle', 'Elliott',  '12 Boulevard des Pyrénées',  'Pau', 64000),
-	(45, 19,  'Chez maman', 'Thornton', 'Gil',  '30 Rue de la Bretonnerie',  'Rezé', 44400),
-	(46, 28,  'Chez mamie', 'Washington', 'Rinah',  '8 Avenue de la Libération',  'Salon-de-Provence', 13300),
-	(47, 37,  'Chez mamie', 'Gaines', 'Kelly',  '10 Rue du Général Leclerc',  'Soissons', 2200),
-	(48, 22,  'Chez papi', 'Holt', 'Gavin',  '19 Rue de la Mairie',  'Douai', 59500),
-	(48, 15,  'Maison principale', 'Burch', 'Inez', '6 Avenue des Pins',  'Tournefeuille', 31170),
-	(49, 35,  'Chez papa', 'Randall', 'Maggie',  '21 Rue des Vins',  'Colmar', 68000),
-	(53, 46,  'Maison principale', 'Vente', 'Service', '21 Rue de la Cité',  'Carcassonne', 11000),
-	(53, 13,  'Maison de vacances', 'Vente', 'Service',  '3 Rue de la Forêt',  'Haguenau', 67500);
+	(1, 5,   'Maison principale',  'Houston', 'Isaiah', '7 Boulevard Carnot', 'Troyes', 10000, 1),
+	(2, 19,  'Maison principale', 'Elliott', 'Serena', '18 Boulevard Foch',  'Thionville', 57100, 2),
+	(2, 19,  'Maison secondaire', 'Elliott', 'Serena', '4 Rue du Maréchal Foch',  'Schiltigheim', 67300, 3),
+	(3, 43,  'Chez mamie', 'Beard', 'Zenaida',  '9 Rue du Général de Gaulle',  'Bastia', 20200, 4),
+	(4, 28,  'Chez papi', 'Hewitt', 'Alma',  '8 Rue Saint-Malo',  'Rennes', 35000, 5),
+	(50, 35,  'Maison principale', 'Morse', 'Daniel', '10 Rue des Artisans',  'Brive-la-Gaillarde', 24480, 6),
+	(5, 8,   'Maison principale', 'Wallace', 'Charity', '5 Rue de l''Abbé Darrasse',  'Mont-de-Marsan', 40000, 7),
+	(6, 36,  'Maison principale', 'Bright', 'Karleigh', '5 Rue du Président Salvador Allende',  'Rennes', 35000, 8),
+	(7, 3,   'Appartement', 'Quinn', 'Eaton', '10 Rue des Tanneurs',  'Moulins', 3000, 8),
+	(9, 46,  'Chez maman', 'Parks', 'Alexa',  '3 Rue de la Barre',  'Dijon', 21000, 9),
+	(10, 12,  'Maison principale', 'Stanley', 'Cassidy', '19 Place du Champ de Mars',  'Angoulême', 16000, 10),
+	(11, 27,  'Chez maman', 'Gould', 'Hanna',  '25 Avenue des Palmiers',  'Hyères', 83400, 11),
+	(11, 28,  'Maison principale', 'Reyes', 'Daniel', '16 Avenue des Pins',  'Tournefeuille', 89852, 12),
+	(13, 38,  'Appartement', 'Stokes', 'Raven', '6 Place Kléber',  'Strasbourg', 67000, 13),
+	(14, 47,  'Chez papi', 'Merrill', 'Reese',  '6 Boulevard de la Madeleine',  'Beauvais', 60000, 14),
+	(14, 5,   'Maison principale', 'Dudley', 'Quail', '9 Rue des Artisans',  'Brive-la-Gaillarde', 19100, 15),
+	(14, 1,   'Maison principale', 'Galloway', 'Rhea', '13 Rue Pasteur',  'Dole', 39100, 16),
+	(15, 47,  'Maison principale', 'Jimenez', 'Margaret', '25 Rue de Vesle',  'Reims', 51100, 17),
+	(16, 23,  'Chez mamie', 'Roy', 'Leonard',  '5 Rue de la République',  'Dijon', 21000, 18),
+	(17, 42,  'Maison principale', 'Whitney', 'Keith', '12 Rue du 4 Septembre',  'Béziers', 34500, 19),
+	(17, 35,  'Maison principale', 'Sears', 'Gail', '15 Rue Pasteur',  'Dole', 78938, 20),
+	(18, 39,  'Maison principale', 'Clements', 'Perry', '10 Rue des Capucins',  'Mâcon', 52231, 21),
+	(19, 12,  'Maison principale', 'Bass', 'Rae', '20 Rue de l''Embranchement',  'Gap', 5000, 22),
+	(20, 32,  'Chez papi', 'Stuart', 'Tatiana',  '14 Rue de la Loire',  'Tours', 37000, 23),
+	(23, 24,  'Maison principale', 'Durham', 'Gage', '15 Rue de la Solidarité',  'Colombes', 87020, 24),
+	(24, 13,  'Maison de vacances', 'Owens', 'Christopher',  '3 Rue de la Forêt',  'Haguenau', 67500, 25),
+	(26, 20,  'Chez mamie', 'Bartlett', 'Maia',  '34 Avenue de l''Industrie',  'Tournefeuille', 31170, 26),
+	(27, 36,  'Appartement', 'Branch', 'Derek', '15 Rue de la Résistance',  'Brive-la-Gaillarde', 19100, 27),
+	(28, 1,   'Appartement', 'Nielsen', 'Amanda', '13 Rue de la Gare',  'Niort', 79000, 28),
+	(30, 50,  'Chez papa', 'Blackwell', 'Jonas',  '7 Rue des Auteurs',  'Limoges', 87000, 29),
+	(31, 5,   'Chez papa', 'Roman', 'Ali',  '18 Rue de la Paix',  'Strasbourg', 67000, 30),
+	(32, 23,  'Chez maman', 'Mathews', 'Fulton',  '11 Rue Gambetta',  'Tarbes', 65000, 31),
+	(33, 30,  'Chez papi', 'Patterson', 'Justin',  '16 Quai de la République',  'La Rochelle', 17000, 32),
+	(33, 10,  'Maison principale', 'Salas', 'Wynter', '11 Rue de la Solidarité',  'Colombes', 92700, 33),
+	(34, 44,  'Chez papa', 'Reyes', 'Natalie',  '28 Rue du Cygne',  'Chartres', 28000, 34),
+	(35, 34,  'Chez papi', 'Glover', 'Bo',  '17 Rue des Ardennes',  'Nevers', 58000, 35),
+	(37, 44,  'Appartement', 'Mercado', 'Yeo',  '22 Avenue de la République',  'Vernon', 27200, 36),
+	(39, 2,   'Chez maman', 'Valdez', 'Samuel',  '11 Rue Stanislas',  'Nancy', 54000, 37),
+	(40, 25,  'Appartement', 'Hensley', 'Kennedy', '9 Rue de la Madeleine',  'Laval', 53000, 38),
+	(40, 14,  'Maison principale', 'Atkins', 'Orla', '18 Rue des Capucins',  'Mâcon', 71000, 39),
+	(40, 17,  'Maison principale', 'Gibson', 'Evangeline', '15 Rue de l''Abbé Darrasse',  'Mont-de-Marsan', 94155, 40),
+	(41, 31,  'Adresse principale', 'Wheeler', 'Charissa',  '15 Rue de la Liberté',  'Mont-de-Marsan', 40000, 41),
+	(42, 46,  'Maison principale', 'Johns', 'Armando', '21 Rue de la Cité',  'Carcassonne', 11000, 42),
+	(43, 6,   'Appartement', 'Mcdaniel', 'Caesar', '22 Rue du 14 Juillet',  'Évreux', 27000, 43),
+	(44, 45,  'Chez papa', 'Battle', 'Elliott',  '12 Boulevard des Pyrénées',  'Pau', 64000, 44),
+	(45, 19,  'Chez maman', 'Thornton', 'Gil',  '30 Rue de la Bretonnerie',  'Rezé', 44400, 45),
+	(46, 28,  'Chez mamie', 'Washington', 'Rinah',  '8 Avenue de la Libération',  'Salon-de-Provence', 13300, 46),
+	(47, 37,  'Chez mamie', 'Gaines', 'Kelly',  '10 Rue du Général Leclerc',  'Soissons', 2200, 47),
+	(48, 22,  'Chez papi', 'Holt', 'Gavin',  '19 Rue de la Mairie',  'Douai', 59500, 48),
+	(48, 15,  'Maison principale', 'Burch', 'Inez', '6 Avenue des Pins',  'Tournefeuille', 31170, 49),
+	(49, 35,  'Chez papa', 'Randall', 'Maggie',  '21 Rue des Vins',  'Colmar', 68000, 50),
+	(53, 46,  'Maison principale', 'Vente', 'Service', '21 Rue de la Cité',  'Carcassonne', 11000, 51),
+	(53, 13,  'Maison de vacances', 'Vente', 'Service',  '3 Rue de la Forêt',  'Haguenau', 67500, 52),
+	(55, 40,  'Principal', 'A', 'B', 'C', 'D', 74000, 53);
 
 ------------------------------------------------- CATEGORIE SEJOUR
 INSERT INTO
@@ -2009,193 +2133,114 @@ VALUES
 
 ------------------------------------------------- SEJOUR
 INSERT INTO
-	sejour (idCategorieSejour, idTheme, idCategorieVignoble, idCategorieParticipant, idDuree, titreSejour, photoSejour, descriptionSejour, prixSejour)
+	sejour (idCategorieSejour, idTheme, idCategorieVignoble, idCategorieParticipant, idDuree, titreSejour, photoSejour, descriptionSejour, prixSejour, idLocalite, publie)
 VALUES
-	(2, 5, 4, 3, 2, 'Dégustation de vins réputés en Bourgogne', 'sejour1.jpg', 'Un séjour immersif au coeur d''un domaine viticole, avec des visites guidees des vignes et des degustations de vins uniques.', 727.00),
-	(4, 4, 1, 3, 3, 'Escapade gourmande', 'sejour2.jpg', 'Decouvrez les plaisirs de la gastronomie locale en associant mets raffines et vins d''exception dans un cadre pittoresque.', 673.00),
-	(4, 1, 14, 3, 1, 'Week-end detente et vin', 'sejour3.jpg', 'Un week-end de detente dans un cadre tranquille, avec des visites de vignobles et des moments de relaxation en plein air.', 328.50),
-	(1, 1, 10, 1, 4, 'Séjour decouverte en Provence', 'sejour4.jpg', 'Plongez dans l''art de la viticulture provençale, visitez des domaines viticoles et profitez de la beaute des paysages.', 106.00),
-	(4, 6, 4, 2, 2, 'Escapade romantique au domaine', 'sejour5.jpg', 'Un séjour romantique dans un domaine vinicole, avec des activites de degustation et des repas aux chandelles dans les caves.', 645.00),
-	(4, 5, 4, 1, 3, 'Séjour tout inclus en Bourgogne', 'sejour6.jpg', 'Séjour tout compris avec transport, hebergement, visites des plus grands domaines viticoles et degustations de crus renommes.', 423.00),
-	(1, 4, 3, 3, 1, 'Séjour oenologique a Bordeaux', 'sejour7.jpg', 'Un séjour dedie a l''oenologie dans la region bordelaise, avec des ateliers de degustation et des visites des plus celebres châteaux.', 790.50),
-	(1, 4, 6, 1, 4, 'Séjour luxe en Champagne', 'sejour8.jpg', 'Vivez un séjour de luxe dans la region de Champagne, incluant des visites de maisons prestigieuses et des degustations de champagnes rares.', 431.00),
-	(4, 3, 3, 2, 2, 'Séjour au château', 'sejour9.jpg', 'Sejournez dans un château viticole et profitez de visites privees, de degustations haut de gamme et de moments de relaxation dans un cadre idyllique.', 527.00),
-	(2, 3, 2, 1, 3, 'Séjour gastronomique et viticole', 'sejour10.jpg', 'Un séjour axe sur l''association des vins et des mets, avec des repas gastronomiques et des degustations de grands crus.', 126.00),
-	(3, 1, 13, 2, 4, 'Aventure viticole dans le Val-de-Loire', 'sejour11.jpg', 'Explorez la vallee de la Loire a travers des visites de vignobles locaux, des degustations et des promenades en bateau.', 699.00),
-	(4, 5, 14, 2, 1, 'Séjour dans les Côtes du Rhône', 'sejour12.jpg', 'Vivez un séjour inoubliable dans les Côtes du Rhône avec des visites de domaines, des degustations privees et des repas typiques de la region.', 680.50),
-	(1, 1, 7, 2, 2, 'Séjour decouverte des vins du Jura', 'sejour13.jpg', 'Un séjour unique a la decouverte des vins du Jura, avec des visites de caves, des degustations et des activites locales.', 229.00),
-	(4, 1, 1, 1, 3, 'Séjour au domaine en Alsace', 'sejour14.jpg', 'Sejournez dans un domaine viticole alsacien et explorez les traditions viticoles de la region a travers des visites et des degustations.', 514.00),
-	(2, 2, 2, 2, 1, 'Week-end vin et nature', 'sejour15.jpg', 'Un week-end en pleine nature, avec des randonnees dans les vignes, des degustations et des repas dans un cadre verdoyant.', 779.00),
-	(4, 4, 4, 3, 4, 'Séjour decouverte de l''oenologie', 'sejour16.jpg', 'Apprenez les secrets de l''oenologie lors de ce séjour avec des ateliers pratiques et des visites de vignobles.', 288.00),
-	(4, 5, 4, 3, 2, 'Séjour spa et vins', 'sejour17.jpg', 'Profitez de l''alliance parfaite entre relaxation et degustation de vins dans un cadre spa luxueux au coeur d''un vignoble.', 601.50),
-	(2, 6, 9, 2, 3, 'Séjour de Noël au château', 'sejour18.jpg', 'Venez passer Noël au château, avec un programme de degustation de vins et de repas festifs dans une ambiance magique.', 588.00),
-	(4, 3, 6, 2, 1, 'Séjour sur les traces du vin', 'sejour19.jpg', 'Un séjour sur mesure pour les passionnes de vin, avec des visites guidees et des decouvertes des meilleurs vignobles.', 757.00),
-	(4, 6, 4, 2, 4, 'Séjour au coeur de la Bourgogne', 'sejour20.jpg', 'Immersion totale dans le terroir bourguignon, avec des degustations de vins fins et des repas traditionnels.', 393.00),
-	(3, 3, 2, 1, 3, 'Séjour en amoureux dans les vignes', 'sejour21.jpg', 'Un séjour romantique, avec des chambres avec vue sur les vignes, des degustations de vin et des repas aux chandelles.', 474.00),
-	(4, 5, 3, 3, 2, 'Séjour tout confort a Saint-Emilion', 'sejour22.jpg', 'Séjour tout confort dans la region de Saint-Emilion, avec des visites des plus prestigieux châteaux et degustations privees.', 209.00),
-	(3, 5, 1, 3, 4, 'Séjour nature et vin en montagne', 'sejour23.jpg', 'Séjour en montagne avec des randonnees au milieu des vignes et des degustations de vins de montagne dans un cadre exceptionnel.', 236.00),
-	(2, 2, 7, 3, 1, 'Séjour a la decouverte des vins bio', 'sejour24.jpg', 'Un séjour axe sur la decouverte des vins biologiques, avec des visites de domaines ecoresponsables et des degustations en pleine nature.', 267.00),
-	(2, 4, 11, 3, 2, 'Séjour decouverte en Savoie', 'sejour25.jpg', 'Venez decouvrir la Savoie sous un autre angle avec des visites de vignobles locaux et des degustations de vins typiques de la region.', 282.50),
-	(3, 3, 2, 2, 3, 'Séjour au coeur du Beaujolais', 'sejour26.jpg', 'Decouvrez les crus du Beaujolais avec des visites privees de vignobles et des degustations de vins renommes dans un cadre bucolique.', 635.00),
-	(4, 6, 8, 2, 4, 'Séjour oenologique en Languedoc', 'sejour27.jpg', 'Un séjour unique pour explorer les vins du Languedoc, avec des ateliers de degustation et des visites de caves historiques.', 437.00),
-	(1, 6, 4, 1, 1, 'Escapade viticole a Chablis', 'sejour28.jpg', 'Venez explorer l''un des plus celebres vignobles de France, avec des degustations de Chablis, et une immersion dans l''histoire viticole de la region.', 163.00),
-	(2, 5, 14, 3, 3, 'Séjour decouverte des vins de la vallee du Rhône', 'sejour29.jpg', 'Un voyage dans la vallee du Rhône pour decouvrir ses vins iconiques, avec des visites guidees de châteaux et des repas accord mets-vins.', 209.50),
-	(4, 6, 11, 3, 2, 'Séjour en Corse et ses vins', 'sejour30.jpg', 'Sejournez en Corse et decouvrez les vins locaux dans des caves familiales, tout en profitant de la mer et du soleil mediterraneen.', 528.00),
-	(2, 6, 10, 2, 4, 'Séjour dans le Medoc', 'sejour31.jpg', 'Sejournez dans la region viticole du Medoc, avec des visites de grands crus classes et des degustations exceptionnelles.', 215.00),
-	(2, 1, 12, 1, 1, 'Séjour de luxe a Pomerol', 'sejour32.jpg', 'Sejournez dans un cadre de luxe, avec des visites privees de vignobles et des degustations dans la prestigieuse region de Pomerol.', 317.50),
-	(4, 2, 8, 1, 3, 'Séjour aventure et vin dans le sud-ouest', 'sejour33.jpg', 'Un séjour pour les aventuriers et les epicuriens, combinant randonnee dans les vignes et degustations de vins typiques du sud-ouest.', 281.00),
-	(1, 1, 3, 3, 4, 'Séjour vin et art a Bordeaux', 'sejour66.jpg', 'Un séjour unique a Bordeaux alliant art, culture et decouverte des meilleurs vins locaux, avec des visites de musees et de domaines viticoles.', 241.00),
-	(1, 2, 9, 1, 2, 'Séjour vin et patrimoine a Avignon', 'sejour34.jpg', 'Profitez de l''histoire et de l''art a Avignon tout en decouvrant les vins du Vaucluse avec des degustations et des visites guidees de domaines.', 505.50),
-	(2, 1, 5, 2, 1, 'Séjour en Alsace, au coeur des vignes', 'sejour35.jpg', 'Sejournez en Alsace et partez a la decouverte de ses fameux vins blancs et de ses villages pittoresques, avec des visites de caves et des degustations.', 447.00),
-	(2, 6, 10, 1, 4, 'Séjour au domaine de la Loire', 'sejour36.jpg', 'Un séjour dans la vallee de la Loire pour explorer les vins locaux tout en decouvrant les châteaux majestueux de la region.', 404.00),
-	(4, 6, 10, 1, 3, 'Séjour degustation a Chablis', 'sejour37.jpg', 'Un séjour exclusif dans la region de Chablis, avec des visites de vignobles et des degustations de grands crus blancs.', 162.00),
-	(3, 2, 7, 2, 2, 'Séjour decouverte de l''artisanat vinicole', 'sejour38.jpg', 'Visitez des domaines viticoles familiaux, decouvrez l''artisanat de la production de vin et participez a des ateliers pratiques.', 763.00),
-	(1, 3, 4, 1, 1, 'Séjour oenologique dans les Côtes de Provence', 'sejour39.jpg', 'Explorez les vins roses celebres de la region, avec des visites de domaines viticoles et des moments de detente sur la Côte d''Azur.', 239.00),
-	(4, 4, 13, 3, 4, 'Séjour a la decouverte des grands crus de Bordeaux', 'sejour40.jpg', 'Un séjour dans la region bordelaise pour decouvrir les meilleurs grands crus classes et deguster les vins au coeur des prestigieux châteaux.', 345.50),
-	(3, 5, 3, 1, 3, 'Séjour viticole et bien-être', 'sejour41.jpg', 'Séjour alliant detente et decouverte, avec des soins au spa et des degustations de vins dans un cadre tranquille et raffine.', 779.00),
-	(2, 4, 10, 1, 2, 'Séjour romantique en Savoie', 'sejour42.jpg', 'Un séjour romantique dans les montagnes savoyardes, avec des degustations de vins locaux et des moments privilegies en amoureux.', 506.00),
-	(2, 4, 14, 2, 4, 'Séjour au coeur du terroir du Roussillon', 'sejour43.jpg', 'Un séjour pour les amoureux du vin et de la nature, avec des visites de vignobles ensoleilles et des degustations de vins du sud de la France.', 656.00),
-	(2, 3, 4, 1, 1, 'Séjour viticole et cuisine provençale', 'sejour44.jpg', 'Un séjour gastronomique où le vin de Provence s''associe a une cuisine locale typique pour une experience inoubliable.', 128.00),
-	(2, 5, 8, 1, 3, 'Séjour vin et paysages en Champagne', 'sejour45.jpg', 'Visitez la region de Champagne et decouvrez l''art de la production de champagne, avec des degustations privees et des visites de caves prestigieuses.', 709.00),
-	(4, 2, 7, 1, 2, 'Séjour dans les vignes en Languedoc', 'sejour46.jpg', 'Sejournez au coeur des vignobles du Languedoc, avec des degustations de vins locaux et une immersion dans la culture viticole de la region.', 502.50),
-	(3, 6, 8, 1, 4, 'Séjour en famille a la decouverte du vin', 'sejour47.jpg', 'Un séjour adapte a toute la famille, avec des activites ludiques pour enfants et des degustations pour adultes dans un cadre agreable.', 748.00),
-	(1, 6, 6, 1, 1, 'Séjour autour du vin a Bordeaux', 'sejour48.jpg', 'Explorez les vins de Bordeaux a travers des visites de domaines historiques et des degustations de celebres crus classes.', 617.00),
-	(2, 5, 14, 2, 2, 'Séjour de degustation en Haute-Savoie', 'sejour49.jpg', 'Decouvrez les vins savoyards, associes a des specialites locales dans un cadre montagnard exceptionnel.', 654.00),
-	(3, 6, 3, 2, 3, 'Séjour a la decouverte des vins de Loire', 'sejour50.jpg', 'Un séjour au coeur des vignobles de la Loire, avec des visites guidees de domaines viticoles et des degustations de vins varies.', 289.00),
-	(3, 6, 8, 2, 4, 'Séjour vin et art de vivre en Provence', 'sejour51.jpg', 'Venez decouvrir l''art de vivre provençal avec des visites de vignobles, des degustations de vins et des moments de relaxation au coeur de la nature.', 161.00),
-	(2, 5, 3, 1, 3, 'Séjour dans un vignoble de Saint-emilion', 'sejour52.jpg', 'Un séjour inoubliable dans un vignoble de Saint-emilion, avec des visites privees et des degustations de vins prestigieux.', 700.50),
-	(2, 5, 1, 3, 1, 'Séjour bien-être et vin en Languedoc', 'sejour53.jpg', 'Un séjour alliant detente au spa et degustation de vins locaux dans un cadre exceptionnel en Languedoc.', 744.00),
-	(3, 4, 2, 3, 4, 'Séjour vin et gastronomie a Lyon', 'sejour54.jpg', 'Venez decouvrir la gastronomie lyonnaise et les vins du Beaujolais a travers un séjour de luxe alliant decouvertes culinaires et oenologiques.', 288.00),
-	(3, 4, 4, 1, 2, 'Séjour dans un domaine viticole familial', 'sejour55.jpg', 'Sejournez dans un domaine viticole familial et apprenez l''art de la vinification, tout en profitant d''une atmosphere conviviale.', 527.00),
-	(3, 2, 14, 2, 3, 'Séjour decouverte des vins du Sud-Est', 'sejour56.jpg', 'Un séjour au coeur des vignobles du Sud-Est, avec des degustations de vins mediterraneens et des visites de villages pittoresques.', 421.50),
-	(1, 6, 4, 3, 1, 'Séjour romantique en Bourgogne', 'sejour57.jpg', 'Sejournez dans un cadre romantique en Bourgogne, avec des promenades dans les vignes et des repas en amoureux accompagnes de vins locaux.', 415.00),
-	(4, 6, 10, 1, 4, 'Séjour decouverte du vin en Ardeche', 'sejour58.jpg', 'Un séjour dans le sud de la France pour decouvrir les vins d''Ardeche, associes a des activites de plein air et des repas typiques.', 400.00),
-	(2, 3, 7, 2, 2, 'Séjour oenotourisme a la decouverte des grands terroirs', 'sejour59.jpg', 'Explorez les plus grands terroirs viticoles français a travers des visites et des degustations exclusives dans des domaines reputes.', 706.00),
-	(4, 1, 6, 1, 3, 'Séjour luxe et vins en Côtes du Rhône', 'sejour60.jpg', 'Un séjour de luxe dans les Côtes du Rhône avec des degustations de vins rares et des visites privees de grands domaines.', 380.50),
-	(3, 5, 1, 3, 1, 'Séjour oenologique en Vallee du Douro', 'sejour61.jpg', 'Partez a la decouverte des vins du Douro au Portugal avec des visites de caves et des degustations de vins du Porto.', 465.00),
-	(2, 2, 4, 3, 4, 'Séjour dans les vignes de la côte d''Azur', 'sejour62.jpg', 'Sejournez dans la region ensoleillee de la Côte d''Azur et decouvrez ses vins roses, tout en profitant de la mer et des paysages magnifiques.', 383.00),
-	(1, 1, 14, 3, 2, 'Séjour au domaine viticole de Loire', 'sejour63.jpg', 'Un séjour au coeur des vignobles de la Loire, avec des visites de châteaux viticoles et des degustations raffinees de vins locaux.', 367.00),
-	(1, 6, 5, 2, 3, 'Séjour vin et randonnee dans le vignoble', 'sejour64.jpg', 'Combinez randonnee a travers les vignobles et degustation de vins locaux lors de ce séjour sportif et oenologique.', 372.00),
-	(3, 6, 13, 2, 4, 'Séjour oenologique a Saint-Emilion', 'sejour65.jpg', 'Un séjour exceptionnel a Saint-Emilion, avec des visites de châteaux et des degustations de vins prestigieux dans un cadre historique.', 683.00),
-	(4, 5, 11, 2, 1, 'Séjour decouverte des vins de l''Aude', 'sejour67.jpg', 'Un séjour dans l''Aude, pour decouvrir les vins de la region, avec des visites de caves et des activites en plein air dans un cadre naturel.', 711.50),
-	(4, 5, 8, 3, 3, 'Séjour en famille dans les vignobles de la Loire', 'sejour68.jpg', 'Un séjour familial avec des activites pour enfants et des degustations pour adultes, tout en explorant les vignobles de la vallee de la Loire.', 462.00),
-	(4, 6, 11, 1, 2, 'Séjour oenologique et sportif', 'sejour69.jpg', 'Pour les passionnes de sport et de vin, ce séjour combine des activites en plein air et des degustations de vins locaux dans des lieux pittoresques.', 684.00),
-	(4, 2, 10, 2, 1, 'Séjour a la decouverte des vins du Medoc', 'sejour70.jpg', 'Partez a la decouverte des grands crus du Medoc, avec des visites de châteaux historiques et des degustations raffinees.', 598.00),
-	(2, 5, 9, 3, 4, 'Séjour decouverte de la viticulture biologique', 'sejour71.jpg', 'Un séjour pour les passionnes de vins bio, avec des visites de domaines ecoresponsables et des degustations de vins bio.', 160.00),
-	(1, 1, 9, 3, 3, 'Séjour bien-être et vins de la Vallee du Rhône', 'sejour72.jpg', 'Un séjour alliant bien-être, detente et decouverte des vins du Rhône, avec des soins au spa et des degustations dans un cadre enchanteur.', 354.50),
-	(3, 4, 10, 1, 2, 'Séjour au domaine viticole en Champagne', 'sejour73.jpg', 'Venez decouvrir les secrets de la production du champagne et goûter les meilleurs crus de la region lors de ce séjour exclusif.', 302.00),
-	(2, 4, 7, 1, 1, 'Séjour decouverte de l''oenotourisme en Languedoc', 'sejour74.jpg', 'Un séjour pour les passionnes d''oenotourisme, avec des visites guidees des meilleurs domaines viticoles du Languedoc et des degustations variees.', 217.00),
-	(1, 6, 7, 2, 4, 'Séjour decouverte des cepages rares', 'sejour75.jpg', 'Un séjour pour les connaisseurs de vins rares, avec des visites de domaines produisant des cepages peu connus et des degustations inedites.', 512.00),
-	(1, 6, 2, 3, 3, 'Séjour autour des vins du Roussillon', 'sejour76.jpg', 'Partez a la decouverte des vins du Roussillon, avec des visites de domaines viticoles et des degustations au coeur des montagnes.', 357.00),
-	(4, 5, 2, 1, 2, 'Séjour oenologique a Sancerre', 'sejour77.jpg', 'Un séjour dans la celebre region viticole de Sancerre, avec des degustations de vins blancs et des visites guidees des plus grands domaines.', 362.00),
-	(1, 2, 12, 3, 4, 'Séjour viticole en Bourgogne', 'sejour78.jpg', 'Explorez la Bourgogne a travers ses vignobles prestigieux, avec des visites de domaines et des degustations des plus grands crus.', 228.00),
-	(4, 5, 2, 3, 1, 'Séjour en toute intimite a Montagne de Reims', 'sejour79.jpg', 'Sejournez dans un cadre intime et prestigieux a Montagne de Reims, avec des degustations de champagne et des visites privees de caves.', 236.00),
-	(4, 2, 2, 1, 3, 'Séjour decouverte des vins de la Vallee du Tarn', 'sejour80.jpg', 'Venez decouvrir les vins du Tarn, avec des visites de vignobles authentiques et des degustations dans un cadre naturel et preserve.', 619.50),
-	(1, 2, 8, 3, 2, 'Séjour oenologique en Côtes de Provence', 'sejour81.jpg', 'Un séjour de rêve en Provence pour decouvrir les vins roses, avec des visites de domaines et des repas gastronomiques dans un cadre idyllique.', 313.00),
-	(3, 2, 14, 3, 4, 'Séjour vin et art de vivre en Alsace', 'sejour82.jpg', 'Un séjour unique où se mêlent la degustation de vins d''Alsace et la decouverte de l''art de vivre de cette magnifique region.', 167.00),
-	(4, 6, 7, 2, 1, 'Séjour viticole et sportif dans le Languedoc', 'sejour83.jpg', 'Combinez randonnee et degustation de vins dans la region du Languedoc, avec des visites de domaines viticoles au coeur de la nature.', 494.00),
-	(1, 4, 8, 1, 3, 'Séjour aux portes de la Champagne', 'sejour84.jpg', 'Un séjour au coeur de la Champagne, avec des degustations privees de champagnes et des visites des celebres maisons de la region.', 571.00),
-	(3, 2, 8, 3, 2, 'Séjour gourmand et viticole en Provence', 'sejour85.jpg', 'Venez savourer les vins de Provence tout en profitant des delices gastronomiques locaux dans un cadre exceptionnel entre mer et vignes.', 625.50),
-	(4, 2, 12, 2, 4, 'Séjour au château de Pommard', 'sejour86.jpg', 'Sejournez dans le prestigieux château de Pommard, avec des visites privees et des degustations de vins fins accompagnees de repas raffines.', 320.00),
-	(3, 6, 11, 2, 1, 'Séjour vin et nature en Haute-Loire', 'sejour87.jpg', 'Sejournez en Haute-Loire et decouvrez la beaute des paysages viticoles, avec des randonnees et des degustations de vins locaux.', 749.00),
-	(4, 1, 14, 1, 3, 'Séjour oenotourisme dans le Medoc', 'sejour88.jpg', 'Partez a la decouverte du Medoc, une region viticole d''exception, avec des visites de grands châteaux et des degustations exclusives.', 721.00),
-	(1, 5, 14, 3, 2, 'Séjour decouverte des vins du Sud-Ouest', 'sejour89.jpg', 'Un séjour dans le Sud-Ouest pour explorer ses vins uniques, avec des visites de caves et des degustations en plein coeur de la region.', 650.00),
-	(2, 5, 1, 2, 4, 'Séjour autour du vin et des traditions en Provence', 'sejour90.jpg', 'Un séjour en Provence pour decouvrir les traditions viticoles locales a travers des visites de caves et des degustations de vins regionaux.', 455.00),
-	(1, 4, 14, 2, 1, 'Séjour viticole en Côtes de Nuits', 'sejour91.jpg', 'Sejournez dans la region des Côtes de Nuits, celebre pour ses grands crus de Bourgogne, avec des visites de vignobles et des degustations exclusives.', 319.00),
-	(2, 1, 5, 3, 3, 'Séjour vin et nature dans le Languedoc', 'sejour92.jpg', 'Un séjour inoubliable dans les vignobles du Languedoc, alliant la decouverte des vins locaux a des activites en plein air dans un cadre naturel exceptionnel.', 474.00),
-	(3, 5, 10, 1, 4, 'Séjour au coeur des vignes de la Loire', 'sejour93.jpg', 'Un séjour dans la vallee de la Loire pour explorer ses vignobles et ses châteaux, avec des degustations de vins authentiques.', 541.00),
-	(3, 4, 4, 1, 2, 'Séjour vin et gastronomie a Nantes', 'sejour94.jpg', 'Un séjour a Nantes alliant decouverte des vins de la region et degustation des produits locaux dans un cadre gastronomique raffine.', 643.00),
-	(1, 3, 6, 1, 1, 'Séjour viticole et detente en Bourgogne', 'sejour95.jpg', 'Venez vous detendre en Bourgogne tout en decouvrant ses grands vins a travers des visites de domaines et des moments de relaxation au spa.', 702.00),
-	(4, 4, 9, 3, 4, 'Séjour vin et patrimoine a Dijon', 'sejour96.jpg', 'Sejournez a Dijon pour decouvrir le patrimoine historique de la ville tout en explorant les vignobles alentours et en degustant des vins locaux.', 372.00),
-	(3, 3, 6, 1, 3, 'Séjour autour du vin et de l''histoire a Bordeaux', 'sejour97.jpg', 'Plongez dans l''histoire de Bordeaux a travers une visite de ses châteaux viticoles et une degustation de vins du patrimoine de la region.', 696.00),
-	(4, 4, 8, 1, 2, 'Séjour vin et paysages en Alsace', 'sejour98.jpg', 'Un séjour dans les vignes d''Alsace pour decouvrir les vins de la region et profiter des paysages a couper le souffle.', 777.00),
-	(4, 4, 8, 3, 1, 'Séjour decouverte des grands vins de Bourgogne', 'sejour99.jpg', 'Un séjour a la decouverte des grands vins de Bourgogne, avec des visites de celebres domaines viticoles et des degustations de vins prestigieux.', 312.00),
-	(2, 2, 12, 3, 4, 'Séjour de luxe en Côtes du Rhône', 'sejour100.jpg', 'Un séjour de luxe dans la region des Côtes du Rhône, avec des visites privees et des degustations de vins d''exception dans des châteaux historiques.', 687.00);
- 
-------------------------------------------------- Se_Situe
-INSERT INTO
-	Se_Situe(IDSEJOUR, idLocalite)
-VALUES
-	(42, 1),
-	(51, 2),
-	(9, 3),
-	(34, 4),
-	(53, 5),
-
-	(1, 6),
-	(5, 7),
-	(16, 8),
-	(17, 9),
-	(20, 6),
-	(25, 7),
-	(27, 8),
-	(40, 9),
-	(45, 6),
-	(56, 7),
-	(58, 8),
-	(63, 9),
-	(94, 9),
-
-	(6, 10),
-	(7, 11),
-	(19, 10),
-	(49, 11),
-	(61, 10),
-	(95, 11),
-	(97, 10),	
-
-	(14, 12),
-	(33, 13),
-	(46, 14),
-	(48, 15),
-	(52, 12),
-	(99, 12),
-	(68, 13),
-	(98, 13),
-	(81, 14),
-	(84, 15),
-	(85, 15),
-
-	(29, 16),
-	(31, 17),
-	(37, 16),
-	(38, 17),
-	(43, 16),
-	(59, 17),
-	(70, 16),
-	(73, 17),
-	(93, 16),	
-
-	(13, 18),
-	(22, 19),
-	(32, 20),
-	(78, 21),
-	(86, 22),
-	(100, 23),
-
-	(4, 24),
-	(12, 25),
-	(41, 26),
-	(66, 27),
-	(92, 28),
-	(80, 29),
-
-	(3, 30),
-	(26, 31),
-	(44, 32),
-	(50, 33),
-	(57, 34),
-	(82, 31),
-	(88, 32),
-	(89, 33),
-	(91, 34),
-	(64, 35);
+	(2, 5, 4, 3, 2, 'Dégustation de vins réputés en Bourgogne', 'sejour1.jpg', 'Un séjour immersif au coeur d''un domaine viticole, avec des visites guidees des vignes et des degustations de vins uniques.', 727.00, 6, true),
+	(4, 4, 1, 3, 3, 'Escapade gourmande', 'sejour2.jpg', 'Decouvrez les plaisirs de la gastronomie locale en associant mets raffines et vins d''exception dans un cadre pittoresque.', 673.00, null, true),
+	(4, 1, 14, 3, 1, 'Week-end detente et vin', 'sejour3.jpg', 'Un week-end de detente dans un cadre tranquille, avec des visites de vignobles et des moments de relaxation en plein air.', 328.50, 30, true),
+	(1, 1, 10, 1, 4, 'Séjour decouverte en Provence', 'sejour4.jpg', 'Plongez dans l''art de la viticulture provençale, visitez des domaines viticoles et profitez de la beaute des paysages.', 106.00, 24, true),
+	(4, 6, 4, 2, 2, 'Escapade romantique au domaine', 'sejour5.jpg', 'Un séjour romantique dans un domaine vinicole, avec des activites de degustation et des repas aux chandelles dans les caves.', 645.00, 7, true),
+	(4, 5, 4, 1, 3, 'Séjour tout inclus en Bourgogne', 'sejour6.jpg', 'Séjour tout compris avec transport, hebergement, visites des plus grands domaines viticoles et degustations de crus renommes.', 423.00, 10, true),
+	(1, 4, 3, 3, 1, 'Séjour oenologique a Bordeaux', 'sejour7.jpg', 'Un séjour dedie a l''oenologie dans la region bordelaise, avec des ateliers de degustation et des visites des plus celebres châteaux.', 790.50, 11, true),
+	(1, 4, 6, 1, 4, 'Séjour luxe en Champagne', 'sejour8.jpg', 'Vivez un séjour de luxe dans la region de Champagne, incluant des visites de maisons prestigieuses et des degustations de champagnes rares.', 431.00, null, true),
+	(4, 3, 3, 2, 2, 'Séjour au château', 'sejour9.jpg', 'Sejournez dans un château viticole et profitez de visites privees, de degustations haut de gamme et de moments de relaxation dans un cadre idyllique.', 527.00, 3, true),
+	(2, 3, 2, 1, 3, 'Séjour gastronomique et viticole', 'sejour10.jpg', 'Un séjour axe sur l''association des vins et des mets, avec des repas gastronomiques et des degustations de grands crus.', 126.00, null, true),
+	(3, 1, 13, 2, 4, 'Aventure viticole dans le Val-de-Loire', 'sejour11.jpg', 'Explorez la vallee de la Loire a travers des visites de vignobles locaux, des degustations et des promenades en bateau.', 699.00, null, true),
+	(4, 5, 14, 2, 1, 'Séjour dans les Côtes du Rhône', 'sejour12.jpg', 'Vivez un séjour inoubliable dans les Côtes du Rhône avec des visites de domaines, des degustations privees et des repas typiques de la region.', 680.50, 25, true),
+	(1, 1, 7, 2, 2, 'Séjour decouverte des vins du Jura', 'sejour13.jpg', 'Un séjour unique a la decouverte des vins du Jura, avec des visites de caves, des degustations et des activites locales.', 229.00, 18, true),
+	(4, 1, 1, 1, 3, 'Séjour au domaine en Alsace', 'sejour14.jpg', 'Sejournez dans un domaine viticole alsacien et explorez les traditions viticoles de la region a travers des visites et des degustations.', 514.00, 12, true),
+	(2, 2, 2, 2, 1, 'Week-end vin et nature', 'sejour15.jpg', 'Un week-end en pleine nature, avec des randonnees dans les vignes, des degustations et des repas dans un cadre verdoyant.', 779.00, null, true),
+	(4, 4, 4, 3, 4, 'Séjour decouverte de l''oenologie', 'sejour16.jpg', 'Apprenez les secrets de l''oenologie lors de ce séjour avec des ateliers pratiques et des visites de vignobles.', 288.00, 8, true),
+	(4, 5, 4, 3, 2, 'Séjour spa et vins', 'sejour17.jpg', 'Profitez de l''alliance parfaite entre relaxation et degustation de vins dans un cadre spa luxueux au coeur d''un vignoble.', 601.50, 9, true),
+	(2, 6, 9, 2, 3, 'Séjour de Noël au château', 'sejour18.jpg', 'Venez passer Noël au château, avec un programme de degustation de vins et de repas festifs dans une ambiance magique.', 588.00, null, true),
+	(4, 3, 6, 2, 1, 'Séjour sur les traces du vin', 'sejour19.jpg', 'Un séjour sur mesure pour les passionnes de vin, avec des visites guidees et des decouvertes des meilleurs vignobles.', 757.00, 10, true),
+	(4, 6, 4, 2, 4, 'Séjour au coeur de la Bourgogne', 'sejour20.jpg', 'Immersion totale dans le terroir bourguignon, avec des degustations de vins fins et des repas traditionnels.', 393.00, 6, true),
+	(3, 3, 2, 1, 3, 'Séjour en amoureux dans les vignes', 'sejour21.jpg', 'Un séjour romantique, avec des chambres avec vue sur les vignes, des degustations de vin et des repas aux chandelles.', 474.00, null, true),
+	(4, 5, 3, 3, 2, 'Séjour tout confort a Saint-Emilion', 'sejour22.jpg', 'Séjour tout confort dans la region de Saint-Emilion, avec des visites des plus prestigieux châteaux et degustations privees.', 209.00, 19, true),
+	(3, 5, 1, 3, 4, 'Séjour nature et vin en montagne', 'sejour23.jpg', 'Séjour en montagne avec des randonnees au milieu des vignes et des degustations de vins de montagne dans un cadre exceptionnel.', 236.00, null, true),
+	(2, 2, 7, 3, 1, 'Séjour a la decouverte des vins bio', 'sejour24.jpg', 'Un séjour axe sur la decouverte des vins biologiques, avec des visites de domaines ecoresponsables et des degustations en pleine nature.', 267.00, null, true),
+	(2, 4, 11, 3, 2, 'Séjour decouverte en Savoie', 'sejour25.jpg', 'Venez decouvrir la Savoie sous un autre angle avec des visites de vignobles locaux et des degustations de vins typiques de la region.', 282.50, 7, true),
+	(3, 3, 2, 2, 3, 'Séjour au coeur du Beaujolais', 'sejour26.jpg', 'Decouvrez les crus du Beaujolais avec des visites privees de vignobles et des degustations de vins renommes dans un cadre bucolique.', 635.00, 31, true),
+	(4, 6, 8, 2, 4, 'Séjour oenologique en Languedoc', 'sejour27.jpg', 'Un séjour unique pour explorer les vins du Languedoc, avec des ateliers de degustation et des visites de caves historiques.', 437.00, 8, true),
+	(1, 6, 4, 1, 1, 'Escapade viticole a Chablis', 'sejour28.jpg', 'Venez explorer l''un des plus celebres vignobles de France, avec des degustations de Chablis, et une immersion dans l''histoire viticole de la region.', 163.00, null, true),
+	(2, 5, 14, 3, 3, 'Séjour decouverte des vins de la vallee du Rhône', 'sejour29.jpg', 'Un voyage dans la vallee du Rhône pour decouvrir ses vins iconiques, avec des visites guidees de châteaux et des repas accord mets-vins.', 209.50, 16, true),
+	(4, 6, 11, 3, 2, 'Séjour en Corse et ses vins', 'sejour30.jpg', 'Sejournez en Corse et decouvrez les vins locaux dans des caves familiales, tout en profitant de la mer et du soleil mediterraneen.', 528.00, null, true),
+	(2, 6, 10, 2, 4, 'Séjour dans le Medoc', 'sejour31.jpg', 'Sejournez dans la region viticole du Medoc, avec des visites de grands crus classes et des degustations exceptionnelles.', 215.00, 17, true),
+	(2, 1, 12, 1, 1, 'Séjour de luxe a Pomerol', 'sejour32.jpg', 'Sejournez dans un cadre de luxe, avec des visites privees de vignobles et des degustations dans la prestigieuse region de Pomerol.', 317.50, 20, true),
+	(4, 2, 8, 1, 3, 'Séjour aventure et vin dans le sud-ouest', 'sejour33.jpg', 'Un séjour pour les aventuriers et les epicuriens, combinant randonnee dans les vignes et degustations de vins typiques du sud-ouest.', 281.00, 13, true),
+	(1, 1, 3, 3, 4, 'Séjour vin et art a Bordeaux', 'sejour66.jpg', 'Un séjour unique a Bordeaux alliant art, culture et decouverte des meilleurs vins locaux, avec des visites de musees et de domaines viticoles.', 241.00, 4, true),
+	(1, 2, 9, 1, 2, 'Séjour vin et patrimoine a Avignon', 'sejour34.jpg', 'Profitez de l''histoire et de l''art a Avignon tout en decouvrant les vins du Vaucluse avec des degustations et des visites guidees de domaines.', 505.50, null, true),
+	(2, 1, 5, 2, 1, 'Séjour en Alsace, au coeur des vignes', 'sejour35.jpg', 'Sejournez en Alsace et partez a la decouverte de ses fameux vins blancs et de ses villages pittoresques, avec des visites de caves et des degustations.', 447.00, null, true),
+	(2, 6, 10, 1, 4, 'Séjour au domaine de la Loire', 'sejour36.jpg', 'Un séjour dans la vallee de la Loire pour explorer les vins locaux tout en decouvrant les châteaux majestueux de la region.', 404.00, 16, true),
+	(4, 6, 10, 1, 3, 'Séjour degustation a Chablis', 'sejour37.jpg', 'Un séjour exclusif dans la region de Chablis, avec des visites de vignobles et des degustations de grands crus blancs.', 162.00, 17, true),
+	(3, 2, 7, 2, 2, 'Séjour decouverte de l''artisanat vinicole', 'sejour38.jpg', 'Visitez des domaines viticoles familiaux, decouvrez l''artisanat de la production de vin et participez a des ateliers pratiques.', 763.00, null, true),
+	(1, 3, 4, 1, 1, 'Séjour oenologique dans les Côtes de Provence', 'sejour39.jpg', 'Explorez les vins roses celebres de la region, avec des visites de domaines viticoles et des moments de detente sur la Côte d''Azur.', 239.00, 9, true),
+	(4, 4, 13, 3, 4, 'Séjour a la decouverte des grands crus de Bordeaux', 'sejour40.jpg', 'Un séjour dans la region bordelaise pour decouvrir les meilleurs grands crus classes et deguster les vins au coeur des prestigieux châteaux.', 345.50, 26, true),
+	(3, 5, 3, 1, 3, 'Séjour viticole et bien-être', 'sejour41.jpg', 'Séjour alliant detente et decouverte, avec des soins au spa et des degustations de vins dans un cadre tranquille et raffine.', 779.00, 1, true),
+	(2, 4, 10, 1, 2, 'Séjour romantique en Savoie', 'sejour42.jpg', 'Un séjour romantique dans les montagnes savoyardes, avec des degustations de vins locaux et des moments privilegies en amoureux.', 506.00, 16, true),
+	(2, 4, 14, 2, 4, 'Séjour au coeur du terroir du Roussillon', 'sejour43.jpg', 'Un séjour pour les amoureux du vin et de la nature, avec des visites de vignobles ensoleilles et des degustations de vins du sud de la France.', 656.00, 32, true),
+	(2, 3, 4, 1, 1, 'Séjour viticole et cuisine provençale', 'sejour44.jpg', 'Un séjour gastronomique où le vin de Provence s''associe a une cuisine locale typique pour une experience inoubliable.', 128.00, 6, true),
+	(2, 5, 8, 1, 3, 'Séjour vin et paysages en Champagne', 'sejour45.jpg', 'Visitez la region de Champagne et decouvrez l''art de la production de champagne, avec des degustations privees et des visites de caves prestigieuses.', 709.00, 14, true),
+	(4, 2, 7, 1, 2, 'Séjour dans les vignes en Languedoc', 'sejour46.jpg', 'Sejournez au coeur des vignobles du Languedoc, avec des degustations de vins locaux et une immersion dans la culture viticole de la region.', 502.50, null, true),
+	(3, 6, 8, 1, 4, 'Séjour en famille a la decouverte du vin', 'sejour47.jpg', 'Un séjour adapte a toute la famille, avec des activites ludiques pour enfants et des degustations pour adultes dans un cadre agreable.', 748.00, 15, true),
+	(1, 6, 6, 1, 1, 'Séjour autour du vin a Bordeaux', 'sejour48.jpg', 'Explorez les vins de Bordeaux a travers des visites de domaines historiques et des degustations de celebres crus classes.', 617.00, 11, true),
+	(2, 5, 14, 2, 2, 'Séjour de degustation en Haute-Savoie', 'sejour49.jpg', 'Decouvrez les vins savoyards, associes a des specialites locales dans un cadre montagnard exceptionnel.', 654.00, 33, true),
+	(3, 6, 3, 2, 3, 'Séjour a la decouverte des vins de Loire', 'sejour50.jpg', 'Un séjour au coeur des vignobles de la Loire, avec des visites guidees de domaines viticoles et des degustations de vins varies.', 289.00, 2, true),
+	(3, 6, 8, 2, 4, 'Séjour vin et art de vivre en Provence', 'sejour51.jpg', 'Venez decouvrir l''art de vivre provençal avec des visites de vignobles, des degustations de vins et des moments de relaxation au coeur de la nature.', 161.00, 12, true),
+	(2, 5, 3, 1, 3, 'Séjour dans un vignoble de Saint-emilion', 'sejour52.jpg', 'Un séjour inoubliable dans un vignoble de Saint-emilion, avec des visites privees et des degustations de vins prestigieux.', 700.50, 5, true),
+	(2, 5, 1, 3, 1, 'Séjour bien-être et vin en Languedoc', 'sejour53.jpg', 'Un séjour alliant detente au spa et degustation de vins locaux dans un cadre exceptionnel en Languedoc.', 744.00, null, true),
+	(3, 4, 2, 3, 4, 'Séjour vin et gastronomie a Lyon', 'sejour54.jpg', 'Venez decouvrir la gastronomie lyonnaise et les vins du Beaujolais a travers un séjour de luxe alliant decouvertes culinaires et oenologiques.', 288.00, null, true),
+	(3, 4, 4, 1, 2, 'Séjour dans un domaine viticole familial', 'sejour55.jpg', 'Sejournez dans un domaine viticole familial et apprenez l''art de la vinification, tout en profitant d''une atmosphere conviviale.', 527.00, 7, true),
+	(3, 2, 14, 2, 3, 'Séjour decouverte des vins du Sud-Est', 'sejour56.jpg', 'Un séjour au coeur des vignobles du Sud-Est, avec des degustations de vins mediterraneens et des visites de villages pittoresques.', 421.50, 34, true),
+	(1, 6, 4, 3, 1, 'Séjour romantique en Bourgogne', 'sejour57.jpg', 'Sejournez dans un cadre romantique en Bourgogne, avec des promenades dans les vignes et des repas en amoureux accompagnes de vins locaux.', 415.00, 8, true),
+	(4, 6, 10, 1, 4, 'Séjour decouverte du vin en Ardeche', 'sejour58.jpg', 'Un séjour dans le sud de la France pour decouvrir les vins d''Ardeche, associes a des activites de plein air et des repas typiques.', 400.00, 17, true),
+	(2, 3, 7, 2, 2, 'Séjour oenotourisme a la decouverte des grands terroirs', 'sejour59.jpg', 'Explorez les plus grands terroirs viticoles français a travers des visites et des degustations exclusives dans des domaines reputes.', 706.00, null, true),
+	(4, 1, 6, 1, 3, 'Séjour luxe et vins en Côtes du Rhône', 'sejour60.jpg', 'Un séjour de luxe dans les Côtes du Rhône avec des degustations de vins rares et des visites privees de grands domaines.', 380.50, 10, true),
+	(3, 5, 1, 3, 1, 'Séjour oenologique en Vallee du Douro', 'sejour61.jpg', 'Partez a la decouverte des vins du Douro au Portugal avec des visites de caves et des degustations de vins du Porto.', 465.00, null, true),
+	(2, 2, 4, 3, 4, 'Séjour dans les vignes de la côte d''Azur', 'sejour62.jpg', 'Sejournez dans la region ensoleillee de la Côte d''Azur et decouvrez ses vins roses, tout en profitant de la mer et des paysages magnifiques.', 383.00, 9, true),
+	(1, 1, 14, 3, 2, 'Séjour au domaine viticole de Loire', 'sejour63.jpg', 'Un séjour au coeur des vignobles de la Loire, avec des visites de châteaux viticoles et des degustations raffinees de vins locaux.', 367.00, 35, true),
+	(1, 6, 5, 2, 3, 'Séjour vin et randonnee dans le vignoble', 'sejour64.jpg', 'Combinez randonnee a travers les vignobles et degustation de vins locaux lors de ce séjour sportif et oenologique.', 372.00, null, true),
+	(3, 6, 13, 2, 4, 'Séjour oenologique a Saint-Emilion', 'sejour65.jpg', 'Un séjour exceptionnel a Saint-Emilion, avec des visites de châteaux et des degustations de vins prestigieux dans un cadre historique.', 683.00, 27, true),
+	(4, 5, 11, 2, 1, 'Séjour decouverte des vins de l''Aude', 'sejour67.jpg', 'Un séjour dans l''Aude, pour decouvrir les vins de la region, avec des visites de caves et des activites en plein air dans un cadre naturel.', 711.50, null, true),
+	(4, 5, 8, 3, 3, 'Séjour en famille dans les vignobles de la Loire', 'sejour68.jpg', 'Un séjour familial avec des activites pour enfants et des degustations pour adultes, tout en explorant les vignobles de la vallee de la Loire.', 462.00, 13, true),
+	(4, 6, 11, 1, 2, 'Séjour oenologique et sportif', 'sejour69.jpg', 'Pour les passionnes de sport et de vin, ce séjour combine des activites en plein air et des degustations de vins locaux dans des lieux pittoresques.', 684.00, null, true),
+	(4, 2, 10, 2, 1, 'Séjour a la decouverte des vins du Medoc', 'sejour70.jpg', 'Partez a la decouverte des grands crus du Medoc, avec des visites de châteaux historiques et des degustations raffinees.', 598.00, 16, true),
+	(2, 5, 9, 3, 4, 'Séjour decouverte de la viticulture biologique', 'sejour71.jpg', 'Un séjour pour les passionnes de vins bio, avec des visites de domaines ecoresponsables et des degustations de vins bio.', 160.00, null, true),
+	(1, 1, 9, 3, 3, 'Séjour bien-être et vins de la Vallee du Rhône', 'sejour72.jpg', 'Un séjour alliant bien-être, detente et decouverte des vins du Rhône, avec des soins au spa et des degustations dans un cadre enchanteur.', 354.50, null, true),
+	(3, 4, 10, 1, 2, 'Séjour au domaine viticole en Champagne', 'sejour73.jpg', 'Venez decouvrir les secrets de la production du champagne et goûter les meilleurs crus de la region lors de ce séjour exclusif.', 302.00, 17, true),
+	(2, 4, 7, 1, 1, 'Séjour decouverte de l''oenotourisme en Languedoc', 'sejour74.jpg', 'Un séjour pour les passionnes d''oenotourisme, avec des visites guidees des meilleurs domaines viticoles du Languedoc et des degustations variees.', 217.00, null, true),
+	(1, 6, 7, 2, 4, 'Séjour decouverte des cepages rares', 'sejour75.jpg', 'Un séjour pour les connaisseurs de vins rares, avec des visites de domaines produisant des cepages peu connus et des degustations inedites.', 512.00, null, true),
+	(1, 6, 2, 3, 3, 'Séjour autour des vins du Roussillon', 'sejour76.jpg', 'Partez a la decouverte des vins du Roussillon, avec des visites de domaines viticoles et des degustations au coeur des montagnes.', 357.00, null, true),
+	(4, 5, 2, 1, 2, 'Séjour oenologique a Sancerre', 'sejour77.jpg', 'Un séjour dans la celebre region viticole de Sancerre, avec des degustations de vins blancs et des visites guidees des plus grands domaines.', 362.00, null, true),
+	(1, 2, 12, 3, 4, 'Séjour viticole en Bourgogne', 'sejour78.jpg', 'Explorez la Bourgogne a travers ses vignobles prestigieux, avec des visites de domaines et des degustations des plus grands crus.', 228.00, 21, true),
+	(4, 5, 2, 3, 1, 'Séjour en toute intimite a Montagne de Reims', 'sejour79.jpg', 'Sejournez dans un cadre intime et prestigieux a Montagne de Reims, avec des degustations de champagne et des visites privees de caves.', 236.00, null, true),
+	(4, 2, 2, 1, 3, 'Séjour decouverte des vins de la Vallee du Tarn', 'sejour80.jpg', 'Venez decouvrir les vins du Tarn, avec des visites de vignobles authentiques et des degustations dans un cadre naturel et preserve.', 619.50, 29, true),
+	(1, 2, 8, 3, 2, 'Séjour oenologique en Côtes de Provence', 'sejour81.jpg', 'Un séjour de rêve en Provence pour decouvrir les vins roses, avec des visites de domaines et des repas gastronomiques dans un cadre idyllique.', 313.00, 14, true),
+	(3, 2, 14, 3, 4, 'Séjour vin et art de vivre en Alsace', 'sejour82.jpg', 'Un séjour unique où se mêlent la degustation de vins d''Alsace et la decouverte de l''art de vivre de cette magnifique region.', 167.00, 31, true),
+	(4, 6, 7, 2, 1, 'Séjour viticole et sportif dans le Languedoc', 'sejour83.jpg', 'Combinez randonnee et degustation de vins dans la region du Languedoc, avec des visites de domaines viticoles au coeur de la nature.', 494.00, null, true),
+	(1, 4, 8, 1, 3, 'Séjour aux portes de la Champagne', 'sejour84.jpg', 'Un séjour au coeur de la Champagne, avec des degustations privees de champagnes et des visites des celebres maisons de la region.', 571.00, 15, true),
+	(3, 2, 8, 3, 2, 'Séjour gourmand et viticole en Provence', 'sejour85.jpg', 'Venez savourer les vins de Provence tout en profitant des delices gastronomiques locaux dans un cadre exceptionnel entre mer et vignes.', 625.50, 15, true),
+	(4, 2, 12, 2, 4, 'Séjour au château de Pommard', 'sejour86.jpg', 'Sejournez dans le prestigieux château de Pommard, avec des visites privees et des degustations de vins fins accompagnees de repas raffines.', 320.00, 22, true),
+	(3, 6, 11, 2, 1, 'Séjour vin et nature en Haute-Loire', 'sejour87.jpg', 'Sejournez en Haute-Loire et decouvrez la beaute des paysages viticoles, avec des randonnees et des degustations de vins locaux.', 749.00, null, true),
+	(4, 1, 14, 1, 3, 'Séjour oenotourisme dans le Medoc', 'sejour88.jpg', 'Partez a la decouverte du Medoc, une region viticole d''exception, avec des visites de grands châteaux et des degustations exclusives.', 721.00, 32, true),
+	(1, 5, 14, 3, 2, 'Séjour decouverte des vins du Sud-Ouest', 'sejour89.jpg', 'Un séjour dans le Sud-Ouest pour explorer ses vins uniques, avec des visites de caves et des degustations en plein coeur de la region.', 650.00, 33, true),
+	(2, 5, 1, 2, 4, 'Séjour autour du vin et des traditions en Provence', 'sejour90.jpg', 'Un séjour en Provence pour decouvrir les traditions viticoles locales a travers des visites de caves et des degustations de vins regionaux.', 455.00, null, true),
+	(1, 4, 14, 2, 1, 'Séjour viticole en Côtes de Nuits', 'sejour91.jpg', 'Sejournez dans la region des Côtes de Nuits, celebre pour ses grands crus de Bourgogne, avec des visites de vignobles et des degustations exclusives.', 319.00, 34, true),
+	(2, 1, 5, 3, 3, 'Séjour vin et nature dans le Languedoc', 'sejour92.jpg', 'Un séjour inoubliable dans les vignobles du Languedoc, alliant la decouverte des vins locaux a des activites en plein air dans un cadre naturel exceptionnel.', 474.00, 28, true),
+	(3, 5, 10, 1, 4, 'Séjour au coeur des vignes de la Loire', 'sejour93.jpg', 'Un séjour dans la vallee de la Loire pour explorer ses vignobles et ses châteaux, avec des degustations de vins authentiques.', 541.00, 16, true),
+	(3, 4, 4, 1, 2, 'Séjour vin et gastronomie a Nantes', 'sejour94.jpg', 'Un séjour a Nantes alliant decouverte des vins de la region et degustation des produits locaux dans un cadre gastronomique raffine.', 643.00, 9, true),
+	(1, 3, 6, 1, 1, 'Séjour viticole et detente en Bourgogne', 'sejour95.jpg', 'Venez vous detendre en Bourgogne tout en decouvrant ses grands vins a travers des visites de domaines et des moments de relaxation au spa.', 702.00, 11, true),
+	(4, 4, 9, 3, 4, 'Séjour vin et patrimoine a Dijon', 'sejour96.jpg', 'Sejournez a Dijon pour decouvrir le patrimoine historique de la ville tout en explorant les vignobles alentours et en degustant des vins locaux.', 372.00, null, true),
+	(3, 3, 6, 1, 3, 'Séjour autour du vin et de l''histoire a Bordeaux', 'sejour97.jpg', 'Plongez dans l''histoire de Bordeaux a travers une visite de ses châteaux viticoles et une degustation de vins du patrimoine de la region.', 696.00, 10, true),
+	(4, 4, 8, 1, 2, 'Séjour vin et paysages en Alsace', 'sejour98.jpg', 'Un séjour dans les vignes d''Alsace pour decouvrir les vins de la region et profiter des paysages a couper le souffle.', 777.00, 13, true),
+	(4, 4, 8, 3, 1, 'Séjour decouverte des grands vins de Bourgogne', 'sejour99.jpg', 'Un séjour a la decouverte des grands vins de Bourgogne, avec des visites de celebres domaines viticoles et des degustations de vins prestigieux.', 312.00, 12, true),
+	(2, 2, 12, 3, 4, 'Séjour de luxe en Côtes du Rhône', 'sejour100.jpg', 'Un séjour de luxe dans la region des Côtes du Rhône, avec des visites privees et des degustations de vins d''exception dans des châteaux historiques.', 687.00, 23, true);
 
 ------------------------------------------------- FAVORIS
 INSERT INTO
 	Favoris (idClient, idSejour)
 VALUES
-	(25, 25),
+	(25, 24),
 	(17, 90),
 	(2, 71),
 	(6, 82),
@@ -2402,58 +2447,59 @@ VALUES
 
 ------------------------------------------------- COMMANDE
 INSERT INTO
-	commande (idClientAcheteur, idClientBeneficiaire, idAdresseFacturation, idAdresseLivraison, idPanier, codeReduction)
+	commande (idClientAcheteur,idcb, idClientBeneficiaire, idAdresseFacturation, idAdresseLivraison, idPanier, codeReduction, typePaiementCommande, dateCommande, etatCommande)
 VALUES
-	(31,27,30, 11, 110, 'GBK13LTL3OF'),
-	(11,31,1, 31, 112, 'OFS13TBH8OJ'),
-	(35,11,24, 36, 116, 'CKL60ILY3JD'),
-	(19,18,45, 45, 96, 'TYU73CTS3OD'),
-	(49,12,26, 8, 81, 'VMP45BVN3PY'),
-	(1,45,36, 7, 128, 'KJL54BXX4VO'),
-	(46,6,22, 19, 105, 'GCA12VOP1BJ'),
-	(44,49,14, 13, 96, 'STX45ZKR5OZ'),
-	(20,42,38, 24, 3, 'VLB89JWF7HM'),
-	(45,5,27, 49, 62, 'NLI83OPT1RY'),
-	(13,2,42, 25, 5, 'YVB22DOE3YU'),
-	(33,23,23, 46, 124, 'QKM33LAP6PV'),
-	(17,48,5, 21, 12, 'RQH32WHF7QI'),
-	(14,12,3, 5, 55, 'YWT05UXS2YB'),
-	(36,12,6, 42, 3, 'MJP12HNU6XB'),
-	(27,30,7, 20, 100, 'KVL80MUC4DR'),
-	(12,47,16, 16, 48, 'RXO92CCN4GG'),
-	(16,28,29, 43, 21, 'RQY96AHA1XL'),
-	(5,2,11, 22, 26, 'UNW96JWV2WG'),
-	(25,36,25, 44, 120, 'ETN64MLP6XG'),
-	(15,30,39, 38, 67, 'USK76NSI1JR'),
-	(41,8,40, 27, 144, 'AZC65YDL4RP'),
-	(23,3,4, 41, 138, 'FTT27CGF3QW'),
-	(6,12,15, 35, 85, 'PCE23MYE6VB'),
-	(40,46,34, 23, 139, 'OSJ44CCE2MH'),
-	(8,14,2, 50, 69, 'VJN61QTR4ZS'),
-	(22,38,12, 1, 21, 'UYI96IYM5OL'),
-	(21,7,44, 26, 118, 'RPG65SRP7OB'),
-	(30,14,21, 39, 17, 'SUF23BNU5JE'),
-	(48,29,10, 28, 40, 'EGN88UDA1RJ'),
-	(4,18,37, 4, 100, 'LTC05DST5TD'),
-	(47,43,13, 10, 84, 'OPC24IDG5WV'),
-	(28,10,17, 14, 44, 'NVT91IUV3BW'),
-	(43,2,49, 37, 130, 'HAB41HEP4ST'),
-	(7,29,33, 33, 39, 'BDJ88VNE3ML'),
-	(2,38,8, 3, 37, 'DUK68YLU7LK'),
-	(39,22,9, 12, 101, 'TVF73YSX9YU'),
-	(38,19,31, 29, 33, 'UCR68ELK5OA'),
-	(3,27,41, 32, 145, 'LIW35XDY3NR'),
-	(32,6,32, 15, 75, 'GTL22CJK7RF'),
-	(9,44,50, 9, 62, 'EMD56XRD4QW'),
-	(10,20,35, 40, 32, 'YLL61ZUF8MH'),
-	(26,34,19, 30, 1, 'SJQ10ETN3VT'),
-	(24,32,48, 6, 85, 'NBI11VSD3YP'),
-	(18,19,47, 17, 28, 'QDD47JUP1BV'),
-	(42,15,46, 48, 7, 'OXS67KTL4FU'),
-	(29,10,43, 2, 76, 'VSN66MDN7ZV'),
-	(22,33,20, 34, 47, 'ZXF46UBR5RS'),
-	(35,24,18, 18, 13, 'FWN72ECT9AG'),
-	(8,27,28, 47, 51, 'GMQ82FLV8EE');
+	(31,1,27,30, 11, 110,null,'cb', '2024-06-05', 'Paiement validé'),
+	(11,null,31,1, 31, 112,null,'stripe', '2024-07-21', 'En attente de validation'),
+	(35,null,11,24, 36, 116,null,'stripe', '2024-08-23', 'Paiement refusé'),
+	(19,null,18,45, 45, 96,null,'paypal', '2024-11-30', 'Paiement validé'),
+	(49,null,12,26, 8, 81,null,'stripe', '2024-08-12', 'En attente de validation'),
+	(1,1,45,36, 7, 128,null,'cb', '2024-03-02', 'En attente de validation'),
+	(46,null,6,22, 19, 105,null,'paypal', '2024-03-06', 'Paiement validé'),
+	(44,null,49,14, 13, 96,null,'stripe', '2024-07-23', 'En attente de validation'),
+	(20,null,42,38, 24, 3,null,'paypal', '2024-09-22', 'Paiement validé'),
+	(53,1,5,27, 49, 62,null,'cb', '2024-09-11', 'Paiement validé'),
+	(13,null,2,42, 25, 5,null,'stripe', '2024-01-14', 'Paiement refusé'),
+	(33,null,23,23, 46, 124,null,'paypal', '2024-11-25', 'Paiement validé'),
+	(17,null,48,5, 21, 12,null,'paypal', '2024-07-30', 'En attente de validation'),
+	(14,1,12,3, 5, 55,null,'cb', '2024-06-05', 'Paiement validé'),
+	(36,null,12,6, 42, 3,null,'stripe', '2024-09-03', 'En attente de validation'),
+	(27,null,30,7, 20, 100,null,'paypal', '2024-11-18', 'Paiement refusé'),
+	(12,null,47,16, 16, 48,null,'paypal', '2024-10-26', 'En attente de validation'),
+	(16,1,28,29, 43, 21,null,'cb', '2024-10-01', 'Annulé'),
+	(5,null,2,11, 22, 26,null,'paypal', '2024-09-29', 'En attente de validation'),
+	(25,null,36,25, 44, 120,null,'paypal', '2024-05-05', 'Paiement validé'),
+	(15,null,30,39, 38, 67,null,'stripe', '2024-04-25', 'Paiement validé'),
+	(41,1,8,40, 27, 144,null,'cb', '2024-01-02', 'En attente de validation'),
+	(53,null,3,4, 41, 138,null,'stripe', '2024-08-15', 'Paiement validé'),
+	(6,null,12,15, 35, 85,null,'paypal', '2024-05-29', 'En attente de validation'),
+	(40,1,46,34, 23, 139,null,'cb', '2024-03-21', 'Annulé'),
+	(8,null,14,2, 50, 69,null,'paypal', '2024-08-14', 'En attente de validation'),
+	(22,null,38,12, 1, 21,null,'stripe', '2024-10-16', 'Paiement refusé'),
+	(21,1,7,44, 26, 118,null,'cb', '2024-04-12', 'Paiement validé'),
+	(30,null,14,21, 39, 17,null,'paypal', '2024-11-07', 'Annulé'),
+	(48,null,29,10, 28, 40,null,'paypal', '2024-04-24', 'En attente de validation'),
+	(4,1,18,37, 4, 100,null,'cb', '2024-09-03', 'Annulé'),
+	(47,null,43,13, 10, 84,null,'paypal', '2024-09-04', 'En attente de validation'),
+	(28,1,10,17, 14, 44,null,'cb', '2024-11-16', 'Paiement validé'),
+	(43,1,2,49, 37, 130,null,'cb', '2024-12-05', 'En attente de validation'),
+	(7,null,29,33, 33, 39,null,'stripe', '2024-08-17', 'En attente de validation'),
+	(2,1,38,8, 3, 37,null,'cb', '2024-04-08', 'Paiement refusé'),
+	(53,null,22,9, 12, 101,null,'stripe', '2024-07-15', 'En attente de validation'),
+	(38,1,19,31, 29, 33,null,'cb', '2024-01-18', 'Paiement refusé'),
+	(3,null,27,41, 32, 145,null,'stripe', '2024-12-06', 'En attente de validation'),
+	(32,1,6,32, 15, 75,null,'cb', '2024-11-28', 'Paiement refusé'),
+	(9,1,44,50, 9, 62,null,'cb', '2024-07-17', 'En attente de validation'),
+	(10,null,20,35, 40, 32,null,'paypal', '2024-07-31', 'Paiement validé'),
+	(26,1,34,19, 30, 1,null,'cb', '2023-12-22', 'Paiement refusé'),
+	(53,null,32,48, 6, 85,null,'paypal', '2024-08-27', 'Paiement refusé'),
+	(18,null,19,47, 17, 28,null,'stripe', '2024-01-17', 'En attente de validation'),
+	(42,null,15,46, 48, 7,null,'paypal', '2024-07-17', 'Paiement refusé'),
+	(29,1,10,43, 2, 76,null,'cb', '2024-11-27', 'Paiement validé'),
+	(22,null,33,20, 34, 47,null,'paypal', '2024-06-25', 'Annulé'),
+	(35,null,24,18, 18, 13,null,'stripe', '2024-12-02', 'Paiement validé'),
+	(53,1,27,28, 47, 51,null,'cb', '2024-03-29', 'Paiement refusé'),
+	(53,null,null,52,null,51,'mqSMIluinZv','cb','2024-03-25','En attente de validation');
 
 ------------------------------------------------- ACTIVITE
 INSERT INTO
@@ -2648,7 +2694,7 @@ VALUES
 	(2, 23, 'Atelier de cuisine et vin', 'Apprenez a cuisiner des plats locaux et decouvrez comment les associer a nos vins.', 'photo_atelier_cuisine.jpg', 'https://www.vinotrip.com/atelier-cuisine-vin', 'https://www.youtube.com/watch?v=mno345'),
 	(15, 24, 'Degustation de vins rares', 'Venez decouvrir des vins rares et uniques, conserves dans nos caves.', 'photo_vins_rares.jpg', 'https://www.vinotrip.com/degustation-vins-rares', 'https://www.youtube.com/watch?v=pqr456'),
 	(10, 25, 'Visite des caves souterraines', 'Explorez nos caves souterraines, où nos meilleurs vins sont conserves dans des conditions optimales.', 'photo_caves_souterraines.jpg', 'https://www.vinotrip.com/visite-caves-souterraines', 'https://www.youtube.com/watch?v=stu567'),
-	(11, 26, 'Degustation des vins du domaine', 'Profitez d''une degustation de tous les vins produits sur notre domaine, du plus leger au plus complexe.', 'photo_vins_domaine.jpg', 'https://www.vinotrip.com/degustation-vins-domaine', 'https://youtu.be/XqZsoesa55w?si=qyTkZwIQ5cBifsuz'),
+	(11, 26, 'Degustation des vins du domaine', 'Profitez d''une degustation de tous les vins produits sur notre domaine, du plus leger au plus complexe.', 'photo_vins_domaine.jpg', 'https://www.vinotrip.com/degustation-vins-domaine', 'https://youtu.be/XqZsoesa55w?si=qyTkZwIQ5cbifsuz'),
 	(2, 27, 'Degustation en barriques', 'Venez decouvrir nos vins en vieillissement dans des barriques, et degustez-les directement de la cuve.', 'photo_vins_barriques.jpg', 'https://www.vinotrip.com/degustation-barriques', 'https://www.youtube.com/watch?v=yzx789'),
 	(10, 28, 'Atelier d''assemblage des vins', 'Decouvrez le processus d''assemblage des vins et creez votre propre cuvee.', 'photo_assemblage_vins.jpg', 'https://www.vinotrip.com/atelier-assemblage-vins', 'https://www.youtube.com/watch?v=abc012'),
 	(5, 29, 'Visite panoramique des vignes', 'Prenez de la hauteur avec une vue panoramique sur nos vignobles et apprenez-en plus sur nos methodes de culture.', 'photo_vue_vignes.jpg', 'https://www.vinotrip.com/visite-panorama-vignes', 'https://www.youtube.com/watch?v=def123'),
@@ -3229,261 +3275,698 @@ VALUES
 	
 ------------------------------------------------- DESCRIPTIONPANIER
 INSERT INTO
-	DESCRIPTIONPANIER (idSejour, idPanier, idhebergement, prix, quantite, dateDebut, dateFin, nbAdultes, nbEnfants, nbChambresSimple, nbChambresDouble, nbChambresTriple, repasMidi, repasSoir, activite, offrir, ecoffret, disponibilitehebergement)
+	DESCRIPTIONPANIER (idSejour, idPanier, idhebergement, quantite, dateDebut, dateFin, nbAdultes, nbEnfants, nbChambresSimple, nbChambresDouble, nbChambresTriple, offrir, ecoffret, disponibilitehebergement)
 VALUES
-	(92, 36,  1,397.99, 1, '2025-06-19', '2025-06-22', '7', '3', '7', '1', '8', 'False', 'False', 'True',null,null,null),
-	(76, 57,  1,378.99, 1, '2024-03-30', '2024-04-02', '10', '1', '10', '9', '1', 'True', 'False', 'False',null,null,null),
-	(57, 48,  1,706.99, 1, '2025-03-14', '2025-03-17', '4', '8', '3', '5', '8', 'False', 'False', 'True',null,null,null),
-	(71, 111, 1,793.99, 1, '2025-03-21', '2025-03-21', '2', '9', '6', '3', '10', 'True', 'False', 'False',null,null,null),
-	(74, 2,   1,439.99, 1, '2024-11-10', '2024-11-11', '9', '5', '5', '2', '6', 'True', 'False', 'True',null,null,null),
-	(14, 126, 1,263.99, 1, '2024-05-08', '2024-05-11', '9', '5', '2', '9', '2', 'True', 'True', 'True',null,null,null),
-	(20, 129, 1,365.99, 1, '2025-01-29', '2025-01-29', '9', '9', '4', '4', '7', 'True', 'True', 'True',null,null,null),
-	(24, 120, 1,248.99, 1, '2024-05-11', '2024-05-12', '2', '10', '3', '4', '5', 'False', 'False', 'False',null,null,null),
-	(40, 47,  1,913.99, 1, '2024-08-15', '2024-08-16', '4', '10', '7', '2', '1', 'False', 'False', 'False',null,null,null),
-	(94, 75,  1,400.99, 1, '2025-02-05', '2025-02-07', '8', '3', '2', '7', '5', 'True', 'True', 'False',null,null,null),
-	(3, 121,  1,987.99, 1, '2025-06-04', '2025-06-05', '8', '8', '3', '3', '8', 'True', 'True', 'False',null,null,null),
-	(92, 75,  1,440.99, 1, '2025-06-28', '2025-07-01', '7', '0', '7', '6', '2', 'True', 'False', 'False',null,null,null),
-	(38, 4,   1,710.99, 1, '2025-07-10', '2025-07-13', '9', '6', '3', '5', '4', 'False', 'True', 'True',null,null,null),
-	(90, 48,  1,201.99, 1, '2024-05-30', '2024-05-30', '0', '3', '5', '8', '8', 'True', 'True', 'False',null,null,null),
-	(7, 138,  1,387.99, 1, '2024-12-27', '2024-12-28', '3', '9', '7', '5', '8', 'True', 'False', 'True',null,null,null),
-	(18, 94,  1,561.99, 1, '2024-02-10', '2024-02-13', '1', '1', '1', '9', '2', 'True', 'False', 'True',null,null,null),
-	(53, 26,  1,415.99, 1, '2024-10-20', '2024-10-23', '4', '1', '2', '5', '9', 'False', 'True', 'False',null,null,null),
-	(53, 110, 1,322.99, 1, '2024-10-06', '2024-10-09', '1', '1', '2', '4', '8', 'True', 'True', 'False',null,null,null),
-	(42, 34,   1,65.99, 1, '2023-12-25', '2023-12-28', '5', '7', '3', '7', '4', 'False', 'True', 'True',null,null,null),
-	(72, 67,  1,158.99, 1, '2024-07-25', '2024-07-28', '10', '3', '5', '4', '0', 'True', 'True', 'True',null,null,null),
-	(27, 14,  1,373.99, 1, '2025-07-18', '2025-07-18', '4', '3', '1', '3', '5', 'False', 'True', 'False',null,null,null),
-	(84, 30,  1,302.99, 1, '2024-02-11', '2024-02-14', '7', '1', '2', '9', '2', 'False', 'False', 'False',null,null,null),
-	(35, 14,  1,411.99, 1, '2025-02-25', '2025-02-27', '4', '3', '3', '9', '1', 'False', 'False', 'True',null,null,null),
-	(77, 115, 1,535.99, 1, '2024-04-23', '2024-04-25', '8', '10', '1', '9', '9', 'True', 'True', 'False',null,null,null),
-	(65, 83,  1,388.99, 1, '2024-08-26', '2024-08-29', '2', '5', '6', '4', '3', 'True', 'False', 'False',null,null,null),
-	(17, 93,  1,277.99, 1, '2024-06-10', '2024-06-12', '3', '3', '5', '9', '5', 'True', 'True', 'False',null,null,null),
-	(72, 60,  1,432.99, 1, '2025-11-13', '2025-11-16', '5', '0', '0', '6', '5', 'False', 'False', 'True',null,null,null),
-	(49, 107, 1,923.99, 1, '2025-04-17', '2025-04-18', '5', '4', '8', '9', '6', 'False', 'True', 'False',null,null,null),
-	(50, 43,  1,194.99, 1, '2024-10-29', '2024-10-31', '5', '8', '2', '4', '3', 'True', 'True', 'True',null,null,null),
-	(21, 110, 1,789.99, 1, '2024-03-31', '2024-04-03', '4', '6', '2', '3', '2', 'False', 'False', 'False',null,null,null),
-	(17, 117, 1,546.99, 1, '2024-11-29', '2024-12-01', '8', '10', '1', '7', '6', 'True', 'True', 'True',null,null,null),
-	(47, 78,  1,293.99, 1, '2023-11-26', '2023-11-28', '8', '8', '0', '9', '2', 'True', 'True', 'False',null,null,null),
-	(81, 85,  1,670.99, 1, '2025-06-28', '2025-06-30', '0', '8', '6', '9', '7', 'False', 'True', 'True',null,null,null),
-	(61, 37,  1,609.99, 1, '2025-05-14', '2025-05-15', '3', '2', '4', '6', '7', 'False', 'True', 'True',null,null,null),
-	(51, 106, 1,654.99, 1, '2025-10-12', '2025-10-15', '6', '7', '4', '4', '7', 'True', 'True', 'True',null,null,null),
-	(85, 76,  1,529.99, 1, '2025-03-26', '2025-03-28', '1', '9', '2', '9', '1', 'False', 'True', 'True',null,null,null),
-	(39, 42,  1,772.99, 1, '2025-09-29', '2025-10-01', '8', '8', '8', '4', '1', 'False', 'True', 'True',null,null,null),
-	(15, 149, 1,342.99, 1, '2025-05-09', '2025-05-10', '5', '2', '7', '4', '4', 'True', 'False', 'True',null,null,null),
-	(51, 127, 1,198.99, 1, '2023-12-01', '2023-12-04', '9', '6', '9', '6', '0', 'False', 'True', 'False',null,null,null),
-	(52, 96,  1,425.99, 1, '2025-01-06', '2025-01-06', '4', '8', '5', '7', '4', 'True', 'True', 'False',null,null,null),
-	(58, 40,  1,170.99, 1, '2024-11-20', '2024-11-21', '3', '10', '5', '0', '1', 'False', 'False', 'False',null,null,null),
-	(68, 28,  1,646.99, 1, '2023-11-23', '2023-11-26', '3', '9', '5', '5', '4', 'True', 'False', 'False',null,null,null),
-	(47, 101, 1,948.99, 1, '2025-05-27', '2025-05-29', '5', '5', '6', '9', '5', 'True', 'True', 'True',null,null,null),
-	(5, 132,  1,432.99, 1, '2025-06-15', '2025-06-17', '7', '1', '8', '6', '9', 'False', 'False', 'False',null,null,null),
-	(94, 125,  1,69.99, 1, '2024-10-24', '2024-10-26', '4', '4', '1', '5', '8', 'False', 'False', 'True',null,null,null),
-	(90, 10,  1,147.99, 1, '2025-04-07', '2025-04-07', '1', '3', '3', '10', '7', 'False', 'True', 'False',null,null,null),
-	(16, 100, 1,822.99, 1, '2024-03-10', '2024-03-10', '9', '9', '9', '2', '10', 'True', 'False', 'True',null,null,null),
-	(64, 144, 1,737.99, 1, '2025-11-11', '2025-11-13', '8', '4', '3', '8', '7', 'False', 'False', 'False',null,null,null),
-	(41, 34,   1,74.99, 1, '2024-04-06', '2024-04-06', '2', '7', '4', '6', '0', 'False', 'True', 'True',null,null,null),
-	(75, 103, 1,397.99, 1, '2025-06-19', '2025-06-19', '7', '3', '7', '1', '8', 'False', 'False', 'True',null,null,null),
-	(31, 130, 1,378.99, 1, '2024-03-30', '2024-03-30', '10', '1', '10', '9', '1', 'True', 'False', 'False',null,null,null),
-	(96, 51,  1,706.99, 1, '2025-03-14', '2025-03-14', '4', '8', '3', '5', '8', 'False', 'False', 'True',null,null,null),
-	(10, 46,  1,793.99, 1, '2025-03-21', '2025-03-24', '2', '9', '6', '3', '10', 'True', 'False', 'False',null,null,null),
-	(60, 150, 1,439.99, 1, '2024-11-10', '2024-11-12', '9', '5', '5', '2', '6', 'True', 'False', 'True',null,null,null),
-	(93, 84,  1,263.99, 1, '2024-05-08', '2024-05-08', '9', '5', '2', '9', '2', 'True', 'True', 'True',null,null,null),
-	(96, 49,  1,365.99, 1, '2025-01-29', '2025-01-29', '9', '9', '4', '4', '7', 'True', 'True', 'True',null,null,null),
-	(16, 35,  1,248.99, 1, '2024-05-11', '2024-05-11', '2', '10', '3', '4', '5', 'False', 'False', 'False',null,null,null),
-	(42, 72,  1,913.99, 1, '2024-08-15', '2024-08-18', '4', '10', '7', '2', '1', 'False', 'False', 'False',null,null,null),
-	(8, 112,  1,400.99, 1, '2025-02-05', '2025-02-05', '8', '3', '2', '7', '5', 'True', 'True', 'False',null,null,null),
-	(64, 132, 1,987.99, 1, '2025-06-04', '2025-06-06', '8', '8', '3', '3', '8', 'True', 'True', 'False',null,null,null),
-	(36, 123, 1,440.99, 1, '2025-06-28', '2025-06-29', '7', '0', '7', '6', '2', 'True', 'False', 'False',null,null,null),
-	(2, 150,  1,710.99, 1, '2025-07-10', '2025-07-13', '9', '6', '3', '5', '4', 'False', 'True', 'True',null,null,null),
-	(91, 34,  1,201.99, 1, '2024-05-30', '2024-05-31', '0', '3', '5', '8', '8', 'True', 'True', 'False',null,null,null),
-	(29, 27,  1,387.99, 1, '2024-12-27', '2024-12-30', '3', '9', '7', '5', '8', 'True', 'False', 'True',null,null,null),
-	(24, 45,  1,561.99, 1, '2024-02-10', '2024-02-11', '1', '1', '1', '9', '2', 'True', 'False', 'True',null,null,null),
-	(57, 73,  1,415.99, 1, '2024-10-20', '2024-10-23', '4', '1', '2', '5', '9', 'False', 'True', 'False',null,null,null),
-	(73, 45,  1,322.99, 1, '2024-10-06', '2024-10-08', '1', '1', '2', '4', '8', 'True', 'True', 'False',null,null,null),
-	(60, 134,  1,65.99, 1, '2023-12-25', '2023-12-27', '5', '7', '3', '7', '4', 'False', 'True', 'True',null,null,null),
-	(94, 98,  1,158.99, 1, '2024-07-25', '2024-07-27', '10', '3', '5', '4', '0', 'True', 'True', 'True',null,null,null),
-	(93, 69,  1,888.99, 1, '2024-09-03', '2024-09-03', '9', '3', '8', '9', '9', 'True', 'False', 'True',null,null,null),
-	(47, 56,  1,373.99, 1, '2025-07-18', '2025-07-20', '4', '3', '1', '3', '5', 'False', 'True', 'False',null,null,null),
-	(86, 26,  1,302.99, 1, '2024-02-11', '2024-02-11', '7', '1', '2', '9', '2', 'False', 'False', 'False',null,null,null),
-	(49, 71,  1,411.99, 1, '2025-02-25', '2025-02-26', '4', '3', '3', '9', '1', 'False', 'False', 'True',null,null,null),
-	(23, 59,  1,535.99, 1, '2024-04-23', '2024-04-23', '8', '10', '1', '9', '9', 'True', 'True', 'False',null,null,null),
-	(53, 70,  1,388.99, 1, '2024-08-26', '2024-08-29', '2', '5', '6', '4', '3', 'True', 'False', 'False',null,null,null),
-	(22, 69,  1,277.99, 1, '2024-06-10', '2024-06-12', '3', '3', '5', '9', '5', 'True', 'True', 'False',null,null,null),
-	(68, 129, 1,432.99, 1, '2025-11-13', '2025-11-16', '5', '0', '0', '6', '5', 'False', 'False', 'True',null,null,null),
-	(21, 1,   1,923.99, 1, '2025-04-17', '2025-04-20', '5', '4', '8', '9', '6', 'False', 'True', 'False',null,null,null),
-	(75, 38,  1,194.99, 1, '2024-10-29', '2024-10-29', '5', '8', '2', '4', '3', 'True', 'True', 'True',null,null,null),
-	(68, 12,  1,789.99, 1, '2024-03-31', '2024-04-03', '4', '6', '2', '3', '2', 'False', 'False', 'False',null,null,null),
-	(70, 124, 1,546.99, 1, '2024-11-29', '2024-11-30', '8', '10', '1', '7', '6', 'True', 'True', 'True',null,null,null),
-	(40, 33,  1,293.99, 1, '2023-11-26', '2023-11-27', '8', '8', '0', '9', '2', 'True', 'True', 'False',null,null,null),
-	(24, 52,  1,670.99, 1, '2025-06-28', '2025-06-29', '0', '8', '6', '9', '7', 'False', 'True', 'True',null,null,null),
-	(27, 60,  1,609.99, 1, '2025-05-14', '2025-05-14', '3', '2', '4', '6', '7', 'False', 'True', 'True',null,null,null),
-	(32, 113, 1,654.99, 1, '2025-10-12', '2025-10-13', '6', '7', '4', '4', '7', 'True', 'True', 'True',null,null,null),
-	(32, 122, 1,529.99, 1, '2025-03-26', '2025-03-27', '1', '9', '2', '9', '1', 'False', 'True', 'True',null,null,null),
-	(51, 85,  1,772.99, 1, '2025-09-29', '2025-10-02', '8', '8', '8', '4', '1', 'False', 'True', 'True',null,null,null),
-	(2, 140,  1,342.99, 1, '2025-05-09', '2025-05-12', '5', '2', '7', '4', '4', 'True', 'False', 'True',null,null,null),
-	(24, 72,  1,198.99, 1, '2023-12-01', '2023-12-02', '9', '6', '9', '6', '0', 'False', 'True', 'False',null,null,null),
-	(20, 131, 1,425.99, 1, '2025-01-06', '2025-01-06', '4', '8', '5', '7', '4', 'True', 'True', 'False',null,null,null),
-	(46, 150, 1,170.99, 1, '2024-11-20', '2024-11-23', '3', '10', '5', '0', '1', 'False', 'False', 'False',null,null,null),
-	(16, 73,  1,646.99, 1, '2023-11-23', '2023-11-23', '3', '9', '5', '5', '4', 'True', 'False', 'False',null,null,null),
-	(75, 132, 1,948.99, 1, '2025-05-27', '2025-05-27', '5', '5', '6', '9', '5', 'True', 'True', 'True',null,null,null),
-	(23, 66,  1,432.99, 1, '2025-06-15', '2025-06-15', '7', '1', '8', '6', '9', 'False', 'False', 'False',null,null,null),
-	(23, 148,  1,69.99, 1, '2024-10-24', '2024-10-24', '4', '4', '1', '5', '8', 'False', 'False', 'True',null,null,null),
-	(94, 144, 1,147.99, 1, '2025-04-07', '2025-04-09', '1', '3', '3', '10', '7', 'False', 'True', 'False',null,null,null),
-	(21, 79,  1,822.99, 1, '2024-03-10', '2024-03-13', '9', '9', '9', '2', '10', 'True', 'False', 'True',null,null,null),
-	(18, 80,  1,737.99, 1, '2025-11-11', '2025-11-14', '8', '4', '3', '8', '7', 'False', 'False', 'False',null,null,null),
-	(55, 54,   1,74.99, 1, '2024-04-06', '2024-04-09', '2', '7', '4', '6', '0', 'False', 'True', 'True',null,null,null),
-	(33, 124, 1,397.99, 1, '2025-06-19', '2025-06-22', '7', '3', '7', '1', '8', 'False', 'False', 'True',null,null,null),
-	(25, 34,  1,378.99, 1, '2024-03-30', '2024-04-01', '10', '1', '10', '9', '1', 'True', 'False', 'False',null,null,null),
-	(2, 109,  1,706.99, 1, '2025-03-14', '2025-03-17', '4', '8', '3', '5', '8', 'False', 'False', 'True',null,null,null),
-	(30, 130, 1,793.99, 1, '2025-03-21', '2025-03-23', '2', '9', '6', '3', '10', 'True', 'False', 'False',null,null,null),
-	(66, 132, 1,439.99, 1, '2024-11-10', '2024-11-10', '9', '5', '5', '2', '6', 'True', 'False', 'True',null,null,null),
-	(90, 67,  1,263.99, 1, '2024-05-08', '2024-05-08', '9', '5', '2', '9', '2', 'True', 'True', 'True',null,null,null),
-	(72, 103, 1,365.99, 1, '2025-01-29', '2025-02-01', '9', '9', '4', '4', '7', 'True', 'True', 'True',null,null,null),
-	(33, 18,  1,248.99, 1, '2024-05-11', '2024-05-14', '2', '10', '3', '4', '5', 'False', 'False', 'False',null,null,null),
-	(60, 92,  1,913.99, 1, '2024-08-15', '2024-08-17', '4', '10', '7', '2', '1', 'False', 'False', 'False',null,null,null),
-	(75, 55,  1,400.99, 1, '2025-02-05', '2025-02-05', '8', '3', '2', '7', '5', 'True', 'True', 'False',null,null,null),
-	(43, 108, 1,987.99, 1, '2025-06-04', '2025-06-06', '8', '8', '3', '3', '8', 'True', 'True', 'False',null,null,null),
-	(6, 81,   1,440.99, 1, '2025-06-28', '2025-07-01', '7', '0', '7', '6', '2', 'True', 'False', 'False',null,null,null),
-	(20, 45,  1,710.99, 1, '2025-07-10', '2025-07-10', '9', '6', '3', '5', '4', 'False', 'True', 'True',null,null,null),
-	(69, 78,  1,201.99, 1, '2024-05-30', '2024-06-01', '0', '3', '5', '8', '8', 'True', 'True', 'False',null,null,null),
-	(46, 149, 1,387.99, 1, '2024-12-27', '2024-12-30', '3', '9', '7', '5', '8', 'True', 'False', 'True',null,null,null),
-	(19, 113, 1,561.99, 1, '2024-02-10', '2024-02-11', '1', '1', '1', '9', '2', 'True', 'False', 'True',null,null,null),
-	(73, 79,  1,415.99, 1, '2024-10-20', '2024-10-22', '4', '1', '2', '5', '9', 'False', 'True', 'False',null,null,null),
-	(40, 9,   1,322.99, 1, '2024-10-06', '2024-10-07', '1', '1', '2', '4', '8', 'True', 'True', 'False',null,null,null),
-	(5, 114,   1,65.99, 1, '2023-12-25', '2023-12-27', '5', '7', '3', '7', '4', 'False', 'True', 'True',null,null,null),
-	(64, 113, 1,158.99, 1, '2024-07-25', '2024-07-27', '10', '3', '5', '4', '0', 'True', 'True', 'True',null,null,null),
-	(29, 122, 1,888.99, 1, '2024-09-03', '2024-09-06', '9', '3', '8', '9', '9', 'True', 'False', 'True',null,null,null),
-	(77, 134, 1,373.99, 1, '2025-07-18', '2025-07-20', '4', '3', '1', '3', '5', 'False', 'True', 'False',null,null,null),
-	(66, 8,   1,302.99, 1, '2024-02-11', '2024-02-11', '7', '1', '2', '9', '2', 'False', 'False', 'False',null,null,null),
-	(67, 69,  1,411.99, 1, '2025-02-25', '2025-02-26', '4', '3', '3', '9', '1', 'False', 'False', 'True',null,null,null);
+	(92, 36,  1, 1, '2025-06-19', '2025-06-22', '7', '3', '7', '1', '8',null,null,'False'),
+	(76, 57,  1, 1, '2024-03-30', '2024-04-02', '10', '1', '10', '9', '1',null,null,'False'),
+	(57, 48,  1, 1, '2025-03-14', '2025-03-17', '4', '8', '3', '5', '8',null,null,'False'),
+	(71, 111, 1, 1, '2025-03-21', '2025-03-21', '2', '9', '6', '3', '10',null,null,'False'),
+	(74, 2,   1, 1, '2024-11-10', '2024-11-11', '9', '5', '5', '2', '6',null,null,'False'),
+	(14, 126, 1, 1, '2024-05-08', '2024-05-11', '9', '5', '2', '9', '2',null,null,'False'),
+	(20, 129, 1, 1, '2025-01-29', '2025-01-29', '9', '9', '4', '4', '7',null,null,'False'),
+	(24, 120, 1, 1, '2024-05-11', '2024-05-12', '2', '10', '3', '4', '5',null,null,'False'),
+	(40, 47,  1, 1, '2024-08-15', '2024-08-16', '4', '10', '7', '2', '1',null,null,'False'),
+	(94, 75,  1, 1, '2025-02-05', '2025-02-07', '8', '3', '2', '7', '5',null,null,'False'),
+	(3, 121,  1, 1, '2025-06-04', '2025-06-05', '8', '8', '3', '3', '8',null,null,'False'),
+	(92, 75,  1, 1, '2025-06-28', '2025-07-01', '7', '0', '7', '6', '2',null,null,'False'),
+	(38, 4,   1, 1, '2025-07-10', '2025-07-13', '9', '6', '3', '5', '4',null,null,'False'),
+	(90, 48,  1, 1, '2024-05-30', '2024-05-30', '0', '3', '5', '8', '8',null,null,'False'),
+	(7, 138,  1, 1, '2024-12-27', '2024-12-28', '3', '9', '7', '5', '8',null,null,'False'),
+	(18, 94,  1, 1, '2024-02-10', '2024-02-13', '1', '1', '1', '9', '2',null,null,'False'),
+	(53, 26,  1, 1, '2024-10-20', '2024-10-23', '4', '1', '2', '5', '9',null,null,'False'),
+	(53, 110, 1, 1, '2024-10-06', '2024-10-09', '1', '1', '2', '4', '8',null,null,'False'),
+	(42, 34,   1, 1, '2023-12-25', '2023-12-28', '5', '7', '3', '7', '4',null,null,'False'),
+	(72, 67,  1, 1, '2024-07-25', '2024-07-28', '10', '3', '5', '4', '0',null,null,'False'),
+	(27, 14,  1, 1, '2025-07-18', '2025-07-18', '4', '3', '1', '3', '5',null,null,'False'),
+	(84, 30,  1, 1, '2024-02-11', '2024-02-14', '7', '1', '2', '9', '2',null,null,'False'),
+	(35, 14,  1, 1, '2025-02-25', '2025-02-27', '4', '3', '3', '9', '1',null,null,'False'),
+	(77, 115, 1, 1, '2024-04-23', '2024-04-25', '8', '10', '1', '9', '9',null,null,'False'),
+	(65, 83,  1, 1, '2024-08-26', '2024-08-29', '2', '5', '6', '4', '3',null,null,'False'),
+	(17, 93,  1, 1, '2024-06-10', '2024-06-12', '3', '3', '5', '9', '5',null,null,'False'),
+	(72, 60,  1, 1, '2025-11-13', '2025-11-16', '5', '0', '0', '6', '5',null,null,'False'),
+	(49, 107, 1, 1, '2025-04-17', '2025-04-18', '5', '4', '8', '9', '6',null,null,'False'),
+	(50, 43,  1, 1, '2024-10-29', '2024-10-31', '5', '8', '2', '4', '3',null,null,'False'),
+	(21, 110, 1, 1, '2024-03-31', '2024-04-03', '4', '6', '2', '3', '2',null,null,'False'),
+	(17, 117, 1, 1, '2024-11-29', '2024-12-01', '8', '10', '1', '7', '6',null,null,'False'),
+	(47, 78,  1, 1, '2023-11-26', '2023-11-28', '8', '8', '0', '9', '2',null,null,'False'),
+	(81, 85,  1, 1, '2025-06-28', '2025-06-30', '0', '8', '6', '9', '7',null,null,'False'),
+	(61, 37,  1, 1, '2025-05-14', '2025-05-15', '3', '2', '4', '6', '7',null,null,'False'),
+	(51, 106, 1, 1, '2025-10-12', '2025-10-15', '6', '7', '4', '4', '7',null,null,'False'),
+	(85, 76,  1, 1, '2025-03-26', '2025-03-28', '1', '9', '2', '9', '1',null,null,'False'),
+	(39, 42,  1, 1, '2025-09-29', '2025-10-01', '8', '8', '8', '4', '1',null,null,'False'),
+	(15, 149, 1, 1, '2025-05-09', '2025-05-10', '5', '2', '7', '4', '4',null,null,'False'),
+	(51, 127, 1, 1, '2023-12-01', '2023-12-04', '9', '6', '9', '6', '0',null,null,'False'),
+	(52, 96,  1, 1, '2025-01-06', '2025-01-06', '4', '8', '5', '7', '4',null,null,'False'),
+	(58, 40,  1, 1, '2024-11-20', '2024-11-21', '3', '10', '5', '0', '1',null,null,'False'),
+	(68, 28,  1, 1, '2023-11-23', '2023-11-26', '3', '9', '5', '5', '4',null,null,'False'),
+	(47, 101, 1, 1, '2025-05-27', '2025-05-29', '5', '5', '6', '9', '5',null,null,'False'),
+	(5, 132,  1, 1, '2025-06-15', '2025-06-17', '7', '1', '8', '6', '9',null,null,'False'),
+	(94, 125,  1, 1, '2024-10-24', '2024-10-26', '4', '4', '1', '5', '8',null,null,'False'),
+	(90, 10,  1, 1, '2025-04-07', '2025-04-07', '1', '3', '3', '10', '7',null,null,'False'),
+	(16, 100, 1, 1, '2024-03-10', '2024-03-10', '9', '9', '9', '2', '10',null,null,'False'),
+	(64, 144, 1, 1, '2025-11-11', '2025-11-13', '8', '4', '3', '8', '7',null,null,'False'),
+	(41, 34,   1, 1, '2024-04-06', '2024-04-06', '2', '7', '4', '6', '0',null,null,'False'),
+	(75, 103, 1, 1, '2025-06-19', '2025-06-19', '7', '3', '7', '1', '8',null,null,'False'),
+	(31, 130, 1, 1, '2024-03-30', '2024-03-30', '10', '1', '10', '9', '1',null,null,'False'),
+	(96, 51,  1, 1, '2025-03-14', '2025-03-14', '4', '8', '3', '5', '8',null,null,'False'),
+	(10, 46,  1, 1, '2025-03-21', '2025-03-24', '2', '9', '6', '3', '10',null,null,'False'),
+	(60, 150, 1, 1, '2024-11-10', '2024-11-12', '9', '5', '5', '2', '6',null,null,'False'),
+	(93, 84,  1, 1, '2024-05-08', '2024-05-08', '9', '5', '2', '9', '2',null,null,'False'),
+	(96, 49,  1, 1, '2025-01-29', '2025-01-29', '9', '9', '4', '4', '7',null,null,'False'),
+	(16, 35,  1, 1, '2024-05-11', '2024-05-11', '2', '10', '3', '4', '5',null,null,'False'),
+	(42, 72,  1, 1, '2024-08-15', '2024-08-18', '4', '10', '7', '2', '1',null,null,'False'),
+	(8, 112,  1, 1, '2025-02-05', '2025-02-05', '8', '3', '2', '7', '5',null,null,'False'),
+	(64, 132, 1, 1, '2025-06-04', '2025-06-06', '8', '8', '3', '3', '8',null,null,'False'),
+	(36, 123, 1, 1, '2025-06-28', '2025-06-29', '7', '0', '7', '6', '2',null,null,'False'),
+	(2, 150,  1, 1, '2025-07-10', '2025-07-13', '9', '6', '3', '5', '4',null,null,'False'),
+	(91, 34,  1, 1, '2024-05-30', '2024-05-31', '0', '3', '5', '8', '8',null,null,'False'),
+	(29, 27,  1, 1, '2024-12-27', '2024-12-30', '3', '9', '7', '5', '8',null,null,'False'),
+	(24, 45,  1, 1, '2024-02-10', '2024-02-11', '1', '1', '1', '9', '2',null,null,'False'),
+	(57, 73,  1, 1, '2024-10-20', '2024-10-23', '4', '1', '2', '5', '9',null,null,'False'),
+	(73, 45,  1, 1, '2024-10-06', '2024-10-08', '1', '1', '2', '4', '8',null,null,'False'),
+	(60, 134,  1, 1, '2023-12-25', '2023-12-27', '5', '7', '3', '7', '4',null,null,'False'),
+	(94, 98,  1, 1, '2024-07-25', '2024-07-27', '10', '3', '5', '4', '0',null,null,'False'),
+	(93, 69,  1, 1, '2024-09-03', '2024-09-03', '9', '3', '8', '9', '9',null,null,'False'),
+	(47, 56,  1, 1, '2025-07-18', '2025-07-20', '4', '3', '1', '3', '5',null,null,'False'),
+	(86, 26,  1, 1, '2024-02-11', '2024-02-11', '7', '1', '2', '9', '2',null,null,'False'),
+	(49, 71,  1, 1, '2025-02-25', '2025-02-26', '4', '3', '3', '9', '1',null,null,'False'),
+	(23, 59,  1, 1, '2024-04-23', '2024-04-23', '8', '10', '1', '9', '9',null,null,'False'),
+	(53, 70,  1, 1, '2024-08-26', '2024-08-29', '2', '5', '6', '4', '3',null,null,'False'),
+	(22, 69,  1, 1, '2024-06-10', '2024-06-12', '3', '3', '5', '9', '5',null,null,'False'),
+	(68, 129, 1, 1, '2025-11-13', '2025-11-16', '5', '0', '0', '6', '5',null,null,'False'),
+	(21, 1,   1, 1, '2025-04-17', '2025-04-20', '5', '4', '8', '9', '6',null,null,'False'),
+	(75, 38,  1, 1, '2024-10-29', '2024-10-29', '5', '8', '2', '4', '3',null,null,'False'),
+	(68, 12,  1, 1, '2024-03-31', '2024-04-03', '4', '6', '2', '3', '2',null,null,'False'),
+	(70, 124, 1, 1, '2024-11-29', '2024-11-30', '8', '10', '1', '7', '6',null,null,'False'),
+	(40, 33,  1, 1, '2023-11-26', '2023-11-27', '8', '8', '0', '9', '2',null,null,'False'),
+	(24, 52,  1, 1, '2025-06-28', '2025-06-29', '0', '8', '6', '9', '7',null,null,'False'),
+	(27, 60,  1, 1, '2025-05-14', '2025-05-14', '3', '2', '4', '6', '7',null,null,'False'),
+	(32, 113, 1, 1, '2025-10-12', '2025-10-13', '6', '7', '4', '4', '7',null,null,'False'),
+	(32, 122, 1, 1, '2025-03-26', '2025-03-27', '1', '9', '2', '9', '1',null,null,'False'),
+	(51, 85,  1, 1, '2025-09-29', '2025-10-02', '8', '8', '8', '4', '1',null,null,'False'),
+	(2, 140,  1, 1, '2025-05-09', '2025-05-12', '5', '2', '7', '4', '4',null,null,'False'),
+	(24, 72,  1, 1, '2023-12-01', '2023-12-02', '9', '6', '9', '6', '0',null,null,'False'),
+	(20, 131, 1, 1, '2025-01-06', '2025-01-06', '4', '8', '5', '7', '4',null,null,'False'),
+	(46, 150, 1, 1, '2024-11-20', '2024-11-23', '3', '10', '5', '0', '1',null,null,'False'),
+	(16, 73,  1, 1, '2023-11-23', '2023-11-23', '3', '9', '5', '5', '4',null,null,'False'),
+	(75, 132, 1, 1, '2025-05-27', '2025-05-27', '5', '5', '6', '9', '5',null,null,'False'),
+	(23, 66,  1, 1, '2025-06-15', '2025-06-15', '7', '1', '8', '6', '9',null,null,'False'),
+	(23, 148,  1, 1, '2024-10-24', '2024-10-24', '4', '4', '1', '5', '8',null,null,'False'),
+	(94, 144, 1, 1, '2025-04-07', '2025-04-09', '1', '3', '3', '10', '7',null,null,'False'),
+	(21, 79,  1, 1, '2024-03-10', '2024-03-13', '9', '9', '9', '2', '10',null,null,'False'),
+	(18, 80,  1, 1, '2025-11-11', '2025-11-14', '8', '4', '3', '8', '7',null,null,'False'),
+	(55, 54,   1, 1, '2024-04-06', '2024-04-09', '2', '7', '4', '6', '0',null,null,'False'),
+	(33, 124, 1, 1, '2025-06-19', '2025-06-22', '7', '3', '7', '1', '8',null,null,'False'),
+	(25, 34,  1, 1, '2024-03-30', '2024-04-01', '10', '1', '10', '9', '1',null,null,'False'),
+	(2, 109,  1, 1, '2025-03-14', '2025-03-17', '4', '8', '3', '5', '8',null,null,'False'),
+	(30, 130, 1, 1, '2025-03-21', '2025-03-23', '2', '9', '6', '3', '10',null,null,'False'),
+	(66, 132, 1, 1, '2024-11-10', '2024-11-10', '9', '5', '5', '2', '6',null,null,'False'),
+	(90, 67,  1, 1, '2024-05-08', '2024-05-08', '9', '5', '2', '9', '2',null,null,'False'),
+	(72, 103, 1, 1, '2025-01-29', '2025-02-01', '9', '9', '4', '4', '7',null,null,'False'),
+	(33, 18,  1, 1, '2024-05-11', '2024-05-14', '2', '10', '3', '4', '5',null,null,'False'),
+	(60, 92,  1, 1, '2024-08-15', '2024-08-17', '4', '10', '7', '2', '1',null,null,'False'),
+	(75, 55,  1, 1, '2025-02-05', '2025-02-05', '8', '3', '2', '7', '5',null,null,'False'),
+	(43, 108, 1, 1, '2025-06-04', '2025-06-06', '8', '8', '3', '3', '8',null,null,'False'),
+	(6, 81,   1, 1, '2025-06-28', '2025-07-01', '7', '0', '7', '6', '2',null,null,'False'),
+	(20, 45,  1, 1, '2025-07-10', '2025-07-10', '9', '6', '3', '5', '4',null,null,'False'),
+	(69, 78,  1, 1, '2024-05-30', '2024-06-01', '0', '3', '5', '8', '8',null,null,'False'),
+	(46, 149, 1, 1, '2024-12-27', '2024-12-30', '3', '9', '7', '5', '8',null,null,'False'),
+	(19, 113, 1, 1, '2024-02-10', '2024-02-11', '1', '1', '1', '9', '2',null,null,'False'),
+	(73, 79,  1, 1, '2024-10-20', '2024-10-22', '4', '1', '2', '5', '9',null,null,'False'),
+	(40, 9,   1, 1, '2024-10-06', '2024-10-07', '1', '1', '2', '4', '8',null,null,'False'),
+	(5, 114,   1, 1, '2023-12-25', '2023-12-27', '5', '7', '3', '7', '4',null,null,'False'),
+	(64, 113, 1, 1, '2024-07-25', '2024-07-27', '10', '3', '5', '4', '0',null,null,'False'),
+	(29, 122, 1, 1, '2024-09-03', '2024-09-06', '9', '3', '8', '9', '9',null,null,'False'),
+	(77, 134, 1, 1, '2025-07-18', '2025-07-20', '4', '3', '1', '3', '5',null,null,'False'),
+	(66, 8,   1, 1, '2024-02-11', '2024-02-11', '7', '1', '2', '9', '2',null,null,'False'),
+	(67, 69,  1, 1, '2025-02-25', '2025-02-26', '4', '3', '3', '9', '1',null,null,'False');
 	
 ------------------------------------------------- DESCRIPTIONCOMMANDE
 INSERT INTO
-	DESCRIPTIONCOMMANDE (idSejour, idCommande, idHebergement, idcb, prix, quantite, dateDebut, dateFin, nbAdultes, nbEnfants, nbChambresSimple, nbChambresDouble, nbChambresTriple, repasMidi, repasSoir, activite, offrir, eCoffret,disponibilitehebergement)
+	DESCRIPTIONCOMMANDE (idSejour, idCommande, idHebergement, quantite, dateDebut, dateFin, nbAdultes, nbEnfants, nbChambresSimple, nbChambresDouble, nbChambresTriple, offrir, eCoffret,disponibilitehebergement)
 VALUES
-	(22,41,1,1,277.99,1,'2024-06-10','2024-06-12','3','3','5','9','5','True','True','False','False','False',null),
-	(64,43,1,1,987.99,1,'2025-06-04','2025-06-06','8','8','3','3','8','True','True','False','False','False',null),
-	(21,25,1,1,923.99,1,'2025-04-17','2025-04-20','5','4','8','9','6','False','True','False','False','False',null),
-	(64,6,1,1,158.99,1,'2024-07-25','2024-07-27','10','3','5','4','0','True','True','True','False','False',null),
-	(68,20,1,1,789.99,1,'2024-03-31','2024-04-03','4','6','2','3','2','False','False','False','False','False',null),
-	(2,12,1,1,710.99,1,'2025-07-10','2025-07-13','9','6','3','5','4','False','True','True','False','False',null),
-	(9,13,1,1,527.00,1,'2024-12-06','2024-12-08','1','0','1','0','0','False','False','False','False','False',null),
-	(29,3,1,1,387.99,1,'2024-12-27','2024-12-30','3','9','7','5','8','True','False','True','False','False',null),
-	(27,24,1,1,609.99,1,'2025-05-14','2025-05-14','3','2','4','6','7','False','True','True','False','False',null),
-	(32,4,1,1,654.99,1,'2025-10-12','2025-10-13','6','7','4','4','7','True','True','True','False','False',null),
-	(24,41,1,1,561.99,1,'2024-02-10','2024-02-11','1','1','1','9','2','True','False','True','False','False',null),
-	(57,1,1,1,415.99,1,'2024-10-20','2024-10-23','4','1','2','5','9','False','True','False','False','False',null),
-	(2,14,1,1,342.99,1,'2025-05-09','2025-05-12','5','2','7','4','4','True','False','True','False','False',null),
-	(24,11,1,1,198.99,1,'2023-12-01','2023-12-02','9','6','9','6','0','False','True','False','False','False',null),
-	(20,30,1,1,425.99,1,'2025-01-06','2025-01-06','4','8','5','7','4','True','True','False','False','False',null),
-	(46,9,1,1,170.99,1,'2024-11-20','2024-11-23','3','10','5','0','1','False','False','False','False','False',null),
-	(73,34,1,1,322.99,1,'2024-10-06','2024-10-08','1','1','2','4','8','True','True','False','False','False',null),
-	(66,29,1,1,302.99,1,'2024-02-11','2024-02-11','7','1','2','9','2','False','False','False','False','False',null),
-	(16,45,1,1,248.99,1,'2024-05-11','2024-05-11','2','10','3','4','5','False','False','False','False','False',null),
-	(2,2,1,1,673.00,1,'2024-12-04','2024-12-07','1','0','1','0','0','False','False','False','False','False',null),
-	(47,9,1,1,373.99,1,'2025-07-18','2025-07-20','4','3','1','3','5','False','True','False','False','False',null),
-	(2,37,1,1,673.00,1,'2024-12-05','2024-12-08','1','0','1','0','0','False','False','False','False','False',null),
-	(49,14,1,1,411.99,1,'2025-02-25','2025-02-26','4','3','3','9','1','False','False','True','False','False',null),
-	(23,16,1,1,535.99,1,'2024-04-23','2024-04-23','8','10','1','9','9','True','True','False','False','False',null),
-	(53,20,1,1,388.99,1,'2024-08-26','2024-08-29','2','5','6','4','3','True','False','False','False','False',null),
-	(19,2,1,1,561.99,1,'2024-02-10','2024-02-11','1','1','1','9','2','True','False','True','True','True',null),
-	(73,44,1,1,415.99,1,'2024-10-20','2024-10-22','4','1','2','5','9','False','True','False','True','True',null),
-	(40,1,1,1,322.99,1,'2024-10-06','2024-10-07','1','1','2','4','8','True','True','False','True','False',null),
-	(5,13,1,1,65.99,1,'2023-12-25','2023-12-27','5','7','3','7','4','False','True','True','True','True',null),
-	(96,5,1,1,365.99,1,'2025-01-29','2025-01-29','9','9','4','4','7','True','True','True','True','False',null),
-	(77,4,1,1,373.99,1,'2025-07-18','2025-07-20','4','3','1','3','5','False','True','False','True','False',null),
-	(67,41,1,1,411.99,1,'2025-02-25','2025-02-26','4','3','3','9','1','False','False','True','True','True',null),
-	(1,41,1,1,727.00,1,'2024-12-04','2024-12-06','1','0','1','0','0','False','False','False','True','True',null),
-	(1,19,1,1,727.00,1,'2024-12-05','2024-12-07','1','0','1','0','0','False','False','False','True','True',null),
-	(29,40,1,1,888.99,1,'2024-09-03','2024-09-06','9','3','8','9','9','True','False','True','True','False',null),
-	(42,12,1,1,913.99,1,'2024-08-15','2024-08-18','4','10','7','2','1','False','False','False','True','False',null),
-	(8,11,1,1,400.99,1,'2025-02-05','2025-02-05','8','3','2','7','5','True','True','False','True','False',null),
-	(36,20,1,1,440.99,1,'2025-06-28','2025-06-29','7','0','7','6','2','True','False','False','True','False',null),
-	(91,49,1,1,201.99,1,'2024-05-30','2024-05-31','0','3','5','8','8','True','True','False','True','False',null),
-	(60,47,1,1,65.99,1,'2023-12-25','2023-12-27','5','7','3','7','4','False','True','True','True','False',null),
-	(14,32,1,1,263.99,1,'2024-05-08','2024-05-11','9','5','2','9','2','True','True','True','False','False',null),
-	(40,3,1,1,913.99,1,'2024-08-15','2024-08-16','4','10','7','2','1','False','False','False','False','False',null),
-	(72,22,1,1,432.99,1,'2025-11-13','2025-11-16','5','0','0','6','5','False','False','True','False','False',null),
-	(50,24,1,1,194.99,1,'2024-10-29','2024-10-31','5','8','2','4','3','True','True','True','False','False',null),
-	(21,8,1,1,789.99,1,'2024-03-31','2024-04-03','4','6','2','3','2','False','False','False','False','False',null),
-	(81,13,1,1,670.99,1,'2025-06-28','2025-06-30','0','8','6','9','7','False','True','True','False','False',null),
-	(85,19,1,1,529.99,1,'2025-03-26','2025-03-28','1','9','2','9','1','False','True','True','False','False',null),
-	(15,43,1,1,342.99,1,'2025-05-09','2025-05-10','5','2','7','4','4','True','False','True','False','False',null),
-	(52,19,1,1,425.99,1,'2025-01-06','2025-01-06','4','8','5','7','4','True','True','False','False','False',null),
-	(68,27,1,1,646.99,1,'2023-11-23','2023-11-26','3','9','5','5','4','True','False','False','False','False',null),
-	(5,30,1,1,432.99,1,'2025-06-15','2025-06-17','7','1','8','6','9','False','False','False','False','False',null),
-	(20,18,1,1,710.99,1,'2025-07-10','2025-07-10','9','6','3','5','4','False','True','True','False','False',null),
-	(64,13,1,1,737.99,1,'2025-11-11','2025-11-13','8','4','3','8','7','False','False','False','False','False',null),
-	(41,8,1,1,74.99,1,'2024-04-06','2024-04-06','2','7','4','6','0','False','True','True','False','False',null),
-	(3,33,1,1,987.99,1,'2025-06-04','2025-06-05','8','8','3','3','8','True','True','False','False','False',null),
-	(92,12,1,1,440.99,1,'2025-06-28','2025-07-01','7','0','7','6','2','True','False','False','False','False',null),
-	(96,15,1,1,706.99,1,'2025-03-14','2025-03-14','4','8','3','5','8','False','False','True','False','False',null),
-	(10,4,1,1,793.99,1,'2025-03-21','2025-03-24','2','9','6','3','10','True','False','False','False','False',null),
-	(38,27,1,1,710.99,1,'2025-07-10','2025-07-13','9','6','3','5','4','False','True','True','False','False',null),
-	(7,22,1,1,387.99,1,'2024-12-27','2024-12-28','3','9','7','5','8','True','False','True','False','False',null),
-	(53,37,1,1,322.99,1,'2024-10-06','2024-10-09','1','1','2','4','8','True','True','False','False','False',null),
-	(27,16,1,1,373.99,1,'2025-07-18','2025-07-18','4','3','1','3','5','False','True','False','False','False',null),
-	(84,45,1,1,302.99,1,'2024-02-11','2024-02-14','7','1','2','9','2','False','False','False','False','False',null),
-	(35,48,1,1,411.99,1,'2025-02-25','2025-02-27','4','3','3','9','1','False','False','True','False','False',null),
-	(65,41,1,1,388.99,1,'2024-08-26','2024-08-29','2','5','6','4','3','True','False','False','False','False',null),
-	(6,4,1,1,440.99,1,'2025-06-28','2025-07-01','7','0','7','6','2','True','False','False','True','False',null),
-	(92,2,1,1,397.99,1,'2025-06-19','2025-06-22','7','3','7','1','8','False','False','True','True','True',null),
-	(76,32,1,1,378.99,1,'2024-03-30','2024-04-02','10','1','10','9','1','True','False','False','True','False',null),
-	(57,32,1,1,706.99,1,'2025-03-14','2025-03-17','4','8','3','5','8','False','False','True','True','True',null),
-	(71,17,1,1,793.99,1,'2025-03-21','2025-03-21','2','9','6','3','10','True','False','False','False','False',null),
-	(69,17,1,1,201.99,1,'2024-05-30','2024-06-01','0','3','5','8','8','True','True','False','True','True',null),
-	(46,16,1,1,387.99,1,'2024-12-27','2024-12-30','3','9','7','5','8','True','False','True','True','True',null),
-	(90,38,1,1,201.99,1,'2024-05-30','2024-05-30','0','3','5','8','8','True','True','False','True','True',null),
-	(18,38,1,1,561.99,1,'2024-02-10','2024-02-13','1','1','1','9','2','True','False','True','True','False',null),
-	(53,3,1,1,415.99,1,'2024-10-20','2024-10-23','4','1','2','5','9','False','True','False','True','True',null),
-	(94,16,1,1,147.99,1,'2025-04-07','2025-04-09','1','3','3','10','7','False','True','False','False','False',null),
-	(21,34,1,1,822.99,1,'2024-03-10','2024-03-13','9','9','9','2','10','True','False','True','False','False',null),
-	(18,34,1,1,737.99,1,'2025-11-11','2025-11-14','8','4','3','8','7','False','False','False','False','False',null),
-	(25,7,1,1,378.99,1,'2024-03-30','2024-04-01','10','1','10','9','1','True','False','False','False','False',null),
-	(66,2,1,1,439.99,1,'2024-11-10','2024-11-10','9','5','5','2','6','True','False','True','False','False',null),
-	(90,48,1,1,263.99,1,'2024-05-08','2024-05-08','9','5','2','9','2','True','True','True','False','False',null),
-	(60,5,1,1,913.99,1,'2024-08-15','2024-08-17','4','10','7','2','1','False','False','False','False','False',null),
-	(75,39,1,1,400.99,1,'2025-02-05','2025-02-05','8','3','2','7','5','True','True','False','False','False',null),
-	(75,38,1,1,948.99,1,'2025-05-27','2025-05-27','5','5','6','9','5','True','True','True','True','True',null),
-	(23,26,1,1,432.99,1,'2025-06-15','2025-06-15','7','1','8','6','9','False','False','False','True','False',null),
-	(23,24,1,1,69.99,1,'2024-10-24','2024-10-24','4','4','1','5','8','False','False','True','True','True',null),
-	(55,30,1,1,74.99,1,'2024-04-06','2024-04-06','2','7','4','6','0','False','True','True','True','False',null),
-	(33,27,1,1,397.99,1,'2025-06-19','2025-06-22','7','3','7','1','8','False','False','True','True','True',null),
-	(2,42,1,1,706.99,1,'2025-03-14','2025-03-17','4','8','3','5','8','False','False','True','True','True',null),
-	(30,45,1,1,793.99,1,'2025-03-21','2025-03-23','2','9','6','3','10','True','False','False','True','True',null),
-	(72,36,1,1,365.99,1,'2025-01-29','2025-02-01','9','9','4','4','7','True','True','True','True','False',null),
-	(33,13,1,1,248.99,1,'2024-05-11','2024-05-14','2','10','3','4','5','False','False','False','True','False',null),
-	(43,28,1,1,987.99,1,'2025-06-04','2025-06-06','8','8','3','3','8','True','True','False','True','True',null),
-	(94,45,1,1,158.99,1,'2024-07-25','2024-07-27','10','3','5','4','0','True','True','True','True','False',null),
-	(93,15,1,1,888.99,1,'2024-09-03','2024-09-03','9','3','8','9','9','True','False','True','True','True',null),
-	(86,10,1,1,302.99,1,'2024-02-11','2024-02-11','7','1','2','9','2','False','False','False','True','True',null),
-	(68,23,1,1,432.99,1,'2025-11-13','2025-11-16','5','0','0','6','5','False','False','True','True','True',null),
-	(75,4,1,1,194.99,1,'2024-10-29','2024-10-29','5','8','2','4','3','True','True','True','True','True',null),
-	(70,49,1,1,546.99,1,'2024-11-29','2024-11-30','8','10','1','7','6','True','True','True','True','False',null),
-	(40,20,1,1,293.99,1,'2023-11-26','2023-11-27','8','8','0','9','2','True','True','False','True','False',null),
-	(24,4,1,1,670.99,1,'2025-06-28','2025-06-29','0','8','6','9','7','False','True','True','True','True',null),
-	(32,42,1,1,529.99,1,'2025-03-26','2025-03-27','1','9','2','9','1','False','True','True','True','True',null),
-	(51,17,1,1,772.99,1,'2025-09-29','2025-10-02','8','8','8','4','1','False','True','True','True','True',null),
-	(42,16,1,1,65.99,1,'2023-12-25','2023-12-28','5','7','3','7','4','False','True','True','True','False',null),
-	(72,11,1,1,158.99,1,'2024-07-25','2024-07-28','10','3','5','4','0','True','True','True','True','True',null),
-	(77,20,1,1,535.99,1,'2024-04-23','2024-04-25','8','10','1','9','9','True','True','False','True','True',null),
-	(17,45,1,1,277.99,1,'2024-06-10','2024-06-12','3','3','5','9','5','True','True','False','True','False',null),
-	(74,5,1,1,439.99,1,'2024-11-10','2024-11-11','9','5','5','2','6','True','False','True','True','True',null),
-	(20,38,1,1,365.99,1,'2025-01-29','2025-01-29','9','9','4','4','7','True','True','True','True','True',null),
-	(24,5,1,1,248.99,1,'2024-05-11','2024-05-12','2','10','3','4','5','False','False','False','True','True',null),
-	(94,26,1,1,400.99,1,'2025-02-05','2025-02-07','8','3','2','7','5','True','True','False','True','True',null),
-	(49,2,1,1,923.99,1,'2025-04-17','2025-04-18','5','4','8','9','6','False','True','False','True','True',null),
-	(17,36,1,1,546.99,1,'2024-11-29','2024-12-01','8','10','1','7','6','True','True','True','True','False',null),
-	(47,18,1,1,293.99,1,'2023-11-26','2023-11-28','8','8','0','9','2','True','True','False','True','False',null),
-	(61,33,1,1,609.99,1,'2025-05-14','2025-05-17','3','2','4','6','7','False','True','True','True','True',null),
-	(51,45,1,1,654.99,1,'2025-10-12','2025-10-15','6','7','4','4','7','True','True','True','True','False',null),
-	(39,25,1,1,772.99,1,'2025-09-29','2025-10-01','8','8','8','4','1','False','True','True','True','True',null),
-	(51,1,1,1,198.99,1,'2023-12-01','2023-12-04','9','6','9','6','0','False','True','False','True','False',null),
-	(58,44,1,1,170.99,1,'2024-11-20','2024-11-21','3','10','5','0','1','False','False','False','True','False',null),
-	(47,27,1,1,948.99,1,'2025-05-27','2025-05-29','5','5','6','9','5','True','True','True','True','True',null),
-	(94,14,1,1,69.99,1,'2024-10-24','2024-10-26','4','4','1','5','8','False','False','True','True','True',null),
-	(90,19,1,1,147.99,1,'2025-04-07','2025-04-07','1','3','3','10','7','False','True','False','True','False',null),
-	(16,27,1,1,822.99,1,'2024-03-10','2024-03-10','9','9','9','2','10','True','False','True','True','False',null),
-	(75,17,1,1,397.99,1,'2025-06-19','2025-06-19','7','3','7','1','8','False','False','True','True','False',null),
-	(31,36,1,1,378.99,1,'2024-03-30','2024-03-30','10','1','10','9','1','True','False','False','True','True',null),
-	(60,30,1,1,439.99,1,'2024-11-10','2024-11-12','9','5','5','2','6','True','False','True','True','True',null),
-	(93,30,1,1,263.99,1,'2024-05-08','2024-05-08','9','5','2','9','2','True','True','True','True','True',null),
-	(16,41,1,1,646.99,1,'2023-11-23','2023-11-23','3','9','5','5','4','True','False','False','True','False',null);
+	(22,41,1,1,'2024-06-10','2024-06-12','3','3','5','9','5','False','False','False'),
+	(64,43,1,1,'2025-06-04','2025-06-06','8','8','3','3','8','False','False','False'),
+	(21,25,1,1,'2025-04-17','2025-04-20','5','4','8','9','6','False','False','False'),
+	(64,6,1,1,'2024-07-25','2024-07-27','10','3','5','4','0','False','False','False'),
+	(68,20,1,1,'2024-03-31','2024-04-03','4','6','2','3','2','False','False','False'),
+	(2,12,1,1,'2025-07-10','2025-07-13','9','6','3','5','4','False','False','False'),
+	(9,13,1,1,'2024-12-06','2024-12-08','1','0','1','0','0','False','False','False'),
+	(29,3,1,1,'2024-12-27','2024-12-30','3','9','7','5','8','False','False','False'),
+	(27,24,1,1,'2025-05-14','2025-05-14','3','2','4','6','7','False','False','False'),
+	(32,4,1,1,'2025-10-12','2025-10-13','6','7','4','4','7','False','False','False'),
+	(24,41,1,1,'2024-02-10','2024-02-11','1','1','1','9','2','False','False','False'),
+	(57,1,1,1,'2024-10-20','2024-10-23','4','1','2','5','9','False','False','False'),
+	(2,14,1,1,'2025-05-09','2025-05-12','5','2','7','4','4','False','False','False'),
+	(24,11,1,1,'2023-12-01','2023-12-02','9','6','9','6','0','False','False','False'),
+	(20,30,1,1,'2025-01-06','2025-01-06','4','8','5','7','4','False','False','False'),
+	(46,9,1,1,'2024-11-20','2024-11-23','3','10','5','0','1','False','False','False'),
+	(73,34,1,1,'2024-10-06','2024-10-08','1','1','2','4','8','False','False','False'),
+	(66,29,1,1,'2024-02-11','2024-02-11','7','1','2','9','2','False','False','False'),
+	(16,45,1,1,'2024-05-11','2024-05-11','2','10','3','4','5','False','False','False'),
+	(2,2,1,1,'2024-12-04','2024-12-07','1','0','1','0','0','False','False','False'),
+	(47,9,1,1,'2025-07-18','2025-07-20','4','3','1','3','5','False','False','False'),
+	(2,37,1,1,'2024-12-05','2024-12-08','1','0','1','0','0','False','False','False'),
+	(49,14,1,1,'2025-02-25','2025-02-26','4','3','3','9','1','False','False','False'),
+	(23,16,1,1,'2024-04-23','2024-04-23','8','10','1','9','9','False','False','False'),
+	(53,20,1,1,'2024-08-26','2024-08-29','2','5','6','4','3','False','False','False'),
+	(19,2,1,1,'2024-02-10','2024-02-11','1','1','1','9','2','True','True','False'),
+	(73,44,1,1,'2024-10-20','2024-10-22','4','1','2','5','9','True','True','False'),
+	(40,1,1,1,'2024-10-06','2024-10-07','1','1','2','4','8','True','False','False'),
+	(5,13,1,1,'2023-12-25','2023-12-27','5','7','3','7','4','True','True','False'),
+	(96,5,1,1,'2025-01-29','2025-01-29','9','9','4','4','7','True','False','False'),
+	(77,4,1,1,'2025-07-18','2025-07-20','4','3','1','3','5','True','False','False'),
+	(67,41,1,1,'2025-02-25','2025-02-26','4','3','3','9','1','True','True','False'),
+	(1,41,1,1,'2024-12-04','2024-12-06','1','0','1','0','0','True','True','False'),
+	(1,19,1,1,'2024-12-05','2024-12-07','1','0','1','0','0','True','True','False'),
+	(29,40,1,1,'2024-09-03','2024-09-06','9','3','8','9','9','True','False','False'),
+	(42,12,1,1,'2024-08-15','2024-08-18','4','10','7','2','1','True','False','False'),
+	(8,11,1,1,'2025-02-05','2025-02-05','8','3','2','7','5','True','False','False'),
+	(36,20,1,1,'2025-06-28','2025-06-29','7','0','7','6','2','True','False','False'),
+	(91,49,1,1,'2024-05-30','2024-05-31','0','3','5','8','8','True','False','False'),
+	(60,47,1,1,'2023-12-25','2023-12-27','5','7','3','7','4','True','False','False'),
+	(14,32,1,1,'2024-05-08','2024-05-11','9','5','2','9','2','False','False','False'),
+	(40,3,1,1,'2024-08-15','2024-08-16','4','10','7','2','1','False','False','False'),
+	(72,22,1,1,'2025-11-13','2025-11-16','5','0','0','6','5','False','False','False'),
+	(50,24,1,1,'2024-10-29','2024-10-31','5','8','2','4','3','False','False','False'),
+	(21,8,1,1,'2024-03-31','2024-04-03','4','6','2','3','2','False','False','False'),
+	(81,50,1,1,'2025-06-28','2025-06-30','0','8','6','9','7','False','False','False'),
+	(85,19,1,1,'2025-03-26','2025-03-28','1','9','2','9','1','False','False','False'),
+	(15,43,1,1,'2025-05-09','2025-05-10','5','2','7','4','4','False','False','False'),
+	(52,19,1,1,'2025-01-06','2025-01-06','4','8','5','7','4','False','False','False'),
+	(68,27,1,1,'2023-11-23','2023-11-26','3','9','5','5','4','False','False','False'),
+	(5,30,1,1,'2025-06-15','2025-06-17','7','1','8','6','9','False','False','False'),
+	(20,18,1,1,'2025-07-10','2025-07-10','9','6','3','5','4','False','False','False'),
+	(64,13,1,1,'2025-11-11','2025-11-13','8','4','3','8','7','False','False','False'),
+	(41,8,1,1,'2024-04-06','2024-04-06','2','7','4','6','0','False','False','False'),
+	(3,33,1,1,'2025-06-04','2025-06-05','8','8','3','3','8','False','False','False'),
+	(92,12,1,1,'2025-06-28','2025-07-01','7','0','7','6','2','False','False','False'),
+	(96,15,1,1,'2025-03-14','2025-03-14','4','8','3','5','8','False','False','False'),
+	(10,4,1,1,'2025-03-21','2025-03-24','2','9','6','3','10','False','False','False'),
+	(38,27,1,1,'2025-07-10','2025-07-13','9','6','3','5','4','False','False','False'),
+	(7,22,1,1,'2024-12-27','2024-12-28','3','9','7','5','8','False','False','False'),
+	(53,37,1,1,'2024-10-06','2024-10-09','1','1','2','4','8','False','False','False'),
+	(27,16,1,1,'2025-07-18','2025-07-18','4','3','1','3','5','False','False','False'),
+	(84,45,1,1,'2024-02-11','2024-02-14','7','1','2','9','2','False','False','False'),
+	(35,48,1,1,'2025-02-25','2025-02-27','4','3','3','9','1','False','False','False'),
+	(65,41,1,1,'2024-08-26','2024-08-29','2','5','6','4','3','False','False','False'),
+	(6,4,1,1,'2025-06-28','2025-07-01','7','0','7','6','2','True','False','False'),
+	(92,2,1,1,'2025-06-19','2025-06-22','7','3','7','1','8','True','True','False'),
+	(76,32,1,1,'2024-03-30','2024-04-02','10','1','10','9','1','True','False','False'),
+	(57,32,1,1,'2025-03-14','2025-03-17','4','8','3','5','8','True','True','False'),
+	(71,17,1,1,'2025-03-21','2025-03-21','2','9','6','3','10','False','False','False'),
+	(69,17,1,1,'2024-05-30','2024-06-01','0','3','5','8','8','True','True','False'),
+	(46,16,1,1,'2024-12-27','2024-12-30','3','9','7','5','8','True','True','False'),
+	(90,38,1,1,'2024-05-30','2024-05-30','0','3','5','8','8','True','True','False'),
+	(18,38,1,1,'2024-02-10','2024-02-13','1','1','1','9','2','True','False','False'),
+	(53,3,1,1,'2024-10-20','2024-10-23','4','1','2','5','9','True','True','False'),
+	(94,16,1,1,'2025-04-07','2025-04-09','1','3','3','10','7','False','False','False'),
+	(21,34,1,1,'2024-03-10','2024-03-13','9','9','9','2','10','False','False','False'),
+	(18,34,1,1,'2025-11-11','2025-11-14','8','4','3','8','7','False','False','False'),
+	(25,7,1,1,'2024-03-30','2024-04-01','10','1','10','9','1','False','False','False'),
+	(66,2,1,1,'2024-11-10','2024-11-10','9','5','5','2','6','False','False','False'),
+	(90,48,1,1,'2024-05-08','2024-05-08','9','5','2','9','2','False','False','False'),
+	(60,5,1,1,'2024-08-15','2024-08-17','4','10','7','2','1','False','False','False'),
+	(75,39,1,1,'2025-02-05','2025-02-05','8','3','2','7','5','False','False','False'),
+	(75,38,1,1,'2025-05-27','2025-05-27','5','5','6','9','5','True','True','False'),
+	(23,26,1,1,'2025-06-15','2025-06-15','7','1','8','6','9','True','False','False'),
+	(23,24,1,1,'2024-10-24','2024-10-24','4','4','1','5','8','True','True','False'),
+	(55,30,1,1,'2024-04-06','2024-04-06','2','7','4','6','0','True','False','False'),
+	(33,27,1,1,'2025-06-19','2025-06-22','7','3','7','1','8','True','True','False'),
+	(2,42,1,1,'2025-03-14','2025-03-17','4','8','3','5','8','True','True','False'),
+	(30,45,1,1,'2025-03-21','2025-03-23','2','9','6','3','10','True','True','False'),
+	(72,36,1,1,'2025-01-29','2025-02-01','9','9','4','4','7','True','False','False'),
+	(33,13,1,1,'2024-05-11','2024-05-14','2','10','3','4','5','True','False','False'),
+	(43,28,1,1,'2025-06-04','2025-06-06','8','8','3','3','8','True','True','False'),
+	(94,45,1,1,'2024-07-25','2024-07-27','10','3','5','4','0','True','False','False'),
+	(93,15,1,1,'2024-09-03','2024-09-03','9','3','8','9','9','True','True','False'),
+	(86,10,1,1,'2024-02-11','2024-02-11','7','1','2','9','2','True','True','False'),
+	(68,23,1,1,'2025-11-13','2025-11-16','5','0','0','6','5','True','True','False'),
+	(75,4,1,1,'2024-10-29','2024-10-29','5','8','2','4','3','True','True','False'),
+	(70,49,1,1,'2024-11-29','2024-11-30','8','10','1','7','6','True','False','False'),
+	(40,20,1,1,'2023-11-26','2023-11-27','8','8','0','9','2','True','False','False'),
+	(24,4,1,1,'2025-06-28','2025-06-29','0','8','6','9','7','True','True','False'),
+	(32,42,1,1,'2025-03-26','2025-03-27','1','9','2','9','1','True','True','False'),
+	(51,17,1,1,'2025-09-29','2025-10-02','8','8','8','4','1','True','True','False'),
+	(42,16,1,1,'2023-12-25','2023-12-28','5','7','3','7','4','True','False','False'),
+	(72,11,1,1,'2024-07-25','2024-07-28','10','3','5','4','0','True','True','False'),
+	(77,20,1,1,'2024-04-23','2024-04-25','8','10','1','9','9','True','True','False'),
+	(17,45,1,1,'2024-06-10','2024-06-12','3','3','5','9','5','True','False','False'),
+	(74,5,1,1,'2024-11-10','2024-11-11','9','5','5','2','6','True','True','False'),
+	(20,38,1,1,'2025-01-29','2025-01-29','9','9','4','4','7','True','True','False'),
+	(24,5,1,1,'2024-05-11','2024-05-12','2','10','3','4','5','True','True','False'),
+	(94,26,1,1,'2025-02-05','2025-02-07','8','3','2','7','5','True','True','False'),
+	(49,2,1,1,'2025-04-17','2025-04-18','5','4','8','9','6','True','True','False'),
+	(17,36,1,1,'2024-11-29','2024-12-01','8','10','1','7','6','True','False','False'),
+	(47,18,1,1,'2023-11-26','2023-11-28','8','8','0','9','2','True','False','False'),
+	(61,33,1,1,'2025-05-14','2025-05-17','3','2','4','6','7','True','True','False'),
+	(51,45,1,1,'2025-10-12','2025-10-15','6','7','4','4','7','True','False','False'),
+	(39,25,1,1,'2025-09-29','2025-10-01','8','8','8','4','1','True','True','False'),
+	(51,1,1,1,'2023-12-01','2023-12-04','9','6','9','6','0','True','False','False'),
+	(58,44,1,1,'2024-11-20','2024-11-21','3','10','5','0','1','True','False','False'),
+	(47,27,1,1,'2025-05-27','2025-05-29','5','5','6','9','5','True','True','False'),
+	(94,14,1,1,'2024-10-24','2024-10-26','4','4','1','5','8','True','True','False'),
+	(90,19,1,1,'2025-04-07','2025-04-07','1','3','3','10','7','True','False','False'),
+	(16,27,1,1,'2024-03-10','2024-03-10','9','9','9','2','10','True','False','False'),
+	(75,17,1,1,'2025-06-19','2025-06-19','7','3','7','1','8','True','False','False'),
+	(31,36,1,1,'2024-03-30','2024-03-30','10','1','10','9','1','True','True','False'),
+	(60,30,1,1,'2024-11-10','2024-11-12','9','5','5','2','6','True','True','False'),
+	(93,30,1,1,'2024-05-08','2024-05-08','9','5','2','9','2','True','True','False'),
+	(16,41,1,1,'2023-11-23','2023-11-23','3','9','5','5','4','True','False','False'),
+	(1,51,15,1,'2024-12-23','2024-12-24','2','0','0','1','0','true','true','false');
+	
+Insert into mange1 (IDDESCRIPTIONCOMMANDE, IDREPAS)
+values
+(1,	26),
+(2,	8),
+(3,	10),
+(4,	26),
+(5,	3),
+(6,	19),
+(7,	19),
+(8,	1),
+(9,	22),
+(10,	27),
+(11,	26),
+(12,	9),
+(13,	5),
+(14,	21),
+(15,	26),
+(16,	27),
+(17,	18),
+(18,	21),
+(19,	10),
+(20,	16),
+(21,	14),
+(22,	3),
+(23,	28),
+(24,	13),
+(25,	17),
+(26,	10),
+(27,	13),
+(28,	24),
+(29,	5),
+(30,	29),
+(31,	17),
+(32,	29),
+(33,	27),
+(34,	19),
+(35,	8),
+(36,	7),
+(37,	25),
+(38,	30),
+(39,	23),
+(40,	20),
+(41,	14),
+(42,	27),
+(43,	17),
+(44,	19),
+(45,	29),
+(46,	5),
+(47,	15),
+(48,	21),
+(49,	20),
+(50,	7),
+(51,	23),
+(52,	26),
+(53,	15),
+(54,	27),
+(55,	6),
+(56,	4),
+(57,	17),
+(58,	5),
+(59,	4),
+(60,	6),
+(61,	28),
+(62,	15),
+(63,	26),
+(64,	21),
+(65,	4),
+(66,	18),
+(67,	23),
+(68,	10),
+(69,	21),
+(70,	12),
+(71,	15),
+(72,	19),
+(73,	11),
+(74,	23),
+(75,	11),
+(76,	13),
+(77,	14),
+(78,	2),
+(79,	18),
+(80,	5),
+(81,	15),
+(82,	23),
+(83,	4),
+(84,	28),
+(85,	16),
+(86,	2),
+(87,	30),
+(88,	15),
+(89,	9),
+(90,	11),
+(91,	2),
+(92,	5),
+(93,	11),
+(94,	30),
+(95,	14),
+(96,	20),
+(97,	20),
+(98,	24),
+(99,	5),
+(100,	1),
+(101,	8),
+(102,	12),
+(103,	24),
+(104,	12),
+(105,	14),
+(106,	23),
+(107,	9),
+(108,	9),
+(109,	16),
+(110,	4),
+(111,	1),
+(112,	11),
+(113,	11),
+(114,	1),
+(115,	9),
+(116,	17),
+(117,	3),
+(118,	27),
+(119,	7),
+(120,	19),
+(121,	11),
+(122,	16),
+(123,	13),
+(124,	4),
+(125,	21),
+(126,	30),
+(127,	15),
+(128,	20),
+(129,	10),
+(129, 	20);
+
+
+Insert into ASSOCIATION_39 (IDDESCRIPTIONPANIER, IDREPAS)
+values
+(1,	26),
+(2,	8),
+(3,	10),
+(4,	26),
+(5,	3),
+(6,	19),
+(7,	19),
+(8,	1),
+(9,	22),
+(10,	27),
+(11,	26),
+(12,	9),
+(13,	5),
+(14,	21),
+(15,	26),
+(16,	27),
+(17,	18),
+(18,	21),
+(19,	10),
+(20,	16),
+(21,	14),
+(22,	3),
+(23,	28),
+(24,	13),
+(25,	17),
+(26,	10),
+(27,	13),
+(28,	24),
+(29,	5),
+(30,	29),
+(31,	17),
+(32,	29),
+(33,	27),
+(34,	19),
+(35,	8),
+(36,	7),
+(37,	25),
+(38,	30),
+(39,	23),
+(40,	20),
+(41,	14),
+(42,	27),
+(43,	17),
+(44,	19),
+(45,	29),
+(46,	5),
+(47,	15),
+(48,	21),
+(49,	20),
+(50,	7),
+(51,	23),
+(52,	26),
+(53,	15),
+(54,	27),
+(55,	6),
+(56,	4),
+(57,	17),
+(58,	5),
+(59,	4),
+(60,	6),
+(61,	28),
+(62,	15),
+(63,	26),
+(64,	21),
+(65,	4),
+(66,	18),
+(67,	23),
+(68,	10),
+(69,	21),
+(70,	12),
+(71,	15),
+(72,	19),
+(73,	11),
+(74,	23),
+(75,	11),
+(76,	13),
+(77,	14),
+(78,	2),
+(79,	18),
+(80,	5),
+(81,	15),
+(82,	23),
+(83,	4),
+(84,	28),
+(85,	16),
+(86,	2),
+(87,	30),
+(88,	15),
+(89,	9),
+(90,	11),
+(91,	2),
+(92,	5),
+(93,	11),
+(94,	30),
+(95,	14),
+(96,	20),
+(97,	20),
+(98,	24),
+(99,	5),
+(100,	1),
+(101,	8),
+(102,	12),
+(103,	24),
+(104,	12),
+(105,	14),
+(106,	23),
+(107,	9),
+(108,	9),
+(109,	16),
+(110,	4),
+(111,	1),
+(112,	11),
+(113,	11),
+(114,	1),
+(115,	9),
+(116,	17),
+(117,	3),
+(118,	27),
+(119,	7),
+(120,	19),
+(121,	11),
+(122,	16),
+(123,	13);
+
+------------------------------------------------- CODEPROMO
+
+Insert into CODEPROMO (LIBELLECODEPROMO, REDUCTION)
+values
+('NOEL', 200),
+('INFO10', 10);
+
+CREATE VIEW v_descriptioncommande AS (
+	SELECT
+		descriptioncommande.*,
+		(
+			    (
+		                COALESCE(sejour.nouveauprixsejour, COALESCE(sejour.prixsejour, 0)) +
+			        COALESCE(hebergement.prixhebergement, 0) +
+		                SUM(COALESCE(repas.prixrepas, 0)) +
+		                SUM(COALESCE(activite.prixactivite, 0))
+		            ) * (descriptioncommande.nbadultes + descriptioncommande.nbenfants) +
+		            (descriptioncommande.nbchambressimple * 75) +
+		            (descriptioncommande.nbchambresdouble * 100) +
+		            (descriptioncommande.nbchambrestriple * 125) +
+	                    (CASE
+	                        WHEN descriptioncommande.offrir AND NOT descriptioncommande.ecoffret THEN 5
+	                        ELSE 0
+	                    END) * descriptioncommande.quantite
+		        ) AS prix
+	FROM descriptioncommande
+		LEFT JOIN mange1 mange ON descriptioncommande.iddescriptioncommande = mange.iddescriptioncommande
+		LEFT JOIN repas ON mange.idrepas = repas.idrepas
+		LEFT JOIN association_40 a ON descriptioncommande.iddescriptioncommande = a.iddescriptioncommande
+		LEFT JOIN activite ON a.idactivite = activite.idactivite
+		LEFT JOIN sejour ON descriptioncommande.idsejour = sejour.idsejour
+		LEFT JOIN hebergement ON descriptioncommande.idhebergement = hebergement.idhebergement
+	GROUP BY
+		descriptioncommande.iddescriptioncommande,
+		sejour.prixsejour,
+		sejour.nouveauprixsejour,
+		hebergement.prixhebergement
+);
+
+CREATE VIEW v_descriptionpanier AS (
+	SELECT
+		descriptionpanier.*,
+		(
+			    (
+		                COALESCE(sejour.nouveauprixsejour, COALESCE(sejour.prixsejour, 0)) +
+			        COALESCE(hebergement.prixhebergement, 0) +
+		                SUM(COALESCE(repas.prixrepas, 0)) +
+		                SUM(COALESCE(activite.prixactivite, 0))
+		            ) * (descriptionpanier.nbadultes + descriptionpanier.nbenfants) +
+		            (descriptionpanier.nbchambressimple * 75) +
+		            (descriptionpanier.nbchambresdouble * 100) +
+		            (descriptionpanier.nbchambrestriple * 125) +
+	                    (CASE
+	                        WHEN descriptionpanier.offrir AND NOT descriptionpanier.ecoffret THEN 5
+	                        ELSE 0
+	                    END) * descriptionpanier.quantite
+		        ) AS prix
+	FROM descriptionpanier
+		LEFT JOIN association_39 mange ON descriptionpanier.iddescriptionpanier = mange.iddescriptionpanier
+		LEFT JOIN repas ON mange.idrepas = repas.idrepas
+		LEFT JOIN association_38 a ON descriptionpanier.iddescriptionpanier = a.iddescriptionpanier
+		LEFT JOIN activite ON a.idactivite = activite.idactivite
+		LEFT JOIN sejour ON descriptionpanier.idsejour = sejour.idsejour
+		LEFT JOIN hebergement ON descriptionpanier.idhebergement = hebergement.idhebergement
+	GROUP BY
+		descriptionpanier.iddescriptionpanier,
+		sejour.prixsejour,
+		sejour.nouveauprixsejour,
+		hebergement.prixhebergement
+);
+
+CREATE VIEW v_commande AS (
+	SELECT
+		commande.*,
+	        sum(dc.prix * dc.quantite) AS prix,
+		(CASE
+	            WHEN COALESCE(codepromo.reduction, 0) > sum(dc.prix * dc.quantite) THEN 0
+	            ELSE sum(dc.prix * dc.quantite) - COALESCE(codepromo.reduction, 0)
+	        END) AS prixreduit,
+	        (CASE
+	            WHEN COALESCE(codepromo.reduction, 0) > sum(dc.prix * dc.quantite) THEN sum(dc.prix * dc.quantite)
+	            ELSE COALESCE(codepromo.reduction, 0)
+	        END) AS reduction
+	FROM commande
+		JOIN v_descriptioncommande dc ON commande.idcommande = dc.idcommande
+	        LEFT JOIN codepromo ON commande.idcodepromo = codepromo.idcodepromo
+	GROUP BY
+		commande.idcommande,
+	        codepromo.idcodepromo
+);
+
+CREATE VIEW v_panier AS (
+	SELECT
+		panier.*,
+		sum(dp.prix * dp.quantite) AS prix,
+	        (CASE
+	            WHEN COALESCE(codepromo.reduction, 0) > sum(dp.prix * dp.quantite) THEN 0
+	            ELSE sum(dp.prix * dp.quantite) - COALESCE(codepromo.reduction, 0)
+	        END) AS prixreduit,
+	        (CASE
+	            WHEN COALESCE(codepromo.reduction, 0) > sum(dp.prix * dp.quantite) THEN sum(dp.prix * dp.quantite)
+	            ELSE COALESCE(codepromo.reduction, 0)
+	        END) AS reduction
+	FROM panier
+		JOIN v_descriptionpanier dp ON panier.idpanier = dp.idpanier
+	        LEFT JOIN codepromo ON panier.idcodepromo = codepromo.idcodepromo
+	GROUP BY
+		panier.idpanier,
+	        codepromo.idcodepromo
+);
+
+create view v_etatcommande_sejour as (
+	select etatcommande, datecommande, titresejour, prixsejour from commande c
+	join descriptioncommande d on c.idcommande = d.idcommande 
+	join sejour s on d.idsejour = s.idsejour
+);
+
+create view v_nbsejour_vendu as (
+select datecommande, count(titresejour) from commande c
+join descriptioncommande d on c.idcommande = d.idcommande 
+join sejour s on d.idsejour = s.idsejour
+where etatcommande = 'Paiement validé'
+group by datecommande
+);
+
+create view v_nbsejour_vendu_vignoble as (
+select LIBELLECATEGORIEVIGNOBLE, datecommande, count(titresejour) from commande c
+join descriptioncommande d on c.idcommande = d.idcommande 
+join sejour s on d.idsejour = s.idsejour
+join categorievignoble cv on s.idcategorievignoble = cv.idcategorievignoble
+where etatcommande = 'Paiement validé'
+group by LIBELLECATEGORIEVIGNOBLE, datecommande
+);
+
+create view v_datecommande as
+select datecommande from commande;
+
+create view v_etatcommande_sejour_localite as (
+	select libellecategorievignoble, etatcommande, datecommande, titresejour, villeAdresse, paysAdresse, cpAdresse from commande c
+	join descriptioncommande d on c.idcommande = d.idcommande 
+	join sejour s on d.idsejour = s.idsejour
+	join categorievignoble cv on s.idcategorievignoble = cv.idcategorievignoble
+	join client cl on cl.idclient = c.idClientAcheteur
+	join adresse a on cl.idclient = a.idclient
+);
+
+CREATE OR REPLACE FUNCTION anonymize_inactive_clients()
+RETURNS void AS $$
+BEGIN
+    UPDATE client
+    SET 
+        nomclient = 'Anonyme',
+        prenomclient = 'Anonyme',
+        telephoneclient = '0000000000',
+        datenaissanceclient = NULL,
+        civiliteclient = NULL,
+        offrespromotionnellesclient = FALSE
+    WHERE datederniereactiviteclient < CURRENT_DATE - INTERVAL '3 years';
+    
+    UPDATE adresse
+    SET 
+        nomadresse = 'Anonyme',
+        prenomadressedestinataire = 'Anonyme',
+        nomadressedestinataire = 'Anonyme',
+        rueadresse = 'Anonyme',
+        cpadresse = '00000',
+        villeadresse = 'Anonyme',
+        paysadresse = 'Anonyme'
+    WHERE idclient IN (
+        SELECT idclient FROM client  -- Changed from 'id' to 'idclient'
+        WHERE datederniereactiviteclient < CURRENT_DATE - INTERVAL '3 years'
+    );
+END;
+$$ LANGUAGE plpgsql;
+
