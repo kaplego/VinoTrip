@@ -47,7 +47,7 @@
                             {{ $adresse->prenomdestinataireadresse }}
                         </p>
                         <p>
-                            {{ $adresse->rueadresse }}
+                            {{$adresse->numadresse . " " .$adresse->rueadresse }}
                         </p>
                         <p>
                             {{ $adresse->cpadresse }}

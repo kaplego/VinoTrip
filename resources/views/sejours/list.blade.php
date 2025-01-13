@@ -67,6 +67,13 @@
                 @endforeach
             </select>
 
+            @if (Helpers::AuthIsRole(Role::ServiceVente))
+                <a id="edit" href='viticoles/list'>
+                    <i data-lucide="file-pen-line"></i>
+                    <span class="mobile">Modifier les domaines viticoles</span>
+                </a>
+            @endif
+
             <button type="submit">
                 <i data-lucide="filter"></i>
                 <span class="mobile">Filtrer</span>
@@ -155,14 +162,13 @@
                         <hr />
                         @if (isset($sejour->nouveauprixsejour))
                             <p class="prix" style="text-decoration-line: line-through;">À partir de <span
-                                    class="euros">{{ $sejour->prixsejour }}€</span> par personne
+                                    class="euros">{{ $sejour->prixsejour }}€</span> par personne</p>
                             <p class="prix" style="color: red; text-decoration-line:underline;">À partir de <span
-                                    class="euros">{{ $sejour->nouveauprixsejour }}€</span> par personne
-                            @else
+                                    class="euros">{{ $sejour->nouveauprixsejour }}€</span> par personne</p>
+                        @else
                             <p class="prix">À partir de <span class="euros">{{ $sejour->prixsejour }}€</span> par
-                                personne
+                                personne</p>
                         @endif
-                        </p>
                         <p class="description">{{ $sejour->descriptionsejour }}</p>
                         <p class="duree">{{ $sejour->duree->libelleduree }}</p>
                         @php

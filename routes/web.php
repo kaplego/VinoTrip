@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\ActiviteController;
 use App\Http\Controllers\AdresseController;
+use App\Http\Controllers\CategorieVignobleController;
 use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\FavorisController;
 use App\Http\Controllers\PanierController;
@@ -42,13 +44,27 @@ Route::get('/conditions-vente', [SiteController::class, 'conditions']);
 
 Route::get('/sejour/{id}', action: [SejourController::class, 'one']);
 Route::get('/sejour/{id}/edit', [SejourController::class, 'edit']);
-Route::post('/sejours/edit/hebergement', [SejourController::class, 'choixhebergement']);
+
+Route::post('/sejour/mailpossibilite', [SejourController::class, 'mailpossibilite']);
+// Route::get('/sejour/{id}/avis', [SejourController::class, 'edit']);
+Route::post('/sejour/{id}/edit/hebergement', [SejourController::class, 'choixhebergement']);
 Route::get('/sejours/create', action: [SejourController::class, 'createview']);
 Route::get('/sejours/validate', action: [SejourController::class, 'validateview']);
 Route::post('/api/edit/changes', [SejourController::class, 'apitogglehebergement']);
+Route::post('/api/sejour/{id}/avis', action: [AvisController::class, 'create']);
+Route::post('/api/sejour/{id}/update/photo', action: [SejourController::class, 'updatephoto']);
+Route::post('/api/sejour/{id}/update', action: [SejourController::class, 'update']);
 Route::post('/api/sejours/create', action: [SejourController::class, 'create']);
 Route::post('/api/sejour/{id}/publish', action: [SejourController::class, 'publier']);
 Route::post('/api/sejour/discount', action: [SejourController::class, 'discount']);
+Route::post('/api/sejour/{idsejour}/avis/{idavis}/reply', action: [AvisController::class, 'reply']);
+Route::post('/api/sejour/activite/add', action: [ActiviteController::class, 'add']);
+Route::post('/api/sejour/activite/delete', action: [ActiviteController::class, 'delete']);
+Route::get('/sejours/editing', action: [SejourController::class, 'editing']);
+
+Route::get('/viticoles/list', action: [CategorieVignobleController::class, 'list']);
+Route::post('/viticoles/add', [CategorieVignobleController::class, 'add']);
+Route::post('/viticoles/delete/{id}', [CategorieVignobleController::class, 'delete']);
 
 
 Route::get('/connexion', [ClientController::class, 'connexion']);
@@ -88,7 +104,8 @@ Route::post('/api/client/login', [ClientController::class, 'login']);
 Route::post('/api/client/logout', [ClientController::class, 'logout']);
 Route::post('/api/client/signin', [ClientController::class, 'signin']);
 Route::post('/api/client/edit', [ClientController::class, 'edit']);
-Route::post('/api/client/resetmdp', [ClientController::class,'envoiemailmdp']);
+Route::post('/api/client/resetmdp', [ClientController::class, 'envoiemailmdp']);
+route::post('/api/client/rgpd', [ClientController::class, 'callDBFunction']);
 
 Route::get('/panier', [PanierController::class, 'index']);
 Route::get('/panier/paiement', [PanierController::class, 'paiement']);
@@ -111,17 +128,17 @@ Route::post('/api/clientnon', [ReservationHotelController::class, 'clientnon']);
 Route::get('/routes-des-vins', [RoutesVinsController::class, 'list']);
 Route::get('/route-des-vins/{id}', [RoutesVinsController::class, 'one']);
 
-Route::get('/mdpreset/{token}', [ClientController::class,'resetPassword']);
+Route::get('/mdpreset/{token}', [ClientController::class, 'resetPassword']);
 
-Route::post('/api/client/mdpreset/{token}', [ClientController::class,'updatePassword']);
+Route::post('/api/client/mdpreset/{token}', [ClientController::class, 'updatePassword']);
 
 Route::post('/api/dialogflow', [SiteController::class, 'dialogflow']);
 
-Route::post('/api/client/clientdata/{id}', [ClientController::class,'sendclientdata']);
+Route::post('/api/client/clientdata/{id}', [ClientController::class, 'sendclientdata']);
 
-Route::post('/api/client/anonymiser/{id}', [ClientController::class,'anonymiser']);
+Route::post('/api/client/anonymiser/{id}', [ClientController::class, 'anonymiser']);
 
-Route::post('/api/client/supprimer/{id}', [ClientController::class,'supprimerInformations']);
+Route::post('/api/client/supprimer/{id}', [ClientController::class, 'supprimerInformations']);
 
 
 # Route de test

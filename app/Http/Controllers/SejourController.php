@@ -9,6 +9,7 @@ use App\Models\Categoriesejour;
 use App\Models\Categorievignoble;
 use App\Models\Cave;
 use App\Models\Descriptioncommande;
+use App\Models\Photo;
 use App\Models\VDescriptioncommande;
 use App\Models\Duree;
 use App\Models\Etape;
@@ -17,9 +18,10 @@ use App\Models\Hotel;
 use App\Models\Sejour;
 use App\Models\Localite;
 use App\Models\Theme;
+use Cookie;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendEmail;
-
+use DB;
 
 use App\Models\Visite;
 use Auth;
@@ -38,6 +40,7 @@ class SejourController extends Controller
             'categoriesvignoble' => Categorievignoble::all(),
             'localites' => Localite::all(),
             'durees' => Duree::all(),
+
         ]);
     }
 
@@ -48,7 +51,50 @@ class SejourController extends Controller
         if ($sejour == null)
             return redirect('/sejours');
 
-        if (!$sejour->publie && !Helpers::AuthIsRole(Role::Dirigeant))
+        if (!$sejour->publie && !Helpers::AuthIsRole(Role::ServiceVente) && !Helpers::AuthIsRole(Role::Dirigeant))
+            return redirect('/sejours');
+
+        $history = explode(',', Cookie::get('sejours_history'));
+        if ($sejour->publie) {
+            if ($history[0] === '')
+                $history = [];
+
+            $history = array_filter($history, function ($item) use ($sejour) {
+                return $item !== (string) $sejour->idsejour;
+            });
+
+            $history[] = (string) $sejour->idsejour;
+            $history = array_slice($history, 0, 5);
+        }
+        Cookie::queue(Cookie::make(
+            'sejours_history',
+            implode(',', $history),
+            60 * 24
+        ));
+
+        return view('sejours.summary', [
+            'sejour' => $sejour,
+            'hebergement' => Hebergement::all(),
+            'visite' => Visite::all(),
+            'hotel' => Hotel::all(),
+            'cave' => Cave::all(),
+            'history' => Sejour::whereIn('idsejour', array_slice($history, 0, -1))->get()->reverse(),
+            'sejouraime' => Sejour::where('idcategorievignoble', '=', $sejour->idcategorievignoble)
+                ->where('idsejour', '!=', $sejour->idsejour)
+                ->where('idcategoriesejour', '=', $sejour->idcategoriesejour)
+                ->limit(4)
+                ->get(),
+        ]);
+    }
+
+    public function edit($id)
+    {
+        if (!Helpers::AuthIsRole(Role::ServiceVente) && !Helpers::AuthIsRole(Role::Dirigeant))
+            return redirect("/sejour/$id");
+
+        $sejour = Sejour::find($id);
+
+        if ($sejour == null)
             return redirect('/sejours');
 
         return view('sejours.summary', [
@@ -57,27 +103,14 @@ class SejourController extends Controller
             'visite' => Visite::all(),
             'hotel' => Hotel::all(),
             'cave' => Cave::all(),
-        ]);
-    }
-
-    public function edit($id)
-    {
-        if (!Helpers::AuthIsRole(Role::ServiceVente))
-            return redirect("/sejour/$id");
-
-        return view('sejours.edit-sejour', [
-            'sejour' => Sejour::find($id),
-            'hebergement' => Hebergement::all(),
-            'visite' => Visite::all(),
-            'hotel' => Hotel::all(),
-            'cave' => Cave::all(),
+            'editing' => true
         ]);
     }
 
     public function apitogglehebergement(Request $request)
     {
-        if (!Helpers::AuthIsRole(Role::ServiceVente))
-            return response(null, 401);
+        if (!Helpers::AuthIsRole(Role::ServiceVente) && !Helpers::AuthIsRole(Role::Dirigeant))
+            return redirect('/');
 
         $iddescriptioncommande = $request->input('iddescriptioncommande');
         $newidhebergement = $request->input('newidhebergement');
@@ -105,19 +138,21 @@ class SejourController extends Controller
         return redirect("/reservation");
 
     }
-    public function choixhebergement(Request $request)
+    public function choixhebergement(Request $request, $id)
     {
         $iddescription = $request->input('iddescriptioncomande');
-        // $idetape = $request->input('idetape');
+        $idhebergement = $request->input('idhebergement');
 
-        // $hebergement = Hebergement::find($idhebergement);
-        // $iddescription->disponibilitehebergement = !$iddescription->disponibilitehebergement;
+        $sejour = Sejour::find($id);
 
-        // $hebergement->update();
+        if (!$idhebergement || !$sejour || ($iddescription && !Descriptioncommande::where('idsejour', '=', $id)->find($iddescription)))
+            return back();
+
         return view("sejours.edit-list-hebergement", [
+            'sejour' => $sejour,
             'hebergements' => Hebergement::all(),
             'iddescriptioncommande' => $request->input('iddescriptioncommande'),
-            'idhebergement' => $request->input('idhebergement'),
+            'idhebergement' => $idhebergement,
         ]);
     }
 
@@ -153,26 +188,26 @@ class SejourController extends Controller
         $vignobles = Categorievignoble::all()->pluck('idcategorievignoble')->toArray();
 
         $inputs = $request->validate([
-            'titre' => ['required', 'string', 'max:100'],
-            'description' => ['required', 'string', 'max:4096'],
-            'price' => ['required', 'numeric', 'between:0,999999.99'],
+            'titre' => ['nullable', 'string', 'max:100'],
+            'description' => ['nullable', 'string', 'max:4096'],
+            'price' => ['nullable', 'numeric', 'between:0,999999.99'],
             'categorie-participant' => ['required', Rule::in($categoriesparticipant)],
             'categorie-sejour' => ['required', Rule::in($categoriessejour)],
             'theme' => ['required', Rule::in($themes)],
             'duree' => ['required', Rule::in($durees)],
             'vignoble' => ['required', Rule::in($vignobles)],
-            'photo-upload' => ['required_without:photo-link', 'file', 'image', 'max:1024', 'nullable'],
-            'photo-link' => ['required_without:photo-upload', 'url:http,https', 'nullable'],
+            'photo' => ['nullable', 'file', 'image', 'max:1024'],
             'etapes' => ['array'],
             'etapes.*.titre' => ['required', 'string'],
             'etapes.*.description' => ['required', 'string'],
-            'etapes.*.image' => ['required', 'file', 'image', 'max:512'],
+            'etapes.*.image' => ['required', 'file', 'image', 'max:1024'],
             'etapes.*.hebergement' => ['required', Rule::in($hebergements)],
         ], [
-            'photo-upload.max' => 'La photo doit avoir un poids de maximum 1 Mo.',
+            'photo.max' => 'La photo doit avoir un poids de maximum 1 Mo.',
             'etapes.*.titre' => "Le titre de l'étape est requis.",
             'etapes.*.description' => "La description de l'étape est requise.",
-            'etapes.*.image' => "La photo de l'étape est requise.",
+            'etapes.*.image.required' => "La photo de l'étape est requise.",
+            'etapes.*.image.max' => "La photo doit avoir un poids de maximum 1 Mo.",
         ]);
 
         $localites = Localite::where('idcategorievignoble', '=', $request->input('vignoble'))->pluck('idlocalite')->toArray();
@@ -188,19 +223,19 @@ class SejourController extends Controller
         );
 
         $sejour = Sejour::create([
-            'titresejour' => $inputs['titre'],
+            'titresejour' => $inputs['titre'] ?? '',
             'photosejour' => $inputs['photo-link'] ?? '',
-            'descriptionsejour' => $inputs['description'],
+            'descriptionsejour' => $inputs['description'] ?? '',
             'idcategoriesejour' => $inputs['categorie-sejour'],
             'idduree' => $inputs['duree'],
             'idtheme' => $inputs['theme'],
             'idcategorievignoble' => $inputs['vignoble'],
             'idcategorieparticipant' => $inputs['categorie-participant'],
             'idlocalite' => $request->input('localite') === 'null' ? null : $request->input('localite'),
-            'prixsejour' => $inputs['price']
+            'prixsejour' => $inputs['price'] ?? 0
         ]);
 
-        $file = $request->file('photo-upload');
+        $file = $request->file('photo');
         if ($file) {
             $filename = "sejour$sejour->idsejour." . $file->extension();
 
@@ -208,7 +243,7 @@ class SejourController extends Controller
                 $sejour->update(['photosejour' => $filename]);
             } else
                 return back()->withErrors([
-                    'photo-upload' => "Une erreur s'est produite."
+                    'photo' => "Une erreur s'est produite."
                 ]);
         }
 
@@ -237,10 +272,58 @@ class SejourController extends Controller
 
         return redirect("/sejour/$sejour->idsejour");
     }
+    public function updatephoto(Request $request, $idsejour)
+    {
+        $inputs = $request->validate([
+            'photo-upload' => ['required', 'file', 'image', 'max:1024'],
+        ], [
+            'photo-upload.max' => 'La photo doit avoir un poids de maximum 1 Mo.',
+        ]);
+
+        $sejour = Sejour::find($idsejour);
+
+        $photo = Photo::create([
+            'photo' => '',
+            'idsejour' => $sejour->idsejour
+        ]);
+
+        $file = $request->file('photo-upload');
+        $filename = "sejour$sejour->idsejour-$photo->idphoto." . $file->extension();
+
+        if (Helpers::Upload($file, $filename, 'sejour')) {
+            $photo->update(['photo' => $filename]);
+        } else
+            return back()->withErrors([
+                'photo-upload' => "Une erreur s'est produite."
+            ]);
+
+        return redirect("/sejour/$sejour->idsejour");
+    }
+
+    public function update(Request $request, $idsejour)
+    {
+        $inputs = $request->validate([
+            'titre' => ['nullable', 'string', 'max:100'],
+            'description' => ['nullable', 'string', 'max:4096'],
+            'prix' => ['nullable', 'numeric', 'between:0,999999.99']
+        ], [
+            'photo-upload.max' => 'La photo doit avoir un poids de maximum 1 Mo.',
+        ]);
+
+        $sejour = Sejour::find($idsejour);
+
+        $sejour->update([
+            'titresejour' => $inputs['titre'] ?? '',
+            'descriptionsejour' => $inputs['description'] ?? '',
+            'prixsejour' => $inputs['prix'] ?? 0
+        ]);
+
+        return back();
+    }
 
     public function validateview()
     {
-        if (!Helpers::AuthIsRole(Role::Dirigeant))
+        if (!Helpers::AuthIsRole(Role::Dirigeant) && !Helpers::AuthIsRole(Role::ServiceVente))
             return redirect('/connexion');
 
         return view('sejours.validate', [
@@ -261,15 +344,57 @@ class SejourController extends Controller
         return back();
     }
 
-    public function discount(Request $request){
-        if (!Helpers::AuthIsRole(Role::ServiceMarketing))
+    public function discount(Request $request)
+    {
+        if (!Helpers::AuthIsRole(Role::ServiceVente))
             return redirect('/connexion');
 
-        $sejour = Sejour::find($request->request->get('idsejour'));
+        $sejour = Sejour::find($request->input('idsejour'));
 
-        $sejour->nouveauprixsejour = $request->request->get('nouveauprixsejour') == $sejour->prixsejour ? null : $request->request->get('nouveauprixsejour');
+        if (!$sejour)
+            return redirect('/connexion');
+
+        $request->validate([
+            'nouveauprixsejour' => ['nullable', 'numeric', 'min:0', "max:$sejour->prixsejour"]
+        ]);
+
+        $sejour->nouveauprixsejour = $request->input('nouveauprixsejour') == $sejour->prixsejour
+            ? null
+            : $request->request->get('nouveauprixsejour');
         $sejour->update();
 
         return back();
+    }
+    public function editing(Request $request)
+    {
+        if (!Helpers::AuthIsRole(Role::ServiceVente)) {
+            return redirect('/connexion');
+        }
+
+        return view('sejours.editing', [
+            'sejours' => Sejour::where('publie', false)
+                ->orderBy('idsejour')
+                ->get()
+        ]);
+    }
+
+
+    public function mailpossibilite(Request $request)
+    {
+        $credentials = $request->validate(['idsejour' => ['required']]);
+
+        $sejour = Sejour::find($credentials['idsejour']);
+
+        foreach($sejour->etape as $etape){
+                Mail::to("ppartenairehotel@gmail.com")->send(new SendEmail([
+                    'type' => 'PossibiliteHebergement',
+                    'nomhotel' => $etape->hebergement->hotel->nompartenaire
+                ], "Équipe vinotrip changement d'hebergement "));
+
+            }
+
+
+
+        return back()->with('success', 'Les hébergements ont bien été contactés.');
     }
 }

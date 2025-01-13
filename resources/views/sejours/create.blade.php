@@ -101,26 +101,19 @@
                     </div>
                 </div>
                 <div class="column">
-                    <div class="input-control input-control-text required" id="photo">
+                    <div class="input-control input-control-image required" id="photo">
                         <label for="photo-upload">Photo du séjour</label>
-                        <img id="photo-img" src="https://placehold.co/1600x900/png?text=Choisir+une+image">
-                        <div id="photo-upload-container">
-                            <input id="photo-upload" type="file" name="photo-upload" value="{{ old('photo-upload') }}"
+                        <div class="image">
+                            <img src="" alt="" id="photo-img">
+                            <div class="hover"></div>
+                        </div>
+                        <div class="input-container" id="photo-upload-container">
+                            <input id="photo-upload" type="file" name="photo" value="{{ old('photo') }}"
                                 accept="image/png, image/jpeg" autocomplete="off" />
                             <button class="button" disabled id="photo-upload-remove"><i
                                     data-lucide="image-off"></i></button>
                         </div>
-                        @error('photo-upload')
-                            <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
-                        @enderror
-                        <div id="photo-ou">
-                            <div class="text">ou</div>
-                        </div>
-                        <div id="photo-link-container">
-                            <input id="photo-link" type="text" name="photo-link" value="{{ old('photo-link') }}"
-                                placeholder="https://example.com/{{ $placeholder->photosejour }}" />
-                        </div>
-                        @error('photo-link')
+                        @error('photo')
                             <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                         @enderror
                     </div>
@@ -163,18 +156,21 @@
                 <div class="column"></div>
             </div>
             <br />
-            <div id="etapes">
+            <section id="etapes">
                 @php
                     $i = 0;
                 @endphp
                 @foreach (old('etapes', []) as $etape)
-                    <div class="etape" id="etape-{{ $i }}">
-                        <div class="image">
-                            <img src="https://placehold.co/1600x900/png?text=Choisir+une+image">
-                            <div class="hover">
-                                <i data-lucide="image-up"></i>
+                    <article class="etape" id="etape-{{ $i }}">
+                        <div class="image input-control input-control-image">
+                            <div class="image">
+                                <img />
+                                <div class="hover"></div>
                             </div>
-                            <input type="file" name="etapes[{{ $i }}][image]" hidden="">
+                            <div class="input-container">
+                                <input type="file" accept="image/png, image/jpeg"
+                                    name="etapes[{{ $i }}][image]">
+                            </div>
                         </div>
                         <input class="titre" type="text" name="etapes[{{ $i }}][titre]"
                             value="{{ $etape['titre'] }}">
@@ -206,12 +202,12 @@
                                 <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                             @enderror
                         </div>
-                    </div>
+                    </article>
                     @php
                         $i++;
                     @endphp
                 @endforeach
-            </div>
+            </section>
             <button class="button" type="submit">Créer le séjour</button>
         </form>
     </main>
@@ -223,5 +219,5 @@
     <script>
         const hebergements = @json($hebergements);
     </script>
-    <script src="/assets/js/sejour-create.js" defer></script>
+    <script src="/assets/js/sejours/create.js" defer></script>
 @endsection

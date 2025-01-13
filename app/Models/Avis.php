@@ -14,9 +14,15 @@ class Avis extends Model
     protected $table = "avis";
     protected $primaryKey = "idavis";
     public $timestamps = false;
+    public $guarded = [];
 
     public function client(): HasOne
     {
         return $this->hasOne(Client::class, 'idclient', 'idclient');
+    }
+
+    public function reponse(): HasMany
+    {
+        return $this->hasMany(Reponse::class, 'idavis', 'idavis');
     }
 }

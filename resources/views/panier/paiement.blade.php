@@ -22,14 +22,7 @@
                 <div id="prix">
                     <p class="text">Prix TTC</p>
                     <p class="value">
-                        @php
-                            $prixTotal = 0;
-                            foreach ($panier->descriptionspanier as $dp) {
-                                $prixTotal += $dp->prix * $dp->quantite;
-                            }
-                        @endphp
-                        {{ $prixTotal }}
-                        €
+                        {{ number_format($panier->prixreduit, 2, ',', ' ') }} €
                     </p>
                 </div>
                 <div id="client">
@@ -100,8 +93,9 @@
                         </div>
                         <div class="input-control input-control-text">
                             <label for="numero-cb">Numéro de carte bancaire <div id="type-cb">
-                                <i data-lucide="credit-card" id="type-cb-icon"></i>
-                            </div></label>
+                                    <i data-lucide="credit-card" id="type-cb-icon" data-cb="unknown"></i>
+                                </div>
+                            </label>
                             <input type="text" id="numero-cb" name="numero-cb" autocomplete="cc-number" required
                                 placeholder="xxxx xxxx xxxx xxxx" value="{{ old('numero-cb') }}" />
                             @error('numero-cb')

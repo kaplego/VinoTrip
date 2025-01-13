@@ -105,7 +105,8 @@
                                             </form>
 
                                             {{-- envoie mail nouvelle heberg --}}
-                                            <form action="/sejours/edit/hebergement" method="POST">
+                                            <form action="/sejour/{{ $descriptioncommande->idsejour }}/edit/hebergement"
+                                                method="POST">
                                                 @csrf
                                                 <input type="hidden"
                                                     value="{{ $descriptioncommande->iddescriptioncommande }}"

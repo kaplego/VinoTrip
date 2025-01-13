@@ -24,7 +24,7 @@
     <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
     <df-messenger chat-title="VinoBot" agent-id="4567e545-1d9a-4353-b29a-e7a6d17efd8b" language-code="fr"
         chat-icon="/assets/images/logo2_carre_blanc.png" intent="WELCOME" wait-open
-        session-id="{{ Cookie::get('dialogflow_session') }}"
+        session-id="{{ request()->cookie('dialogflow_session') }}"
         @if (Auth::check()) user-id="{{ Auth::user()->idclient }}" @endif></df-messenger>
     <script src="/assets/js/dialogflow.js"></script>
     <script src="/assets/js/main.js" defer></script>

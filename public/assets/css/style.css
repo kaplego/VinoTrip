@@ -246,6 +246,10 @@ hr.separateur-titre {
     margin-left: 0.25rem;
 }
 
+*[data-open] {
+    cursor: pointer;
+}
+
 footer {
     background-color: #241c1c;
     color: white;
@@ -282,6 +286,7 @@ footer a:hover {
     cursor: pointer;
     transition: background-color 100ms, color 100ms, border-color 100ms;
     font-size: 1rem;
+    user-select: none;
 }
 
 .button:hover:not(:disabled) {
@@ -298,6 +303,46 @@ footer a:hover {
     padding: 0.25rem 0.75rem;
 }
 
+.buttons-advanced {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 1fr;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+.buttons-advanced .button {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    gap: 0 1rem;
+}
+
+.buttons-advanced .button .lucide {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+}
+
+.buttons-advanced .button .text {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    text-align: left;
+}
+
+.buttons-advanced .button .text:not(:has(+ .details)) {
+    grid-row: 1 / 3;
+}
+
+.buttons-advanced .button .details {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    font-size: 0.8rem;
+    opacity: 0.5;
+    text-align: left;
+}
+
 .icon-button {
     padding: 0;
     margin: 0;
@@ -309,10 +354,19 @@ footer a:hover {
 .input-control {
     display: flex;
     flex-direction: column;
-    margin: 1rem 0;
     width: clamp(0px, 400px, 100%);
     max-width: 100%;
     gap: 0.5rem;
+}
+
+.input-control + .input-control,
+.input-control + .button,
+.input-control + .buttons {
+    margin-top: 1rem;
+}
+
+.input-control.input-control-full {
+    width: 100%;
 }
 
 .input-control .required-star {
@@ -326,42 +380,57 @@ footer a:hover {
 }
 
 .input-control.input-control-text input,
+.input-control.input-control-image input,
 .input-control.input-control-text textarea,
-.input-control.input-control-select select {
+.input-control.input-control-select select,
+.input-control-inline {
     background-color: transparent;
     padding: 0.5rem 0.75rem;
     border: 2px solid var(--c-gray-300);
     border-radius: 6px;
     outline: none;
     transition: background-color 100ms, border-color 100ms;
-    font-size: .9rem;
+    font-size: 0.9rem;
+}
+
+.input-control-inline {
+    display: inline-flex;
+    width: max-content;
+    padding: 0.25rem 0.5rem;
 }
 
 .input-control.input-control-text input:hover:not(:disabled):not(:read-only),
 .input-control.input-control-text input:focus:not(:disabled):not(:read-only),
+.input-control.input-control-image input:hover,
+.input-control.input-control-image input:focus,
 .input-control.input-control-text textarea:hover:not(:disabled):not(:read-only),
 .input-control.input-control-text textarea:focus:not(:disabled):not(:read-only),
 .input-control.input-control-select select:hover:not(:disabled),
-.input-control.input-control-select select:focus:not(:disabled) {
+.input-control.input-control-select select:focus:not(:disabled),
+.input-control-inline:hover:not(:disabled),
+.input-control-inline:focus:not(:disabled) {
     border-color: var(--c-accent-500);
 }
 
 .input-control.input-control-text input:focus:not(:read-only):not(:disabled),
+.input-control.input-control-image input:focus,
 .input-control.input-control-text textarea:focus:not(:read-only):not(:disabled),
-.input-control.input-control-select select:focus:not(:read-only):not(:disabled) {
+.input-control.input-control-select select:focus,
+.input-control-inline:focus:not(:read-only):not(:disabled) {
     background-color: white;
 }
 
 .input-control.input-control-text input:read-only,
 .input-control.input-control-text textarea:read-only,
-.input-control.input-control-select select:read-only {
+.input-control-inline:read-only {
     background-color: var(--c-gray-100);
     color: var(--c-gray-500);
 }
 
 .input-control.input-control-text input::placeholder,
 .input-control.input-control-text textarea::placeholder,
-.input-control.input-control-select select::placeholder {
+.input-control.input-control-select select::placeholder,
+.input-control-inline::placeholder {
     opacity: 1;
     color: var(--c-gray-500);
     transition: opacity 100ms;
@@ -369,7 +438,8 @@ footer a:hover {
 
 .input-control.input-control-text input:focus::placeholder,
 .input-control.input-control-text textarea:focus::placeholder,
-.input-control.input-control-select select:focus::placeholder {
+.input-control.input-control-select select:focus::placeholder,
+.input-control-inline:focus::placeholder {
     opacity: 0;
 }
 
@@ -431,6 +501,56 @@ footer a:hover {
     accent-color: var(--c-accent-500);
 }
 
+.input-control.input-control-image {
+    width: max-content;
+    max-width: 100%;
+}
+
+.input-control.input-control-image .image {
+    display: flex;
+    position: relative;
+    border-radius: 6px;
+    cursor: pointer;
+    margin: 0 auto;
+}
+
+.input-control.input-control-image .image img {
+    border-radius: 6px;
+}
+
+.input-control.input-control-image .image .hover {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: var(--c-blackAlpha-600);
+    border-radius: 6px;
+}
+
+.input-control.input-control-image .image:hover .hover {
+    display: flex;
+}
+
+.input-control.input-control-image .image .hover .lucide {
+    height: 3rem;
+    width: 3rem;
+    color: white;
+}
+
+.input-control.input-control-image .input-container {
+    display: flex;
+    gap: 1rem;
+}
+
+.input-control.input-control-image .input-container input {
+    width: 100%;
+    cursor: pointer;
+}
+
 .alert {
     display: flex;
     margin: 1rem 0;
@@ -447,6 +567,10 @@ footer a:hover {
     background-color: var(--c-green-200);
 }
 
+.alert.alert-danger {
+    background-color: var(--c-red-200);
+}
+
 .alert.alert-error {
     background-color: var(--c-red-200);
     padding: 0.5rem;
@@ -459,7 +583,7 @@ footer a:hover {
 }
 
 .alert .button {
-    padding: .25rem .5rem;
+    padding: 0.25rem 0.5rem;
     margin-left: auto;
 }
 
@@ -490,6 +614,7 @@ footer a:hover {
     align-items: center;
     justify-content: center;
     padding: 0.5rem;
+    z-index: 1000;
 }
 
 .overlay.hidden {
@@ -500,6 +625,13 @@ footer a:hover {
     padding: 2rem;
     border-radius: 8px;
     background-color: var(--c-gray-50);
+    max-width: 100%;
+    max-height: 100%;
+    overflow: hidden auto;
+}
+
+.overlay .overlay-content img {
+    max-width: 100%;
 }
 
 @keyframes ClipboardCopyBorder {

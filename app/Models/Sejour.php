@@ -72,4 +72,12 @@ class Sejour extends Model
             'idsejour',
         );
     }
+    public function photos(): HasMany
+    {
+        return $this->hasMany(
+            Photo::class,
+            'idsejour',
+            'idsejour',
+        );
+    }
 }

@@ -14,16 +14,18 @@
     @endphp
     <main class="container">
         @php
-            $bcCustomLink = 'reservation/hebergement';
+            $bcCustomLink = isset($iddescriptioncommande) ? 'reservation/hebergement' : null;
+            $breadcrumReplaceName = ['/sejour' => 'Sejours', "/sejour/$sejour->idsejour" => $sejour->titresejour];
         @endphp
         @include('layout.breadcrumb')
         <section id="hebergements">
             @foreach ($hebergements as $hebergement)
                 <form action="/api/edit/changes" method="POST">
                     @csrf
-                    @if($hebergement->idhebergement!=$idhebergement)
+                    @if ($hebergement->idhebergement != $idhebergement)
                         <article class="hebergement">
-                            <img class="imgheberg" src="/assets/images/hebergement/{{ $hebergement->photohebergement }}"></img>
+                            <img class="imgheberg"
+                                src="/assets/images/hebergement/{{ $hebergement->photohebergement }}"></img>
                             <p class="descrheberg">{{ $hebergement->descriptionhebergement }}</p>
                             <a class="lienheberg" href="{{ $hebergement->lienhebergement }}"
                                 target="_blank">{{ $hebergement->hotel->nompartenaire }}</a>
@@ -40,5 +42,4 @@
         </section>
     </main>
     @include('layout.footer')
-
 @endsection

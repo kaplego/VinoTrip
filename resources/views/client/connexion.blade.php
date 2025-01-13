@@ -160,25 +160,17 @@
                     <div class="input-control input-control-text">
                         @error('login')
                             <p class="alert alert-error"><i data-lucide="circle-x"></i>Le mot de passe ou l'adresse email
-                                n'est
-                                pas
-                                valide !</p></br>
+                                n'est pas valide !</p></br>
                         @enderror
 
                         <label for="emailconnexion">Email</label>
                         <input id="emailconnexion" type="text" name="emailclientconnexion"
-                            placeholder="prenom.nom@email.com" />
-                        @error('emailclientconnexion')
-                            <p class="alert alert-error"><i data-lucide="circle-x"></i>L'adresse email n'est pas valide !</p>
-                        @enderror
+                            placeholder="prenom.nom@email.com" value="{{ old('emailclientconnexion') }}" />
                     </div>
                     <div class="input-control input-control-text">
                         <label for="motdepasseconnexion">Mot de passe</label>
                         <input id="motdepasseconnexion" type="password" name="motdepasseconnexion"
                             autocomplete="current-password" placeholder="M0tD€p@ss3" />
-                        @error('motdepasseconnexion')
-                            <p class="alert alert-error"><i data-lucide="circle-x"></i>Le mot de passe n'est pas valide !</p>
-                        @enderror
                         <a class="link" id="forgot-password">Mot de passe oublié ?</a>
                     </div>
                     <input type="submit" value="Connexion" class="button" />

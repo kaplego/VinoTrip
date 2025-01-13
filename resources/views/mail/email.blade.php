@@ -104,6 +104,14 @@
             <p>Bien cordialement, Vinotrip</p>
         @break
 
+        @case('PossibiliteHebergement')
+            <p>Bonjour, {{$nomhotel}}</p>
+            <p>Nous souhaitons savoir vos possibilités d'hébergement afin assigner votre hôtel à l'un de nos séjours.</p>
+            <p>Merci de répondre à ce mail avec vos disponibilités avec vos dates et vos capacités d'hébergement.</p>
+            <p>Nous restons à votre disposition pour toute question ou demande complémentaire.</p>
+            <p>Bien cordialement, Vinotrip</p>
+        @break
+
         @default
     @endswitch
 

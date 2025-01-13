@@ -11,12 +11,6 @@
                     Contact
                 </a>
             </li>
-            <li class="@if (($active ?? '') == 'cadeau') active @endif">
-                <a href="/cadeau">
-                    <i data-lucide="gift"></i>
-                    Bénéficiaire Cadeau
-                </a>
-            </li>
             <li class="@if (($active ?? '') == 'compte') active @endif">
                 <a href="/connexion">
                     <i data-lucide="circle-user-round"></i>
@@ -40,7 +34,7 @@
             <li class="@if (($active ?? '') == 'routes-des-vins') active @endif">
                 <a href="/routes-des-vins">Routes des Vins</a>
             </li>
-            @if(Auth::check() && Auth::user()->idrole == 3)
+            @if(Helpers::AuthIsRole(Role::ServiceVente))
                 <li class="@if (($active ?? '') == 'reservation') active @endif">
                     <a href="/reservation"> Voir Reservation Commande</a>
                 </li>

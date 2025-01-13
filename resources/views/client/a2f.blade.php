@@ -30,8 +30,8 @@
                 <input type="text" name="code" placeholder="XXXXXX" autocomplete="off" />
                 <div class="alert alert-error hidden" id="a2f-code-error"><i data-lucide="circle-x"></i><span class="text"></span></div>
             </div>
-            <input type="submit" value="Envoyer le code" class="button" id="button-submit" />
-            <button class="button hidden" id="button-cancel" type="button">Annuler</button>
+            <input type="submit" value="Envoyer le code" class="button" id="button-submit" disabled />
+            <button class="button" id="button-cancel" type="button">Annuler</button>
         </form>
     </main>
     @include('layout.footer')
@@ -39,5 +39,5 @@
 
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="/assets/js/client/a2f.js"></script>
+    <script src="/assets/js/client/a2f.js" type="module"></script>
 @endsection

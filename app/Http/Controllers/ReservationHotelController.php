@@ -16,12 +16,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendEmail;
+use App\Helpers\Helpers;
+use App\Helpers\Role;
 
 class ReservationHotelController extends Controller
 {
     public function listReservation()
     {
-        if(Auth::check() &&Auth::user()->idrole == 3)
+        if(Helpers::AuthIsRole(Role::ServiceVente))
         {
             return view('reservation/reservation-hotel', [
 

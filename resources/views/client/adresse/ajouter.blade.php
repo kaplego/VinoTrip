@@ -71,24 +71,23 @@
                 <div class="input-control input-control-text">
                     <label for="nomadressedestinataire">Nom</label>
                     <input id="nomadressedestinataire" type="text" name="nomadressedestinataire"
-                    value="{{ old('nomadressedestinataire', Session::get('nomadressedestinataire')) }}" />
+                        value="{{ old('nomadressedestinataire', Session::get('nomadressedestinataire')) }}" />
                     @error('nomadressedestinataire')
-                    <p class="alert alert-error"><i data-lucide="circle-x"></i>Le nom n'est pas valide !</p>
+                        <p class="alert alert-error"><i data-lucide="circle-x"></i>Le nom n'est pas valide !</p>
                     @enderror
                 </div>
 
                 <div class="input-control input-control-text">
                     <label for="prenomadressedestinataire">Prénom</label>
                     <input id="prenomadressedestinataire" type="text" name="prenomadressedestinataire"
-                    value="{{ old('prenomadressedestinataire', Session::get('prenomadressedestinataire')) }}" />
+                        value="{{ old('prenomadressedestinataire', Session::get('prenomadressedestinataire')) }}" />
                     @error('prenomadressedestinataire')
-                    <p class="alert alert-error"><i data-lucide="circle-x"></i>Le prénom n'est pas valide !</p>
+                        <p class="alert alert-error"><i data-lucide="circle-x"></i>Le prénom n'est pas valide !</p>
                     @enderror
                 </div>
 
 
                 <div class="hidden">
-                    <input id="housenumber" class="geoapify-autocomplete-input small-input" />
                     <div id="state" class="address-field autocomplete-container"></div>
                     <input id="rueadresse" name="rueadresse">
                     <input id="villeadresse" name="villeadresse">
@@ -98,11 +97,21 @@
                 {{-- Todo : Ajouter caractères spécieaux dans le regex (àéèç....) --}}
                 <input id="oldstreet" class='hidden' value="{{ old('rueadresse', Session::get('rueadresse')) }}">
                 <div class="input-control input-control-text">
-                    <label >Rue</label>
+                    <label>Rue</label>
                     <div id="street" class="address-field autocomplete-container" name="street">
 
-                    @error('rueadresse')
-                        <p class="alert alert-error"><i data-lucide="circle-x"></i>La rue n'est pas valide !</p>
+                        @error('rueadresse')
+                            <p class="alert alert-error"><i data-lucide="circle-x"></i>La rue n'est pas valide !</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="input-control input-control-text">
+                    <label for="numadresse">Numéro</label>
+                    <input id="numadresse" type="text" name="numadresse" class="geoapify-autocomplete-input small-input"
+                        value="{{ old('numadresse', Session::get('numadresse')) }}" />
+                    @error('numadresse')
+                        <p class="alert alert-error"><i data-lucide="circle-x"></i>Le numéro n'est pas valide !</p>
                     @enderror
                 </div>
 
@@ -128,14 +137,14 @@
                 <input id="oldcountry" class='hidden' value="{{ old('paysadresse', Session::get('paysadresse')) }}">
                 <div class="input-control input-control-text">
                     <label>Pays</label>
-                    <div id="country" type="text" name="country"
-                        class="address-field autocomplete-container"
+                    <div id="country" type="text" name="country" class="address-field autocomplete-container"
                         value="{{ old('paysadresse', Session::get('paysadresse')) }}" />
                     @error('paysadresse')
                         <p class="alert alert-error"><i data-lucide="circle-x"></i>Le pays n'est pas valide !</p>
                     @enderror
                 </div>
-                <input type="submit" value="Enregistrer" class="button" id="submit"/>
+                <div id="message"></div>
+                <input value="Enregistrer" class="button" id="submit" />
             </form>
         </div>
     </main>
@@ -143,5 +152,5 @@
 @endsection
 
 @section('scripts')
-    <script src="/assets/js/autocomplete.js"></script>
+    <script src="/assets/js/geoapify/autocomplete.js"></script>
 @endsection

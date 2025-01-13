@@ -17,8 +17,22 @@
         <h1>Votre Panier</h1>
         <hr class="separateur-titre" />
 
+        @error('alert')
+            <div class="alert alert-danger">
+                <i data-lucide="ban"></i>
+                <span class="text">{{ $message }}</span>
+            </div>
+        @enderror
+
+        @if(session('alert-success'))
+            <div class="alert alert-success">
+                <i data-lucide="circle-check-big"></i>
+                <span class="text">{{ session('alert-success') }}</span>
+            </div>
+        @endif
+
         @if ($panier === null || sizeof($panier->descriptionspanier) === 0)
-            <p class="alert"><i data-lucide="shopping-cart"></i> Votre panier est vide !</p>
+            <div class="alert"><i data-lucide="shopping-cart"></i> Votre panier est vide !</div>
         @else
             <section id="liste-sejours">
                 @foreach ($panier->descriptionspanier ?? [] as $descriptionpanier)
@@ -121,9 +135,9 @@
                             </table>
                             <div class="prix-total">
                                 <span class="text">Prix total</span>
-                                <span
-                                    class="prix">{{ number_format($descriptionpanier->prix * $descriptionpanier->quantite, 2, ',', ' ') }}
-                                    €</span>
+                                <span class="prix">
+                                    {{ number_format($descriptionpanier->prix * $descriptionpanier->quantite, 2, ',', ' ') }}€
+                                </span>
                             </div>
                             <div class="infos">
                                 @if ($descriptionpanier->codepromoutilise === null)
@@ -131,8 +145,9 @@
                                         <i data-lucide="pencil"></i> Modifier les détails
                                     </a>
                                     <div class="input-control input-control-text" style="margin: 0">
-                                        <input type="number" name="quantite" autocomplete="off" min="1" max="10"
-                                            id="quantite-{{ $sejour->idsejour }}" value="{{ $descriptionpanier->quantite }}">
+                                        <input type="number" name="quantite" autocomplete="off" min="1"
+                                            max="10" id="quantite-{{ $sejour->idsejour }}"
+                                            value="{{ $descriptionpanier->quantite }}">
                                     </div>
                                     @error('quantite')
                                         {{ $message }}
@@ -162,15 +177,35 @@
             </section>
         @endif
 
+        @if ($panier)
+            <div id="total">
+                <p class="text">Total du panier</p>
+                <p class="prix">{{ number_format($panier->prix, 2, ',', ' ') }} €</p>
+                @if ($panier->codepromo)
+                    <p class="promo-code">{{ $panier->codepromo->libellecodepromo }}</p>
+                    <p class="promo-reduction">-{{ number_format($panier->reduction, 2, ',', ' ') }} €</p>
+                @endif
+                <hr>
+                <p class="text">Total final</p>
+                <p class="prix-final">
+                    {{ number_format($panier->prixreduit, 2, ',', ' ') }} €
+                </p>
+            </div>
+        @endif
+
         <div id="buttons-navigation">
             <a href="/sejours" class="button">Retourner à la liste des séjours</a>
 
-            <form action="api/panier/codepromo" method="POST">
+            <form action="api/panier/codepromo" method="POST" id="codepromo">
                 @csrf
-                <input type="text" name="codePromo" placeholder=" Chèque cadeau" />
-                <button id="codepr" class="button" type="submit">Valider code promo</button>
-
+                <div class="input-control input-control-text">
+                    <input type="text" name="codePromo" placeholder="Code promo" />
+                </div>
+                <button id="codepr" class="button" type="submit">
+                    <i data-lucide="percent"></i>
+                </button>
             </form>
+
             @if ($panier !== null && sizeof($panier->descriptionspanier) > 0)
                 <a href="/panier/paiement" class="button">Passer au paiement</a>
             @endif

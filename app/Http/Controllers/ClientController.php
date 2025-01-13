@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helpers;
+use App\Helpers\Role;
 use App\Models\Adresse;
+use App\Models\Favoris;
+use App\Models\VCommande;
 use Carbon\Carbon;
 use DateInterval;
 use \Datetime;
@@ -17,14 +20,18 @@ use App\Models\Client;
 use Illuminate\Support\Str;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Verification\SMS;
+use DB;
 
 class ClientController extends Controller
 {
 
     public function connexion()
     {
-        if (!Auth::check())
+        if (!Auth::check()) {
+            if (session('user-auth'))
+                return redirect('/connexion/a2f');
             return view("client.connexion");
+        }
         return redirect('/client');
     }
 
@@ -32,7 +39,11 @@ class ClientController extends Controller
     {
         if (!Auth::check())
             return redirect('/connexion');
-        return view("client.compte");
+        return view("client.compte", [
+            'nombreadresses' => Adresse::where('idclient', '=', Auth::user()->idclient)->count(),
+            'nombrecommandes' => VCommande::where('idclientacheteur', '=', Auth::user()->idclient)->count(),
+            'nombrefavoris' => Favoris::where('idclient', '=', Auth::user()->idclient)->count(),
+        ]);
     }
 
     public function informations()
@@ -84,7 +95,9 @@ class ClientController extends Controller
 
         return response(back()->withErrors([
             'login' => 'L\'email ou le mot de passe est invalide.',
-        ]));
+        ])->withInput([
+                    'emailclientconnexion' => $inputs['emailclientconnexion']
+                ]));
     }
 
     public function signin(Request $request)
@@ -122,6 +135,8 @@ class ClientController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return redirect('/');
     }
 
@@ -344,11 +359,11 @@ class ClientController extends Controller
 
     public function a2f()
     {
-        $user = session('user-auth');
-        if (!$user)
+        $session = session('user-auth');
+        if (Auth::check() || !$session)
             return redirect('/connexion');
         return view('client.a2f', [
-            'client' => $user
+            'client' => $session
         ]);
     }
 
@@ -356,9 +371,8 @@ class ClientController extends Controller
     {
         $SESSION_A2F_AUTH = 'a2f-sms-auth';
 
-        $user = Auth::user();
         $session = session('user-auth');
-        if ($user || !$session)
+        if (Auth::check() || !$session)
             return response([
                 'ok' => false
             ]);
@@ -424,26 +438,23 @@ class ClientController extends Controller
         } else if ($request->isMethod('DELETE')) {
             $sid = session($SESSION_A2F_AUTH);
 
-            if (!$sid)
-                return response([
-                    'ok' => false
-                ]);
-
-            try {
-                $verif = SMS::cancel($sid);
-
-                session()->remove($SESSION_A2F_AUTH);
-                session()->remove('user-auth');
-
-                return response([
-                    'ok' => true,
-                    'status' => $verif->status
-                ]);
-            } catch (\Exception $e) {
-                return response([
-                    'ok' => false
-                ]);
+            if ($sid) {
+                try {
+                    $verif = SMS::cancel($sid);
+                } catch (\Exception $e) {
+                    return response([
+                        'ok' => false
+                    ]);
+                }
             }
+
+            session()->remove($SESSION_A2F_AUTH);
+            session()->remove('user-auth');
+
+            return response([
+                'ok' => true,
+                'status' => 'canceled'
+            ]);
         }
     }
 
@@ -522,25 +533,22 @@ class ClientController extends Controller
         } else if ($request->isMethod('DELETE')) {
             $sid = session($SESSION_A2F_TOGGLE);
 
-            if (!$sid)
-                return response([
-                    'ok' => false
-                ]);
-
-            try {
-                $verif = SMS::cancel($sid);
-
-                session()->remove($SESSION_A2F_TOGGLE);
-
-                return response([
-                    'ok' => true,
-                    'status' => $verif->status
-                ]);
-            } catch (\Exception $e) {
-                return response([
-                    'ok' => false
-                ]);
+            if ($sid) {
+                try {
+                    $verif = SMS::cancel($sid);
+                } catch (\Exception $e) {
+                    return response([
+                        'ok' => false
+                    ]);
+                }
             }
+
+            session()->remove($SESSION_A2F_TOGGLE);
+
+            return response([
+                'ok' => true,
+                'status' => $verif->status
+            ]);
         }
     }
 
@@ -596,4 +604,15 @@ class ClientController extends Controller
         return redirect()->back()->with('success', 'Les modifications ont bien été prises en compte.');
     }
 
+
+
+    public function callDBFunction(Request $request)
+    {
+        DB::select('SELECT anonymize_inactive_clients()');
+
+        return redirect()->back()->with('success', 'Les modifications ont bien été prises en compte.');
+    }
+
 }
+
+

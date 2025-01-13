@@ -16,7 +16,7 @@
         @include('layout.breadcrumb')
         <h1>Mon Compte</h1>
         <hr class="separateur-titre" />
-        <div class="buttons">
+        <div class="buttons buttons-advanced">
             <a class="button" href="/client/informations">
                 <i data-lucide="id-card"></i>
                 <span class="text">Informations</span>
@@ -36,20 +36,20 @@
             </form>
             <a class="button" href="/client/adresses">
                 <i data-lucide="map-pin-house"></i>
-                <span class="text">Mes adresses</span>
+                <span class="text">Mes adresses ({{ $nombreadresses }})</span>
             </a>
             <a class="button" href="/client/commandes">
                 <i data-lucide="logs"></i>
-                <span class="text">Mes commandes</span>
+                <span class="text">Mes commandes ({{ $nombrecommandes }})</span>
             </a>
             <a class="button" href="/client/favoris">
                 <i data-lucide="heart"></i>
-                <span class="text">Mes favoris</span>
+                <span class="text">Mes favoris ({{ $nombrefavoris }})</span>
             </a>
         </div>
         @if (Helpers::AuthIsRole(Role::Dirigeant))
             <hr class="separateur-titre" />
-            <div class="buttons">
+            <div class="buttons buttons-advanced">
                 <a class="button" href="/sejours/create">
                     <i data-lucide="image-plus"></i>
                     <span class="text">Créer un séjour</span>
@@ -59,6 +59,24 @@
                     <span class="text">Séjours non publiés</span>
                 </a>
             </div>
+        @endif
+
+        @if (Helpers::AuthIsRole(Role::ServiceVente))
+            <hr class="separateur-titre" />
+            <div class="buttons buttons-advanced">
+                <a class="button" href="/sejours/validate">
+                    <i data-lucide="key-square"></i>
+                    <span class="text">Séjours non publiés</span>
+                </a>
+            </div>
+        @endif
+
+        @if (Helpers::AuthIsRole(Role::DPO))
+            <hr class="separateur-titre" />
+            <form method="post" action="/api/client/rgpd">
+                @csrf
+                <button type="submit" class="button">Anonymiser les données</button>
+            </form>
         @endif
     </main>
     @include('layout.footer')

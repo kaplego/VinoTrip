@@ -4,6 +4,7 @@
 
 @section('head')
     <link rel="stylesheet" href="/assets/css/panier/personnaliser.css">
+
 @endsection
 
 @section('body')
@@ -158,6 +159,13 @@
             <section>
                 <h2>Activités</h2>
 
+                @if (Helpers::AuthIsRole(Role::ServiceVente) || Helpers::AuthIsRole(Role::Dirigeant))
+                    <button type="button" class="add-activite button" data-idetape="{{ $sejour->etape[0]->idetape }}">
+                        <i data-lucide="badge-percent"></i>
+                        <span class="text">Ajouter une activité</span>
+                    </button>
+                @endif
+
                 @foreach ($sejour->etape as $etape)
                     @foreach ($etape->activites as $activite)
                         <div class="input-control input-control-checkbox">
@@ -171,6 +179,9 @@
                             @error("activites.{{ $activite->idactivite }}")
                                 <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                             @enderror
+                            @if (Helpers::AuthIsRole(Role::ServiceVente) || Helpers::AuthIsRole(Role::Dirigeant))
+                                <button type="button" class="delete-activite" data-idetape="{{ $sejour->etape[0]->idetape }}" data-idactivite="{{  $activite->idactivite }}">Retirer l'activité</button>
+                            @endif
                         </div>
                     @endforeach
                 @endforeach
@@ -213,14 +224,55 @@
                     €</span></p>
             <button class="button" type="submit">Ajouter au Panier</button>
         </form>
+
+        @if (Helpers::AuthIsRole(Role::ServiceVente) || Helpers::AuthIsRole(Role::Dirigeant))
+            <form class="overlay hidden" id="form-add-activite" method="post" action="/api/sejour/activite/add">
+                @csrf
+                <div class="overlay-content">
+                    <h2>Indiquer la nouvelle activité :</h2><br />
+                    <input type="hidden" name="activite-idetape" id="activite-idetape">
+
+                    <div class="input-control input-control-text required">
+                        <label for="activite-nom">Nom de l'activité</label>
+                        <input type="text" placeholder="Nouveau nom d'activité" name="activite-nom"
+                            id="activite-nom">
+                    </div>
+                    <div class="input-control input-control-text required">
+                        <label for="activite-prix">Prix (€)</label>
+                        <input type="number" step="0.01" min="0" value="50" name="activite-prix"
+                            id="activite-prix">
+                    </div>
+                    <div id="activite-buttons" class="buttons">
+                        <button type="button" class="button" id="activite-annuler">Annuler</button>
+                        <button type="submit" class="button">Appliquer</button>
+                    </div>
+                </div>
+            </form>
+        @endif
+
+        @if (Helpers::AuthIsRole(Role::ServiceVente) || Helpers::AuthIsRole(Role::Dirigeant))
+            <form class="overlay hidden" id="form-delete-activite" method="post" action="/api/sejour/activite/delete">
+                @csrf
+                <div class="overlay-content">
+                    <h2>Retirer l'activité ?</h2><br />
+                    <input type="hidden" name="delete-activite-idetape" id="delete-activite-idetape">
+                    <input type="hidden" name="delete-activite-idactivite" id="delete-activite-idactivite">
+
+                    <div id="activite-buttons" class="buttons">
+                        <button type="button" class="button" id="delete-activite-annuler">Annuler</button>
+                        <button type="submit" class="button">Appliquer</button>
+                    </div>
+                </div>
+            </form>
+        @endif
     </main>
     @include('layout.footer')
 
     <script>
-        const prixDeBase = {{ $sejour->nouveauprixsejour ?? $sejour->prixsejour}};
+        const prixDeBase = {{ $sejour->nouveauprixsejour ?? $sejour->prixsejour }};
     </script>
 @endsection
 
 @section('scripts')
-    <script src="/assets/js/personnaliser.js" defer></script>
+    <script src="/assets/js/sejours/personnaliser.js" defer></script>
 @endsection

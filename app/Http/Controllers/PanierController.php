@@ -18,6 +18,8 @@ use App\Models\Mange1;
 use App\Models\Panier;
 use App\Models\Repas;
 use App\Models\Sejour;
+use App\Models\CodePromo;
+use App\Models\VPanier;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -31,7 +33,7 @@ class PanierController extends Controller
 
         $panier = null;
         if ($idpanier !== null) {
-            $panier = Panier::find($idpanier);
+            $panier = VPanier::find($idpanier);
         }
 
         return view("panier.panier", ["panier" => $panier]);
@@ -220,6 +222,13 @@ class PanierController extends Controller
     public function personnaliser($id)
     {
         $sejour = Sejour::find($id);
+
+        if (!$sejour)
+            return redirect('/sejours');
+
+        if (!$sejour->publie)
+            return redirect("/sejour/$id");
+
         return view('panier.personnaliser', ['sejour' => $sejour]);
     }
 
@@ -390,7 +399,6 @@ class PanierController extends Controller
                 'validationclient' => false,
                 'offrir' => $dp->offrir,
                 'ecoffret' => $dp->ecoffret,
-                'codepromoutilise' => $dp->codepromoutilise
             ]);
             foreach ($dp->activites as $activite) {
                 Association_40::create([
@@ -421,48 +429,24 @@ class PanierController extends Controller
     {
         $code = $request->input("codePromo");
 
-        if (!$code) return back();
+        $codepromo = CodePromo::where('libellecodepromo', '=', $code)->first();
 
-        $commande = VCommande::where('codereduction', '=', $code)?->first();
-
-        if (!$commande) return back();
-
-        // dd($commande);
-        $idpanier = $request->session()->get('idpanier', null);
-
-        $panier = null;
-        if ($idpanier !== null) {
-            $panier = Panier::find($idpanier);
-        }
-
-        if ($panier === null) {
-            $panier = new Panier;
-            $panier->dateheurepanier = now();
-            $panier->save();
-
-            $request->session()->put('idpanier', $panier->idpanier);
-        }
-
-        foreach (VDescriptioncommande::where('idcommande', '=', $commande->idcommande)->where('offrir', '=', true)->get() as $descriptioncommande) {
-            $descriptionpanier = Descriptionpanier::create([
-                'idpanier' => $panier->idpanier,
-                'idsejour' => $descriptioncommande->idsejour,
-                'idhebergement' => $descriptioncommande->idhebergement,
-                'quantite' => $descriptioncommande->quantite,
-                'datedebut' => $descriptioncommande->datedebut,
-                'datefin' => $descriptioncommande->datefin,
-                'nbadultes' => $descriptioncommande->nbadultes,
-                'nbenfants' => $descriptioncommande->nbenfants,
-                'nbchambressimple' => $descriptioncommande->nbchambressimple,
-                'nbchambresdouble' => $descriptioncommande->nbchambresdouble,
-                'nbchambrestriple' => $descriptioncommande->nbchambrestriple,
-                'offrir' => false,
-                'ecoffret' => false,
-                'disponibilitehebergement' => false,
-                'codepromoutilise' => $code
+        if (!$codepromo)
+            return back()->withErrors([
+                'alert' => "Le code promo n'existe pas."
             ]);
-        }
 
-        return redirect('/panier');
+        $panier = Panier::find($request->session()->get('idpanier'));
+
+        if (!$panier)
+            return back()->withErrors([
+                'alert' => "Vous devez ajouter un séjour dans votre panier."
+            ]);
+
+        $panier->update([
+            'idcodepromo' => $codepromo->idcodepromo
+        ]);
+
+        return back()->with('alert-success', 'Le code promo a été appliqué.');
     }
 }
