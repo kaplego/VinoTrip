@@ -480,12 +480,12 @@ IDCLIENT
 /* Table : CARTE_BANCAIRE                                       */
 /*==============================================================*/
 create table CARTE_BANCAIRE (
-   IDCB                 SERIAL               not null,
-   IDCLIENT             INT4                 not null,
-   TITULAIRECB          VARCHAR(100)         null,
-   NUMEROCBCLIENT       CHAR(16)             null,
-   DATEEXPIRATIONCBCLIENT DATE                 null,
-   ACTIF                BOOL        default true         null,
+   IDCB                   SERIAL               not null,
+   IDCLIENT               INT4                 not null,
+   TITULAIRECB            VARCHAR(1024)         null,
+   NUMEROCBCLIENT         CHAR(74)             null,
+   DATEEXPIRATIONCBCLIENT CHAR(58)                 null,
+   ACTIF                  BOOL        default true         null,
    constraint PK_CARTE_BANCAIRE primary key (IDCB)
 );
 
