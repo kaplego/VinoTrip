@@ -26,7 +26,7 @@
                     $note = round($note, 1);
                 @endphp
                 <article class="avis">
-                    <h2 class="titre-avis">{{ $sejour->titresejour }}</h2>
+                    <a class="titre-avis" href="/sejour/{{ $sejour->idsejour }}">{{ $sejour->titresejour }}</a>
                     <div class="note">
                         <p class="etoiles">
                             <i data-lucide="star" fill="currentColor" class="checked"></i>

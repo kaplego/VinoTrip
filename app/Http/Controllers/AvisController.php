@@ -26,10 +26,10 @@ class AvisController extends Controller
         ]);
     }
 
-    public function create(Request $request, $id)
+    public function create(Request $request, $idsejour)
     {
         if (!Auth::check())
-            return redirect("/sejour/$id");
+            return redirect("/sejour/$idsejour");
 
         $validator = Validator::make($request->all(), [
             'photo' => ['nullable', 'file', 'image', 'max:512'],
@@ -44,7 +44,7 @@ class AvisController extends Controller
             ]);
 
         $avis = Avis::create([
-            'idsejour' => $id,
+            'idsejour' => $idsejour,
             'idclient' => Auth::user()->idclient,
             'dateavis' => Carbon::now(),
             'titreavis' => $request->input('titre'),
@@ -62,7 +62,7 @@ class AvisController extends Controller
             ]);
         }
 
-        return redirect("/sejour/$id");
+        return redirect("/sejour/$idsejour");
     }
 
     public function reply(Request $request, $idsejour, $idavis)

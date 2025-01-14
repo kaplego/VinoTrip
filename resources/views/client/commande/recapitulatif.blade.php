@@ -29,7 +29,10 @@
                 <thead>
                     <tr>
                         <th>Date de la commande</th>
-                        <th>Prix total</th>
+                        @if ($commande->idcodepromo)
+                            <th>Code promo</th>
+                        @endif
+                        <th><div class="flex-help">Prix total <div data-help="Le prix est TTC"></div></div></th>
                         <th>Mode de paiement</th>
                         @if ($commande->codereduction && !str_contains($commande->etatcommande, 'refusé'))
                             <th>Code cadeau</th>
@@ -40,12 +43,15 @@
                 <tbody>
                     <tr>
                         <td>{{ date_format(date_create($commande->datecommande), 'd/m/Y') }}</td>
-                        <td>{{ $commande->prix }} €</td>
+                        @if ($commande->idcodepromo)
+                            <td>-{{ number_format($commande->reduction, 2, ',', ' ') }} €</td>
+                        @endif
+                        <td>{{ number_format($commande->prixreduit, 2, ',', ' ') }} €</td>
                         <td>
                             @switch($commande->typepaiementcommande)
                                 @case('cb')
-                                    Carte bancaire @if ($commande->cartebancaire)
-                                        •••• •••• •••• {{ substr($commande->cartebancaire->numerocbclient, -4) }}
+                                    Carte bancaire @if ($commande->cartebancaire && $commande->cartebancaire->idcb)
+                                        •••• •••• •••• {{ $commande->cartebancaire->fincodecarte }}
                                     @endif
                                 @break
 

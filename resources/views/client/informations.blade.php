@@ -8,6 +8,7 @@
 
 @section('head')
     <link rel="stylesheet" href="/assets/css/client/connexion.css">
+    <link rel="stylesheet" href="/assets/css/client/informations.css">
 @endsection
 
 @section('body')
@@ -39,7 +40,7 @@
                     </div>
                 </div>
 
-                <div class="input-control input-control-text">
+                <div class="input-control input-control-text required">
                     <label for="prenomclient">Prénom</label>
                     <input id="prenomclient" type="text" name="prenomclient"
                         value="{{ old('prenomclient', Auth::User()->prenomclient) }}" />
@@ -47,7 +48,7 @@
                         <p class="alert alert-error"><i data-lucide="circle-x"></i>Le prénom n'est pas valide !</p>
                     @enderror
                 </div>
-                <div class="input-control input-control-text">
+                <div class="input-control input-control-text required">
                     <label for="nomclient">Nom</label>
                     <input id="nomclient" type="text" name="nomclient"
                         value="{{ old('nomclient', Auth::User()->nomclient) }}" />
@@ -55,7 +56,7 @@
                         <p class="alert alert-error"><i data-lucide="circle-x"></i>Le nom n'est pas valide !</p>
                     @enderror
                 </div>
-                <div class="input-control input-control-text">
+                <div class="input-control input-control-text required">
                     <label for="emailclient">Email</label>
                     <input id="emailclient" type="text" name="emailclient"
                         value="{{ old('emailclient', Auth::User()->emailclient) }}" />
@@ -63,7 +64,7 @@
                         <p class="alert alert-error"><i data-lucide="circle-x"></i>L'adresse email n'est pas valide !</p>
                     @enderror
                 </div>
-                <div class="input-control input-control-text">
+                <div class="input-control input-control-text required">
                     <label for="telephoneclient">Numéro de téléphone</label>
                     <input id="telephoneclient" type="text" name="telephoneclient"
                         value="{{ old('telephoneclient', Auth::User()->telephoneclient) }}" />
@@ -72,7 +73,7 @@
                     @enderror
                 </div>
 
-                <div class="input-control input-control-text">
+                <div class="input-control input-control-text required">
                     <label for="ancienmotdepasse">Mot de passe actuel</label>
                     <input id="ancienmotdepasse" type="password" name="ancienmotdepasse" placeholder="" />
                     @error('ancienmotdepasse')
@@ -153,31 +154,31 @@
 
                 <input type="submit" value="Enregistrer" class="button" />
             </form>
-            <h1>Gérer mes informations personnelles</h1>
+            <h1>Gérer mes données personnelles</h1>
             <hr class="separateur-titre" />
             <p>
                 Si vous souhaitez envoyer, supprimer ou anonymiser vos données personnelles, vous pouvez effectuer une demande ci-dessous.
                 Veuillez noter que la suppression et l'anonymisation de vos données sont irréversibles.
             </p>
+            <div id="buttons-donnees-perso">
+                <form method="post" action="/api/client/supprimer/{{ Auth::User()->idclient }}">
+                    @csrf
+                    <button type="submit" class="button" onclick="return confirm('Êtes-vous sûr de vouloir supprimer vos informations ? Cette action est irréversible.')">
+                        Demander la suppression de mes informations
+                    </button>
+                </form>
 
-            <form method="post" action="/api/client/supprimer/{{ Auth::User()->idclient }}">
-                @csrf
-                <button type="submit" class="button" onclick="return confirm('Êtes-vous sûr de vouloir supprimer vos informations ? Cette action est irréversible.')">
-                    Demander la suppression de mes informations
-                </button>
-            </form>
-
-            <form method="post" action="/api/client/anonymiser/{{ Auth::User()->idclient }}">
-                @csrf
-                <button type="submit" class="button" onclick="return confirm('Êtes-vous sûr de vouloir anonymiser vos informations ? Cette action est irréversible.')">
-                    Demander l’anonymisation de mes informations
-                </button>
-            </form>
-        </div>
-            <form method="post" action="/api/client/clientdata/{{Auth::User()->idclient }}">
-                @csrf
-                <button type="submit" class="button">Envoyer information personel</button>
-            </form>
+                <form method="post" action="/api/client/anonymiser/{{ Auth::User()->idclient }}">
+                    @csrf
+                    <button type="submit" class="button" onclick="return confirm('Êtes-vous sûr de vouloir anonymiser vos informations ? Cette action est irréversible.')">
+                        Demander l’anonymisation de mes informations
+                    </button>
+                </form>
+                <form method="post" action="/api/client/clientdata/{{Auth::User()->idclient }}">
+                    @csrf
+                    <button type="submit" class="button">Demander mes informations personnelles</button>
+                </form>
+            </div>
         </div>
     </main>
     @include('layout.footer')

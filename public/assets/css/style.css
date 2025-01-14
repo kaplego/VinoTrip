@@ -31,13 +31,29 @@ a {
 }
 
 a.link {
+    display: inline-block;
     color: var(--c-accent-500);
-    text-decoration: underline dotted;
+    text-decoration: none;
     cursor: pointer;
+    position: relative;
+
+    &::after {
+        content: '';
+        display: flex;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 1px;
+        width: 0%;
+        background-color: var(--c-accent-500);
+        transition: width 150ms;
+    }
 }
 
 a.link:hover {
-    text-decoration: underline solid;
+    &::after {
+        width: 100%
+    }
 }
 
 a.link.link-icon {
@@ -178,6 +194,11 @@ hr.separateur-titre {
     border: none;
     height: 2px;
     background-color: var(--c-accent-500);
+}
+
+div.flex-help {
+    display: flex;
+    align-items: center;
 }
 
 *[data-tooltip],
@@ -700,4 +721,9 @@ footer a:hover {
 }
 .autocomplete-container {
     position: relative;
+}
+
+.small {
+    font-size: .8rem;
+    color: var(--c-gray-800);
 }

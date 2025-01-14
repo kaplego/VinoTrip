@@ -107,49 +107,62 @@ class SejourController extends Controller
         ]);
     }
 
-    public function apitogglehebergement(Request $request)
+    public function apihebergement(Request $request, $idsejour, $idetape)
     {
         if (!Helpers::AuthIsRole(Role::ServiceVente) && !Helpers::AuthIsRole(Role::Dirigeant))
             return redirect('/');
 
+        $sejour = Sejour::find($idsejour);
+        $etape = Etape::where('idsejour', '=', $idsejour)->find($idetape);
+
         $iddescriptioncommande = $request->input('iddescriptioncommande');
         $newidhebergement = $request->input('newidhebergement');
 
-        $descriptioncommande = Descriptioncommande::find($iddescriptioncommande);
-        $titrehotelancien = $descriptioncommande->hebergement->hotel->nompartenaire;
-        $descriptioncommande->idhebergement = $newidhebergement;
-        $descriptioncommande->disponibilitehebergement = false;
-        $descriptioncommande->update();
-
-
-        // $iddescrcommande= $request->input("unedescription");
-        // $descrcommande = Descriptioncommande::find( $iddescrcommande);
-        // $descrcommande->disponibilitehebergement = false;
-        // $descrcommande->update();
-
-        $titrehotelnouveau = $descriptioncommande->hebergement->hotel->nompartenaire;
-        Mail::to("ppartenairehotel@gmail.com")->send(new SendEmail([
-            'type' => 'PbHeberg',
-            'titrehotelancien' => $titrehotelancien,
-            'titrehotelnouveau' => $titrehotelnouveau,
-
-        ], "Équipe vinotrip changement d'hebergement "));
-
-        return redirect("/reservation");
-
-    }
-    public function choixhebergement(Request $request, $id)
-    {
-        $iddescription = $request->input('iddescriptioncomande');
-        $idhebergement = $request->input('idhebergement');
-
-        $sejour = Sejour::find($id);
-
-        if (!$idhebergement || !$sejour || ($iddescription && !Descriptioncommande::where('idsejour', '=', $id)->find($iddescription)))
+        if (!$sejour || !$etape || !$newidhebergement)
             return back();
 
-        return view("sejours.edit-list-hebergement", [
+        if ($iddescriptioncommande) {
+            $descriptioncommande = Descriptioncommande::find($iddescriptioncommande);
+            $titrehotelancien = $descriptioncommande->hebergement->hotel->nompartenaire;
+            $descriptioncommande->update([
+                'idhebergement' => $newidhebergement,
+                'disponibilitehebergement' => false
+            ]);
+
+            $titrehotelnouveau = $descriptioncommande->hebergement->hotel->nompartenaire;
+            Mail::to("ppartenairehotel@gmail.com")->send(new SendEmail([
+                'type' => 'PbHeberg',
+                'titrehotelancien' => $titrehotelancien,
+                'titrehotelnouveau' => $titrehotelnouveau,
+
+            ], "Équipe vinotrip changement d'hebergement "));
+
+            return redirect("/reservation");
+        } else {
+            $etape->update([
+                'idhebergement' => $newidhebergement
+            ]);
+        }
+
+        return redirect("/sejour/$idsejour/edit");
+    }
+    public function choixhebergement(Request $request, $idsejour, $idetape)
+    {
+        if (!Helpers::AuthIsRole(Role::ServiceVente) && !Helpers::AuthIsRole(Role::Dirigeant))
+            return redirect('/');
+
+        $iddescription = $request->input('iddescriptioncommande');
+        $idhebergement = $request->input('idhebergement');
+
+        $sejour = Sejour::find($idsejour);
+        $etape = Etape::where('idsejour', '=', $idsejour)->find($idetape);
+
+        if (!$idhebergement || !$sejour || !$etape || ($iddescription && !Descriptioncommande::where('idetape', '=', $idetape)->find($iddescription)))
+            return back();
+
+        return view("sejours.edit-hebergement", [
             'sejour' => $sejour,
+            'etape' => $etape,
             'hebergements' => Hebergement::all(),
             'iddescriptioncommande' => $request->input('iddescriptioncommande'),
             'idhebergement' => $idhebergement,
@@ -274,6 +287,9 @@ class SejourController extends Controller
     }
     public function updatephoto(Request $request, $idsejour)
     {
+        if (!Helpers::AuthIsRole(Role::ServiceVente) && !Helpers::AuthIsRole(Role::Dirigeant))
+            return redirect("/sejour/$idsejour");
+
         $inputs = $request->validate([
             'photo-upload' => ['required', 'file', 'image', 'max:1024'],
         ], [
@@ -298,6 +314,16 @@ class SejourController extends Controller
             ]);
 
         return redirect("/sejour/$sejour->idsejour");
+    }
+
+    public function removephoto($idsejour, $idphoto)
+    {
+        if (!Helpers::AuthIsRole(Role::ServiceVente) && !Helpers::AuthIsRole(Role::Dirigeant))
+            return redirect("/sejour/$idsejour");
+
+        Photo::where('idsejour', '=', $idsejour)?->find($idphoto)?->delete();
+
+        return back();
     }
 
     public function update(Request $request, $idsejour)
@@ -331,12 +357,12 @@ class SejourController extends Controller
         ]);
     }
 
-    public function publier($id)
+    public function publier($idsejour)
     {
         if (!Helpers::AuthIsRole(Role::Dirigeant))
             return redirect('/connexion');
 
-        $sejour = Sejour::find($id);
+        $sejour = Sejour::find($idsejour);
         $sejour->update([
             'publie' => true
         ]);
@@ -344,12 +370,12 @@ class SejourController extends Controller
         return back();
     }
 
-    public function discount(Request $request)
+    public function discount(Request $request, $idsejour)
     {
         if (!Helpers::AuthIsRole(Role::ServiceVente))
             return redirect('/connexion');
 
-        $sejour = Sejour::find($request->input('idsejour'));
+        $sejour = Sejour::find($idsejour);
 
         if (!$sejour)
             return redirect('/connexion');
@@ -379,21 +405,17 @@ class SejourController extends Controller
     }
 
 
-    public function mailpossibilite(Request $request)
+    public function mailpossibilite(Request $request, $idsejour)
     {
-        $credentials = $request->validate(['idsejour' => ['required']]);
+        $sejour = Sejour::find($idsejour);
 
-        $sejour = Sejour::find($credentials['idsejour']);
+        foreach ($sejour->etape as $etape) {
+            Mail::to("ppartenairehotel@gmail.com")->send(new SendEmail([
+                'type' => 'PossibiliteHebergement',
+                'nomhotel' => $etape->hebergement->hotel->nompartenaire
+            ], "Équipe vinotrip changement d'hebergement "));
 
-        foreach($sejour->etape as $etape){
-                Mail::to("ppartenairehotel@gmail.com")->send(new SendEmail([
-                    'type' => 'PossibiliteHebergement',
-                    'nomhotel' => $etape->hebergement->hotel->nompartenaire
-                ], "Équipe vinotrip changement d'hebergement "));
-
-            }
-
-
+        }
 
         return back()->with('success', 'Les hébergements ont bien été contactés.');
     }

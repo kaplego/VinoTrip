@@ -31,7 +31,7 @@
                 <h2>Informations</h2>
 
                 <div class="input-group">
-                    <div class="input-control input-control-text">
+                    <div class="input-control input-control-text required">
                         <label for="datedebut">Date de départ</label>
                         <input type="date" id="datedebut" name="datedebut" value="{{ old('datedebut') }}" min="1"
                             required autocomplete="off" data-duree="{{ $sejour->duree->idduree }}" />
@@ -39,8 +39,8 @@
                             <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                         @enderror
                     </div>
-                    <div class="input-control input-control-text">
-                        <label for="datefin">Date de retour</label>
+                    <div class="input-control input-control-text required">
+                        <label for="datefin">Date de retour <div data-help="La date est calculée en fonction de la date de départ."></div></label>
                         <input type="date" id="datefin" name="datefin" value="{{ old('datefin') }}" min="0"
                             readonly autocomplete="off" />
                         @error('datefin')
@@ -50,7 +50,7 @@
                 </div>
 
                 <div class="input-group">
-                    <div class="input-control input-control-text">
+                    <div class="input-control input-control-text required">
                         <label for="nbadultes">Adultes</label>
                         <input type="number" id="nbadultes" name="nbadultes" value="{{ old('nbadultes', 1) }}"
                             min="1" required />
@@ -100,7 +100,7 @@
             </section>
 
             <section>
-                <h2>Hébergement</h2>
+                <h2 class="required">Hébergement</h2>
 
                 <div class="selections">
                     @foreach ($sejour->etape as $etape)
@@ -226,12 +226,10 @@
         </form>
 
         @if (Helpers::AuthIsRole(Role::ServiceVente) || Helpers::AuthIsRole(Role::Dirigeant))
-            <form class="overlay hidden" id="form-add-activite" method="post" action="/api/sejour/activite/add">
+            <form class="overlay hidden" id="form-add-activite" method="post">
                 @csrf
                 <div class="overlay-content">
                     <h2>Indiquer la nouvelle activité :</h2><br />
-                    <input type="hidden" name="activite-idetape" id="activite-idetape">
-
                     <div class="input-control input-control-text required">
                         <label for="activite-nom">Nom de l'activité</label>
                         <input type="text" placeholder="Nouveau nom d'activité" name="activite-nom"
@@ -251,15 +249,12 @@
         @endif
 
         @if (Helpers::AuthIsRole(Role::ServiceVente) || Helpers::AuthIsRole(Role::Dirigeant))
-            <form class="overlay hidden" id="form-delete-activite" method="post" action="/api/sejour/activite/delete">
+            <form class="overlay hidden" id="form-delete-activite" method="post">
                 @csrf
                 <div class="overlay-content">
                     <h2>Retirer l'activité ?</h2><br />
-                    <input type="hidden" name="delete-activite-idetape" id="delete-activite-idetape">
-                    <input type="hidden" name="delete-activite-idactivite" id="delete-activite-idactivite">
-
                     <div id="activite-buttons" class="buttons">
-                        <button type="button" class="button" id="delete-activite-annuler">Annuler</button>
+                        <button type="button" class="button delete-activite-annuler">Annuler</button>
                         <button type="submit" class="button">Appliquer</button>
                     </div>
                 </div>

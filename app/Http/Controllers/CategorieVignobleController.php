@@ -32,13 +32,13 @@ class CategorieVignobleController extends Controller
         return back();
     }
 
-    public function delete($id)
+    public function delete($idviticole)
     {
 
         if (!Auth::check() && Auth::user()->idrole != 2 )
             return redirect('/');
 
-        $categorie = Categorievignoble::find($id);
+        $categorie = Categorievignoble::find($idviticole);
 
         $categorie->delete();
         return back();

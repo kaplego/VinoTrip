@@ -16,11 +16,11 @@
     @include('layout.header')
     <main class="container-sm">
         @php
-            $breadcrumRemoveLink = ["/client/adresse/$adresse->idadresse"];
+            $bcCustomLink = ["/client/adresse/$adresse->idadresse"];
             $breadcrumReplaceLink = ['/client/adresse' => '/client/adresses'];
             $breadcrumReplaceName = [
                 '/client/adresse' => 'Adresses',
-                "/client/adresse/$adresse->idadresse/modifier" => $adresse->nomadresse,
+                "/client/adresse/$adresse->idadresse" => $adresse->nomadresse,
             ];
         @endphp
         @include('layout.breadcrumb')
@@ -30,15 +30,10 @@
             <p class="alert alert-success"><i data-lucide="circle-check-big"></i>{!! \Session::get('success') !!}</p>
         @endif
         <div id="informations">
-            <form id="modification" class="formulaire" method="post" action="/api/client/adresse/modifier">
+            <form id="modification" class="formulaire" method="post" action="/api/client/adresse/{{ $adresse->idadresse }}/modifier">
                 @csrf
 
-
-
-                <input id="idadresse" class="hidden" type="text" name="idadresse"
-                value="{{ old('idadresse', $adresse->idadresse) }}">
-
-                <div class="input-control input-control-text">
+                <div class="input-control input-control-text required">
                     <label for="nomadresse">Libellé de l'adresse</label>
                     <input id="nomadresse" type="text" name="nomadresse"
                         value="{{ old('nomadresse', $adresse->nomadresse) }}" />
@@ -47,7 +42,7 @@
                     @enderror
                 </div>
 
-                <div class="input-control input-control-text">
+                <div class="input-control input-control-text required">
                     <label for="nomadressedestinataire">Nom</label>
                     <input id="nomadressedestinataire" type="text" name="nomadressedestinataire"
                     value="{{ old('nomadressedestinataire', $adresse->nomadressedestinataire) }}">
@@ -56,7 +51,7 @@
                     @enderror
                 </div>
 
-                <div class="input-control input-control-text">
+                <div class="input-control input-control-text required">
                     <label for="prenomadressedestinataire">Prénom</label>
                     <input id="prenomadressedestinataire" type="text" name="prenomadressedestinataire"
                     value="{{ old('prenomadressedestinataire', $adresse->prenomadressedestinataire) }}">
@@ -73,7 +68,7 @@
                 </div>
 
                 <input id="oldstreet" class='hidden' value="{{ old('rueadresse', $adresse->rueadresse) }}">
-                <div class="input-control input-control-text">
+                <div class="input-control input-control-text required">
                     <label>Rue</label>
                     <div id="street" class="address-field autocomplete-container" name="street">
                         @error('rueadresse')
@@ -82,7 +77,7 @@
                     </div>
                 </div>
 
-                <div class="input-control input-control-text">
+                <div class="input-control input-control-text required">
                     <label for="numadresse">Numéro</label>
                     <input id="numadresse" type="text" name="numadresse" class="geoapify-autocomplete-input small-input"
                         value="{{ old('numadresse', $adresse->numadresse) }}" />
@@ -91,7 +86,7 @@
                     @enderror
                 </div>
 
-                <div class="input-control input-control-text">
+                <div class="input-control input-control-text required">
                     <label for="cpadresse">Code Postal</label>
                     <input id="cpadresse" type="text" name="cpadresse" class="geoapify-autocomplete-input small-input"
                         value="{{ old('cpadresse', $adresse->cpadresse) }}" />
@@ -101,7 +96,7 @@
                 </div>
 
                 <input id="oldcity" class='hidden' value="{{ old('villeadresse', $adresse->villeadresse) }}">
-                <div class="input-control input-control-text">
+                <div class="input-control input-control-text required">
                     <label>Ville</label>
                     <div id="city" type="text" name="city" class="address-field autocomplete-container" />
                     @error('villeadresse')
@@ -110,7 +105,7 @@
                 </div>
 
                 <input id="oldcountry" class='hidden' value="{{ old('paysadresse', $adresse->paysadresse) }}">
-                <div class="input-control input-control-text">
+                <div class="input-control input-control-text required">
                     <label>Pays</label>
                     <div id="country" type="text" name="country" class="address-field autocomplete-container" />
                     @error('paysadresse')
@@ -118,7 +113,7 @@
                     @enderror
                 </div>
                 <div id="message"></div>
-                <input value="Enregistrer" class="button" id="submit" />
+                <button type="submit" class="button">Enregistrer</button>
             </form>
         </div>
     </main>

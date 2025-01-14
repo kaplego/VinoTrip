@@ -12,7 +12,7 @@ use App\Helpers\Role;
 
 class ActiviteController extends Controller
 {
-    public function add(Request $request)
+    public function add(Request $request, $idsejour, $idetape)
     {
         if (!Helpers::AuthIsRole(Role::ServiceVente) && !Helpers::AuthIsRole(Role::Dirigeant))
             return redirect("/");
@@ -20,7 +20,6 @@ class ActiviteController extends Controller
         $credentials = $request->validate([
             'activite-nom' => ['required'],
             'activite-prix' => ['required'],
-            'activite-idetape' => ['required'],
         ]);
 
         $activite = new Activite();
@@ -30,25 +29,20 @@ class ActiviteController extends Controller
 
         DB::insert("
         insert into appartient_4(idetape, idactivite)
-        values({$credentials['activite-idetape']}, $activite->idactivite);
+        values($idetape, $activite->idactivite);
         ");
 
         return back();
     }
 
-    public function delete(Request $request)
+    public function delete(Request $request, $idsejour, $idetape, $idactivite)
     {
         if (!Helpers::AuthIsRole(Role::ServiceVente) && !Helpers::AuthIsRole(Role::Dirigeant))
             return redirect("/");
 
-        $credentials = $request->validate([
-            'delete-activite-idactivite' => ['required'],
-            'delete-activite-idetape' => ['required'],
-        ]);
-
-        DB::insert("
-        delete from appartient_4 where idactivite={$credentials['delete-activite-idactivite']} and idetape={$credentials['delete-activite-idetape']}
-        ");
+        Appartient_4::where('idactivite', '=', $idactivite)
+            ->where('idetape', '=', $idetape)
+            ->delete();
         return back();
     }
 }

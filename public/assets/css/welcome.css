@@ -25,6 +25,12 @@ h1 {
 
 .avis .titre-avis {
     font-size: 1.25rem;
+    font-weight: bold;
+    text-decoration: none;
+
+    &:hover {
+        color: var(--c-accent-500);
+    }
 }
 
 .avis .note {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helpers;
 use App\Models\Activite;
 use App\Models\Association_38;
 use App\Models\Association_39;
@@ -258,7 +259,7 @@ class PanierController extends Controller
 
         $panier = null;
         if ($idpanier !== null) {
-            $panier = Panier::find($idpanier);
+            $panier = VPanier::find($idpanier);
         }
 
         if (!$panier)
@@ -294,9 +295,9 @@ class PanierController extends Controller
             'adresse-facturation' => ['required', 'integer'],
             'adresse-livraison' => ['integer'],
             'type-paiement' => ['required', 'in:cb-old,cb-new,paypal,stripe'],
-            'cb-titulaire' => ['present_if:type-paiement,cb-new'],
+            'cb-titulaire' => ['present_if:type-paiement,cb-new', 'max:50'],
             'numero-cb' => ['present_if:type-paiement,cb-new', 'regex:/^\d{16}|\d{4} \d{4} \d{4} \d{4}$/'],
-            'ccv-cb' => ['present_if:type-paiement,cb-new', 'digits:3'],
+            'ccv-cb' => ['present_if:type-paiement,cb-new,cb-old', 'digits:3'],
             'cb-exp-mois' => ['present_if:type-paiement,cb-new', 'integer', 'between:1,12'],
             'cb-exp-annee' => ['present_if:type-paiement,cb-new', 'integer', 'between:' . Date('Y') . ',' . (intval(Date('Y')) + 20)],
             'save-infos-cb' => ['boolean']
@@ -308,7 +309,7 @@ class PanierController extends Controller
             'cb-titulaire' => 'Le titulaire est incorrect.',
             'numero-cb' => 'Le numéro de carte bacaire est incorrect.',
             'numero-cb.present_if' => "Le numéro de carte bancaire est requis.",
-            'ccv-cb' => "Le code de sécurité est incorrect.",
+            'ccv-cb' => "Le format du code de sécurité est incorrect.",
             'ccv-cb.present_if' => "Le code de sécurité est requis.",
             'cb-exp-mois' => "Le mois d'expiration est incorrect.",
             'cb-exp-mois.present_if' => "Le mois d'expiration est requis.",
@@ -317,53 +318,43 @@ class PanierController extends Controller
             'cb-exp-annee.between' => "L'année d'expiration doit être entre " . Date('Y') . " et " . (intval(Date('Y')) + 20) . ".",
         ]);
 
-        if ($inputs['type-paiement'] === 'cb-new') {
-            $inputs['numero-cb'] = str_replace(' ', '', $inputs['numero-cb']);
-            $inputs['save-infos-cb'] = isset($inputs['save-infos-cb']) && $inputs['save-infos-cb'] == 1;
-        }
-
         $cb = null;
         if ($inputs['type-paiement'] === 'cb-new') {
-            if ($inputs['save-infos-cb']) {
-                if (Cartebancaire::where('idclient', '=', Auth::user()->idclient)->exists()) {
-                    $cb = Cartebancaire::where('idclient', '=', Auth::user()->idclient)
-                        ->update([
-                            'actif' => true,
-                        ]);
-                    $cb = Cartebancaire::create([
-                        'idclient' => Auth::user()->idclient,
-                        'titulairecb' => $inputs['cb-titulaire'],
-                        'numerocbclient' => $inputs['numero-cb'],
-                        'dateexpirationcbclient' => Carbon::createFromFormat(
-                            'n-Y',
-                            $inputs['cb-exp-mois'] . '-' . $inputs['cb-exp-annee'],
-                        )
+            $cbSave = isset($inputs['save-infos-cb']) && $inputs['save-infos-cb'] == 1;
+
+            $cbTitulaire = Helpers::CreditCardEncrypt($inputs['cb-titulaire'], $inputs['ccv-cb']);
+            $cbNumero = Helpers::CreditCardEncrypt(str_replace(' ', '', $inputs['numero-cb']), $inputs['ccv-cb']);
+            $cbExp = Helpers::CreditCardEncrypt(str_pad($inputs['cb-exp-mois'], 2, '0', STR_PAD_LEFT) . '-' . $inputs['cb-exp-annee'], $inputs['ccv-cb']);
+            $cbFincode = substr($inputs['numero-cb'], -4);
+
+            if ($cbSave) {
+                Cartebancaire::where('idclient', '=', Auth::user()->idclient)
+                        ?->update([
+                        'actif' => false,
                     ]);
-                } else
-                    $cb = Cartebancaire::create([
-                        'idclient' => Auth::user()->idclient,
-                        'titulairecb' => $inputs['cb-titulaire'],
-                        'numerocbclient' => $inputs['numero-cb'],
-                        'dateexpirationcbclient' => Carbon::createFromFormat(
-                            'n-Y',
-                            $inputs['cb-exp-mois'] . '-' . $inputs['cb-exp-annee'],
-                        )
-                    ]);
-            } else {
-                $cb = Cartebancaire::create([
-                    'idclient' => Auth::user()->idclient,
-                    'titulairecb' => $inputs['cb-titulaire'],
-                    'numerocbclient' => $inputs['numero-cb'],
-                    'dateexpirationcbclient' => Carbon::createFromFormat(
-                        'n-Y',
-                        $inputs['cb-exp-mois'] . '-' . $inputs['cb-exp-annee'],
-                    ),
-                    'actif' => false
-                ]);
             }
-            $cb = $cb->idcb;
+
+            $cb = Cartebancaire::create([
+                'idclient' => Auth::user()->idclient,
+                'titulairecb' => $cbTitulaire,
+                'numerocbclient' => $cbNumero,
+                'fincodecarte' => $cbFincode,
+                'dateexpirationcbclient' => $cbExp,
+                'actif' => $cbSave
+            ]);
         } else if ($inputs['type-paiement'] === 'cb-old') {
-            $cb = Auth::user()->cartebancaire->idcb;
+            $cb = Auth::user()->cartebancaire;
+
+            try {
+                if (!Helpers::CreditCardDecrypt($cb->numerocbclient, $inputs['ccv-cb']))
+                    return back()->withErrors([
+                        'ccv-cb' => "Le code de sécurité est incorrect.",
+                    ])->withInput($inputs);
+            } catch (\Exception $e) {
+                return back()->withErrors([
+                    'ccv-cb' => "Le code de sécurité est incorrect.",
+                ])->withInput($inputs);
+            }
         }
 
         $commande = Commande::create([
@@ -371,11 +362,12 @@ class PanierController extends Controller
             'idpanier' => $idpanier,
             'idadressefacturation' => $inputs['adresse-facturation'],
             'idadresselivraison' => $inputs['adresse-livraison'] ?? null,
-            'idcb' => $cb,
+            'idcb' => $cb?->idcb ?? null,
             'etatcommande' => 'En attente de validation',
             'typepaiementcommande' => str_starts_with($inputs['type-paiement'], 'cb') ? 'cb' : $inputs['type-paiement'],
             'datecommande' => date('Y-m-d'),
-            'codereduction' => ''
+            'codereduction' => '',
+            'idcodepromo' => $panier->idcodepromo
         ]);
 
         $offrir = false;

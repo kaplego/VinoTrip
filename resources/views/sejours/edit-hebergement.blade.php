@@ -14,15 +14,21 @@
     @endphp
     <main class="container">
         @php
-            $bcCustomLink = isset($iddescriptioncommande) ? 'reservation/hebergement' : null;
-            $breadcrumReplaceName = ['/sejour' => 'Sejours', "/sejour/$sejour->idsejour" => $sejour->titresejour];
+            $bcCustomLink = isset($iddescriptioncommande)
+                ? 'reservation/hebergement'
+                : "sejour/$sejour->idsejour/edit/hebergement";
+            $breadcrumReplaceName = [
+                '/sejour' => 'Sejours',
+                "/sejour/$sejour->idsejour" => $sejour->titresejour,
+            ];
         @endphp
         @include('layout.breadcrumb')
         <section id="hebergements">
             @foreach ($hebergements as $hebergement)
-                <form action="/api/edit/changes" method="POST">
-                    @csrf
-                    @if ($hebergement->idhebergement != $idhebergement)
+                @if ($hebergement->idhebergement != $idhebergement)
+                    <form action="/api/sejour/{{ $sejour->idsejour }}/etape/{{ $etape->idetape }}/hebergement" method="POST">
+                        @csrf
+
                         <article class="hebergement">
                             <img class="imgheberg"
                                 src="/assets/images/hebergement/{{ $hebergement->photohebergement }}"></img>
@@ -31,13 +37,15 @@
                                 target="_blank">{{ $hebergement->hotel->nompartenaire }}</a>
                             {{-- {{ $etape->hebergement->lienhebergement }} --}}
                         </article>
-                        <input type="hidden" name="iddescriptioncommande" value="{{ $iddescriptioncommande }}" />
+                        @isset($iddescriptioncommande)
+                            <input type="hidden" name="iddescriptioncommande" value="{{ $iddescriptioncommande }}" />
+                        @endisset
                         <input type="hidden" name="newidhebergement" value="{{ $hebergement->idhebergement }}" />
                         <button class="button" type="submit">
                             Choisir cet hébergement
                         </button>
-                    @endif
-                </form>
+                    </form>
+                @endif
             @endforeach
         </section>
     </main>

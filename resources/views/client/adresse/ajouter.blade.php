@@ -59,7 +59,7 @@
                     @endisset
                 @endif
 
-                <div class="input-control input-control-text">
+                <div class="input-control input-control-text required">
                     <label for="nomadresse">Libellé de l'adresse</label>
                     <input id="nomadresse" type="text" name="nomadresse"
                         value="{{ old('nomadresse', Session::get('nomadresse')) }}" />
@@ -68,7 +68,7 @@
                     @enderror
                 </div>
 
-                <div class="input-control input-control-text">
+                <div class="input-control input-control-text required">
                     <label for="nomadressedestinataire">Nom</label>
                     <input id="nomadressedestinataire" type="text" name="nomadressedestinataire"
                         value="{{ old('nomadressedestinataire', Session::get('nomadressedestinataire')) }}" />
@@ -77,7 +77,7 @@
                     @enderror
                 </div>
 
-                <div class="input-control input-control-text">
+                <div class="input-control input-control-text required">
                     <label for="prenomadressedestinataire">Prénom</label>
                     <input id="prenomadressedestinataire" type="text" name="prenomadressedestinataire"
                         value="{{ old('prenomadressedestinataire', Session::get('prenomadressedestinataire')) }}" />
@@ -96,7 +96,7 @@
 
                 {{-- Todo : Ajouter caractères spécieaux dans le regex (àéèç....) --}}
                 <input id="oldstreet" class='hidden' value="{{ old('rueadresse', Session::get('rueadresse')) }}">
-                <div class="input-control input-control-text">
+                <div class="input-control input-control-text required">
                     <label>Rue</label>
                     <div id="street" class="address-field autocomplete-container" name="street">
 
@@ -106,7 +106,7 @@
                     </div>
                 </div>
 
-                <div class="input-control input-control-text">
+                <div class="input-control input-control-text required">
                     <label for="numadresse">Numéro</label>
                     <input id="numadresse" type="text" name="numadresse" class="geoapify-autocomplete-input small-input"
                         value="{{ old('numadresse', Session::get('numadresse')) }}" />
@@ -115,7 +115,7 @@
                     @enderror
                 </div>
 
-                <div class="input-control input-control-text">
+                <div class="input-control input-control-text required">
                     <label for="cpadresse">Code Postal</label>
                     <input id="cpadresse" type="text" name="cpadresse" class="geoapify-autocomplete-input small-input"
                         value="{{ old('cpadresse', Session::get('cpadresse')) }}" />
@@ -125,7 +125,7 @@
                 </div>
 
                 <input id="oldcity" class='hidden' value="{{ old('villeadresse', Session::get('villeadresse')) }}">
-                <div class="input-control input-control-text">
+                <div class="input-control input-control-text required">
                     <label>Ville</label>
                     <div id="city" type="text" name="city" class="address-field autocomplete-container"
                         value="{{ old('villeadresse', Session::get('villeadresse')) }}" />
@@ -135,7 +135,7 @@
                 </div>
 
                 <input id="oldcountry" class='hidden' value="{{ old('paysadresse', Session::get('paysadresse')) }}">
-                <div class="input-control input-control-text">
+                <div class="input-control input-control-text required">
                     <label>Pays</label>
                     <div id="country" type="text" name="country" class="address-field autocomplete-container"
                         value="{{ old('paysadresse', Session::get('paysadresse')) }}" />

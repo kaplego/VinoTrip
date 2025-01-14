@@ -546,8 +546,7 @@ class ClientController extends Controller
             session()->remove($SESSION_A2F_TOGGLE);
 
             return response([
-                'ok' => true,
-                'status' => $verif->status
+                'ok' => true
             ]);
         }
     }

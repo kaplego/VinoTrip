@@ -5,10 +5,10 @@
     </a>
     <menu>
         <nav id="nav-client">
-            <li class="@if (($active ?? '') == 'contact') active @endif">
-                <a href="/contact">
-                    <i data-lucide="send"></i>
-                    Contact
+            <li class="@if (($active ?? '') == 'aide') active @endif">
+                <a href="/aide">
+                    <i data-lucide="life-buoy"></i>
+                    Aide
                 </a>
             </li>
             <li class="@if (($active ?? '') == 'compte') active @endif">
@@ -39,7 +39,6 @@
                     <a href="/reservation"> Voir Reservation Commande</a>
                 </li>
             @endif
-
         </nav>
     </menu>
 </header>

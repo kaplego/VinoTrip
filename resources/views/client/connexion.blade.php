@@ -50,7 +50,7 @@
                         </div>
                     </div>
 
-                    <div class="input-control input-control-text">
+                    <div class="input-control input-control-text required" >
                         <label for="prenomclient">Prénom</label>
                         <input id="prenomclient" type="text" name="prenomclient" placeholder="Prenom"
                             autocomplete="given-name" value="{{ old('prenomclient') }}" />
@@ -58,7 +58,7 @@
                             <p class="alert alert-error"><i data-lucide="circle-x"></i>Le prénom n'est pas valide !</p>
                         @enderror
                     </div>
-                    <div class="input-control input-control-text">
+                    <div class="input-control input-control-text required">
                         <label for="nomclient">Nom</label>
                         <input id="nomclient" type="text" name="nomclient" placeholder="Nom" autocomplete="family-name"
                             value="{{ old('nomclient') }}" />
@@ -66,7 +66,7 @@
                             <p class="alert alert-error"><i data-lucide="circle-x"></i>Le nom n'est pas valide !</p>
                         @enderror
                     </div>
-                    <div class="input-control input-control-text">
+                    <div class="input-control input-control-text required">
                         <label for="emailinscription">Email</label>
                         <input id="emailinscription" type="text" name="emailclient" autocomplete="email"
                             placeholder="prenom.nom@email.com" value="{{ old('emailclient') }}" />
@@ -74,7 +74,7 @@
                             <p class="alert alert-error"><i data-lucide="circle-x"></i>L'adresse email n'est pas valide !</p>
                         @enderror
                     </div>
-                    <div class="input-control input-control-text">
+                    <div class="input-control input-control-text required">
                         <label for="telephoneclient">Numéro de téléphone</label>
                         <input id="telephoneclient" type="text" name="telephoneclient" autocomplete="telephoneclient"
                             placeholder="0102030405" value="{{ old('telephoneclient') }}" />
@@ -83,7 +83,7 @@
                             </p>
                         @enderror
                     </div>
-                    <div class="input-control input-control-text">
+                    <div class="input-control input-control-text required">
                         <label for="motdepasseinscription">Mot de passe</label>
                         <input id="motdepasseinscription" type="password" name="motdepasseclient"
                             autocomplete="new-password" placeholder="M0tD€p@ss3" />
@@ -157,7 +157,7 @@
                         <input type="hidden" name="redirect" value="{{ $redirect }}">
                     @endisset
 
-                    <div class="input-control input-control-text">
+                    <div class="input-control input-control-text required">
                         @error('login')
                             <p class="alert alert-error"><i data-lucide="circle-x"></i>Le mot de passe ou l'adresse email
                                 n'est pas valide !</p></br>
@@ -167,7 +167,7 @@
                         <input id="emailconnexion" type="text" name="emailclientconnexion"
                             placeholder="prenom.nom@email.com" value="{{ old('emailclientconnexion') }}" />
                     </div>
-                    <div class="input-control input-control-text">
+                    <div class="input-control input-control-text required">
                         <label for="motdepasseconnexion">Mot de passe</label>
                         <input id="motdepasseconnexion" type="password" name="motdepasseconnexion"
                             autocomplete="current-password" placeholder="M0tD€p@ss3" />

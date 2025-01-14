@@ -129,13 +129,9 @@
 
                                 </section>
                                 @if ($descriptioncommande->disponibilitehebergement = true && $descriptioncommande->validationclient == true)
-                                    <form method="POST" action="/api/validationcommande" class="validationsejour">
+                                    <form method="POST" action="/api/client/{{ $commande->idclientbeneficiaire }}/confirmer/{{ $iddescriptioncommande->ididdescriptioncommande }}" class="validationsejour">
                                         @csrf
                                         <button class="button" type="submit">Valider séjour</button>
-                                        <input type="hidden" value="{{ $descriptioncommande->iddescriptioncommande }}"
-                                            name="unedescription"></p>
-                                        <input type="hidden" value="{{ $commande->idclientbeneficiaire }}"
-                                            name="unclient"></p>
                                         {{-- <p>{{ $descriptioncommande->repas->restaurant->idpartenaire }}</p> --}}
 
                                     </form>

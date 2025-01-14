@@ -1,12 +1,18 @@
 const tp = document.getElementById("type-paiement");
-tp.addEventListener("change", () => {
-    document.querySelectorAll(".nouvelle-cb").forEach((e) => {
+
+function changeTypePaiement() {
+    document.querySelectorAll("*[data-show-paiement]").forEach((e) => {
+        const val = e.getAttribute('data-show-paiement');
+
         e.querySelectorAll("input").forEach(
-            (i) => (i.disabled = tp.value !== "cb-new")
+            (i) => (i.disabled = tp.value !== val)
         );
-        e.classList.toggle("hidden", tp.value !== "cb-new");
+        e.classList.toggle("hidden", tp.value !== val);
     });
-});
+}
+
+tp.addEventListener("change", changeTypePaiement);
+changeTypePaiement();
 
 const cbnum = document.getElementById('numero-cb'),
     cbtype = document.getElementById('type-cb'),

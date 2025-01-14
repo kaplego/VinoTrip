@@ -23,8 +23,8 @@
             <p class="alert alert-success"><i data-lucide="circle-check-big"></i>{!! \Session::get('success') !!}</p>
         @endif
         <div id="a2f">
-            <h2>Authentification à double facteurs</h2>
-            <p>L'authentification à double facteurs permet d'ajouter une étape de sécurité. Le système vous
+            <h2>Authentification à deux facteurs</h2>
+            <p>L'authentification à deux facteurs permet d'ajouter une étape de sécurité. Le système vous
                 demandera un
                 code de vérification par SMS avant de vous connecter.</p>
             <div class="alert alert-success hidden" id="a2f-complete">
@@ -35,7 +35,7 @@
                 @csrf
                 <div class="input-control input-control-text">
                     <label>Numéro de téléphone</label>
-                    <input type="text" value="+33{{-- substr(Auth::user()->telephoneclient, 1) --}}772241781" readonly />
+                    <input type="text" value="+33 {{ substr(Auth::user()->telephoneclient, 1, 1) }} {{ implode(' ', str_split(substr(Auth::user()->telephoneclient, 2), 2)) }}" readonly />
                     <a href="/client/informations" class="link" style="width: max-content;">Modifier mon numéro de
                         téléphone</a>
                     @error('phone')

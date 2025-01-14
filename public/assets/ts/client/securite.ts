@@ -22,7 +22,7 @@ a2f.init((verifying) => {
     }
 });
 
-buttonCancel.addEventListener("click", async () => {
+buttonCancel.addEventListener("click", () => {
     a2f.cancel((ok) => {
         if (ok) {
             code.classList.add("hidden");
@@ -38,7 +38,7 @@ buttonCancel.addEventListener("click", async () => {
     });
 });
 
-form.addEventListener("submit", async (ev) => {
+form.addEventListener("submit", (ev) => {
     ev.preventDefault();
     ev.stopPropagation();
 
@@ -51,7 +51,7 @@ form.addEventListener("submit", async (ev) => {
         });
     } else {
         a2f.check(
-            new FormData(form).get("code")?.toString() ?? "",
+            new FormData(form).get("code") as string ?? "",
             (result) => {
                 if (result.ok) {
                     code.classList.add("hidden");

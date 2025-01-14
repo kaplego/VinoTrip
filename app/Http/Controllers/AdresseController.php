@@ -44,10 +44,9 @@ class AdresseController extends Controller
 
     }
 
-    public function edit(Request $request)
+    public function edit(Request $request, $idadresse)
     {
         $credentials = $request->validate([
-            'idadresse' => ['required'],
             'nomadresse' => ['required'],
             'nomadressedestinataire' => ['required', "regex:/^\D+$/i"],
             'prenomadressedestinataire' => ['required', "regex:/^\D+$/i"],
@@ -58,9 +57,9 @@ class AdresseController extends Controller
             'paysadresse' => ['required', "regex:/^\D+$/i"],
         ]);
 
+        $adresse = Adresse::find($idadresse);
 
-
-        $adresse = Adresse::find($credentials['idadresse']);
+        if (!$adresse) return back();
 
         $adresse->nomadresse = ucfirst($credentials['nomadresse']);
         $adresse->nomadressedestinataire = ucfirst($credentials['nomadressedestinataire']);
@@ -72,9 +71,10 @@ class AdresseController extends Controller
         $adresse->paysadresse = ucfirst($credentials['paysadresse']);
 
         $adresse->update();
-
+        
         $request->session()->regenerate();
-        return redirect()->back()->with('success', 'Les modifications ont bien été prises en compte.');
+
+        return back()->with('success', 'Les modifications ont bien été prises en compte.');
 
     }
 

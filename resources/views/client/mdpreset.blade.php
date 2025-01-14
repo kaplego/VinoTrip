@@ -16,7 +16,7 @@
         <h1>Définir un nouveau mot de passe</h1>
         <hr class="separateur-titre" />
 
-        <form id="inscription" class="formulaire" method="post" action="/api/client/mdpreset/{{$token}}">
+        <form id="inscription" class="formulaire" method="post" action="/api/client/reset-password/{{$token}}">
             @csrf
 
             <div class="input-control input-control-text">

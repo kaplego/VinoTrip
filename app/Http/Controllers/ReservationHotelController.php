@@ -121,10 +121,8 @@ class ReservationHotelController extends Controller
         return redirect()->back()->with("successclient","le mail a été envoyé");
     }
 
-    public function envoiemailValidationHebergement(Request $request){
-        $iddescrcommande= $request->input("unedescription");
-        $descrcommande = VDescriptioncommande::find( $iddescrcommande);
-        $idclient= $request->input("unclient");
+    public function envoiemailValidationHebergement($idclient, $iddescriptioncommande){
+        $descrcommande = VDescriptioncommande::find( $iddescriptioncommande);
 
         $unclient = Client::find( $idclient);
 
@@ -146,11 +144,8 @@ class ReservationHotelController extends Controller
         return redirect()->back()->with("successclient","le mail a été envoyé");
     }
 
-    public function envoieFinalClient(Request $request){
-        $iddescrcommande= $request->input("unedescription");
-        $descrcommande = VDescriptioncommande::find( $iddescrcommande);
-
-        $idclient= $request->input("unclient");
+    public function envoieFinalClient($idclient, $iddescriptioncommande){
+        $descrcommande = VDescriptioncommande::find( $iddescriptioncommande);
         $unclient = Client::find( $idclient);
         // dd($descrcommande->repas);
 
@@ -175,10 +170,8 @@ class ReservationHotelController extends Controller
         return redirect()->back()->with("successclient","le mail a été envoyé");
     }
 
-    public function Restaurant(Request $request){
-        $iddescrcommande= $request->input("unedescription");
-        $descrcommande = VDescriptioncommande::find( $iddescrcommande);
-        $idclient= $request->input("unclient");
+    public function Restaurant($idclient, $iddescriptioncommande){
+        $descrcommande = VDescriptioncommande::find( $iddescriptioncommande);
         $unclient = Client::find( $idclient);
 
 
@@ -196,10 +189,10 @@ class ReservationHotelController extends Controller
 
         return redirect()->back()->with("successclient","le mail a été envoyé");
     }
-    public  function confirmationCommande(Request $request){
-        $this->envoiemailValidationHebergement($request);
-        $this->envoieFinalClient($request);
-        $this->Restaurant($request);
+    public  function confirmationCommande(Request $request, $idclient, $iddescriptioncommande){
+        $this->envoiemailValidationHebergement($idclient, $iddescriptioncommande);
+        $this->envoieFinalClient($idclient, $iddescriptioncommande);
+        $this->Restaurant($idclient, $iddescriptioncommande);
         return redirect()->back()->with("successclient","le mail a été envoyé");
      }
 

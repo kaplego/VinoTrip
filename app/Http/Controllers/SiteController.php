@@ -43,9 +43,10 @@ class SiteController extends Controller
     {
         return view("destinations");
     }
-    public function test()
+
+    public function aide()
     {
-        return view("test");
+        return view("aide");
     }
 
     public function dialogflow(Request $request)
@@ -169,6 +170,66 @@ class SiteController extends Controller
                             ]
                         ]
                     ]);
+                case 'ListeSejours.Prix':
+                    $comparator = $request->input('queryResult')['parameters']['comparator'];
+
+                    switch ($comparator) {
+                        case 'égale':
+                        case 'égal':
+                        case 'de':
+                            $comparator = '=';
+                            break;
+
+                        case 'moins':
+                            $comparator = '<';
+                            break;
+
+                        case 'plus':      
+                            $comparator = '>';
+                            break;
+
+                        default:
+                            break;
+                    }
+                    $sejours = Sejour::where(
+                        'prixsejour',
+                        $comparator,
+                        $request->input('queryResult')['parameters']['number']
+                    )->get()->toArray();
+
+                    return response([
+                        "fulfillmentMessages" => [
+                            [
+                                "payload" => [
+                                    "richContent" => [
+                                        [
+                                            [
+                                                "type" => "description",
+                                                "title" => "J'ai trouvé " . sizeof($sejours) . " séjour(s)." . (sizeof($sejours) > $MAX_SEJOURS ? " Voici les $MAX_SEJOURS premiers." : ''),
+                                                "text" => [
+                                                    "Vous pouvez également vous rendre sur la liste des séjours, et modifier les filtres à votre guise afin de n'afficher que les séjours qui vous intéressent.",
+                                                ]
+                                            ]
+                                        ],
+                                        ...array_map(function ($sejour) {
+                                            return [
+                                                [
+                                                    "type" => "button",
+                                                    "icon" => [
+                                                        "type" => "explore",
+                                                        "color" => "var(--df-messenger-send-icon)"
+                                                    ],
+                                                    "text" => $sejour['titresejour'],
+                                                    "link" => "/sejour/$sejour[idsejour]"
+                                                ]
+                                            ];
+                                        }, array_slice($sejours, 0, $MAX_SEJOURS))
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]);
+
             }
 
         return response([

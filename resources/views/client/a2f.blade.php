@@ -14,7 +14,7 @@
     @include('layout.header')
     <main class="container-sm">
         @include('layout.breadcrumb')
-        <h1>Authentification à double facteurs</h1>
+        <h1>Authentification à deux facteurs</h1>
         <hr class="separateur-titre" />
         @if (\Session::has('success'))
             <p class="alert alert-success"><i data-lucide="circle-check-big"></i>{!! \Session::get('success') !!}</p>
@@ -23,7 +23,7 @@
             @csrf
             <div class="input-control input-control-text">
                 <label>Numéro de téléphone</label>
-                <input type="text" value="+33*******{{-- substr($client->telephoneclient, 8) --}}81" readonly />
+                <input type="text" value="+33*******{{ substr($client->telephoneclient, -2) }}" readonly />
             </div>
             <div class="input-control input-control-text hidden" id="a2f-code">
                 <label>Code de vérification</label>

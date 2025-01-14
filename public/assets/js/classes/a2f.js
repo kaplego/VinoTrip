@@ -53,9 +53,9 @@ export default class A2F {
     async cancel(callback) {
         this.toggleButtons(false);
         const res = await axios.delete(this.url);
-        if (res.data.ok && res.data.status && res.data.status === "canceled")
+        if (res.data.ok)
             this._verifying = false;
-        await callback?.(this._verifying);
+        await callback?.(res.data.ok);
         this.toggleButtons(true);
     }
 }

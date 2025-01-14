@@ -151,6 +151,7 @@ form:has(#paiement) {
 
 #paiement #infos-bancaires .input-group {
     display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
 }
 
@@ -184,6 +185,7 @@ form:has(#paiement) {
 #codepromo .input-control + .button {
     border-radius: 0 4px 4px 0;
     height: 100%;
+    margin: 0;
 }
 
 #total {

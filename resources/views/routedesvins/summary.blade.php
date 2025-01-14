@@ -38,14 +38,14 @@
                     $note = 0;
 
                     $localites = [];
-                    foreach ($sejour->localite as $localite) {
-                        $localites[] = $localite->idlocalite;
+                    if(isset($sejour->localite)){
+                        $localites[] = $sejour->localite;
                     }
                 @endphp
 
                 <article class="sejour">
                     <h2 class="titre"><a href="/sejour/{{ $sejour->idsejour }}">{{ $sejour->titresejour }}</a></h2>
-                    <img class="image" src="/assets/images/sejour/{{ $sejour->photosejour }}" />
+                    <img class="image" src="/storage/sejour/{{ $sejour->photosejour }}" />
                     <div class="contenu">
                         <div class="icones">
                             <div data-tooltip="{{ $sejour->categoriesejour->libellecategoriesejour }}">

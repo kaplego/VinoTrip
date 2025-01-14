@@ -35,7 +35,7 @@
                     <tr>
                         <td>{{ $commande->idcommande }}</td>
                         <td>{{ date_format(date_create($commande->datecommande), 'd/m/Y') }}</td>
-                        <td>{{ $commande->prix }} €</td>
+                        <td>{{ number_format($commande->prixreduit, 2, ',', ' ') }} €</td>
                         <td>
                             @switch($commande->typepaiementcommande)
                                 @case('cb')
@@ -64,7 +64,7 @@
                         </td>
                         <td>{{ $commande->etatcommande }} @if (str_contains($commande->etatcommande, 'refusé'))
                                 <div
-                                    data-help="Vérifiez que le solde de votre compte est suffisant, puis essayez à nouveau.">
+                                    data-help="Vérifiez que le solde de votre compte est suffisant, puis essayez à nouveau. Si le problème subsiste, veuillez contacter votre banque.">
                                 </div>
                             @elseif ($commande->etatcommande === 'En attente de validation')
                                 <div

@@ -193,18 +193,24 @@
                     </div>
                     <div class="avis">
                         <p class="note">
-                            <i data-lucide="star" fill="currentColor" class="checked"></i>
+                            <i data-lucide="star" fill="currentColor" 
+                            class="@if ($note >= 1)checked @endif"></i>
                             <i data-lucide="star" fill="currentColor"
-                                class="@if ($note >= 2) checked @endif"></i>
+                            class="@if ($note >= 2) checked @endif"></i>
                             <i data-lucide="star" fill="currentColor"
-                                class="@if ($note >= 3) checked @endif"></i>
+                            class="@if ($note >= 3) checked @endif"></i>
                             <i data-lucide="star" fill="currentColor"
-                                class="@if ($note >= 4) checked @endif"></i>
+                            class="@if ($note >= 4) checked @endif"></i>
                             <i data-lucide="star" fill="currentColor"
-                                class="@if ($note == 5) checked @endif"></i>
+                            class="@if ($note == 5) checked @endif"></i>
                         </p>
+                        @if (sizeof($sejour->avis)) 
                         <p class="valeur">{{ $note }}/5</p>
+                        
                         <a href="/sejour/{{ $sejour->idsejour }}#avis">Voir les avis</a>
+                        @else
+                        <p>Aucun avis</p>
+                        @endif
                     </div>
                     <a class="decouvrir button" href="/sejour/{{ $sejour->idsejour }}">Découvrir</a>
                 </article>
