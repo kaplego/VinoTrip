@@ -228,10 +228,10 @@ class SiteController extends Controller
 
                 case 'ListeSejours.Region':
                     $sejours = Sejour::with('categorievignoble')
-                        ->whereRaw(
-                            'LOWER(categorievignoble) LIKE LOWER(?)',
-                            ['%' . trim($request->input('queryResult')['parameters']['region']) . '%']
-                        )
+                        ->whereHas('categorievignoble', function ($query) use ($request) {
+                            $region = strtolower(trim($request->input('queryResult')['parameters']['region']));
+                            $query->whereRaw('LOWER(libellecategorievignoble) = ?', [$region]);
+                        })
                         ->get()
                         ->toArray();
 
