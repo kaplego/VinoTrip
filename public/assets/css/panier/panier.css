@@ -5,6 +5,7 @@
     gap: 1rem;
 }
 
+#liste-sejours .descriptionpanier:not(:has(form)),
 #liste-sejours .descriptionpanier form {
     display: grid;
     padding: 1rem;
@@ -15,7 +16,7 @@
     gap: 1rem;
 }
 
-#liste-sejours .descriptionpanier form .sejour {
+#liste-sejours .descriptionpanier .sejour {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -23,51 +24,51 @@
     grid-row: 1 / 3;
 }
 
-#liste-sejours .descriptionpanier form .sejour .photo {
+#liste-sejours .descriptionpanier .sejour .photo {
     width: 100%;
     height: 200px;
     object-fit: cover;
     border-radius: 6px;
 }
 
-#liste-sejours .descriptionpanier form .details {
+#liste-sejours .descriptionpanier .details {
     margin: 0;
     border-collapse: collapse;
     grid-row: 1 / 3;
     grid-column: 2 / 3;
 }
 
-#liste-sejours .descriptionpanier form .details td {
+#liste-sejours .descriptionpanier .details td {
     padding: 0.5rem;
     vertical-align: top;
 }
 
-#liste-sejours .descriptionpanier form .details td:not(.code-cadeau) {
+#liste-sejours .descriptionpanier .details td:not(.code-cadeau) {
     text-transform: capitalize;
 }
 
-#liste-sejours .descriptionpanier form .details td.flex {
+#liste-sejours .descriptionpanier .details td.flex {
     display: flex;
     flex-direction: column;
 }
 
-#liste-sejours .descriptionpanier form .details td.prix {
+#liste-sejours .descriptionpanier .details td.prix {
     text-align: right;
     color: var(--c-accent-500);
 }
 
-#liste-sejours .descriptionpanier form .details tr:not(:last-of-type) {
+#liste-sejours .descriptionpanier .details tr:not(:last-of-type) {
     border-bottom: 2px solid var(--c-gray-200);
 }
 
-#liste-sejours .descriptionpanier form .prix-total {
+#liste-sejours .descriptionpanier .prix-total {
     display: flex;
     flex-direction: column;
     align-items: end;
     gap: 0.5rem;
 }
 
-#liste-sejours .descriptionpanier form .prix-total .prix {
+#liste-sejours .descriptionpanier .prix-total .prix {
     font-size: 1.5rem;
     font-weight: bold;
     color: var(--c-accent-500);
@@ -75,7 +76,7 @@
     grid-column: 3 / 4;
 }
 
-#liste-sejours .descriptionpanier form .infos {
+#liste-sejours .descriptionpanier .infos {
     display: flex;
     flex-direction: column;
     justify-content: end;
@@ -84,12 +85,12 @@
     gap: 0.5rem;
 }
 
-#liste-sejours .descriptionpanier form .infos .buttons {
+#liste-sejours .descriptionpanier .infos .buttons {
     display: flex;
     gap: 0.5rem;
 }
 
-#liste-sejours .descriptionpanier form .infos .buttons .button {
+#liste-sejours .descriptionpanier .infos .buttons .button {
     flex: 1;
 }
 

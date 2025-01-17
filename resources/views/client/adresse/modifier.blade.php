@@ -16,7 +16,7 @@
     @include('layout.header')
     <main class="container-sm">
         @php
-            $bcCustomLink = ["/client/adresse/$adresse->idadresse"];
+            $bcCustomLink = "client/adresse/$adresse->idadresse";
             $breadcrumReplaceLink = ['/client/adresse' => '/client/adresses'];
             $breadcrumReplaceName = [
                 '/client/adresse' => 'Adresses',
@@ -30,7 +30,7 @@
             <p class="alert alert-success"><i data-lucide="circle-check-big"></i>{!! \Session::get('success') !!}</p>
         @endif
         <div id="informations">
-            <form id="modification" class="formulaire" method="post" action="/api/client/adresse/{{ $adresse->idadresse }}/modifier">
+            <form id="modification" class="formulaire" method="post" action="{{ route('api.adresse.edit', ['idadresse' => $adresse->idadresse]) }}">
                 @csrf
 
                 <div class="input-control input-control-text required">

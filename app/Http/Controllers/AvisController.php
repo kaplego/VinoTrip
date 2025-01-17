@@ -29,7 +29,7 @@ class AvisController extends Controller
     public function create(Request $request, $idsejour)
     {
         if (!Auth::check())
-            return redirect("/sejour/$idsejour");
+            return to_route('sejour', ['idsejour' => $idsejour]);
 
         $validator = Validator::make($request->all(), [
             'photo' => ['nullable', 'file', 'image', 'max:512'],
@@ -62,19 +62,18 @@ class AvisController extends Controller
             ]);
         }
 
-        return redirect("/sejour/$idsejour");
+        return to_route('sejour', ['idsejour' => $idsejour]);
     }
 
     public function reply(Request $request, $idsejour, $idavis)
     {
-        if (!Auth::check()) {
-            return redirect("/sejour/$idsejour");
-        }
+        if (!Auth::check())
+            return to_route('sejour', ['idsejour' => $idsejour]);
 
         $avis = Avis::find($idavis);
 
         if (!$avis)
-            return redirect("/sejour/$idsejour");
+            return to_route('sejour', ['idsejour' => $idsejour]);
 
         $request->validate([
             'reply' => ['required', 'between:5,2048']
@@ -85,7 +84,7 @@ class AvisController extends Controller
             'descriptionreponse' => $request->input('reply'),
         ]);
 
-        return redirect()->back()->with('success', 'Réponse publiée avec succès');
+        return back()->with('success', 'Réponse publiée avec succès.');
     }
 
 }

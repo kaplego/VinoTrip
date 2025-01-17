@@ -41,7 +41,7 @@
                     $nbPersonnes = $descriptionpanier->nbadultes + $descriptionpanier->nbenfants;
                 @endphp
                 <article class="descriptionpanier">
-                    <form action="/api/panier/update" method="post">
+                    <form action="{{ route('api.panier.update') }}" method="post">
                         @csrf
                         <input type="hidden" name="iddescriptionpanier" value="{{ $descriptionpanier->iddescriptionpanier }}">
                         <div class="sejour">
@@ -143,7 +143,7 @@
                         </div>
                         <div class="infos">
                             @if ($descriptionpanier->codepromoutilise === null)
-                                <a class="button" href="/modifier/{{ $descriptionpanier->idsejour }}">
+                                <a class="button" href="{{ route('panier.modifier', ['idsejour' => $descriptionpanier->idsejour]) }}">
                                     <i data-lucide="pencil"></i> Modifier les détails
                                 </a>
                                 <div class="input-control input-control-text" style="margin: 0">
@@ -195,9 +195,9 @@
     @endif
 
     <div id="buttons-navigation">
-        <a href="/sejours" class="button">Continuer mes achats</a>
+        <a href="{{ route('sejours') }}" class="button">Continuer mes achats</a>
 
-        <form action="api/panier/codepromo" method="POST" id="codepromo">
+        <form action="{{ route('api.panier.promo') }}" method="POST" id="codepromo">
             @csrf
             <div class="input-control input-control-text">
                 <input type="text" name="codePromo" placeholder="Code promo" />
@@ -208,7 +208,7 @@
         </form>
 
         @if ($panier !== null && sizeof($panier->descriptionspanier) > 0)
-            <a href="/panier/paiement" class="button">Passer au paiement</a>
+            <a href="{{ route('paiement') }}" class="button">Passer au paiement</a>
         @endif
 
     </div>

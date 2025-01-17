@@ -36,7 +36,9 @@
                     data-vignoble="{{ $sejour->idcategorievignoble }}" data-duree="{{ $sejour->idduree }}"
                     data-localite="{{ implode(',', $localites) }}"
                     data-participant="{{ $sejour->categorieparticipant->idcategorieparticipant }}">
-                    <h2 class="titre"><a href="/sejour/{{ $sejour->idsejour }}">{{ $sejour->titresejour }}</a></h2>
+                    <h2 class="titre"><a
+                            href="{{ route('sejour', ['idsejour' => $sejour->idsejour]) }}">{{ $sejour->titresejour }}</a>
+                    </h2>
                     <img class="image" data-src="/storage/sejour/{{ $sejour->photosejour }}" />
                     <div class="contenu">
                         <div class="icones">
@@ -97,10 +99,13 @@
                         </p>
                         <hr />
                         @if (isset($sejour->nouveauprixsejour))
-                        <p class="prix" style="text-decoration-line: line-through;">À partir de <span class="euros">{{ $sejour->prixsejour }}€</span> par personne
-                        <p class="prix" style="color: red; text-decoration-line:underline;">À partir de <span class="euros">{{ $sejour->nouveauprixsejour }}€</span> par personne
-                        @else
-                        <p class="prix">À partir de <span class="euros">{{ $sejour->prixsejour }}€</span> par personne
+                            <p class="prix" style="text-decoration-line: line-through;">À partir de <span
+                                    class="euros">{{ $sejour->prixsejour }}€</span> par personne
+                            <p class="prix" style="color: red; text-decoration-line:underline;">À partir de <span
+                                    class="euros">{{ $sejour->nouveauprixsejour }}€</span> par personne
+                            @else
+                            <p class="prix">À partir de <span class="euros">{{ $sejour->prixsejour }}€</span> par
+                                personne
                         @endif
                         </p>
                         <p class="description">{{ $sejour->descriptionsejour }}</p>
@@ -136,29 +141,22 @@
                                         class="@if ($note == 5) checked @endif"></i>
                                 </p>
                                 <p class="valeur">{{ $note }}/5</p>
-                                <a href="/sejour/{{ $sejour->idsejour }}#avis">Voir les avis</a>
+                                <a href="{{ route('sejour', ['idsejour' => $sejour->idsejour]) }}#avis">Voir les avis</a>
                             </div>
                         @endif
                     </div>
-                    <a class="decouvrir button" href="/sejour/{{ $sejour->idsejour }}">Découvrir</a>
-                    <button class="unfav button" data-idsejour="{{ $sejour->idsejour }}">Retirer des favoris</a>
+                    <a class="decouvrir button"
+                        href="{{ route('sejour', ['idsejour' => $sejour->idsejour]) }}">Découvrir</a>
+                    <form action="{{ route('api.favoris.remove', ['idsejour' => $sejour->idsejour]) }}" method="POST">
+                        @csrf
+                        <button class="unfav button">Retirer des favoris</a>
+                    </form>
                 </article>
                 @php
                     $i++;
                 @endphp
             @endforeach
         </section>
-        <form class="overlay hidden" id="suppr" method="post" action="/api/client/favoris/delete">
-            @csrf
-            <div class="overlay-content">
-                <h2>Confirmer la suppression</h2>
-                <input type="hidden" name="idsejour" id="suppr-idsejour">
-                <div class="buttons">
-                    <button type="button" class="button" id="suppr-annuler">Annuler</button>
-                    <button type="submit" class="button">Supprimer</button>
-                </div>
-            </div>
-        </form>
     </main>
     @include('layout.footer')
 @endsection
@@ -167,4 +165,3 @@
     <script src="/assets/js/favoris.js"></script>
 
 @endsection
-

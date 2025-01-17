@@ -25,20 +25,24 @@ use DB;
 class ClientController extends Controller
 {
 
-    public function connexion()
+    public function connexion(Request $request)
     {
         if (!Auth::check()) {
             if (session('user-auth'))
-                return redirect('/connexion/a2f');
-            return view("client.connexion");
+                return to_route('a2f');
+
+            return view("client.connexion", [
+                'redirect' => $request->input('redirect')
+            ]);
         }
-        return redirect('/client');
+        return to_route('client');
     }
 
     public function profil()
     {
         if (!Auth::check())
-            return redirect('/connexion');
+            return to_route('login');
+
         return view("client.compte", [
             'nombreadresses' => Adresse::where('idclient', '=', Auth::user()->idclient)->count(),
             'nombrecommandes' => VCommande::where('idclientacheteur', '=', Auth::user()->idclient)->count(),
@@ -46,10 +50,10 @@ class ClientController extends Controller
         ]);
     }
 
-    public function informations()
+    public function informations(Request $request)
     {
         if (!Auth::check())
-            return redirect('/connexion');
+            return to_route('login')->withInput(['redirect' => $request->path()]);
         return view("client.informations");
     }
 
@@ -81,9 +85,9 @@ class ClientController extends Controller
             if ($user->a2f) {
                 session()->put('user-auth', value: $user);
 
-                return redirect('/connexion/a2f')->with([
+                return response(to_route('a2f')->with([
                     'redirect' => $inputs['redirect'] ?? null
-                ]);
+                ]));
             } else {
                 Auth::loginUsingId($user->idclient);
                 $request->session()->regenerate();
@@ -96,7 +100,8 @@ class ClientController extends Controller
         return response(back()->withErrors([
             'login' => 'L\'email ou le mot de passe est invalide.',
         ])->withInput([
-                    'emailclientconnexion' => $inputs['emailclientconnexion']
+                    'emailclientconnexion' => $inputs['emailclientconnexion'],
+                    'redirect' => $inputs['redirect'] ?? null
                 ]));
     }
 
@@ -118,8 +123,7 @@ class ClientController extends Controller
             $request->request->get('anneenaissance')
         );
 
-
-        return redirect('/client/adresse/ajouter')->withInput([
+        return to_route('adresses.create')->withInput([
             'prenomclient' => $credentials['prenomclient'],
             'nomclient' => $credentials['nomclient'],
             'emailclient' => $credentials['emailclient'],
@@ -137,7 +141,7 @@ class ClientController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/');
+        return to_route('welcome');
     }
 
     public function edit(Request $request)
@@ -199,7 +203,7 @@ class ClientController extends Controller
             }
 
             $request->session()->regenerate();
-            return redirect()->back()->with('success', 'Les modifications ont bien été prises en compte.');
+            return back()->with('success', 'Les modifications ont bien été prises en compte.');
         } else
             return response(back()->withErrors([
                 'ancienmotdepasse' => 'Le mot de passe est incorrect !',
@@ -236,15 +240,13 @@ class ClientController extends Controller
     {
         $client = Client::firstWhere('tokenresetmdp', "=", $token);
         if ($client != null) {
-            if (Auth::check()) {
+            if (Auth::check())
                 Auth::logout();
-            }
+
             return view("client.mdpreset", ['token' => $token]);
         }
 
-        return redirect("/");
-
-
+        return to_route('welcome');
     }
     public function updatePassword(Request $request, $token)
     {
@@ -252,7 +254,6 @@ class ClientController extends Controller
             'motdepasseclient' => ['required', 'string', 'min:12', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{12,}$/'],
             'confirmationmotdepasse' => ['required', 'same:motdepasseclient'],
         ]);
-
 
         $client = Client::firstWhere('tokenresetmdp', $token);
 
@@ -266,10 +267,10 @@ class ClientController extends Controller
                     'motdepasseclient' => $client->motdepasseclient
                 ]);
 
-            return redirect("/connexion");
+            return to_route('login');
         }
 
-        return redirect("/");
+        return to_route('welcome');
     }
 
     public function createPdfFile($client)
@@ -340,7 +341,7 @@ class ClientController extends Controller
                 unlink($fileInfo['path']);
             }
 
-            return redirect()->back()->with("successhotel", "le mail a été envoyé");
+            return back()->with("successhotel", "le mail a été envoyé");
         } catch (\Exception $e) {
             if (isset($fileInfo) && file_exists($fileInfo['path'])) {
                 unlink($fileInfo['path']);
@@ -350,18 +351,20 @@ class ClientController extends Controller
         }
     }
 
-    public function securite()
+    public function securite(Request $request)
     {
         if (!Auth::check())
-            return redirect('/connexion');
+            return to_route('login')->withInput(['redirect' => $request->path()]);
         return view("client.securite");
     }
 
-    public function a2f()
+    public function a2f(Request $request)
     {
         $session = session('user-auth');
+
         if (Auth::check() || !$session)
-            return redirect('/connexion');
+            return to_route('login');
+
         return view('client.a2f', [
             'client' => $session
         ]);
@@ -551,10 +554,12 @@ class ClientController extends Controller
         }
     }
 
-    public function supprimerInformations($id)
+    public function supprimerInformations()
     {
-        $client = Client::find($id);
+        if (!Auth::check())
+            return to_route('login');
 
+        $client = Client::find(Auth::user()->idclient);
 
         $client->nomclient = "null";
         $client->prenomclient = "null";
@@ -569,16 +574,16 @@ class ClientController extends Controller
             $address->delete();
         }
 
-        return redirect()->back()->with('success', 'Les modifications ont bien été prises en compte.');
+        return back()->with('success', 'Les modifications ont bien été prises en compte.');
 
     }
 
-
-
-    public function anonymiser($idclient)
+    public function anonymiser()
     {
-        $client = Client::findOrFail($idclient);
+        if (!Auth::check())
+            return to_route('login');
 
+        $client = Client::find(Auth::user()->idclient);
 
         $client->update([
             'nomclient' => 'Anonyme',
@@ -600,7 +605,7 @@ class ClientController extends Controller
             $address->save();
         }
 
-        return redirect()->back()->with('success', 'Les modifications ont bien été prises en compte.');
+        return back()->with('success', 'Les modifications ont bien été prises en compte.');
     }
 
 
@@ -609,7 +614,7 @@ class ClientController extends Controller
     {
         DB::select('SELECT anonymize_inactive_clients()');
 
-        return redirect()->back()->with('success', 'Les modifications ont bien été prises en compte.');
+        return back()->with('success', 'Les modifications ont bien été prises en compte.');
     }
 
 }

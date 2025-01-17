@@ -1,25 +1,25 @@
-const activite_overlay = document.getElementById("form-add-activite"),
-    activite_inputPrix = document.getElementById("activite-prix"),
-    activite_inputNomActivite = document.getElementById("activite-nom"),
-    activite_buttonAnnuler = document.getElementById("activite-annuler");
-if (activite_overlay) {
-    function activite_overlayShow(idetape) {
-        if (activite_overlay.classList.contains("hidden")) {
-            activite_overlay.action = `/api/etape/${idetape}/activite/add`;
-            activite_overlay.classList.remove("hidden");
-        }
-    }
-    document.querySelectorAll(".add-activite").forEach((btn) => {
-        btn.addEventListener("click", () =>
-            activite_overlayShow(btn.getAttribute("data-idetape"))
-        );
-    });
-    activite_buttonAnnuler.addEventListener("click", () => {
-        activite_overlay.classList.add("hidden");
-        activite_inputNomActivite.value = "";
-        activite_inputPrix.value = "50";
-    });
-}
+// const activite_overlay = document.getElementById("form-add-activite"),
+//     activite_inputPrix = document.getElementById("activite-prix"),
+//     activite_inputNomActivite = document.getElementById("activite-nom"),
+//     activite_buttonAnnuler = document.getElementById("activite-annuler");
+// if (activite_overlay) {
+//     function activite_overlayShow(idetape) {
+//         if (activite_overlay.classList.contains("hidden")) {
+//             activite_overlay.action = `/api/etape/${idetape}/activite/add`;
+//             activite_overlay.classList.remove("hidden");
+//         }
+//     }
+//     document.querySelectorAll(".add-activite").forEach((btn) => {
+//         btn.addEventListener("click", () =>
+//             activite_overlayShow(btn.getAttribute("data-idetape"))
+//         );
+//     });
+//     activite_buttonAnnuler.addEventListener("click", () => {
+//         activite_overlay.classList.add("hidden");
+//         activite_inputNomActivite.value = "";
+//         activite_inputPrix.value = "50";
+//     });
+// }
 
 const delete_activite_overlay = document.getElementById("form-delete-activite"),
     delete_activite_buttonAnnuler = document.getElementById(
@@ -28,7 +28,7 @@ const delete_activite_overlay = document.getElementById("form-delete-activite"),
 if (delete_activite_overlay) {
     function delete_activite_overlayShow(idetape, idactivite) {
         if (delete_activite_overlay.classList.contains("hidden")) {
-            activite_overlay.action = `/api/etape/${idetape}/activite/${idactivite}/delete`;
+            delete_activite_overlay.action = `/api/etape/${idetape}/activite/${idactivite}/delete`;
             delete_activite_overlay.classList.remove("hidden");
         }
     }

@@ -15,7 +15,7 @@ class ActiviteController extends Controller
     public function add(Request $request, $idsejour, $idetape)
     {
         if (!Helpers::AuthIsRole(Role::ServiceVente) && !Helpers::AuthIsRole(Role::Dirigeant))
-            return redirect("/");
+            return to_route('welcome');
 
         $credentials = $request->validate([
             'activite-nom' => ['required'],
@@ -38,7 +38,7 @@ class ActiviteController extends Controller
     public function delete(Request $request, $idsejour, $idetape, $idactivite)
     {
         if (!Helpers::AuthIsRole(Role::ServiceVente) && !Helpers::AuthIsRole(Role::Dirigeant))
-            return redirect("/");
+            return to_route('welcome');
 
         Appartient_4::where('idactivite', '=', $idactivite)
             ->where('idetape', '=', $idetape)

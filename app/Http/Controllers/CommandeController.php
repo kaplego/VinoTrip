@@ -10,7 +10,7 @@ class CommandeController extends Controller
     public function liste()
     {
         if (!Auth::check())
-            return redirect('/connexion');
+            return to_route('login');
 
         return view('client.commande.liste', ['commandes' => Auth::user()->commandes]);
     }
@@ -18,12 +18,12 @@ class CommandeController extends Controller
     public function recapitulatif($id)
     {
         if (!Auth::check())
-            return redirect('/connexion');
+            return to_route('login');
 
         $commande = VCommande::find($id)?->where('idclientacheteur', '=', Auth::user()->idclient);
 
         if (!$commande)
-            return redirect('/client');
+            return to_route('client');
 
         return view('client.commande.recapitulatif', ['commande' => VCommande::find($id)]);
     }

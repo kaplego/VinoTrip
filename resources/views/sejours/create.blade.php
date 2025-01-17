@@ -20,7 +20,7 @@
         @include('layout.breadcrumb')
         <h1>Créer un séjour</h1>
         <hr class="separateur-titre">
-        <form action="/api/sejours/create" method="POST" enctype="multipart/form-data" novalidate>
+        <form action="{{ route('api.sejour-create') }}" method="POST" enctype="multipart/form-data" novalidate>
             @csrf
             <h2>Séjour</h2>
             <div class="columns">

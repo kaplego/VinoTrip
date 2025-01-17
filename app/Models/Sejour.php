@@ -80,4 +80,5 @@ class Sejour extends Model
             'idsejour',
         );
     }
+
 }

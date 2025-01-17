@@ -24,7 +24,7 @@
         @include('layout.breadcrumb')
         <h1>Personnaliser : {{ $sejour->titresejour }}</h1>
         <hr class="separateur-titre" />
-        <form action="/api/panier/add" method="POST" novalidate id="formulaire">
+        <form action="{{ route('api.panier.add') }}" method="POST" novalidate id="formulaire">
             @csrf
             <input type="hidden" name="idsejour" value="{{ $sejour->idsejour }}">
             <section>
@@ -40,7 +40,8 @@
                         @enderror
                     </div>
                     <div class="input-control input-control-text required">
-                        <label for="datefin">Date de retour <div data-help="La date est calculée en fonction de la date de départ."></div></label>
+                        <label for="datefin">Date de retour <div
+                                data-help="La date est calculée en fonction de la date de départ."></div></label>
                         <input type="date" id="datefin" name="datefin" value="{{ old('datefin') }}" min="0"
                             readonly autocomplete="off" />
                         @error('datefin')
@@ -159,13 +160,6 @@
             <section>
                 <h2>Activités</h2>
 
-                @if (Helpers::AuthIsRole(Role::ServiceVente) || Helpers::AuthIsRole(Role::Dirigeant))
-                    <button type="button" class="add-activite button" data-idetape="{{ $sejour->etape[0]->idetape }}">
-                        <i data-lucide="badge-percent"></i>
-                        <span class="text">Ajouter une activité</span>
-                    </button>
-                @endif
-
                 @foreach ($sejour->etape as $etape)
                     @foreach ($etape->activites as $activite)
                         <div class="input-control input-control-checkbox">
@@ -180,7 +174,9 @@
                                 <p class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</p>
                             @enderror
                             @if (Helpers::AuthIsRole(Role::ServiceVente) || Helpers::AuthIsRole(Role::Dirigeant))
-                                <button type="button" class="delete-activite" data-idetape="{{ $sejour->etape[0]->idetape }}" data-idactivite="{{  $activite->idactivite }}">Retirer l'activité</button>
+                                <button type="button" class="delete-activite"
+                                    data-idetape="{{ $sejour->etape[0]->idetape }}"
+                                    data-idactivite="{{ $activite->idactivite }}">Retirer l'activité</button>
                             @endif
                         </div>
                     @endforeach
@@ -226,25 +222,18 @@
         </form>
 
         @if (Helpers::AuthIsRole(Role::ServiceVente) || Helpers::AuthIsRole(Role::Dirigeant))
-            <form class="overlay hidden" id="form-add-activite" method="post">
+            {{-- <button type="button" class="add-activite button" data-idetape="{{ $sejour->etape[0]->idetape }}">
+                        <i data-lucide="badge-percent"></i>
+                        <span class="text">Ajouter une activité</span>
+                    </button> --}}
+            <form id="form-add-activite" method="post">
                 @csrf
-                <div class="overlay-content">
-                    <h2>Indiquer la nouvelle activité :</h2><br />
-                    <div class="input-control input-control-text required">
-                        <label for="activite-nom">Nom de l'activité</label>
-                        <input type="text" placeholder="Nouveau nom d'activité" name="activite-nom"
-                            id="activite-nom">
-                    </div>
-                    <div class="input-control input-control-text required">
-                        <label for="activite-prix">Prix (€)</label>
-                        <input type="number" step="0.01" min="0" value="50" name="activite-prix"
-                            id="activite-prix">
-                    </div>
-                    <div id="activite-buttons" class="buttons">
-                        <button type="button" class="button" id="activite-annuler">Annuler</button>
-                        <button type="submit" class="button">Appliquer</button>
-                    </div>
-                </div>
+                <p>Ajouter une nouvelle activité</p>
+                <input type="text" placeholder="Nom d'activité" name="activite-nom" id="activite-nom"
+                    class="input-control-inline" />
+                <input type="number" step="0.01" min="0" value="50" name="activite-prix"
+                    id="activite-prix" class="input-control-inline" placeholder="Prix (€)" />
+                <button type="submit" class="button button-sm">Appliquer</button>
             </form>
         @endif
 

@@ -27,12 +27,12 @@
                 <h1>Inscription</h1>
                 <hr class="separateur-titre" />
 
-                <form id="inscription" class="formulaire" method="post" action="/api/client/signin">
+                <form id="inscription" class="formulaire" method="post" action="{{ route('api.signin') }}">
                     @csrf
 
-                    @isset($redirect)
+                    @if($redirect)
                         <input type="hidden" name="redirect" value="{{ $redirect }}">
-                    @endisset
+                    @endif
 
                     <div class="groupe-radio">
                         <label>Civilité</label>
@@ -150,7 +150,7 @@
                 <h1>Connexion</h1>
                 <hr class="separateur-titre" />
 
-                <form id="connexion" class="formulaire" method="post" action="/api/client/login">
+                <form id="connexion" class="formulaire" method="post" action="{{ route('api.login') }}">
                     @csrf
 
                     @isset($redirect)
@@ -176,7 +176,7 @@
                     <input type="submit" value="Connexion" class="button" />
                 </form>
 
-                <form id="reset-password" class="hidden" method="post" action="/api/client/resetmdp">
+                <form id="reset-password" class="hidden" method="post" action="{{ route('api.client-reset') }}">
                     @csrf
                     <h3>Réinitialisation du mot de passe</h3>
                     <div class="input-control input-control-text">

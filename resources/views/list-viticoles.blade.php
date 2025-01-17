@@ -29,7 +29,7 @@
                     <td>{{ $viticole->libellecategorievignoble }}</td>
                     <td>{{ $viticole->Sejour()->count() }}</td>
                     <td>
-                        <form action="/api/viticoles/{{$viticole->idcategorievignoble}}/delete" method="POST">
+                        <form action="{{ route('api.viticole.remove', ['idviticole' => $viticole->idcategorievignoble]) }}" method="POST">
                             @csrf
                             <button type="submit" @if($viticole->Sejour()->count() != 0)disabled title="La catégorie doit avoir aucun séjour pour la supprimer" @endif >Supprimer</button>
                         </form>
@@ -43,7 +43,7 @@
         <h2>Ajouter un viticole</h2>
 
 
-        <form action="/api/viticoles/add" method="POST">
+        <form action="{{ route('api.viticole.add') }}" method="POST">
             @csrf
             <label for="libellecategorievignbole">Nom viticole</label>
             <input type="text" name="libellecategorievignbole" id="libellecategorievignbole">

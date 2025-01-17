@@ -68,7 +68,7 @@
             </select>
 
             @if (Helpers::AuthIsRole(Role::ServiceVente))
-                <a id="edit" href='viticoles/list'>
+                <a id="edit" href="{{ route('viticoles') }}">
                     <i data-lucide="file-pen-line"></i>
                     <span class="mobile">Modifier les domaines viticoles</span>
                 </a>
@@ -100,7 +100,7 @@
                     data-theme="{{ $sejour->idtheme }}" data-vignoble="{{ $sejour->idcategorievignoble }}"
                     data-duree="{{ $sejour->idduree }}" data-localite="{{ implode(',', $localites) }}"
                     data-participant="{{ $sejour->categorieparticipant->idcategorieparticipant }}">
-                    <h2 class="titre"><a href="/sejour/{{ $sejour->idsejour }}">{{ $sejour->titresejour }}</a></h2>
+                    <h2 class="titre"><a href="{{ route('sejour', ['idsejour' => $sejour->idsejour]) }}">{{ $sejour->titresejour }}</a></h2>
                     <img class="image" data-src="/storage/sejour/{{ $sejour->photosejour }}" />
                     <div class="contenu">
                         <div class="icones">
@@ -193,7 +193,7 @@
                     </div>
                     <div class="avis">
                         <p class="note">
-                            <i data-lucide="star" fill="currentColor" 
+                            <i data-lucide="star" fill="currentColor"
                             class="@if ($note >= 1)checked @endif"></i>
                             <i data-lucide="star" fill="currentColor"
                             class="@if ($note >= 2) checked @endif"></i>
@@ -204,15 +204,15 @@
                             <i data-lucide="star" fill="currentColor"
                             class="@if ($note == 5) checked @endif"></i>
                         </p>
-                        @if (sizeof($sejour->avis)) 
+                        @if (sizeof($sejour->avis))
                         <p class="valeur">{{ $note }}/5</p>
-                        
-                        <a href="/sejour/{{ $sejour->idsejour }}#avis">Voir les avis</a>
+
+                        <a href="{{ route('sejour', ['idsejour' => $sejour->idsejour]) }}#avis">Voir les avis</a>
                         @else
                         <p>Aucun avis</p>
                         @endif
                     </div>
-                    <a class="decouvrir button" href="/sejour/{{ $sejour->idsejour }}">Découvrir</a>
+                    <a class="decouvrir button" href="{{ route('sejour', ['idsejour' => $sejour->idsejour]) }}">Découvrir</a>
                 </article>
                 @php
                     $i++;

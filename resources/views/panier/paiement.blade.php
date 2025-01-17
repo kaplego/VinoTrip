@@ -17,7 +17,7 @@
     @include('layout.breadcrumb')
     <h1>Paiement</h1>
     <hr class="separateur-titre" />
-    <form action="/api/panier/payment" method="POST" novalidate>
+    <form action="{{ route('api.panier.payment') }}" method="POST" novalidate>
         @csrf
         <div id="paiement">
             <div id="prix">
@@ -62,7 +62,7 @@
                         @enderror
                     </div>
                 @endif
-                <p class="name"><a href="/client/adresses" class="link link-icon"><i
+                <p class="name"><a href="{{ route('adresses') }}" class="link link-icon"><i
                             data-lucide="map-pin-plus"></i>Modifier mes adresses</a></p>
             </div>
             <div id="infos-bancaires">
@@ -171,7 +171,7 @@
             </div>
         </div>
         <div id="buttons-navigation">
-            <a href="/panier" class="button">Retourner au panier</a>
+            <a href="{{ route('panier') }}" class="button">Retourner au panier</a>
             <button type="submit" class="button">Confirmer</button>
         </div>
     </form>

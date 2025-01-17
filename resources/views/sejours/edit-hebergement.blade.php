@@ -26,7 +26,7 @@
         <section id="hebergements">
             @foreach ($hebergements as $hebergement)
                 @if ($hebergement->idhebergement != $idhebergement)
-                    <form action="/api/sejour/{{ $sejour->idsejour }}/etape/{{ $etape->idetape }}/hebergement" method="POST">
+                    <form action="{{ route('api.sejour-hebergement', ['idetape' => $sejour->idsejour, 'idetape' => $etape->idetape]) }}" method="POST">
                         @csrf
 
                         <article class="hebergement">

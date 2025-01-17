@@ -21,7 +21,7 @@
             <p class="alert alert-success"><i data-lucide="circle-check-big"></i>{!! \Session::get('success') !!}</p>
         @endif
         <div id="informations">
-            <form id="modification" class="formulaire" method="post" action="/api/client/edit">
+            <form id="modification" class="formulaire" method="post" action="{{ route('api.client-edit') }}">
                 @csrf
 
                 <div class="groupe-radio">
@@ -161,20 +161,20 @@
                 Veuillez noter que la suppression et l'anonymisation de vos données sont irréversibles.
             </p>
             <div id="buttons-donnees-perso">
-                <form method="post" action="/api/client/supprimer/{{ Auth::User()->idclient }}">
+                <form method="post" action="{{ route('api.client-supprimer') }}">
                     @csrf
                     <button type="submit" class="button" onclick="return confirm('Êtes-vous sûr de vouloir supprimer vos informations ? Cette action est irréversible.')">
                         Demander la suppression de mes informations
                     </button>
                 </form>
 
-                <form method="post" action="/api/client/anonymiser/{{ Auth::User()->idclient }}">
+                <form method="post" action="{{ route('api.client-anonymiser') }}">
                     @csrf
                     <button type="submit" class="button" onclick="return confirm('Êtes-vous sûr de vouloir anonymiser vos informations ? Cette action est irréversible.')">
                         Demander l’anonymisation de mes informations
                     </button>
                 </form>
-                <form method="post" action="/api/client/clientdata/{{Auth::User()->idclient }}">
+                <form method="post" action="{{ route('api.client-data') }}">
                     @csrf
                     <button type="submit" class="button">Demander mes informations personnelles</button>
                 </form>

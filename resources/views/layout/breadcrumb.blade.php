@@ -6,7 +6,7 @@
     @endphp
 
     @if (sizeof($arr) > 0)
-        <a href="/" class="home">
+        <a href="{{ route('welcome') }}" class="home">
             <i data-lucide="house"></i>
         </a>
     @else

@@ -12,24 +12,27 @@ class FavorisController extends Controller
     public function list()
     {
         if (!Auth::check())
-            return view("client.connexion");
+            return to_route('login');
         return view('client.favoris', ['favoris' => Auth::user()->favoris]);
     }
 
-    public function delete(Request $request)
+    public function delete(Request $request, $idsejour)
     {
-        $favori = Favoris::where('idclient', '=', Auth::user()->idclient)
-            ->where('idsejour', '=', $request->request->get('idsejour'))
+        if (!Auth::check())
+            return to_route('login')->withInput(['redirect' => route('favoris')]);
+
+        Favoris::where('idclient', '=', Auth::user()->idclient)
+            ->where('idsejour', '=', $idsejour)
             ->delete();
         return back();
     }
 
-    public function add(Request $request)
+    public function add(Request $request, $idsejour)
     {
         $idclient = Auth::user()->idclient;
         DB::insert("
         insert into favoris(idclient, idsejour)
-        values({$idclient}, {$request->request->get('idsejour')});
+        values({$idclient}, {$idsejour});
         ");
 
         return back();

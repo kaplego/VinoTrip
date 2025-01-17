@@ -26,7 +26,7 @@
                     $note = round($note, 1);
                 @endphp
                 <article class="avis">
-                    <a class="titre-avis" href="/sejour/{{ $sejour->idsejour }}">{{ $sejour->titresejour }}</a>
+                    <a class="titre-avis" href="{{ route('sejour', ['idsejour' => $sejour->idsejour]) }}">{{ $sejour->titresejour }}</a>
                     <div class="note">
                         <p class="etoiles">
                             <i data-lucide="star" fill="currentColor" class="checked"></i>
@@ -49,7 +49,7 @@
                 </article>
             @endforeach
             <div class="buttons">
-                <a class="button" href="/avis">Découvrir tout les avis</a>
+                <a class="button" href="{{ route('avis') }}">Découvrir tout les avis</a>
             </div>
         </section>
     </main>

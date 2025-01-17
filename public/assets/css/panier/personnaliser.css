@@ -107,3 +107,10 @@ section>.input-group>.input-control {
 .button {
     font-size: 1rem;
 }
+
+#form-add-activite {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}

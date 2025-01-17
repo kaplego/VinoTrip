@@ -1,5 +1,5 @@
     @php
-        $active = 'reservation-sejours';
+        $active = 'reservations';
     @endphp
 
     @extends('layout.app')
@@ -13,28 +13,31 @@
     @section('body')
         @include('layout.header')
 
-        <main class="container-lg">
+        <main class="container">
 
             <h1>Réservation clients</h1>
+            <hr class="separateur-titre" />
+
             @php
                 $dateauj = date('Y-n-j');
-
             @endphp
             <section>
                 @foreach ($commandes as $commande)
                     @foreach ($commande->descriptionscommande as $descriptioncommande)
                         @if ($descriptioncommande != null && $commande->etatcommande == 'En attente de validation')
                             @if ($descriptioncommande->datedebut >= $dateauj)
-                                <h2 class="titresej">{{ $descriptioncommande->sejour->titresejour }}</h2>
-                                <section id="unereservation">
-                                    <p class="date">Date séjour : {{ $descriptioncommande->datedebut }}</p>
-                                    <article class ="unclient">
-                                        <h3>Commande effective du client :
+                                <section class="reservation">
+                                    <h2 class="titre">{{ $descriptioncommande->sejour->titresejour }}</h2>
+                                    <p class="date">Date du séjour :
+                                        {{ date('D j F Y', strtotime($descriptioncommande->datedebut)) }}</p>
+
+                                    <article class="client">
+                                        <h3>Client :
                                             {{ ($commande->beneficiaire ?? $commande->acheteur)->prenomclient }}
                                             {{ ($commande->beneficiaire ?? $commande->acheteur)->nomclient }}</h3>
 
-                                        {{-- envoie  mail conf client --}}
-                                        <form method="POST" action="/api/reservationclient">
+                                        <form method="POST" action="{{ route('api.reserv.client') }}"
+                                            class="boutons-container">
                                             @csrf
                                             <input type="hidden" value="{{ $descriptioncommande->datedebut }}"
                                                 name="datedebut">
@@ -42,83 +45,97 @@
                                                 name="titre">
                                             <input type="hidden" value="{{ $descriptioncommande->prix }}" name="prix">
 
-                                            <p>Envoyer un mail de paiement au client: <button type="submit"
-                                                    @if ($descriptioncommande->disponibilitehebergement == false) disabled @endif>{{ ($commande->beneficiaire ?? $commande->acheteur)->emailclient }}</button>
-                                            </p>
-
-                                            {{-- @if (\Session::has('successclient'))
-                                                <p class="alert alert-success"><i
-                                                        data-lucide="circle-check-big"></i>{!! \Session::get('success') !!}</p>
-                                            @endif --}}
-
-
+                                            <p>Envoyer un mail de paiement au client</p>
+                                            <button class="button button-sm" type="submit"
+                                                @if ($descriptioncommande->disponibilitehebergement == false) disabled @endif>
+                                                {{ ($commande->beneficiaire ?? $commande->acheteur)->emailclient }}
+                                            </button>
                                         </form>
-                                        {{-- met la variable validation client à true --}}
+                                        <div class="boutons-container">
+                                            <p>Validation du client</p>
 
-                                        <form method="POST" action="/api/clientok">
-                                            @csrf
-                                            <p>Validation Client : <button class="button" type="submit">OUI</button>
-                                                <input type="hidden"
-                                                    value="{{ $descriptioncommande->iddescriptioncommande }}"
-                                                    name="unedescription">
-                                            </p>
-                                        </form>
+                                            <div class="boutons">
+                                                <form method="POST" action="{{ route('api.clientok') }}">
+                                                    @csrf
+                                                    <input type="hidden"
+                                                        value="{{ $descriptioncommande->iddescriptioncommande }}"
+                                                        name="unedescription">
+                                                    <button class="button button-sm button-check" type="submit">
+                                                        <i data-lucide="check"></i>
+                                                    </button>
+                                                </form>
 
-                                        <form method="POST" action="/api/clientnon">
-                                            @csrf
-                                            <p><button class="button" type="submit">NON</button>
-                                                <input type="hidden" value="{{ $commande->idcommande }}"
-                                                    name="unecommande">
-                                            </p>
-                                        </form>
+                                                <form method="POST" action="{{ route('api.clientnon') }}">
+                                                    @csrf
+                                                    <input type="hidden" value="{{ $commande->idcommande }}"
+                                                        name="unecommande">
+                                                    <button class="button button-sm button-x" type="submit">
+                                                        <i data-lucide="x"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </article>
 
                                     {{-- envoie mail heberg --}}
-                                    <article class="unhotel">
-                                        <div class="réponseheberg">
-                                            <form method="POST" action="/api/reservationhotel">
+                                    <article class="hotel">
+                                        <h3>Hôtel :
+                                            {{ $descriptioncommande->hebergement->hotel->nompartenaire }}</h3>
+
+                                        <div class="boutons-container">
+                                            <form method="POST" action="{{ route('api.reserv.hotel') }}"
+                                                class="boutons-container">
                                                 @csrf
                                                 <input type="hidden" value="{{ $descriptioncommande->datedebut }}"
                                                     name="datedebut">
                                                 <input type="hidden"
                                                     value="{{ $descriptioncommande->hebergement->hotel->nompartenaire }}"
                                                     name="nom">
-                                                <h3>Partenaire hotel :
-                                                    {{ $descriptioncommande->hebergement->hotel->nompartenaire }}</h3>
-                                                <p>Envoyer un mail de validation pour la réservation de l'hotel: <button
-                                                        type="submit">{{ $descriptioncommande->hebergement->hotel->mailpartenaire }}</button>
-                                                </p>
-
+                                                <p>Envoyer un mail de validation à l'hotel</p>
+                                                <button class="button button-sm" type="submit">
+                                                    {{ $descriptioncommande->hebergement->hotel->mailpartenaire }}
+                                                </button>
 
                                             </form>
+                                        </div>
 
-                                            {{-- met la variable validatiobhebergement à true --}}
-                                            <form method="POST" action="/api/reservationok">
-                                                @csrf
-                                                <p>Validation hebergement : <button class="button"
-                                                        type="submit">OUI</button>
+                                        <div class="boutons-container">
+                                            <p>Validation hebergement</p>
+
+                                            {{-- met la variable validationbhebergement à true --}}
+                                            <div class="boutons">
+                                                <form method="POST" action="{{ route('api.reserv.ok') }}">
+                                                    @csrf
                                                     <input type="hidden"
                                                         value="{{ $descriptioncommande->iddescriptioncommande }}"
                                                         name="unedescription">
-                                                </p>
+                                                    <button class="button button-sm button-check" type="submit">
+                                                        <i data-lucide="check"></i>
+                                                    </button>
+                                                </form>
 
-                                            </form>
-
-                                            {{-- envoie mail nouvelle heberg --}}
-                                            <form action="/sejour/{{ $descriptioncommande->idsejour }}/edit/hebergement"
-                                                method="POST">
-                                                @csrf
-                                                <input type="hidden"
-                                                    value="{{ $descriptioncommande->iddescriptioncommande }}"
-                                                    name="iddescriptioncommande">
-                                                <input type="hidden"
-                                                    value="{{ $descriptioncommande->hebergement->hotel->idpartenaire }}"
-                                                    name="idpart">
-                                                <p><button class="button" type="submit">NON</button></p>
-                                                <input type="hidden"
-                                                    value="{{ $descriptioncommande->iddescriptioncommande }}"
-                                                    name="unedescription"></p>
-                                            </form>
+                                                {{-- envoie mail nouvelle heberg --}}
+                                                <form
+                                                    action="{{ route('api.sejour-hebergement-edit', [
+                                                        'idsejour' => $descriptioncommande->idsejour,
+                                                        'idetape' => $descriptioncommande->hebergement->etapes[0]->idetape,
+                                                    ]) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    <input type="hidden"
+                                                        value="{{ $descriptioncommande->iddescriptioncommande }}"
+                                                        name="iddescriptioncommande">
+                                                    <input type="hidden"
+                                                        value="{{ $descriptioncommande->hebergement->hotel->idpartenaire }}"
+                                                        name="idpart">
+                                                    <input type="hidden"
+                                                        value="{{ $descriptioncommande->iddescriptioncommande }}"
+                                                        name="unedescription"></p>
+                                                    <button class="button button-sm button-x" type="submit">
+                                                        <i data-lucide="x"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </div>
                                         {{-- @if (\Session::has('successhotel'))
 
@@ -129,7 +146,9 @@
 
                                 </section>
                                 @if ($descriptioncommande->disponibilitehebergement = true && $descriptioncommande->validationclient == true)
-                                    <form method="POST" action="/api/client/{{ $commande->idclientbeneficiaire }}/confirmer/{{ $iddescriptioncommande->ididdescriptioncommande }}" class="validationsejour">
+                                    <form method="POST"
+                                        action="{{ route('api.commande.confirm', ['idclient' => $commande->idclientbeneficiaire, 'iddescriptioncommande' => $iddescriptioncommande->ididdescriptioncommande]) }}
+                                        class="validationsejour">
                                         @csrf
                                         <button class="button" type="submit">Valider séjour</button>
                                         {{-- <p>{{ $descriptioncommande->repas->restaurant->idpartenaire }}</p> --}}

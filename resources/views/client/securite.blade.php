@@ -36,7 +36,7 @@
                 <div class="input-control input-control-text">
                     <label>Numéro de téléphone</label>
                     <input type="text" value="+33 {{ substr(Auth::user()->telephoneclient, 1, 1) }} {{ implode(' ', str_split(substr(Auth::user()->telephoneclient, 2), 2)) }}" readonly />
-                    <a href="/client/informations" class="link" style="width: max-content;">Modifier mon numéro de
+                    <a href="{{ route('client.infos') }}" class="link" style="width: max-content;">Modifier mon numéro de
                         téléphone</a>
                     @error('phone')
                         <div class="alert alert-error"><i data-lucide="circle-x"></i>{{ $message }}</div>

@@ -44,15 +44,15 @@ class SejourController extends Controller
         ]);
     }
 
-    public function one($id)
+    public function one($idsejour)
     {
-        $sejour = Sejour::find($id);
+        if (!is_numeric($idsejour))
+            return to_route('sejours');
 
-        if ($sejour == null)
-            return redirect('/sejours');
+        $sejour = Sejour::find($idsejour);
 
-        if (!$sejour->publie && !Helpers::AuthIsRole(Role::ServiceVente) && !Helpers::AuthIsRole(Role::Dirigeant))
-            return redirect('/sejours');
+        if ($sejour === null || (!$sejour->publie && !Helpers::AuthIsRole(Role::ServiceVente) && !Helpers::AuthIsRole(Role::Dirigeant)))
+            return to_route('sejours');
 
         $history = explode(',', Cookie::get('sejours_history'));
         if ($sejour->publie) {
@@ -87,15 +87,15 @@ class SejourController extends Controller
         ]);
     }
 
-    public function edit($id)
+    public function edit($idsejour)
     {
         if (!Helpers::AuthIsRole(Role::ServiceVente) && !Helpers::AuthIsRole(Role::Dirigeant))
-            return redirect("/sejour/$id");
+            return to_route('sejour', ['idsejour' => $idsejour]);
 
-        $sejour = Sejour::find($id);
+        $sejour = Sejour::find($idsejour);
 
         if ($sejour == null)
-            return redirect('/sejours');
+            return to_route('sejours');
 
         return view('sejours.summary', [
             'sejour' => $sejour,
@@ -110,7 +110,7 @@ class SejourController extends Controller
     public function apihebergement(Request $request, $idsejour, $idetape)
     {
         if (!Helpers::AuthIsRole(Role::ServiceVente) && !Helpers::AuthIsRole(Role::Dirigeant))
-            return redirect('/');
+            return to_route('welcome');
 
         $sejour = Sejour::find($idsejour);
         $etape = Etape::where('idsejour', '=', $idsejour)->find($idetape);
@@ -137,19 +137,19 @@ class SejourController extends Controller
 
             ], "Équipe vinotrip changement d'hebergement "));
 
-            return redirect("/reservation");
+            return to_route("reservation");
         } else {
             $etape->update([
                 'idhebergement' => $newidhebergement
             ]);
         }
 
-        return redirect("/sejour/$idsejour/edit");
+        return to_route("sejour.edit", ['idsejour' => $idsejour]);
     }
     public function choixhebergement(Request $request, $idsejour, $idetape)
     {
         if (!Helpers::AuthIsRole(Role::ServiceVente) && !Helpers::AuthIsRole(Role::Dirigeant))
-            return redirect('/');
+            return to_route('welcome');
 
         $iddescription = $request->input('iddescriptioncommande');
         $idhebergement = $request->input('idhebergement');
@@ -172,7 +172,7 @@ class SejourController extends Controller
     public function createview()
     {
         if (!Helpers::AuthIsRole(Role::Dirigeant))
-            return redirect('/connexion');
+            return to_route('login');
 
         $placeholder = Sejour::inRandomOrder()->first();
 
@@ -191,7 +191,9 @@ class SejourController extends Controller
     public function create(Request $request)
     {
         if (!Helpers::AuthIsRole(Role::Dirigeant))
-            return response(null, 401);
+            return to_route('login')->withInput([
+                'redirect' => '/sejours/create'
+            ]);
 
         $hebergements = Hebergement::all()->pluck('idhebergement')->toArray();
         $categoriesparticipant = Categorieparticipant::all()->pluck('idcategorieparticipant')->toArray();
@@ -283,12 +285,12 @@ class SejourController extends Controller
                 ]);
         }
 
-        return redirect("/sejour/$sejour->idsejour");
+        return to_route("sejour", ['idsejour' => $sejour->idsejour]);
     }
     public function updatephoto(Request $request, $idsejour)
     {
         if (!Helpers::AuthIsRole(Role::ServiceVente) && !Helpers::AuthIsRole(Role::Dirigeant))
-            return redirect("/sejour/$idsejour");
+            return to_route("sejour", ['idsejour' => $idsejour]);
 
         $inputs = $request->validate([
             'photo-upload' => ['required', 'file', 'image', 'max:1024'],
@@ -313,13 +315,13 @@ class SejourController extends Controller
                 'photo-upload' => "Une erreur s'est produite."
             ]);
 
-        return redirect("/sejour/$sejour->idsejour");
+        return back();
     }
 
     public function removephoto($idsejour, $idphoto)
     {
         if (!Helpers::AuthIsRole(Role::ServiceVente) && !Helpers::AuthIsRole(Role::Dirigeant))
-            return redirect("/sejour/$idsejour");
+            return to_route("sejour", ['idsejour' => $idsejour]);
 
         Photo::where('idsejour', '=', $idsejour)?->find($idphoto)?->delete();
 
@@ -347,10 +349,12 @@ class SejourController extends Controller
         return back();
     }
 
-    public function validateview()
+    public function validateview(Request $request)
     {
         if (!Helpers::AuthIsRole(Role::Dirigeant) && !Helpers::AuthIsRole(Role::ServiceVente))
-            return redirect('/connexion');
+            return to_route('login')->withInput([
+                'redirect' => $request->path()
+            ]);
 
         return view('sejours.validate', [
             'sejours' => Sejour::orderBy('idsejour')->where('publie', '=', false)->get()
@@ -360,7 +364,7 @@ class SejourController extends Controller
     public function publier($idsejour)
     {
         if (!Helpers::AuthIsRole(Role::Dirigeant))
-            return redirect('/connexion');
+            return to_route('login');
 
         $sejour = Sejour::find($idsejour);
         $sejour->update([
@@ -372,13 +376,13 @@ class SejourController extends Controller
 
     public function discount(Request $request, $idsejour)
     {
-        if (!Helpers::AuthIsRole(Role::ServiceVente))
-            return redirect('/connexion');
+        if (!Helpers::AuthIsRole(Role::ServiceVente) && !Helpers::AuthIsRole(Role::Dirigeant))
+            return to_route('login');
 
         $sejour = Sejour::find($idsejour);
 
         if (!$sejour)
-            return redirect('/connexion');
+            return to_route('login');
 
         $request->validate([
             'nouveauprixsejour' => ['nullable', 'numeric', 'min:0', "max:$sejour->prixsejour"]
@@ -394,7 +398,7 @@ class SejourController extends Controller
     public function editing(Request $request)
     {
         if (!Helpers::AuthIsRole(Role::ServiceVente)) {
-            return redirect('/connexion');
+            return to_route('login');
         }
 
         return view('sejours.editing', [

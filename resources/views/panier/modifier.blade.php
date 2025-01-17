@@ -16,7 +16,7 @@
         @include('layout.breadcrumb')
         <h1>Modifier : {{ $sejour->titresejour }}</h1>
         <hr class="separateur-titre" />
-        <form action="/api/panier/add" method="POST" novalidate id="formulaire">
+        <form action="{{ route('api.panier.add') }}" method="POST" novalidate id="formulaire">
             @csrf
             <input type="hidden" name="idsejour" value="{{ $sejour->idsejour }}">
             <section>

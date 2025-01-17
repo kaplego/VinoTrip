@@ -75,7 +75,7 @@
                                 </div>
                             @endif
                         </td>
-                        <td><a href="/client/commande/{{ $commande->idcommande }}" class="button button-sm">Détails</td>
+                        <td><a href="{{ route('commande', ['id' => $commande->idcommande]) }}" class="button button-sm">Détails</td>
                     </tr>
                 @endforeach
             </tbody>

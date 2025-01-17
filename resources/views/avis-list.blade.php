@@ -49,7 +49,7 @@
                     </div>
 
                     <div class="buttons">
-                        <a class="button" href="/sejour/{{ $sejour->idsejour }}#avis">
+                        <a class="button" href="{{ route('sejour', ['idsejour' => $sejour->idsejour]) }}#avis">
                             Voir tous les avis pour ce séjour
                         </a>
                     </div>

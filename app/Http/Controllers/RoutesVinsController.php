@@ -9,12 +9,12 @@ class RoutesVinsController extends Controller
 {
     public function list()
     {
-        return view('routedesvins.route-des-vins', ['routes' => Routedesvins::all() ]);
+        return view('routedesvins.route-des-vins', ['routes' => Routedesvins::all()]);
     }
     public function one($id)
     {
-        return view ('routedesvins.summary', [
-            'route'=>Routedesvins::find($id),
+        return view('routedesvins.summary', [
+            'route' => Routedesvins::find($id),
         ]);
     }
 }

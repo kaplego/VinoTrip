@@ -30,12 +30,12 @@
         <div class="alert alert-warning">
             <i data-lucide="pencil-ruler"></i>
             <span class="text">Vous êtes en train de modifier ce séjour.</span>
-            <a class="button" href="/sejour/{{ $sejour->idsejour }}">Quitter le mode d'édition</a>
+            <a class="button" href="{{ route('sejour', ['idsejour' => $sejour->idsejour]) }}">Quitter le mode d'édition</a>
         </div>
     @endisset
 
     @if (!$sejour->publie)
-        <form class="alert alert-warning" action="/api/sejour/{{ $sejour->idsejour }}/publish" method="POST">
+        <form class="alert alert-warning" action="{{ route('api.sejour-publish', ['idsejour' => $sejour->idsejour]) }}" method="POST">
             @csrf
             <i data-lucide="lock"></i>
             <span class="text">Le séjour n'est pas encore publié.</span>
@@ -57,7 +57,7 @@
                 @isset($editing)
                     <div class="photo">
                         <img src="/storage/sejour/{{ $photo->photo }}" />
-                        <form action="/api/sejour/{{ $sejour->idsejour }}/photo/{{ $photo->idphoto }}/delete" method="post">
+                        <form action="{{ route('api.sejour-photo.remove', ['idsejour' => $sejour->idsejour, 'idphoto' => $photo->idphoto]) }}" method="post">
                             @csrf
                             <button type="submit" class="button button-sm">
                                 <i data-lucide="trash-2"></i>
@@ -69,7 +69,7 @@
                 @endisset
             @endforeach
             @isset($editing)
-                <form action="/api/sejour/{{ $sejour->idsejour }}/update/photo" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('api.sejour-photo.add', ['idsejour' => $sejour->idsejour]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="input-control input-control-image">
                         <div class="image">
@@ -91,7 +91,7 @@
             @endisset
         </div>
         @isset($editing)
-            <form id="description" action="/api/sejour/{{ $sejour->idsejour }}/update" method="POST">
+            <form id="description" action="{{ route('api.sejour-update', ['idsejour' => $sejour->idsejour]) }}" method="POST">
                 @csrf
                 <input name="titre" class="title input-control-inline" placeholder="Titre"
                     value="{{ $sejour->titresejour }}" />
@@ -135,7 +135,7 @@
                 </div>
                 <div class="buttons buttons-advanced">
                     @if ($sejour->publie)
-                        <a class="button" href="/personnaliser/{{ $sejour->idsejour }}">
+                        <a class="button" href="{{ route('personnaliser', ['idsejour' => $sejour->idsejour]) }}">
                             <i data-lucide="shopping-basket"></i>
                             <span class="text">Personnaliser ou offrir</span>
                         </a>
@@ -149,16 +149,15 @@
 
                         @if (Auth::check())
                             @if (Auth::user()->favoris->contains($sejour))
-                                <form method="post" action="/api/client/favoris/delete">
+                                <form method="post" action="{{ route('api.favoris.remove', ['idsejour' => $sejour->idsejour]) }}">
                                     @csrf
-                                    <input type="hidden" name="idsejour" value="{{ $sejour->idsejour }}">
                                     <button class="button" type="submit">
                                         <i data-lucide="heart-off"></i>
                                         <span class="text">Retirer des favoris</span>
                                     </button>
                                 </form>
                             @else
-                                <form method="post" action="/api/client/favoris/add">
+                                <form method="post" action="{{ route('api.favoris.add', ['idsejour' => $sejour->idsejour]) }}">
                                     @csrf
                                     <input type="hidden" name="idsejour" value="{{ $sejour->idsejour }}">
                                     <button class="button" type="submit">
@@ -177,7 +176,7 @@
                                 <span class="text">Sauvegarder</span>
                             </button>
                         @else
-                            <a class="button" href="/sejour/{{ $sejour->idsejour }}/edit">
+                            <a class="button" href="{{ route('sejour.edit', ['idsejour' => $sejour->idsejour]) }}">
                                 <i data-lucide="pencil-ruler"></i>
                                 <span class="text">Modifier séjour</span>
                             </a>
@@ -223,7 +222,7 @@
                 <a class="lienheberg link" href="{{ $etape->hebergement->lienhebergement }}"
                     target="_blank">{{ $etape->hebergement->hotel->nompartenaire }}</a>
                 @isset($editing)
-                    <form action="/api/sejour/{{ $sejour->idsejour }}/etape/{{ $etape->idetape }}/edithebergement" method="POST">
+                    <form action="{{ route('api.sejour-hebergement-edit', ['idsejour' => $sejour->idsejour, 'idetape' => $etape->idetape]) }}" method="POST">
                         @csrf
                         <input type="hidden" name="idhebergement" value="{{ $etape->hebergement->idhebergement }}">
                         <button class="button" type="submit">
@@ -243,7 +242,7 @@
         @if (\Session::has('success'))
             <p class="alert alert-success"><i data-lucide="circle-check-big"></i>{!! \Session::get('success') !!}</p>
         @endif
-        <form action="/api/sejour/{{ $sejour->idsejour }}/hotels/email" method="POST">
+        <form action="{{ route('api.sejour-hotel', ['idsejour' => $sejour->idsejour]) }}" method="POST">
             @csrf
             <button type="submit" class="button">Contactez les hotels</button>
         </form>
@@ -303,7 +302,7 @@
                     </div>
                     <div class="buttons">
                         @if (Helpers::AuthIsRole(Role::ServiceVente) || Helpers::AuthIsRole(Role::Dirigeant))
-                            <form method="post" action="/api/sejour/{{ $sejour->idsejour }}/avis/{{ $avis->idavis }}/reply">
+                            <form method="post" action="{{ route('api.sejour-avis.reply', ['idsejour' => $sejour->idsejour, 'idavis' => $avis->idavis]) }}">
                                 @csrf
                                 <div class="input-control input-control-text">
                                     <input type="text" name="reply" required placeholder="Répondre" />
@@ -328,7 +327,7 @@
 
 
     @if (Helpers::AuthIsRole(Role::ServiceVente) || Helpers::AuthIsRole(Role::Dirigeant))
-        <form class="overlay hidden" id="reduc" method="post" action="/api/sejour/{{ $sejour->idsejour }}/discount">
+        <form class="overlay hidden" id="reduc" method="post" action="{{ route('api.sejour-discount', ['idsejour' => $sejour->idsejour]) }}">
             @csrf
             <div class="overlay-content">
                 <h2>Indiquer le nouveau prix voulu :</h2><br />
@@ -358,7 +357,7 @@
     @endif
 
     @if (Auth::check())
-        <form class="overlay hidden" id="publier-avis" method="post" action="/api/sejour/{{ $sejour->idsejour }}/avis"
+        <form class="overlay hidden" id="publier-avis" method="post" action="{{ route('api.sejour-avis', ['idsejour' => $sejour->idsejour]) }}"
             enctype="multipart/form-data">
             @csrf
             <div class="overlay-content">
@@ -405,7 +404,7 @@
                     <p class="titre">{{ $aime->titresejour }}</p>
                     <p class="prix">À partir de <span class="euros">{{ $aime->prixsejour }}€</span> par personne
                     </p>
-                    <a class="button button-sm" href="/sejour/{{ $aime->idsejour }}">Détails</a>
+                    <a class="button button-sm" href="{{ route('sejour', ['idsejour' => $aime->idsejour]) }}">Détails</a>
                 </article>
             @endforeach
         </section>
@@ -421,7 +420,7 @@
                     <p class="titre">{{ $hsejour->titresejour }}</p>
                     <p class="prix">À partir de <span class="euros">{{ $hsejour->prixsejour }}€</span> par
                         personne</p>
-                    <a class="button button-sm" href="/sejour/{{ $hsejour->idsejour }}">Détails</a>
+                    <a class="button button-sm" href="{{ route('sejour', ['idsejour' => $hsejour->idsejour]) }}">Détails</a>
                 </article>
             @endforeach
         </section>

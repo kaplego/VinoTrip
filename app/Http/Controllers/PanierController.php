@@ -50,7 +50,7 @@ class PanierController extends Controller
         $sejour = Sejour::find($idsejour);
 
         if ($sejour === null)
-            return redirect('/panier');
+            return to_route('panier');
 
         $hebergements = Hebergement::join('etape', 'hebergement.idhebergement', '=', 'etape.idhebergement')
             ->where('etape.idsejour', '=', $idsejour)
@@ -73,11 +73,11 @@ class PanierController extends Controller
                 'date',
                 // 'date_equals:' . Carbon::parse($request->datedebut)->setTime(12, 0)->addDays($duree)->format('Y-m-d')
             ],
-            'nbadultes' => ['required', 'integer', 'min:1'],
-            'nbenfants' => ['required', 'integer', 'min:0'],
-            'chambressimple' => ['required', 'integer', 'min:0'],
-            'chambresdouble' => ['required', 'integer', 'min:0'],
-            'chambrestriple' => ['required', 'integer', 'min:0'],
+            'nbadultes' => ['required', 'integer', 'min:1', 'max:10'],
+            'nbenfants' => ['required', 'integer', 'min:0', 'max:10'],
+            'chambressimple' => ['required', 'integer', 'min:0', 'max:10'],
+            'chambresdouble' => ['required', 'integer', 'min:0', 'max:10'],
+            'chambrestriple' => ['required', 'integer', 'min:0', 'max:10'],
             'hebergement' => ['required', 'in:' . implode(',', $hebergements->pluck('idhebergement')->toArray())],
             'repas' => ['array'],
             'repas.*' => ['in:' . implode(',', $repas->pluck('idrepas')->toArray())],
@@ -174,7 +174,7 @@ class PanierController extends Controller
                 ]);
             }
 
-        return redirect('/panier');
+        return to_route('panier');
     }
 
     public function update(Request $request)
@@ -217,18 +217,18 @@ class PanierController extends Controller
                 break;
         }
 
-        return redirect('/panier');
+        return to_route('panier');
     }
 
-    public function personnaliser($id)
+    public function personnaliser($idsejour)
     {
-        $sejour = Sejour::find($id);
+        $sejour = Sejour::find($idsejour);
 
         if (!$sejour)
-            return redirect('/sejours');
+            return to_route('sejours');
 
         if (!$sejour->publie)
-            return redirect("/sejour/$id");
+            return to_route('sejour', ['idsejour' => $idsejour]);
 
         return view('panier.personnaliser', ['sejour' => $sejour]);
     }
@@ -237,7 +237,7 @@ class PanierController extends Controller
     {
         $idpanier = $request->session()->get('idpanier', null);
         if ($idpanier === null)
-            return redirect("/personnaliser/$idsejour");
+            return to_route('personnaliser', ['idsejour' => $idsejour]);
 
         $descriptionPanier = VDescriptionpanier::
             where('idsejour', '=', +$idsejour)
@@ -245,10 +245,10 @@ class PanierController extends Controller
             ->get()->first();
 
         if (!$descriptionPanier)
-            return redirect("/personnaliser/$idsejour");
+            return to_route('personnaliser', ['idsejour' => $idsejour]);
 
         if ($descriptionPanier->codepromoutilise !== null)
-            return redirect('/panier');
+            return to_route('panier');
 
         return view('panier.modifier', ['descriptionPanier' => $descriptionPanier]);
     }
@@ -263,10 +263,10 @@ class PanierController extends Controller
         }
 
         if (!$panier)
-            return redirect("/panier");
+            return to_route("panier");
 
         if (!Auth::check())
-            return view('client.connexion', ['panier' => $panier, 'redirect' => '/panier/paiement']);
+            return view('client.connexion', ['redirect' => '/panier/paiement']);
 
         $livraison = false;
         foreach ($panier->descriptionspanier as $dp) {
@@ -284,12 +284,12 @@ class PanierController extends Controller
         $idpanier = $request->session()->get('idpanier', null);
 
         $panier = null;
-        if ($idpanier !== null) {
+        if ($idpanier !== null)
             $panier = Panier::find($idpanier);
-        }
+
 
         if (!$panier)
-            return redirect("/panier");
+            return to_route("panier");
 
         $inputs = $request->validate([
             'adresse-facturation' => ['required', 'integer'],
@@ -415,7 +415,7 @@ class PanierController extends Controller
 
         $request->session()->remove('idpanier');
 
-        return redirect("/client/commande/$commande->idcommande");
+        return to_route('commande', ['id' => $commande->idcommande]);
     }
     public function codepromo(Request $request)
     {

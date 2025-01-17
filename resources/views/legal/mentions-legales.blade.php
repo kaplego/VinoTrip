@@ -46,7 +46,7 @@
             électroniques et L. 121-20-5 du code de la consommation), à la loi « informatique et libertés » modifiée le 6
             août 2004 et aux recommandations de la CNIL, nous proposons aux internautes qui ne souhaitent plus recevoir la
             Newsletter de se désabonner d'un simple clic.</p>
-        <p>Pour plus d'information rendez-vous sur notre page de <a href="/politique">Politique de Confidentialité</a>.</p>
+        <p>Pour plus d'information rendez-vous sur notre page de <a href="{{ route('legal.confidentialite') }}">Politique de Confidentialité</a>.</p>
 
         <h2>4. Questions Techniques</h2>
 

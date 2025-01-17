@@ -41,7 +41,7 @@
                     data-theme="{{ $sejour->idtheme }}" data-vignoble="{{ $sejour->idcategorievignoble }}"
                     data-duree="{{ $sejour->idduree }}" data-localite="{{ implode(',', $localites) }}"
                     data-participant="{{ $sejour->categorieparticipant->idcategorieparticipant }}">
-                    <h2 class="titre"><a href="/sejour/{{ $sejour->idsejour }}">{{ $sejour->titresejour }}</a></h2>
+                    <h2 class="titre"><a href="{{ route('sejour', ['idsejour' => $sejour->idsejour]) }}">{{ $sejour->titresejour }}</a></h2>
                     <img class="image" data-src="/storage/sejour/{{ $sejour->photosejour }}" />
                     <div class="contenu">
                         <div class="icones">
@@ -105,41 +105,7 @@
                         </p>
                         <p class="description">{{ $sejour->descriptionsejour }}</p>
                         <p class="duree">{{ $sejour->duree->libelleduree }}</p>
-                        @php
-                            $cpt = 0;
-                        @endphp
-                        @foreach ($sejour->avis as $avis)
-                            @php
-                                $cpt++;
-                            @endphp
-                        @endforeach
-                        @if ($cpt != 0)
-                            @foreach ($sejour->avis as $avis)
-                                @php
-                                    $note += $avis->noteavis;
-                                @endphp
-                            @endforeach
-                            @php
-                                $note = $note / $cpt;
-                                $note = round($note, 1);
-                            @endphp
-                            <div class="avis">
-                                <p class="note">
-                                    <i data-lucide="star" fill="currentColor" class="checked"></i>
-                                    <i data-lucide="star" fill="currentColor"
-                                        class="@if ($note >= 2) checked @endif"></i>
-                                    <i data-lucide="star" fill="currentColor"
-                                        class="@if ($note >= 3) checked @endif"></i>
-                                    <i data-lucide="star" fill="currentColor"
-                                        class="@if ($note >= 4) checked @endif"></i>
-                                    <i data-lucide="star" fill="currentColor"
-                                        class="@if ($note == 5) checked @endif"></i>
-                                </p>
-                                <p class="valeur">{{ $note }}/5</p>
-                                <a href="/sejour/{{ $sejour->idsejour }}#avis">Voir les avis</a>
-                            </div>
-                        @endif
-                        <a class="decouvrir button" href="/sejour/{{ $sejour->idsejour }}">Découvrir</a>
+                        <a class="decouvrir button" href="{{ route('sejour', ['idsejour' => $sejour->idsejour]) }}">Découvrir</a>
                     </div>
                 </article>
                 @php

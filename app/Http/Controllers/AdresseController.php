@@ -12,33 +12,38 @@ use Session;
 
 class AdresseController extends Controller
 {
-    public function adresses()
+    public function adresses(Request $request)
     {
         if (!Auth::check())
-            return redirect('/connexion');
+            return to_route('login', [
+                'redirect' => $request->path()
+            ]);
         return view("client.adresse.adresses", ["adresses" => Adresse::orderBy('idadresse')->where('idclient', '=', Auth::user()->idclient)->get()]);
     }
 
-    public function modifier($id)
+    public function modifier(Request $request, $id)
     {
-        $ok = false;
-        foreach (Auth::user()->adresses as $value) {
-            if ($value->idadresse == $id) {
-                $ok = true;
-                break;
-            }
-        }
-        if (!Auth::check() || !$ok)
-            return redirect('/connexion');
-        return view("client.adresse.modifier", ["adresse" => Adresse::find($id)]);
+        if (!Auth::check())
+            return to_route('login', [
+                'redirect' => $request->path()
+            ]);
+
+        $adresse = Adresse::where('idclient', '=', Auth::user()->idclient)->find($id);
+
+        if (!$adresse)
+            return to_route('adresses');
+
+        return view("client.adresse.modifier", ["adresse" => $adresse]);
     }
 
     public function ajouter(Request $request)
     {
-        // dd($request);
         $data = $request->old() ?? $request->input();
+
         if (!Auth::check() && !$data['prenomclient'])
-            return redirect('/connexion');
+            return to_route('login', [
+                'redirect' => $request->path()
+            ]);
 
         return view("client.adresse.ajouter", $data);
 
@@ -59,7 +64,8 @@ class AdresseController extends Controller
 
         $adresse = Adresse::find($idadresse);
 
-        if (!$adresse) return back();
+        if (!$adresse)
+            return back();
 
         $adresse->nomadresse = ucfirst($credentials['nomadresse']);
         $adresse->nomadressedestinataire = ucfirst($credentials['nomadressedestinataire']);
@@ -71,7 +77,7 @@ class AdresseController extends Controller
         $adresse->paysadresse = ucfirst($credentials['paysadresse']);
 
         $adresse->update();
-        
+
         $request->session()->regenerate();
 
         return back()->with('success', 'Les modifications ont bien été prises en compte.');
@@ -91,8 +97,6 @@ class AdresseController extends Controller
             'paysadresse' => ['required', "regex:/^\D+$/i"],
         ]);
 
-
-
         $adresse = new Adresse();
 
         $adresse->idclient = Auth::user()->idclient;
@@ -105,8 +109,7 @@ class AdresseController extends Controller
         $adresse->numadresse = $credentials['numadresse'];
         $adresse->paysadresse = ucfirst($credentials['paysadresse']);
         $adresse->save();
-        return redirect('/client/adresses');
-
+        return to_route('adresses');
     }
 
     public function firstaddress(Request $request)
@@ -131,7 +134,7 @@ class AdresseController extends Controller
             }
 
             //renvoie les valeurs et les erreurs correspondantes
-            return response(redirect()->back()->withErrors(
+            return response(back()->withErrors(
                 $e->validator->messages()->messages()
             )->withInput($values));
         }
@@ -176,24 +179,16 @@ class AdresseController extends Controller
                 ? $credentials['redirect']
                 : '/client');
         }
-        return redirect('/client/adresses');
 
+        if ($request->input('redirect'))
+            return redirect($request->input('redirect'));
+        return to_route('adresses');
     }
 
     public function delete(Request $request)
     {
         $adresse = Adresse::find($request->request->get('idadresse'));
         $adresse->delete();
-        return redirect('/client/adresses');
-    }
-
-    public function geoapify(Request $request)
-    {
-        $text = $request->input('text');
-        $type = $request->input('type');
-
-        $response = Http::post("https://api.geoapify.com/v1/geocode/autocomplete?text=$text&apiKey=a6a920505a804fa39096deb61a2c10d6&type=$type&limit=5");
-
-        return response($response->json());
+        return to_route('adresses');
     }
 }

@@ -44,7 +44,7 @@
                 @endphp
 
                 <article class="sejour">
-                    <h2 class="titre"><a href="/sejour/{{ $sejour->idsejour }}">{{ $sejour->titresejour }}</a></h2>
+                    <h2 class="titre"><a href="{{ route('sejour', ['idsejour' => $sejour->idsejour]) }}">{{ $sejour->titresejour }}</a></h2>
                     <img class="image" src="/storage/sejour/{{ $sejour->photosejour }}" />
                     <div class="contenu">
                         <div class="icones">
@@ -139,10 +139,10 @@
                                         class="@if ($note == 5) checked @endif"></i>
                                 </p>
                                 <p class="valeur">{{ $note }}/5</p>
-                                <a href="/sejour/{{ $sejour->idsejour }}#avis">Voir les avis</a>
+                                <a href="{{ route('sejour', ['idsejour' => $sejour->idsejour]) }}#avis">Voir les avis</a>
                             </div>
                         @endif
-                        <a class="decouvrir button" href="/sejour/{{ $sejour->idsejour }}">Découvrir</a>
+                        <a class="decouvrir button" href="{{ route('sejour', ['idsejour' => $sejour->idsejour]) }}">Découvrir</a>
                     </div>
                 </article>
             @endforeach

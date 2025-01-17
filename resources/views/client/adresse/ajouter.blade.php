@@ -36,7 +36,7 @@
         <div id="informations">
 
             <form id="modification" class="formulaire" method="post"
-                action="@if (Auth::user()) /api/client/adresse/add @else /api/client/adresse/firstaddress @endif">
+                action="@if (Auth::user()) {{route('api.adresse.add')}} @else {{route('api.adresse.first')}} @endif">
                 @csrf
 
                 @if (!Auth::user())
