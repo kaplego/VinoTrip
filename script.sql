@@ -9,6 +9,10 @@ DROP FUNCTION IF EXISTS sq_avis_commande;
 DROP TRIGGER IF EXISTS tg_sejour_nb_etapes ON ETAPE;
 DROP FUNCTION IF EXISTS sq_sejour_nb_etapes;
 
+DROP TRIGGER IF EXISTS tg_codepromo_utilisations_commande ON commande;
+DROP TRIGGER IF EXISTS tg_codepromo_utilisations_panier ON panier;
+DROP FUNCTION IF EXISTS sq_codepromo_utilisations;
+
 drop index if exists ACTIVITE_PK cascade;
 drop table if exists ACTIVITE cascade;
 drop index if exists ADRESSE_IDCLIENT_FK cascade;
@@ -4058,3 +4062,33 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE TRIGGER tg_sejour_nb_etapes
     BEFORE INSERT OR UPDATE ON ETAPE
     FOR EACH ROW EXECUTE PROCEDURE sq_sejour_nb_etapes();
+
+-- Utilisation code promo 1 seule fois
+
+CREATE OR REPLACE FUNCTION sq_codepromo_utilisations()
+    RETURNS TRIGGER
+AS
+$$
+DECLARE
+    vNbCommandes INT;
+BEGIN
+    SELECT COUNT(commande)
+    INTO vNbCommandes
+    FROM commande
+    WHERE commande.idcodepromo = NEW.idcodepromo;
+
+    IF (vNbCommandes = 1) THEN
+        RETURN NEW;
+    ELSE
+        RAISE EXCEPTION 'Impossible d''ajouter un code promo déjà utilisé.';
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER tg_codepromo_utilisations_commande
+    BEFORE INSERT OR UPDATE ON COMMANDE
+    FOR EACH ROW EXECUTE PROCEDURE sq_codepromo_utilisations();
+
+CREATE OR REPLACE TRIGGER tg_codepromo_utilisations_panier
+    BEFORE INSERT OR UPDATE ON PANIER
+    FOR EACH ROW EXECUTE PROCEDURE sq_codepromo_utilisations();
