@@ -6,7 +6,7 @@
 
 drop index if exists ACTIVITE_PK cascade;
 drop table if exists ACTIVITE cascade;
-drop index if exists ASSOCIATION_48_FK cascade;
+drop index if exists ADRESSE_IDCLIENT_FK cascade;
 drop index if exists LOCALISE_FK cascade;
 drop index if exists ADRESSE_PK cascade;
 drop table if exists ADRESSE cascade;
@@ -34,8 +34,8 @@ drop index if exists ASSOCIATION_42_FK cascade;
 drop index if exists ASSOCIATION_40_FK cascade;
 drop index if exists ASSOCIATION_40_PK cascade;
 drop table if exists ASSOCIATION_40 cascade;
-drop index if exists ASSOCIATION_57_FK cascade;
-drop index if exists ASSOCIATION_56_FK cascade;
+drop index if exists MANGE_IDDESCRIPTION_FK cascade;
+drop index if exists MANGE_IDREPAS_FK cascade;
 drop index if exists ASSOCIATION_42_PK cascade;
 drop table if exists mange1 cascade;
 drop index if exists AUTRESOCIETE_PK cascade;
@@ -199,9 +199,9 @@ IDPARTENAIRE
 );
 
 /*==============================================================*/
-/* Index : ASSOCIATION_48_FK                                    */
+/* Index : ADRESSE_IDCLIENT_FK                                    */
 /*==============================================================*/
-create  index ASSOCIATION_48_FK on ADRESSE (
+create  index ADRESSE_IDCLIENT_FK on ADRESSE (
 IDCLIENT
 );
 
@@ -409,16 +409,16 @@ IDDESCRIPTIONCOMMANDE
 );
 
 /*==============================================================*/
-/* Index : ASSOCIATION_56_FK                                    */
+/* Index : MANGE_IDREPAS_FK                                    */
 /*==============================================================*/
-create  index ASSOCIATION_56_FK on mange1 (
+create  index MANGE_IDREPAS_FK on mange1 (
 IDREPAS
 );
 
 /*==============================================================*/
-/* Index : ASSOCIATION_57_FK                                    */
+/* Index :  MANGE_IDDESCRIPTION_FK                                    */
 /*==============================================================*/
-create  index ASSOCIATION_57_FK on mange1 (
+create  index MANGE_IDDESCRIPTION_FK on mange1 (
 IDDESCRIPTIONCOMMANDE
 );
 
