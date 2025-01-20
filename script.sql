@@ -1382,6 +1382,14 @@ CREATE INDEX idx_association_40_iddescriptioncommande ON association_40 (iddescr
 CREATE INDEX idx_association_40_idactivite ON association_40 (idactivite);
 CREATE INDEX idx_sejour_idsejour ON sejour (idsejour);
 CREATE INDEX idx_hebergement_idhebergement ON hebergement (idhebergement);
+CREATE INDEX idx_fk_mange1_iddescriptioncommande ON mange1 (iddescriptioncommande);
+CREATE INDEX idx_fk_mange1_idrepas ON mange1 (idrepas);
+CREATE INDEX idx_fk_association_40_iddescriptioncommande ON association_40 (iddescriptioncommande);
+CREATE INDEX idx_fk_association_40_idactivite ON association_40 (idactivite);
+CREATE INDEX idx_fk_sejour_idsejour ON sejour (idsejour);
+CREATE INDEX idx_fk_hebergement_idhebergement ON hebergement (idhebergement);
+CREATE INDEX idx_fk_activite_idactivite ON activite (idactivite);
+
 
 
 alter table ADRESSE
