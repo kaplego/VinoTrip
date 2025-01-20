@@ -3912,13 +3912,23 @@ create view v_etatcommande_sejour as (
 	join sejour s on d.idsejour = s.idsejour
 );
 
-create view v_nbsejour_vendu as (
-select datecommande, count(titresejour) from commande c
-join descriptioncommande d on c.idcommande = d.idcommande 
-join sejour s on d.idsejour = s.idsejour
-where etatcommande = 'Paiement validé'
-group by datecommande
-);
+CREATE OR REPLACE VIEW v_nbsejour_vendu
+ AS
+ SELECT c.datecommande,
+    count(s.titresejour) AS count,
+    c.etatcommande,
+    s.titresejour,
+    s.prixsejour,
+    cs.libellecategoriesejour,
+    cv.libellecategorievignoble
+   FROM commande c
+     JOIN descriptioncommande d ON c.idcommande = d.idcommande
+     JOIN sejour s ON d.idsejour = s.idsejour
+     JOIN categoriesejour cs ON s.idcategoriesejour = cs.idcategoriesejour
+     JOIN categorievignoble cv ON s.idcategorievignoble = cv.idcategorievignoble
+  WHERE c.etatcommande::text ~~ 'Paiement validé'::text
+  GROUP BY c.datecommande, c.etatcommande, s.titresejour, s.prixsejour, cs.libellecategoriesejour, cv.libellecategorievignoble;
+
 
 create view v_nbsejour_vendu_vignoble as (
 select LIBELLECATEGORIEVIGNOBLE, datecommande, count(titresejour) from commande c
