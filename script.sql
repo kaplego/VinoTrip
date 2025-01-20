@@ -1389,6 +1389,7 @@ CREATE INDEX idx_fk_association_40_idactivite ON association_40 (idactivite);
 CREATE INDEX idx_fk_sejour_idsejour ON sejour (idsejour);
 CREATE INDEX idx_fk_hebergement_idhebergement ON hebergement (idhebergement);
 CREATE INDEX idx_fk_activite_idactivite ON activite (idactivite);
+CREATE INDEX idx_sejour_publie_idsejour ON sejour (publie, idsejour);
 
 
 
