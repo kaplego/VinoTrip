@@ -3,6 +3,11 @@
 /* Date de cr�ation :  09/01/2025 11:21:31                      */
 /*==============================================================*/
 
+DROP TRIGGER IF EXISTS tg_avis_commande ON AVIS;
+DROP FUNCTION IF EXISTS sq_avis_commande;
+
+DROP TRIGGER IF EXISTS tg_sejour_nb_etapes ON ETAPE;
+DROP FUNCTION IF EXISTS sq_sejour_nb_etapes;
 
 drop index if exists ACTIVITE_PK cascade;
 drop table if exists ACTIVITE cascade;
@@ -3997,3 +4002,59 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+------------------------------------------------- TRIGERS
+
+-- Interdire les avis sur les commandes 
+
+CREATE OR REPLACE FUNCTION sq_avis_commande()
+    RETURNS TRIGGER
+AS
+$$
+DECLARE
+    vCommandeExiste INT;
+BEGIN
+    SELECT COUNT(commande.idcommande)
+    INTO vCommandeExiste
+    FROM commande
+             JOIN s213.descriptioncommande dc ON commande.idcommande = dc.idcommande
+    WHERE ((idclientbeneficiaire = NEW.idclient)
+        OR (idclientbeneficiaire IS NULL AND idclientacheteur = NEW.idclient))
+        AND dc.idsejour = NEW.idsejour;
+
+    IF (vCommandeExiste = 1) THEN
+        RETURN NEW;
+    ELSE
+        RAISE EXCEPTION 'Impossible de publier un avis sur un séjour non commandé.';
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER tg_avis_commande
+BEFORE INSERT OR UPDATE ON AVIS
+FOR EACH ROW EXECUTE PROCEDURE sq_avis_commande();
+
+-- Max. 5 étapes par séjour
+
+CREATE OR REPLACE FUNCTION sq_sejour_nb_etapes()
+    RETURNS TRIGGER
+AS
+$$
+DECLARE
+    vNbEtapes INT;
+BEGIN
+    SELECT COUNT(etape)
+    INTO vNbEtapes
+    FROM etape
+    WHERE etape.idsejour = NEW.idsejour;
+
+    IF (vNbEtapes <= 5) THEN
+        RETURN NEW;
+    ELSE
+        RAISE EXCEPTION 'Impossible d''ajouter plus de 5 étapes à un séjour.';
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER tg_sejour_nb_etapes
+    BEFORE INSERT OR UPDATE ON ETAPE
+    FOR EACH ROW EXECUTE PROCEDURE sq_sejour_nb_etapes();
