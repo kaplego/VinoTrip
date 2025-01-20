@@ -1375,6 +1375,14 @@ IDVISITE
 create  index PROPOSE_1_FK on VISITE (
 IDPARTENAIRE
 );
+CREATE INDEX idx_descriptioncommande_id ON descriptioncommande (iddescriptioncommande);
+CREATE INDEX idx_mange_iddescriptioncommande ON mange1 (iddescriptioncommande);
+CREATE INDEX idx_mange_idrepas ON mange1 (idrepas);
+CREATE INDEX idx_association_40_iddescriptioncommande ON association_40 (iddescriptioncommande);
+CREATE INDEX idx_association_40_idactivite ON association_40 (idactivite);
+CREATE INDEX idx_sejour_idsejour ON sejour (idsejour);
+CREATE INDEX idx_hebergement_idhebergement ON hebergement (idhebergement);
+
 
 alter table ADRESSE
    add constraint FK_ADRESSE_ASSOCIATI_CLIENT foreign key (IDCLIENT)
