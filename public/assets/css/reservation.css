@@ -1,0 +1,82 @@
+.separateur-titre {
+    margin-bottom: 1.5rem;
+}
+
+.reservation {
+    display: grid;
+    position: relative;
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid transparent;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    border-radius: 6px;
+    gap: 1rem;
+    transition: border 100ms;
+    background-color: var(--c-blue-100);
+}
+
+.reservation .titre {
+    grid-column: 1 / 3;
+}
+
+.reservation article {
+    padding: 1rem;
+    grid-row: 3 / 4;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: var(--c-blue-50);
+    border-radius: 6px;
+
+    /* &:has(+ article) {
+        border-right: 1px solid var(--c-accent-500);
+    }
+    & + article {
+        border-left: 1px solid var(--c-accent-500);
+    } */
+
+    .button-check {
+        background-color: var(--c-green-500);
+
+        &:hover {
+            background-color: var(--c-green-600);
+        }
+    }
+
+    .button-x {
+        background-color: var(--c-red-500);
+
+        &:hover {
+            background-color: var(--c-red-600);
+        }
+    }
+}
+
+input {
+    width: 35px;
+    margin-left: 10px;
+}
+
+.validationsejour {
+    text-align: center;
+}
+
+section #valide {
+    background-color: rgb(10, 85, 10);
+}
+article #validea {
+    background-color: rgb(10, 85, 10);
+}
+
+.boutons-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.boutons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}

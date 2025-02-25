@@ -16,6 +16,7 @@ class Sejour extends Model
     protected $table = "sejour";
     protected $primaryKey = "idsejour";
     public $timestamps = false;
+    public $guarded = [];
 
     public function categoriesejour(): HasOne
     {
@@ -37,26 +38,20 @@ class Sejour extends Model
         return $this->hasOne(Duree::class, 'idduree', 'idduree');
     }
 
-    public function categorieparticipant(): HasManyThrough
+    public function categorieparticipant(): HasOne
     {
-        return $this->hasManyThrough(
+        return $this->hasOne(
             Categorieparticipant::class,
-            Destinea::class,
-            'idsejour',
             'idcategorieparticipant',
-            'idsejour',
             'idcategorieparticipant'
         );
     }
 
-    public function localite(): HasManyThrough
+    public function localite(): HasOne
     {
-        return $this->hasManyThrough(
+        return $this->hasOne(
             Localite::class,
-            Sesitue::class,
-            'idsejour',
             'idlocalite',
-            'idsejour',
             'idlocalite'
         );
     }
@@ -69,4 +64,21 @@ class Sejour extends Model
             'idsejour',
         );
     }
+    public function avis(): HasMany
+    {
+        return $this->hasMany(
+            Avis::class,
+            'idsejour',
+            'idsejour',
+        );
+    }
+    public function photos(): HasMany
+    {
+        return $this->hasMany(
+            Photo::class,
+            'idsejour',
+            'idsejour',
+        );
+    }
+
 }

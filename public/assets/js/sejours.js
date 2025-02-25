@@ -6,14 +6,14 @@ const formFiltres = document.getElementById("filtres"),
 
 // Charger les images quand l'utilisateur scroll plutôt qu'au chargement de la page
 articlesSejours.forEach((article) => {
-    const img = article.querySelector('.image');
-    if (!img || !img.hasAttribute('data-src')) return;
+    const img = article.querySelector(".image");
+    if (!img || !img.hasAttribute("data-src")) return;
 
     const observer = new IntersectionObserver(
         (entries) => {
             if (entries[0].isIntersecting) {
-                img.src = img.getAttribute('data-src');
-                img.removeAttribute('data-src');
+                img.src = img.getAttribute("data-src");
+                img.removeAttribute("data-src");
                 observer.unobserve(img);
             }
         },
@@ -45,10 +45,7 @@ formFiltres.addEventListener("submit", (event) => {
             article.getAttribute("data-vignoble") !== vignoble
         )
             hidden = true;
-        if (
-            duree !== "all" &&
-            article.getAttribute("data-duree") !== duree
-        )
+        if (duree !== "all" && article.getAttribute("data-duree") !== duree)
             hidden = true;
         if (
             localite !== "all" &&
@@ -57,10 +54,7 @@ formFiltres.addEventListener("submit", (event) => {
             hidden = true;
         if (
             participant !== "all" &&
-            !article
-                .getAttribute("data-participants")
-                .split(",")
-                .includes(participant)
+            article.getAttribute("data-participant") !== participant
         )
             hidden = true;
         if (
@@ -81,20 +75,18 @@ const selectVignoble = document.getElementById("vignoble"),
     optionsLocalites = document.querySelectorAll("#localite option");
 
 selectVignoble.addEventListener("change", (event) => {
-
     let nb = 0;
     optionsLocalites.forEach((opt, i) => {
         if (i < 2) return;
 
-        let shown = opt.getAttribute('data-vignoble') === event.currentTarget.value;
-        if (shown)
-            nb++;
-        opt.classList.toggle('hidden', !shown);
+        let shown =
+            opt.getAttribute("data-vignoble") === event.currentTarget.value;
+        if (shown) nb++;
+        opt.classList.toggle("hidden", !shown);
     });
 
-    selectLocalite.classList.toggle('hidden', nb === 0);
-    if (nb === 0)
-    {
-        selectLocalite.value = 'all';
+    selectLocalite.classList.toggle("hidden", nb === 0);
+    if (nb === 0) {
+        selectLocalite.value = "all";
     }
 });

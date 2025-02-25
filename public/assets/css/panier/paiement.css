@@ -1,0 +1,9 @@
+.input-control + .input-group,
+.input-group + .input-group,
+.input-group + .input-control {
+	margin-top: 0.5rem;
+}
+
+.input-control + .input-control {
+	margin-top: 0;
+}

@@ -1,0 +1,24 @@
+table.liste {
+    margin-top: 2rem;
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+table.liste th {
+    padding: 1rem;
+}
+
+table.liste tr {
+    border-bottom: 2px solid var(--c-accent-500);
+}
+
+table.liste td {
+    padding: 0.75rem 0;
+    vertical-align: middle;
+}
+
+table.liste td *[data-help] {
+    display: inline-block;
+    vertical-align: -0.125rem;
+}

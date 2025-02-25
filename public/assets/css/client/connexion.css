@@ -1,0 +1,43 @@
+#conteneur {
+    display: flex;
+    gap: 2rem;
+}
+
+#conteneur > div {
+    flex: 1;
+}
+
+.groupe-radio {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: max-content;
+    margin-top: 1rem;
+}
+
+.groupe-radio .radios {
+    display: flex;
+    gap: 1rem;
+}
+
+h1:not(:first-of-type) {
+    margin-top: 1rem;
+}
+
+hr {
+    margin-bottom: 1rem;
+}
+
+#reset-password {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--c-gray-100);
+    margin-top: 1rem;
+    border-radius: 6px;
+    padding: 1rem;
+    width: max-content;
+}
+
+#reset-password h3 {
+    font-size: 1.1rem;
+}

@@ -1,0 +1,164 @@
+#account {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+#explication p{
+    margin-top: 1rem;
+}
+
+p {
+    text-align: justify;
+}
+
+#adresses hr {
+    height: 4px;
+    width: 75px;
+    border: none;
+    background-color: var(--c-accent-500);
+    margin: 0.5rem auto;
+}
+
+
+#adresses {
+    display: grid;
+    margin-top: 2rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+#adresses .adresse {
+    display: grid;
+    position: relative;
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--c-gray-100);
+    border: 2px solid transparent;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    border-radius: 6px;
+    gap: 1rem;
+    transition: border 100ms;
+
+}
+
+#adresses .adresse:hover {
+    border-color: var(--c-gray-400);
+}
+
+#adresses .adresse .titre {
+    font-size: 2rem;
+    text-align: center;
+    grid-row: 1 / 2;
+    grid-column: 1 / 3;
+}
+
+#adresses .adresse .titre a {
+    text-decoration: none;
+    color: inherit;
+}
+
+#adresses .adresse .titre a:hover {
+    color: var(--c-accent-500);
+}
+
+#adresses .adresse .image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    grid-row: 2 / 3;
+    grid-column: 1 / 2;
+    border-radius: 6px;
+}
+
+#adresses .adresse .contenu {
+    display: flex;
+    flex-direction: column;
+    grid-row: 2 / 3;
+    grid-column: 1 / 3;
+    position: relative;
+    margin: 0 1rem;
+}
+
+
+#adresses .adresse .contenu hr {
+    height: 4px;
+    width: 75px;
+    border: none;
+    background-color: var(--c-accent-500);
+
+}
+
+#adresses .adresse .contenu p {
+    margin: .25rem 0;
+}
+
+#adresses .adresse .contenu p.vignoble {
+    margin-top: 0;
+}
+
+.description{
+    font-size: 82%
+}
+
+
+
+#adresses .adresse .contenu .button {
+    position: relative;
+    margin-top: 0.5rem;
+    bottom: 0;
+    right: 0;
+}
+
+
+#adresses .adresse .contenu form .button {
+    width: 100%;
+}
+#adresses .adresse:hover .contenu .button {
+    border-color: var(--c-accent-500);
+}
+
+.ajouter{
+    background-color: var(--c-accent-500);
+    color: white;
+    align-self: flex-end;
+    justify-self: center;
+    margin-bottom: 1rem;
+}
+
+.ajouter:hover{
+    background-color: var(--c-gray-700);
+    color: white;
+
+}
+
+@media (max-width: 1400px) {
+    #adresses .adresse {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+    }
+
+    #adresses .adresse .titre {
+        grid-row: 1 / 2;
+        grid-column: 1 / 2;
+    }
+
+    #adresses .adresse .contenu {
+        grid-row: 3 / 4;
+        grid-column: 1 / 2;
+    }
+
+    #adresses .adresse .contenu .decouvrir {
+        position: static;
+    }
+}
+
+
+
+@media (max-width: 768px) {
+    #adresses {
+        grid-template-columns: 1fr;
+    }
+}
